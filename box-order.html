@@ -1,0 +1,178 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Заказ B-box · bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{--bg:#0d1014;--card:#161b22;--line:#232c38;--tx:#e9eff5;--mut:#8b97a6;--acc:#f5a524;--acc2:#ffb74d;--ok:#3fb950;--inp:var(--inp)}
+  html[data-theme="light"]{--bg:#f3f5fa;--card:#ffffff;--line:#e3e8f0;--tx:#10141b;--mut:#5d6675;--inp:#f4f6fb}
+  .tt{position:fixed;top:10px;right:12px;z-index:9;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--tx);font-size:16px;line-height:1;cursor:pointer}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:0 0 104px}
+  .wrap{max-width:520px;margin:0 auto;padding:18px 16px}
+  h1{font-size:22px;margin:0;letter-spacing:-.02em}
+  .mut{color:var(--mut)}.acc{color:var(--acc)}.b{font-weight:800}
+  a{color:var(--acc);text-decoration:none}
+
+  /* компактный верх */
+  .top{display:flex;gap:14px;align-items:center;background:radial-gradient(140% 120% at 0% 0%,rgba(245,165,36,.14),transparent 65%);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .dev{flex:0 0 64px;width:64px;height:64px;position:relative}
+  .dbox{position:absolute;inset:6px;border-radius:14px;background:linear-gradient(160deg,#222b37,#11161d);border:1px solid #2c3744;box-shadow:0 10px 22px -8px rgba(245,165,36,.5)}
+  .demblem{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:26px;color:var(--acc);text-shadow:0 0 14px rgba(245,165,36,.7)}
+  .dled{position:absolute;left:50%;bottom:13px;transform:translateX(-50%);display:flex;gap:4px}
+  .dled i{width:4px;height:4px;border-radius:50%;background:var(--ok);box-shadow:0 0 5px var(--ok)}
+  .top .price{font-size:19px;font-weight:800;margin-top:3px}
+  .top .price small{font-size:12px;color:var(--mut);font-weight:600}
+  .chip{display:inline-block;background:rgba(245,165,36,.14);color:var(--acc);border:1px solid rgba(245,165,36,.4);padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:5px}
+
+  /* сворачивающиеся окошки */
+  .acc-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 14px}
+  summary{list-style:none;cursor:pointer;padding:13px 0;font-weight:600;font-size:14.5px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:'+';color:var(--acc);font-size:20px;font-weight:700;line-height:1}
+  details[open] summary::after{content:'−'}
+  .ac{font-size:13.5px;color:var(--mut);padding:0 0 14px}
+  .ac ul{margin:0;padding-left:18px}.ac li{margin:3px 0}
+  .ac .row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--line)}
+  .ac .row:first-child{border-top:none}.ac .row .v{color:var(--tx);font-weight:600;text-align:right}
+
+  h2{font-size:16px;margin:24px 0 12px}
+  .formcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  label{display:block;font-size:13px;color:var(--mut);margin:0 0 6px}
+  input,textarea{width:100%;background:var(--inp);border:1px solid var(--line);color:var(--tx);border-radius:11px;padding:13px;font-size:16px;margin-bottom:14px;font-family:inherit}
+  textarea{min-height:70px;resize:vertical;margin-bottom:4px}
+  input:focus,textarea:focus{outline:none;border-color:var(--acc)}
+  .two{display:flex;gap:12px}.two>div{flex:1}.two>div:last-child{max-width:130px}
+  .qty{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .qty .stp{display:flex;align-items:center;background:var(--inp);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  .qty .stp button{width:46px;height:46px;background:none;border:0;color:var(--tx);font-size:22px;cursor:pointer}
+  .qty .stp button:active{background:rgba(245,165,36,.12)}
+  .qty .stp .val{width:42px;text-align:center;font-size:17px;font-weight:700}
+  .qty .sum{margin-left:auto;text-align:right}.qty .sum .s1{font-size:12px;color:var(--mut)}.qty .sum .s2{font-size:18px;font-weight:800}
+  .err{color:#ff6b6b;font-size:13px;margin:2px 0 12px}.hide{display:none}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(13,16,20,0),var(--bg) 28%);padding:14px 16px calc(16px + env(safe-area-inset-bottom));z-index:5}
+  .bar .inner{max-width:520px;margin:0 auto}
+  .send{width:100%;background:linear-gradient(180deg,var(--acc2),var(--acc));color:#1a1205;border:0;border-radius:13px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 10px 26px -8px rgba(245,165,36,.6)}
+  .send:disabled{opacity:.6;box-shadow:none}
+  .done{text-align:center;padding:48px 18px}.done .big{font-size:54px;margin-bottom:6px}
+  .tgbtn{display:inline-block;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;color:var(--tx);font-weight:600}
+</style><script src="/i18n.js?v=11" defer></script></head><body>
+
+<button class="tt" id="themeToggle" type="button" title="Тема"></button>
+<div id="page"><div class="wrap">
+  <a href="/" style="display:flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;color:var(--tx);margin:0 0 16px"><svg viewBox="0 0 64 64" style="width:26px;height:26px;color:var(--acc)"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.6" fill="none"><circle r="13"/><g stroke-linecap="round"><line x1="0" y1="-19" x2="0" y2="-15"/><line x1="0" y1="15" x2="0" y2="19"/><line x1="-19" y1="0" x2="-15" y2="0"/><line x1="15" y1="0" x2="19" y2="0"/><line x1="-13.4" y1="-13.4" x2="-10.6" y2="-10.6"/><line x1="10.6" y1="10.6" x2="13.4" y2="13.4"/><line x1="13.4" y1="-13.4" x2="10.6" y2="-10.6"/><line x1="-10.6" y1="10.6" x2="-13.4" y2="13.4"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" fill="currentColor">B</text></svg><b style="font-weight:800;font-size:15px;letter-spacing:-.2px">bitaps<span style="color:var(--acc)"> vpn</span></b></a>
+
+  <div class="top">
+    <div class="dev"><span class="dbox"></span><span class="demblem">B</span><span class="dled"><i></i><i></i></span></div>
+    <div>
+      <span class="chip">🔜 Предзаказ</span>
+      <h1><span class="acc b">B</span>-box</h1>
+      <div class="price">15 000 ₽ <small>/ шт · доставка по РФ</small></div>
+    </div>
+  </div>
+
+  <div class="acc-list">
+    <details><summary>Что это и зачем</summary><div class="ac">Коробочка-роутер со встроенным VPN bitaps. Подключаешь к домашней сети — и все устройства разом (телефоны, ноуты, Smart TV, приставки) выходят через защищённый канал. Настраивать каждый гаджет не нужно.</div></details>
+    <details><summary>Как работает</summary><div class="ac"><ul><li>Воткни в розетку и подключи к роутеру</li><li>Раздаёт свой Wi-Fi «bitaps»</li><li>Всё, что в этой сети — через VPN автоматически</li></ul></div></details>
+    <details><summary>Характеристики</summary><div class="ac">
+      <div class="row"><span>VPN</span><span class="v">встроенный, bitaps</span></div>
+      <div class="row"><span>Протокол</span><span class="v">VLESS + Reality</span></div>
+      <div class="row"><span>Скорость</span><span class="v">до 2 Гбит/с</span></div>
+      <div class="row"><span>Подключение</span><span class="v">LAN или Wi-Fi</span></div>
+      <div class="row"><span>В комплекте</span><span class="v">box, БП, кабель</span></div>
+    </div></details>
+  </div>
+
+  <h2>Оформить заказ</h2>
+  <div class="formcard" id="form">
+    <div class="qty">
+      <label style="margin:0">Количество</label>
+      <div class="stp"><button id="minus" type="button">−</button><span class="val" id="qval">1</span><button id="plus" type="button">+</button></div>
+      <div class="sum"><div class="s1">итого</div><div class="s2" id="sum">15 000 ₽</div></div>
+    </div>
+    <label>Имя получателя</label>
+    <input id="name" placeholder="Фамилия Имя" autocomplete="name">
+    <label>Телефон для связи и доставки</label>
+    <input id="phone" placeholder="+7 ___ ___-__-__" inputmode="tel" autocomplete="tel">
+    <div class="two">
+      <div><label>Город</label><input id="city" placeholder="Москва" autocomplete="address-level2"></div>
+      <div><label>Индекс</label><input id="postcode" placeholder="101000" inputmode="numeric" autocomplete="postal-code"></div>
+    </div>
+    <label>Адрес: улица, дом, квартира</label>
+    <input id="address" placeholder="ул. Ленина, д. 10, кв. 5" autocomplete="street-address">
+    <label>Комментарий к доставке (необязательно)</label>
+    <textarea id="comment" placeholder="Удобное время, подъезд, домофон…"></textarea>
+    <div id="err" class="err hide"></div>
+  </div>
+
+  <p class="mut" style="text-align:center;margin:16px 0 0;font-size:13px">Вопросы? Напиши <a href="https://t.me/bitapssupport" target="_blank">@bitapssupport</a></p>
+</div></div>
+
+<div id="done" class="done hide">
+  <div class="big">✅</div>
+  <h1>Заказ принят!</h1>
+  <p class="mut">Менеджер свяжется, подтвердит наличие, цену и доставку.</p>
+  <a class="tgbtn" href="https://t.me/bitapssupport" target="_blank">💬 Написать @bitapssupport</a><br>
+  <a class="tgbtn" id="close" style="margin-top:10px">Готово</a>
+</div>
+
+<div class="bar" id="bar"><div class="inner">
+  <button class="send" id="send">Оформить заказ · <span id="barSum">15 000 ₽</span></button>
+</div></div>
+
+<script>
+  var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order';
+  var PRICE=15000;
+  var TG=window.Telegram&&window.Telegram.WebApp; if(TG){TG.ready();TG.expand();}
+  // ссылки открываем через Telegram, чтобы мини-апп НЕ уходил на «Продолжить в Telegram»
+  if(TG){document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
+    var h=a.getAttribute('href');if(!h||h.charAt(0)==='#')return;e.preventDefault();
+    if(/^(https?:\/\/t\.me\/|tg:)/i.test(h)){TG.openTelegramLink(h);}else if(/^mailto:/i.test(h)){window.location.href=h;}else{TG.openLink(h);}});}
+  try{var u=TG&&TG.initDataUnsafe&&TG.initDataUnsafe.user; if(u){document.getElementById('name').value=[u.first_name,u.last_name].filter(Boolean).join(' ');}}catch(e){}
+  function fmt(n){return n.toLocaleString('ru-RU')+' ₽';}
+  var qty=1;
+  function paint(){document.getElementById('qval').textContent=qty;var t=fmt(PRICE*qty);
+    document.getElementById('sum').textContent=t;document.getElementById('barSum').textContent=t;}
+  document.getElementById('minus').addEventListener('click',function(){if(qty>1){qty--;paint();}});
+  document.getElementById('plus').addEventListener('click',function(){if(qty<20){qty++;paint();}});
+  function showErr(t){var e=document.getElementById('err');e.textContent=t;e.classList.remove('hide');e.scrollIntoView({behavior:'smooth',block:'center'});}
+  document.getElementById('close').addEventListener('click',function(){if(TG)TG.close();else history.back();});
+  document.getElementById('send').addEventListener('click',async function(){
+    var name=document.getElementById('name').value.trim();
+    var phone=document.getElementById('phone').value.trim();
+    var city=document.getElementById('city').value.trim();
+    var postcode=document.getElementById('postcode').value.trim();
+    var address=document.getElementById('address').value.trim();
+    var comment=document.getElementById('comment').value.trim();
+    if(name.length<2)return showErr('Укажи имя получателя');
+    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=7))return showErr('Укажи телефон в правильном формате или Telegram (@ник)');
+    if(city.length<2)return showErr('Укажи город');
+    if(address.length<3)return showErr('Укажи адрес: улица, дом, квартира');
+    var btn=this;btn.disabled=true;btn.textContent='Отправляю…';
+    try{
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'order',initData:(TG&&TG.initData)||'',name:name,phone:phone,city:city,postcode:postcode,address:address,qty:qty,comment:comment})});
+      var j=await r.json();
+      if(!j.ok){btn.disabled=false;btn.textContent='Оформить заказ';return showErr(j.error||'Что-то пошло не так');}
+      document.getElementById('page').classList.add('hide');document.getElementById('bar').classList.add('hide');
+      document.getElementById('done').classList.remove('hide');
+      if(TG&&TG.HapticFeedback)TG.HapticFeedback.notificationOccurred('success');
+      window.scrollTo(0,0);
+    }catch(_){btn.disabled=false;btn.textContent='Оформить заказ';showErr('Сеть недоступна, попробуй ещё раз');}
+  });
+  paint();
+  // темы: светлая / тёмная / как на устройстве (в Telegram — следим за его темой)
+  (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
+    var mq=matchMedia('(prefers-color-scheme: light)');
+    function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}
+    function sysLight(){if(TG&&TG.colorScheme)return TG.colorScheme==='light';return mq.matches;}
+    function apply(){var m=mode(),light=m==='light'||(m==='system'&&sysLight());
+      if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
+      if(btn)btn.textContent=m==='light'?'☀️':'🌙';}
+    if(btn)btn.addEventListener('click',function(){var m=mode(),nx=(m==='light'?'dark':'light');
+      try{localStorage.setItem(key,nx)}catch(e){}apply();});
+    if(mq.addEventListener)mq.addEventListener('change',apply);
+    if(TG&&TG.onEvent)TG.onEvent('themeChanged',apply);
+    apply();})();
+</script></body></html>

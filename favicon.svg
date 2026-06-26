@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 10 44 44">
+  <g transform="translate(32 32)" stroke="#ff7a1a" stroke-width="3.2" fill="none">
+    <circle r="14.5"/>
+    <g stroke-linecap="round">
+      <line x1="0" y1="-21" x2="0" y2="-16"/><line x1="0" y1="16" x2="0" y2="21"/>
+      <line x1="-21" y1="0" x2="-16" y2="0"/><line x1="16" y1="0" x2="21" y2="0"/>
+      <line x1="-14.8" y1="-14.8" x2="-11.3" y2="-11.3"/><line x1="11.3" y1="11.3" x2="14.8" y2="14.8"/>
+      <line x1="14.8" y1="-14.8" x2="11.3" y2="-11.3"/><line x1="-11.3" y1="11.3" x2="-14.8" y2="14.8"/>
+    </g>
+  </g>
+  <text x="32" y="40.5" font-family="Arial, sans-serif" font-size="21" font-weight="800" text-anchor="middle" fill="#ff7a1a">B</text>
+</svg>

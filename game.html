@@ -1,0 +1,366 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Рыбалка карпов · bitaps VPN</title>
+<meta name="description" content="Мини-игра bitaps VPN — налови карпов и попади в топ-5 игроков.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<style>
+  *{margin:0;box-sizing:border-box}
+  :root{--bg:#05070b;--bg2:#0a0e16;--panel:rgba(255,255,255,.04);--line:rgba(255,255,255,.10);--txt:#e8edf5;--mut:#8a96ab;--acc:#ff7a1a;--acc2:#2d8bff;--acc3:#ffae3d;--water:#0a1626;--water2:#0d2034}
+  html[data-theme="light"]{--bg:#eef3fb;--bg2:#fff;--panel:#fff;--line:rgba(16,26,48,.12);--txt:#0f1828;--mut:#5a6781;--water:#cfe3f7;--water2:#bcd8f3}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
+    background:radial-gradient(900px 520px at 14% -10%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(45,139,255,.12),transparent 60%),var(--bg)}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;position:sticky;top:0;z-index:20;
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 72%,transparent)}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--txt)}
+  .brand .mk{width:34px;height:34px;color:var(--acc);filter:drop-shadow(0 0 10px rgba(255,122,26,.4))}
+  .brand b{font-weight:800;font-size:19px;letter-spacing:-.3px}.brand b i{color:var(--acc);font-style:normal}.brand b s{color:var(--mut);text-decoration:none;font-weight:600;font-size:12px;vertical-align:super}
+  .top-r{display:flex;align-items:center;gap:12px}
+  .home{color:var(--mut);text-decoration:none;font-size:14px}.home:hover{color:var(--acc)}
+  .tbtn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;cursor:pointer;display:grid;place-items:center}
+  .tbtn:hover{border-color:var(--acc)}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 18px 70px}
+  .head{text-align:center;margin-bottom:22px}
+  .kick{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--acc);text-transform:uppercase}
+  h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1px;margin:8px 0 8px}h1 i{color:var(--acc);font-style:normal}
+  .sub{color:var(--mut);font-size:15px;max-width:560px;margin:0 auto;line-height:1.55}
+  .layout{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start;margin-top:24px}
+  @media(max-width:840px){.layout{grid-template-columns:1fr}}
+  .stage{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 70px rgba(0,0,0,.45),0 0 0 1px rgba(255,122,26,.10)}
+  .stage::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:20px;box-shadow:inset 0 0 80px rgba(0,0,0,.42),inset 0 2px 0 rgba(255,255,255,.06);z-index:4}
+  #pond{display:block;width:100%;height:auto;background:linear-gradient(180deg,var(--water2),var(--water));touch-action:none;cursor:crosshair}
+  .hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;gap:8px;padding:12px 14px;pointer-events:none;font-family:'JetBrains Mono',monospace}
+  .hud{z-index:6}
+  .chip{background:linear-gradient(180deg,rgba(8,14,24,.7),rgba(5,8,14,.55));border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:7px 13px;font-size:14px;font-weight:700;backdrop-filter:blur(7px);box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  .chip small{display:block;font-size:9.5px;font-weight:500;opacity:.7;letter-spacing:1px}
+  .chip .v{font-size:18px}
+  #combo{color:var(--acc3)}
+  .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow-y:auto;background:rgba(4,7,12,.78);backdrop-filter:blur(6px);text-align:center;padding:18px;z-index:9}
+  .o-card{margin:auto}
+  @media(max-width:560px){
+    .o-card h2{font-size:21px}.o-card p{font-size:13px;margin-bottom:12px}
+    .rules{gap:10px;margin:10px 0 14px;font-size:11.5px}
+    .btn{padding:13px 22px;font-size:15px;width:100%}
+    .head .sub{font-size:13.5px}
+  }
+  .overlay.hide{display:none}
+  .hide{display:none!important}
+  .o-card{max-width:380px}
+  .o-card h2{font-size:26px;font-weight:800;margin-bottom:8px}.o-card h2 i{color:var(--acc);font-style:normal}
+  .o-card p{color:#c7d0de;font-size:14px;line-height:1.6;margin-bottom:18px}
+  .rules{display:flex;gap:16px;justify-content:center;margin:14px 0 20px;flex-wrap:wrap;font-size:12.5px;color:#c7d0de}
+  .rules b{color:#fff}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 30px;border-radius:13px;border:none;cursor:pointer;
+    font:inherit;font-weight:800;font-size:16px;color:#0b0e14;background:linear-gradient(120deg,var(--acc),#ff9a3d);box-shadow:0 12px 30px rgba(255,122,26,.35);transition:.18s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line);box-shadow:none;font-weight:600;font-size:14px;padding:11px 20px}
+  .final{font-size:46px;font-weight:800;color:var(--acc);margin:4px 0;font-family:'Space Grotesk'}
+  .nameRow{display:flex;gap:8px;margin:6px 0 14px}
+  .nameRow input{flex:1;font:inherit;font-size:15px;color:var(--txt);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+  html[data-theme="light"] .nameRow input{background:#fff;color:#0f1828}
+  .nameRow input:focus{outline:none;border-color:var(--acc)}
+  .saved{color:var(--acc3);font-size:13px;font-weight:700;margin-bottom:8px}
+  /* leaderboard */
+  .board{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+  html[data-theme="light"] .board{box-shadow:0 1px 2px rgba(16,24,40,.04),0 16px 40px rgba(16,24,40,.07)}
+  .board h3{font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .board .bsub{color:var(--mut);font-size:12.5px;margin-bottom:14px}
+  .row{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .row:last-child{border-bottom:0}
+  .rk{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:13px;background:rgba(255,255,255,.06);color:var(--mut);flex:0 0 auto}
+  .row:nth-child(1) .rk{background:linear-gradient(120deg,#ffd34d,#ffae3d);color:#3a2a00}
+  .row:nth-child(2) .rk{background:linear-gradient(120deg,#dfe7f2,#b9c6d8);color:#2a3242}
+  .row:nth-child(3) .rk{background:linear-gradient(120deg,#e7a36b,#cf7f44);color:#3a1f06}
+  .rn{flex:1;font-weight:600;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rs{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14.5px;color:var(--acc)}
+  .row.you{background:rgba(255,122,26,.10);margin:0 -10px;padding:10px;border-radius:10px;border-bottom:0}
+  .bnote{color:var(--mut);font-size:11.5px;margin-top:12px;text-align:center}
+  .prizes{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .ptitle{font-size:12.5px;font-weight:800;color:var(--acc);margin-bottom:10px;letter-spacing:.2px}
+  .prow{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut);padding:5px 0}
+  .prow b{color:var(--txt);font-weight:700;font-size:12.5px}
+  .tg{margin-top:16px;display:block;text-align:center;color:var(--acc);text-decoration:none;font-size:13.5px;font-weight:600}
+</style><script src="/i18n.js?v=11" defer></script></head><body>
+<header class="top">
+  <a class="brand" href="/">
+    <svg class="mk" viewBox="0 0 64 64"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk" fill="currentColor">B</text></svg>
+    <b>bit<i>aps</i> <s>vpn</s></b>
+  </a>
+  <div class="top-r">
+    <a class="home" href="/">← На главную</a>
+    <button class="tbtn" id="themeToggle" title="Тема"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="head">
+    <span class="kick">// мини-игра</span>
+    <h1>Рыбалка <i>карпов</i></h1>
+    <p class="sub">Лови карпов, набивай комбо и попади в топ-5. Золотой карп — джекпот, красный чужак — мимо (за него штраф). <b style="color:var(--acc)">Топ-3 каждый месяц получают бесплатные дни bitaps VPN 🎁</b></p>
+  </div>
+
+  <div class="layout">
+    <div class="stage">
+      <canvas id="pond" width="660" height="440"></canvas>
+      <div class="hud">
+        <div class="chip"><small>СЧЁТ</small><span class="v" id="score">0</span></div>
+        <div class="chip" id="combo"><small>КОМБО</small><span class="v" id="comboV">×1</span></div>
+        <div class="chip"><small>ВРЕМЯ</small><span class="v" id="time">60</span></div>
+      </div>
+      <div class="overlay" id="overlay">
+        <div class="o-card" id="oStart">
+          <h2>Готов на <i>рыбалку</i>?</h2>
+          <p>Тапай прямо по карпам, чтобы поймать. Чем мельче и быстрее — тем больше очков. Не сбивай комбо промахами!</p>
+          <div class="rules">
+            <span>🐟 <b>карп</b> +очки</span>
+            <span>🟡 <b>золотой</b> ×5</span>
+            <span>🔴 <b>чужак</b> штраф</span>
+          </div>
+          <button class="btn" id="startBtn">Закинуть удочку 🎣</button>
+        </div>
+        <div class="o-card hide" id="oEnd">
+          <h2>Улов готов 🎣</h2>
+          <div class="final" id="final">0</div>
+          <p id="endMsg" style="margin-bottom:10px">Неплохо! Запиши результат в топ.</p>
+          <div class="saved hide" id="saved">✅ Результат сохранён в топе!</div>
+          <div class="nameRow" id="nameRow">
+            <input id="pname" maxlength="24" placeholder="Твоё имя для топа">
+            <button class="btn" id="submitScore" style="padding:12px 18px;font-size:14px">В топ</button>
+          </div>
+          <button class="btn ghost" id="againBtn">Ещё раз 🔁</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="board">
+      <h3>🏆 Топ-5 рыбаков</h3>
+      <div class="bsub">лучшие уловы игроков bitaps</div>
+      <div id="boardList"><div class="bnote">загружаю…</div></div>
+      <div class="prizes">
+        <div class="ptitle">🎁 Призы топ-3 — каждый месяц</div>
+        <div class="prow"><span>🥇 1 место</span><b>30 дней bitaps VPN</b></div>
+        <div class="prow"><span>🥈 2 место</span><b>14 дней</b></div>
+        <div class="prow"><span>🥉 3 место</span><b>7 дней</b></div>
+      </div>
+      <div class="bnote">Топ и призы обновляются в конце месяца</div>
+      <a class="tg" href="https://t.me/bitaps_vpn_auth_bot?start=game" target="_blank" rel="noopener">🎣 Играть в Telegram-боте →</a>
+    </aside>
+  </div>
+</div>
+
+<script>
+const SB='https://bjkozsukvifkxriojxrz.supabase.co', KEY='sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
+const cv=document.getElementById('pond'), ctx=cv.getContext('2d');
+const $=id=>document.getElementById(id);
+try{var TG=window.Telegram&&Telegram.WebApp; if(TG){TG.ready();TG.expand();}}catch(e){}
+
+// ── кои как в личном кабинете (детальный SVG → картинка) ──
+function koiSVG(b,f,p,hi){return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 0 90 186" width="90" height="186"><defs><radialGradient id="b" cx=".42" cy=".22" r=".85">'+b+'</radialGradient><linearGradient id="f" x1=".5" y1="0" x2=".5" y2="1">'+f+'</linearGradient><radialGradient id="p" cx=".4" cy=".35" r=".8">'+p+'</radialGradient></defs><g fill="none" stroke="#e8643a" stroke-width="1.4" stroke-linecap="round"><path d="M31 7 C23 2 16 4 13 11"/><path d="M33 9 C27 6 22 8 20 14"/><path d="M39 7 C47 2 54 4 57 11"/><path d="M37 9 C43 6 48 8 50 14"/></g><path d="M20 46 C4 46 -8 66 -2 88 C8 76 16 62 24 52 Z" fill="url(#f)"/><path d="M50 46 C66 46 78 66 72 88 C62 76 54 62 46 52 Z" fill="url(#f)"/><path d="M25 84 C15 86 9 99 14 109 C20 101 23 95 28 90 Z" fill="url(#f)"/><path d="M45 84 C55 86 61 99 56 109 C50 101 47 95 42 90 Z" fill="url(#f)"/><path d="M35 130 C26 150 13 180 22 180 C30 170 34 152 35 140 C36 152 40 170 48 180 C57 180 44 150 35 130 Z" fill="url(#f)"/><path d="M35 5 C42 5 46 12 47 22 C50 33 52 46 52 60 C52 86 48 110 42 128 C40 134 38 137 35 138 C32 137 30 134 28 128 C22 110 18 86 18 60 C18 46 20 33 23 22 C24 12 28 5 35 5 Z" fill="url(#b)"/><path d="M16 44 C26 40 34 47 31 60 C28 72 16 72 12 61 C9 53 10 47 16 44 Z" fill="#191512"/><path d="M44 98 C54 100 54 117 44 123 C35 127 31 114 36 104 Z" fill="#191512"/>'+(hi?'<path d="M35 12 C45 12 47 30 41 40 C36 48 29 48 25 40 C20 30 25 12 35 12 Z" fill="url(#p)"/><path d="M41 64 C51 66 52 90 41 97 C31 102 24 92 26 80 C28 68 33 62 41 64 Z" fill="url(#p)"/>':'')+'<circle cx="26" cy="20" r="1.8" fill="#0c0e10"/><circle cx="44" cy="20" r="1.8" fill="#0c0e10"/><circle cx="26.7" cy="19.3" r=".55" fill="#fff"/><circle cx="44.7" cy="19.3" r=".55" fill="#fff"/></svg>';}
+function koiImg(svg){var im=new Image();
+  im.onload=function(){ try{ var c=document.createElement('canvas'); c.width=180; c.height=372; c.getContext('2d').drawImage(im,0,0,180,372); im.can=c; }catch(e){} };
+  im.src='data:image/svg+xml;utf8,'+encodeURIComponent(svg); return im;}
+const IMG={
+  koi: koiImg(koiSVG('<stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f3ede2"/><stop offset="1" stop-color="#dccfbb"/>','<stop offset="0" stop-color="rgba(255,170,110,.55)"/><stop offset="1" stop-color="rgba(255,150,80,.02)"/>','<stop offset="0" stop-color="#ff7a3a"/><stop offset="1" stop-color="#cf2f0c"/>',true)),
+  gold: koiImg(koiSVG('<stop offset="0" stop-color="#fff0bf"/><stop offset=".5" stop-color="#f7b13a"/><stop offset="1" stop-color="#dd8514"/>','<stop offset="0" stop-color="rgba(255,205,120,.6)"/><stop offset="1" stop-color="rgba(245,170,60,.02)"/>','<stop offset="0" stop-color="#ffd56b"/><stop offset="1" stop-color="#e08a10"/>',true)),
+  enemy: koiImg(koiSVG('<stop offset="0" stop-color="#ff9a9a"/><stop offset=".5" stop-color="#e23b3b"/><stop offset="1" stop-color="#9e0d18"/>','<stop offset="0" stop-color="rgba(255,110,110,.5)"/><stop offset="1" stop-color="rgba(220,40,40,.02)"/>','<stop offset="0" stop-color="#2a0008"/><stop offset="1" stop-color="#1a0004"/>',false))
+};
+let W=cv.width, H=cv.height, DPR=1, surfGrad=null, causGrad=null;
+function resize(){ const w=cv.clientWidth; const h=Math.max(Math.round(w*0.72), 380); cv.width=Math.round(w*DPR); cv.height=Math.round(h*DPR); ctx.setTransform(DPR,0,0,DPR,0,0); W=w; H=h;
+  // кэш градиентов (не пересоздаём каждый кадр)
+  surfGrad=ctx.createLinearGradient(0,0,0,H*0.55); surfGrad.addColorStop(0,'rgba(255,255,255,.055)'); surfGrad.addColorStop(1,'rgba(255,255,255,0)');
+  causGrad=ctx.createRadialGradient(0,0,0,0,0,55); causGrad.addColorStop(0,'rgba(255,255,255,.05)'); causGrad.addColorStop(1,'rgba(255,255,255,0)'); }
+window.addEventListener('resize',resize);
+
+// ── состояние ──
+let fish=[], running=false, score=0, timeLeft=60, combo=1, comboTimer=0, last=0, spawnT=0, elapsed=0, ripples=[], bubbles=[], splashes=[], pads=[], bubT=0;
+const rnd=(a,b)=>a+Math.random()*(b-a);
+
+const SZ_MIN=11, SZ_MAX=30;
+function makeFish(){
+  const ramp=Math.min(1,elapsed/45);
+  let kind='koi';
+  const r=Math.random();
+  if(r<0.06) kind='gold'; else if(r<0.06+0.22+ramp*0.16) kind='enemy';
+  const dir=Math.random()<.5?1:-1;
+  let size;
+  if(kind==='gold') size=rnd(11,14);          // золотой — мелкий и быстрый
+  else if(kind==='enemy') size=rnd(18,24);    // чужак — крупный, медленный
+  else size=rnd(12,30);                        // кои: от мелких (дорогих) до крупных (дешёвых)
+  const norm=(SZ_MAX-size)/(SZ_MAX-SZ_MIN);    // 0 крупная .. 1 мелкая
+  const speed=100 + norm*185 + ramp*120;       // мелкая = быстрая, крупная = медленная; растёт со временем
+  const vx=speed*dir*(kind==='gold'?1.45:1);
+  const y=rnd(H*0.12,H*0.9);
+  const col=kind==='gold'?'#ffd23d':kind==='enemy'?'#ff4d5e':'#ff7a1a';
+  return {kind,x:dir>0?-30:W+30,y,vx,size,col,phase:Math.random()*7,wob:rnd(0.6,1.4),dead:0};
+}
+function pts(f){ // чем мельче рыба (и быстрее) — тем больше очков
+  const norm=Math.max(0,Math.min(1,(SZ_MAX-f.size)/(SZ_MAX-SZ_MIN)));
+  return Math.round(15 + norm*85);             // 15 (крупная) .. 100 (мелкая)
+}
+
+function drawFish(f){
+  const op=f.dead?Math.max(0,1-f.dead*3):1;
+  const img=IMG[f.kind]||IMG.koi;
+  const L=f.size*4.7, Wd=L*(90/186);
+  const wob=Math.sin(Date.now()/240+f.phase)*0.13;
+  const ang=(f.vx>0?Math.PI/2:-Math.PI/2)+wob;
+  // тень под кои — ощущение глубины
+  ctx.save(); ctx.globalAlpha=op*0.18; ctx.translate(f.x+7,f.y+11); ctx.rotate(ang); ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(0,0,Wd*0.4,L*0.4,0,0,7); ctx.fill(); ctx.restore();
+  ctx.save(); ctx.globalAlpha=op; ctx.translate(f.x,f.y); ctx.rotate(ang);
+  const src=img.can||((img.complete&&img.naturalWidth)?img:null);
+  if(src){ ctx.drawImage(src,-Wd/2,-L/2,Wd,L); }
+  else { ctx.fillStyle=f.kind==='gold'?'#ffd23d':f.kind==='enemy'?'#e23b3b':'#ff7a1a'; ctx.beginPath(); ctx.ellipse(0,0,Wd*0.42,L*0.42,0,0,7); ctx.fill(); }
+  ctx.restore(); ctx.globalAlpha=1;
+}
+function shade(hex,p){ const n=parseInt(hex.slice(1),16); let r=(n>>16)+p,g=((n>>8)&255)+p,b=(n&255)+p; r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b)); return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1); }
+
+function loop(ts){
+  if(!running) return;
+  const dt=Math.min(0.05,(ts-last)/1000||0); last=ts; elapsed+=dt; timeLeft-=dt;
+  if(timeLeft<=0){ timeLeft=0; endGame(); return; }
+  $('time').textContent=Math.ceil(timeLeft);
+  // спавн
+  spawnT-=dt; const interval=Math.max(0.35,0.95-elapsed/80);
+  if(spawnT<=0){ spawnT=interval; if(fish.length<26){ fish.push(makeFish()); if(Math.random()<0.3+elapsed/120 && fish.length<26) fish.push(makeFish()); } }
+  // комбо-таймер
+  comboTimer-=dt; if(comboTimer<=0&&combo>1){ combo=1; updCombo(); }
+  // вода
+  ctx.clearRect(0,0,W,H);
+  // мягкий свет у поверхности (кэш-градиент)
+  if(surfGrad){ ctx.fillStyle=surfGrad; ctx.fillRect(0,0,W,H*0.55); }
+  // каустика — кэш-градиент, переносим контекст (без пересоздания)
+  if(causGrad) for(let i=0;i<3;i++){ const cx=W*0.5+Math.sin(elapsed*0.5+i*1.7)*W*0.42, cy=H*0.5+Math.cos(elapsed*0.4+i*2.1)*H*0.42;
+    ctx.save(); ctx.translate(cx,cy); ctx.fillStyle=causGrad; ctx.fillRect(-55,-55,110,110); ctx.restore(); }
+  // кувшинки/лотосы
+  drawPads();
+  // рябь (двойное кольцо)
+  for(let i=ripples.length-1;i>=0;i--){ const rp=ripples[i]; rp.r+=dt*120; rp.a-=dt*1.6; if(rp.a<=0){ripples.splice(i,1);continue;}
+    ctx.strokeStyle='rgba(255,255,255,'+rp.a+')'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(rp.x,rp.y,rp.r,0,7); ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,'+(rp.a*0.5)+')'; ctx.beginPath(); ctx.arc(rp.x,rp.y,rp.r*0.55,0,7); ctx.stroke(); }
+  // брызги
+  drawSplashes(dt);
+  // рыбы
+  for(let i=fish.length-1;i>=0;i--){ const f=fish[i];
+    if(f.dead){ f.dead+=dt; f.y-=dt*20; if(f.dead>0.34){fish.splice(i,1);continue;} drawFish(f); continue; }
+    f.x+=f.vx*dt; f.phase+=dt*f.wob*4.5; f.y+=Math.sin(f.phase)*dt*26;
+    if(f.x< -50||f.x>W+50) fish.splice(i,1); else drawFish(f);
+  }
+  drawFloats();
+  requestAnimationFrame(loop);
+}
+
+function updCombo(){ $('comboV').textContent='×'+combo.toFixed(combo<10?1:0); }
+function addRipple(x,y){ ripples.push({x,y,r:4,a:.5}); }
+function splash(x,y,col){ for(let i=0;i<9;i++){ const a=Math.random()*7, s=rnd(45,130); splashes.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-40,r:rnd(1.5,3.5),a:1,col}); } ripples.push({x,y,r:4,a:.65}); }
+function drawSplashes(dt){ for(let i=splashes.length-1;i>=0;i--){ const s=splashes[i]; s.x+=s.vx*dt; s.y+=s.vy*dt; s.vy+=280*dt; s.a-=dt*1.9; if(s.a<=0){splashes.splice(i,1);continue;}
+  ctx.globalAlpha=Math.max(0,s.a); ctx.fillStyle=s.col; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill(); } ctx.globalAlpha=1; }
+function drawPads(){ for(const p of pads){ const by=p.y+Math.sin(elapsed*0.7+p.ph)*3; ctx.save(); ctx.translate(p.x,by); ctx.rotate(p.rot); ctx.globalAlpha=.5;
+  const g=ctx.createRadialGradient(0,0,2,0,0,p.r); g.addColorStop(0,'#2f7d4f'); g.addColorStop(1,'#173f29'); ctx.fillStyle=g;
+  ctx.beginPath(); ctx.arc(0,0,p.r,0.45,Math.PI*2-0.45); ctx.lineTo(0,0); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha=.28; ctx.strokeStyle='#0c3a22'; ctx.lineWidth=1; for(let k=0;k<6;k++){ const a=0.7+k*0.82; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*p.r*0.9,Math.sin(a)*p.r*0.9); ctx.stroke(); }
+  if(p.lotus){ ctx.rotate(-p.rot); ctx.globalAlpha=.95; ctx.fillStyle='#ff9ec2'; for(let k=0;k<6;k++){ ctx.save(); ctx.rotate(k*Math.PI/3); ctx.beginPath(); ctx.ellipse(0,-6,3.4,7,0,0,7); ctx.fill(); ctx.restore(); } ctx.fillStyle='#ffe08a'; ctx.beginPath(); ctx.arc(0,0,3,0,7); ctx.fill(); }
+  ctx.restore(); } ctx.globalAlpha=1; }
+
+function hit(x,y){
+  if(!running) return;
+  let idx=-1, bd=1e9;
+  for(let i=fish.length-1;i>=0;i--){ const f=fish[i]; if(f.dead) continue;
+    const d=Math.hypot(f.x-x,f.y-y), rad=f.size*1.4;
+    if(d<rad && d<bd){ bd=d; idx=i; } }
+  addRipple(x,y);
+  if(idx<0){ // промах — сброс комбо
+    combo=1; comboTimer=0; updCombo(); return;
+  }
+  const f=fish[idx];
+  if(f.kind==='enemy'){ score=Math.max(0,score-120); combo=1; comboTimer=0; updCombo(); $('score').textContent=score; f.dead=0.001; splash(f.x,f.y,'#ff6b6b'); flash(f.x,f.y,'-120','#ff4d5e'); return; }
+  let gain=pts(f); if(f.kind==='gold') gain*=5;
+  gain=Math.round(gain*combo);
+  score+=gain; $('score').textContent=score;
+  combo=Math.min(20, combo+ (f.kind==='gold'?1:0.5)); comboTimer=1.4; updCombo();
+  f.dead=0.001; splash(f.x,f.y, f.kind==='gold'?'#ffe08a':'#9fe6ff'); flash(f.x,f.y,'+'+gain, f.kind==='gold'?'#ffd23d':'#7CFFB2');
+}
+let floats=[];
+function flash(x,y,txt,col){ floats.push({x,y,txt,col,a:1}); }
+function drawFloats(){ for(let i=floats.length-1;i>=0;i--){ const fl=floats[i]; fl.y-=0.6; fl.a-=0.02; if(fl.a<=0){floats.splice(i,1);continue;}
+  ctx.globalAlpha=Math.max(0,fl.a); ctx.fillStyle=fl.col; ctx.font='800 16px Space Grotesk'; ctx.textAlign='center'; ctx.fillText(fl.txt,fl.x,fl.y); ctx.globalAlpha=1; } }
+// рисуем floats поверх в том же цикле
+const _loop=loop;
+
+function pos(e){ const r=cv.getBoundingClientRect(); const t=e.touches?e.touches[0]:e; return {x:(t.clientX-r.left), y:(t.clientY-r.top)}; }
+// анти-автокликер: не чаще ~9 кликов/сек и не быстрее 80мс между кликами
+let clickT=[], lastClick=0, cheatHits=0;
+function allowClick(){
+  const now=performance.now();
+  if(now-lastClick<100) return false;        // не быстрее 100мс между кликами
+  clickT=clickT.filter(t=>now-t<1000);
+  if(clickT.length>=8){ cheatHits++; return false; } // не больше 8 кликов/сек
+  lastClick=now; clickT.push(now); return true;
+}
+function tap(p){
+  if(!allowClick()){ // слишком часто — спам/автокликер: штраф и сигнал
+    if(running){ combo=1; comboTimer=0; updCombo(); addRipple(p.x,p.y); flash(p.x,p.y,'фух, устал! 😮‍💨','#ff6b6b'); }
+    return;
+  }
+  hit(p.x,p.y);
+}
+cv.addEventListener('mousedown',e=>{ tap(pos(e)); });
+cv.addEventListener('touchstart',e=>{ e.preventDefault(); tap(pos(e)); },{passive:false});
+
+function startGame(){ resize(); fish=[];floats=[];ripples=[];bubbles=[];splashes=[];
+  pads=[ {x:W*0.13,y:H*0.18,r:rnd(24,32),rot:rnd(0,6),ph:0,lotus:true}, {x:W*0.86,y:H*0.82,r:rnd(28,38),rot:rnd(0,6),ph:2,lotus:false}, {x:W*0.72,y:H*0.1,r:rnd(18,26),rot:rnd(0,6),ph:4,lotus:false} ];
+  score=0;timeLeft=60;combo=1;comboTimer=0;elapsed=0;spawnT=0;bubT=0;last=performance.now();
+  $('score').textContent=0; $('time').textContent=60; updCombo();
+  $('overlay').classList.add('hide'); running=true; last=performance.now(); requestAnimationFrame(loop); }
+
+function endGame(){ running=false; $('final').textContent=score; $('overlay').classList.remove('hide');
+  $('oStart').classList.add('hide'); $('oEnd').classList.remove('hide'); $('saved').classList.add('hide'); $('nameRow').classList.remove('hide');
+  try{ const nm=localStorage.getItem('bitaps-game-name'); if(nm)$('pname').value=nm; }catch(e){}
+  const msg= score>=8000?'🔥 Это уровень сенсея! Закрепи в топе.':score>=4000?'💪 Сильный улов! Давай в топ.':score>=1500?'Неплохо! Запиши результат.':'Ещё разок — и будет круче!';
+  $('endMsg').textContent=msg; loadBoard(score);
+}
+$('startBtn').onclick=startGame;
+$('againBtn').onclick=()=>{ $('oEnd').classList.add('hide'); $('oStart').classList.remove('hide'); $('overlay').classList.add('hide'); startGame(); };
+
+async function loadBoard(myScore){
+  let data=[];
+  try{ const r=await fetch(SB+'/rest/v1/game_scores?select=name,score&order=score.desc&limit=5',{headers:{apikey:KEY}}); data=await r.json(); }catch(e){}
+  const list=$('boardList'); if(!Array.isArray(data)||!data.length){ list.innerHTML='<div class="bnote">пока пусто — будь первым!</div>'; return; }
+  list.innerHTML=data.map((d,i)=>{
+    const you=(myScore!=null && d.score===myScore)?' you':'';
+    return '<div class="row'+you+'"><span class="rk">'+(i+1)+'</span><span class="rn">'+esc(d.name)+'</span><span class="rs">'+d.score.toLocaleString('ru-RU')+'</span></div>';
+  }).join('');
+}
+function esc(s){ return String(s).replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])); }
+
+// ник: только буквы (рус/англ) и цифры — защита от инъекций/взлома через имя
+const cleanName=s=>String(s||'').replace(/[^A-Za-zА-Яа-яЁё0-9]/g,'').slice(0,24);
+$('pname').addEventListener('input',function(){ const c=this.selectionStart, v=cleanName(this.value); if(v!==this.value){ this.value=v; try{this.setSelectionRange(c-1,c-1);}catch(e){} } });
+const BADNAME=/(ху[йеёяю]|пизд|[её]ба|бляд|сук[аиу]|пидор|пидар|мудак|гондон|залуп|хер|fuck|shit|cunt|dick|bitch|porn|nigg)/i;
+$('submitScore').onclick=async function(){
+  const name=cleanName($('pname').value);
+  if(name.length<1){ $('pname').value=''; $('pname').focus(); return; }
+  if(BADNAME.test(name)){ $('pname').value=''; $('pname').placeholder='нормальное имя, пожалуйста 🙂'; $('pname').focus(); return; }
+  try{ localStorage.setItem('bitaps-game-name',name); }catch(e){}
+  this.disabled=true; this.textContent='…';
+  try{
+    await fetch(SB+'/rest/v1/game_scores',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name,score})});
+  }catch(e){}
+  $('nameRow').classList.add('hide'); $('saved').classList.remove('hide');
+  await loadBoard(score);
+  this.disabled=false; this.textContent='В топ';
+};
+
+// тема
+(function(){var html=document.documentElement,key='bitaps-theme',btn=$('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');
+  function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}
+  function apply(){var m=mode(),light=m==='light'||(m==='system'&&mq.matches); if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
+    btn.textContent=m==='light'?'☀️':'🌙';}
+  btn.onclick=function(){var m=mode();try{localStorage.setItem(key, m==='light'?'dark':'light');}catch(e){}apply();};
+  if(mq.addEventListener)mq.addEventListener('change',()=>{if(mode()==='system')apply();}); apply();})();
+
+resize(); loadBoard(null);
+</script>
+</body></html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<title>Политика конфиденциальности — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);background:#05080f;position:relative;overflow-x:hidden}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
+  a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,8,15,.6);backdrop-filter:blur(12px);z-index:10}
+  .brand-mark{width:38px;height:38px;color:var(--acc);transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
+  .top-home{font-size:13.5px;color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:10px;transition:.2s}
+  .top-home:hover{color:var(--txt);border-color:var(--acc)}
+  .wrap{max-width:760px;margin:0 auto;padding:42px 22px 90px}
+  h1{font-size:30px;margin-bottom:6px}
+  .upd{color:var(--mut);font-size:13px;margin-bottom:28px}
+  h2{font-size:18px;margin:30px 0 10px;color:var(--acc2)}
+  p,li{color:#c8d3e6;font-size:15px;line-height:1.7}
+  ul{margin:8px 0 8px 22px}li{margin-bottom:6px}
+  .lead{color:var(--txt);font-size:15.5px;line-height:1.7}
+  .box{margin-top:14px;padding:14px 16px;border:1px solid rgba(70,211,154,.3);background:rgba(70,211,154,.07);border-radius:14px;font-size:14.5px;color:var(--txt)}
+  @media(max-width:520px){h1{font-size:24px}.wrap{padding:30px 16px 70px}}
+  .top-actions{display:flex;align-items:center;gap:10px}
+  .theme-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
+  .theme-btn:hover{border-color:var(--acc)}
+  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309}
+  html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
+  html[data-theme="light"] .bg{background:none}
+  html[data-theme="light"] .top{background:rgba(255,255,255,.78);box-shadow:0 6px 26px rgba(16,26,48,.06)}
+  html[data-theme="light"] p,html[data-theme="light"] li{color:#33415c}
+  html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#0f1828}
+  html[data-theme="light"] .box{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.3);color:#0f1828}
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="top">
+    <a class="brand" href="/" title="На главную">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" fill="none"><g fill="currentColor"><rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/><text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family="'Space Grotesk',sans-serif" fill="currentColor">B</text></svg></span>
+    </a>
+    <div class="top-actions">
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Сменить тему">☀️</button>
+      <a class="top-home" href="/">← На главную</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1>Политика конфиденциальности</h1>
+    <div class="upd">Последнее обновление: 21.06.2026</div>
+
+    <p class="lead">Конфиденциальность — основа сервиса <b>bitaps VPN</b>. Настоящая Политика объясняет, какие данные мы обрабатываем, зачем и как мы их защищаем. Главный принцип: мы собираем минимум данных, необходимый для работы сервиса.</p>
+
+    <div class="box">🔒 <b>Политика No-Logs.</b> Мы не ведём и не храним журналы вашей онлайн-активности: историю сайтов, содержимое трафика, DNS-запросы и присвоенные VPN-серверами IP. Нам нечего передать третьим лицам, потому что мы этого не храним.</div>
+
+    <h2>1. Какие данные мы обрабатываем</h2>
+    <ul>
+      <li><b>Идентификатор Telegram</b> (ID, имя пользователя) — для привязки подписки к аккаунту, если вы пользуетесь ботом или Telegram Mini App.</li>
+      <li><b>E-mail</b> — только если вы указали его сами (для входа на сайт или обращения в поддержку).</li>
+      <li><b>Данные о подписке</b> — выбранный тариф, срок действия, лимит устройств, статус оплаты.</li>
+      <li><b>Технические данные оплаты</b> — обрабатываются платёжными провайдерами (Telegram, банк, крипто-сервис); мы не храним данные ваших карт.</li>
+    </ul>
+
+    <h2>2. Чего мы НЕ собираем</h2>
+    <p>Историю посещений, посещённые сайты и приложения, содержимое и метаданные вашего трафика, DNS-запросы, а также любые данные, позволяющие связать конкретную онлайн-активность с конкретным пользователем.</p>
+
+    <h2>3. Зачем мы используем данные</h2>
+    <ul>
+      <li>Чтобы предоставить и продлевать доступ к Сервису и выдать ключ подключения.</li>
+      <li>Чтобы обработать оплату и начислить бонусы по реферальной программе.</li>
+      <li>Чтобы отвечать на ваши обращения в поддержку.</li>
+    </ul>
+
+    <h2>4. Передача третьим лицам</h2>
+    <p>Мы не продаём и не передаём ваши данные третьим лицам, кроме случаев, необходимых для обработки платежа (платёжные провайдеры) или прямо предусмотренных законом. Инфраструктура хранения данных аккаунтов размещена у поставщика облачных услуг с шифрованием.</p>
+
+    <h2>5. Cookie и аналитика</h2>
+    <p>Сайт использует только технически необходимые cookie/локальное хранилище (например, для сохранения сессии входа). Мы не используем рекламные трекеры.</p>
+
+    <h2>6. Хранение и удаление</h2>
+    <p>Данные аккаунта хранятся, пока активна ваша подписка или аккаунт. Вы можете запросить удаление своих данных, обратившись в поддержку — мы удалим их, если нет правовых оснований для дальнейшего хранения.</p>
+
+    <h2>7. Безопасность</h2>
+    <p>Трафик шифруется современными протоколами (VLESS + Reality / WireGuard). Доступ к серверной инфраструктуре ограничен и защищён.</p>
+
+    <h2>8. Контакты</h2>
+    <p>Вопросы о приватности — через <a href="/?support=1">форму поддержки</a> или Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener">@bitapssupport</a>. См. также <a href="terms.html">Пользовательское соглашение</a>.</p>
+  </div>
+<script>(function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');function mode(){var s=localStorage.getItem(key);return (s==='light'||s==='dark')?s:'system';}function apply(){var m=mode();var light=m==='light'||(m==='system'&&mq.matches);if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=m==='system'?'🖥':(m==='light'?'☀️':'🌙');btn.title='Тема: '+(m==='system'?'как на устройстве':(m==='light'?'светлая':'тёмная'));}}if(btn)btn.addEventListener('click',function(){var m=mode();if(m==='system')localStorage.setItem(key,'light');else if(m==='light')localStorage.setItem(key,'dark');else localStorage.removeItem(key);apply();});if(mq.addEventListener)mq.addEventListener('change',function(){if(mode()==='system')apply();});apply();})();</script>
+</body>
+</html>

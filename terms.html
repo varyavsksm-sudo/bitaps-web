@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<title>Пользовательское соглашение — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);background:#05080f;position:relative;overflow-x:hidden}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
+  a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,8,15,.6);backdrop-filter:blur(12px);z-index:10}
+  .brand-mark{width:38px;height:38px;color:var(--acc);transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
+  .top-home{font-size:13.5px;color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:10px;transition:.2s}
+  .top-home:hover{color:var(--txt);border-color:var(--acc)}
+  .wrap{max-width:760px;margin:0 auto;padding:42px 22px 90px}
+  h1{font-size:30px;margin-bottom:6px}
+  .upd{color:var(--mut);font-size:13px;margin-bottom:28px}
+  h2{font-size:18px;margin:30px 0 10px;color:var(--acc2)}
+  p,li{color:#c8d3e6;font-size:15px;line-height:1.7}
+  ul{margin:8px 0 8px 22px}li{margin-bottom:6px}
+  .lead{color:var(--txt);font-size:15.5px;line-height:1.7}
+  @media(max-width:520px){h1{font-size:24px}.wrap{padding:30px 16px 70px}}
+  .top-actions{display:flex;align-items:center;gap:10px}
+  .theme-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
+  .theme-btn:hover{border-color:var(--acc)}
+  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309}
+  html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
+  html[data-theme="light"] .bg{background:none}
+  html[data-theme="light"] .top{background:rgba(255,255,255,.78);box-shadow:0 6px 26px rgba(16,26,48,.06)}
+  html[data-theme="light"] p,html[data-theme="light"] li{color:#33415c}
+  html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#0f1828}
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="top">
+    <a class="brand" href="/" title="На главную">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" fill="none"><g fill="currentColor"><rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/><text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family="'Space Grotesk',sans-serif" fill="currentColor">B</text></svg></span>
+    </a>
+    <div class="top-actions">
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Сменить тему">☀️</button>
+      <a class="top-home" href="/">← На главную</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1>Пользовательское соглашение</h1>
+    <div class="upd">Публичная оферта · последнее обновление: 21.06.2026</div>
+
+    <p class="lead">Настоящее Соглашение является публичной офертой и определяет условия использования сервиса <b>bitaps VPN</b> (далее — «Сервис»). Начиная пользоваться Сервисом, оформляя подписку или оплачивая тариф, вы подтверждаете, что прочитали и полностью принимаете условия настоящего Соглашения.</p>
+
+    <h2>1. Термины</h2>
+    <ul>
+      <li><b>Сервис</b> — программно-аппаратный комплекс bitaps VPN, обеспечивающий шифрованное подключение к сети Интернет через серверы Сервиса.</li>
+      <li><b>Пользователь</b> — физическое лицо, использующее Сервис.</li>
+      <li><b>Подписка</b> — право пользования Сервисом в течение оплаченного периода и в пределах оплаченного числа устройств.</li>
+      <li><b>Ключ</b> — персональная конфигурация для подключения, выдаваемая Пользователю после активации подписки.</li>
+    </ul>
+
+    <h2>2. Предмет соглашения</h2>
+    <p>Сервис предоставляет Пользователю доступ к защищённому VPN-соединению: шифрование трафика, смену видимого IP-адреса и подключение к серверам в различных странах. Услуга предоставляется «как есть» на условиях настоящего Соглашения.</p>
+
+    <h2>3. Подписка, тарифы и оплата</h2>
+    <ul>
+      <li>Стоимость и состав тарифов указаны на сайте и в Telegram-боте Сервиса и могут изменяться. Изменение цены не затрагивает уже оплаченный период.</li>
+      <li>Оплата производится доступными в Сервисе способами (Telegram Stars, банковская карта, криптовалюта и др.). Подписка активируется после поступления оплаты.</li>
+      <li>Доступен пробный период (3 дня) — один на одного Пользователя.</li>
+      <li>Подписка действует на оплаченное количество одновременно подключённых устройств; лимит можно расширить за доплату.</li>
+    </ul>
+
+    <h2>4. Возврат средств</h2>
+    <p>Если Сервис не работает по нашей вине и проблему не удалось устранить, вы вправе запросить возврат за неиспользованный период в течение 14 дней с момента оплаты, обратившись в поддержку. Возврат не производится при нарушении Пользователем условий Соглашения.</p>
+
+    <h2>5. Правила использования</h2>
+    <p>Пользователь обязуется не использовать Сервис для противоправных действий, в том числе для рассылки спама, атак на сетевые ресурсы, распространения вредоносного ПО и иных действий, нарушающих закон или права третьих лиц. При нарушении доступ может быть ограничен без возврата средств.</p>
+
+    <h2>6. Конфиденциальность и логи</h2>
+    <p>Сервис придерживается политики <b>No-Logs</b>: мы не храним историю посещений, содержимое трафика и DNS-запросы Пользователя. Обработка персональных данных описана в <a href="privacy.html">Политике конфиденциальности</a>.</p>
+
+    <h2>7. Ответственность</h2>
+    <p>Сервис прилагает разумные усилия для бесперебойной работы, но не гарантирует отсутствие перерывов, вызванных техническими работами, действиями провайдеров или обстоятельствами непреодолимой силы. Сервис не несёт ответственности за действия Пользователя в сети.</p>
+
+    <h2>8. Изменение условий</h2>
+    <p>Сервис вправе изменять настоящее Соглашение. Актуальная версия всегда доступна на этой странице. Продолжение использования Сервиса после изменений означает согласие с новой редакцией.</p>
+
+    <h2>9. Контакты</h2>
+    <p>По всем вопросам — поддержка Сервиса: <a href="/?support=1">форма на сайте</a> или Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener">@bitapssupport</a>.</p>
+  </div>
+<script>(function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');function mode(){var s=localStorage.getItem(key);return (s==='light'||s==='dark')?s:'system';}function apply(){var m=mode();var light=m==='light'||(m==='system'&&mq.matches);if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=m==='system'?'🖥':(m==='light'?'☀️':'🌙');btn.title='Тема: '+(m==='system'?'как на устройстве':(m==='light'?'светлая':'тёмная'));}}if(btn)btn.addEventListener('click',function(){var m=mode();if(m==='system')localStorage.setItem(key,'light');else if(m==='light')localStorage.setItem(key,'dark');else localStorage.removeItem(key);apply();});if(mq.addEventListener)mq.addEventListener('change',function(){if(mode()==='system')apply();});apply();})();</script>
+</body>
+</html>

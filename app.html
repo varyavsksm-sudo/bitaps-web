@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<title>Скачать приложение — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--blue:#2d8bff;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(15,21,33,.72);--green:#46d39a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);position:relative;overflow-x:hidden;background:#05080f}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.16),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.13),transparent 55%),#05080f}
+  .bg-grid{position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 0,#000,transparent 80%)}
+  a{color:inherit;text-decoration:none}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,8,15,.6);backdrop-filter:blur(12px);z-index:10}
+  .brand-mark{width:40px;height:40px;color:var(--acc);transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
+  .top-home{font-size:13.5px;color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:10px;transition:.2s}
+  .top-home:hover{color:var(--txt);border-color:var(--acc)}
+  .wrap{max-width:840px;margin:0 auto;padding:40px 20px 80px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:1px;color:var(--acc)}
+  h1{font-size:34px;margin:10px 0 8px;line-height:1.1}.grad{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:15px;max-width:560px}
+  .notice{display:flex;gap:12px;align-items:flex-start;margin:22px 0;padding:14px 16px;border:1px solid rgba(255,122,26,.3);background:rgba(255,122,26,.07);border-radius:14px;font-size:13.5px;color:var(--txt)}
+  .notice b{color:var(--acc2)}
+  /* основная карточка под ОС */
+  .hero-dl{margin-top:26px;padding:26px;border:1px solid var(--line);border-radius:22px;background:var(--card);backdrop-filter:blur(8px);text-align:center;animation:rise .5s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .hero-os{font-size:13px;color:var(--mut);margin-bottom:6px}
+  .hero-ic{font-size:46px;line-height:1;margin:6px 0 12px}
+  .hero-name{font-size:22px;font-weight:700;margin-bottom:18px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 26px;border-radius:14px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;border:none;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2));box-shadow:0 12px 30px rgba(255,122,26,.32);transition:.18s}
+  .btn:hover{transform:translateY(-2px)}
+  .soon{display:inline-block;margin-top:12px;font-size:12px;color:var(--mut)}
+  /* все платформы */
+  .h2{font-size:15px;font-weight:600;color:var(--mut);margin:38px 0 14px;text-transform:uppercase;letter-spacing:1px}
+  .plats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .plat{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:20px 14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);transition:.18s;cursor:pointer}
+  .plat:hover{border-color:var(--acc);transform:translateY(-3px);background:rgba(255,122,26,.06)}
+  .plat.active{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset,0 0 30px rgba(255,122,26,.18)}
+  .plat .pi{font-size:30px;line-height:1}
+  .plat .pn{font-weight:600;font-size:15px}
+  .plat .pf{font-size:12px;color:var(--mut)}
+  .plat .pbadge{font-size:10px;font-weight:700;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2));padding:2px 7px;border-radius:6px}
+  .steps{margin-top:34px;border:1px solid var(--line);border-radius:18px;background:var(--card);padding:22px}
+  .steps h3{font-size:16px;margin-bottom:14px}
+  .steps ol{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:11px}
+  .steps li{counter-increment:s;position:relative;padding-left:36px;font-size:14px;line-height:1.5;color:var(--txt)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2))}
+  .steps a{color:var(--acc2)}
+  @media(max-width:520px){h1{font-size:27px}.wrap{padding:28px 16px 70px}}
+  .top-actions{display:flex;align-items:center;gap:10px}
+  .theme-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
+  .theme-btn:hover{border-color:var(--acc)}
+  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--card:#ffffff;--acc2:#f59e0b}
+  html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.10),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.09),transparent 52%),radial-gradient(1200px 800px at 50% 120%,rgba(255,174,61,.08),transparent 55%),#f3f6fc}
+  html[data-theme="light"] .bg{background:none}
+  html[data-theme="light"] .bg-grid{background-image:linear-gradient(rgba(16,26,48,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.04) 1px,transparent 1px)}
+  html[data-theme="light"] .top{background:rgba(255,255,255,.78);box-shadow:0 6px 26px rgba(16,26,48,.06)}
+  html[data-theme="light"] .hero-dl,html[data-theme="light"] .steps{background:#fff;border-color:rgba(16,26,48,.08);box-shadow:0 1px 2px rgba(16,24,40,.04),0 16px 38px rgba(16,24,40,.07)}
+  html[data-theme="light"] .plat{background:#fff;border-color:rgba(16,26,48,.08);box-shadow:0 6px 16px rgba(16,24,40,.06)}
+  html[data-theme="light"] .plat:hover{background:#fff;border-color:var(--acc);box-shadow:0 14px 32px rgba(255,122,26,.16)}
+  html[data-theme="light"] .plat.active{box-shadow:0 0 0 1px var(--acc) inset,0 14px 32px rgba(255,122,26,.18)}
+  html[data-theme="light"] .notice{background:rgba(255,122,26,.08)}
+</style>
+<script src="/i18n.js?v=11" defer></script></head>
+<body>
+  <div class="bg"></div><div class="bg-grid"></div>
+  <div class="top">
+    <a class="brand" href="/" title="На главную">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" fill="none"><g fill="currentColor"><rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/><rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/><text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family="'Space Grotesk',sans-serif" fill="currentColor">B</text></svg></span>
+    </a>
+    <div class="top-actions">
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Сменить тему">☀️</button>
+      <a class="top-home" href="/">← На главную</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <span class="kicker">// приложение</span>
+    <h1>Подключи <span class="grad">bitaps VPN</span></h1>
+    <p class="sub">Наше приложение скоро. А пока подключайся через Happ — это рабочий клиент, наш ключ вставляется в него за минуту.</p>
+
+    <div class="notice">
+      <span style="font-size:18px">🔜</span>
+      <div>Своё приложение <b>bitaps VPN — скоро</b>. Сейчас пользуйся VPN через <b>Happ</b>: установи его (кнопка ниже) и вставь ключ из <a href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener" style="color:var(--acc2)">Telegram-бота</a> или из письма после оплаты на сайте.</div>
+    </div>
+
+    <div class="hero-dl" id="heroDl">
+      <div class="hero-os" id="heroOs">Ваше устройство</div>
+      <div class="hero-ic" id="heroIc">💻</div>
+      <div class="hero-name" id="heroName">—</div>
+      <a class="btn" id="heroBtn" href="#">Скачать</a>
+      <div class="soon" id="heroSoon">✅ рабочий клиент Happ · наш ключ подходит сразу</div>
+    </div>
+
+    <div class="h2">Все платформы</div>
+    <div class="plats" id="plats"></div>
+
+    <div class="steps">
+      <h3 id="howTitle">Как подключиться</h3>
+      <ol id="howSteps"></ol>
+    </div>
+  </div>
+
+<script>
+  const BOT = 'https://t.me/bitaps_vpn_auth_bot';
+  const EN = (function(){ try { return localStorage.getItem('bitaps-lang') === 'en'; } catch(e){ return false; } })();
+  const T = EN ? {
+    soon:'Happ', later:'Happ',
+    btn:{ macos:'Download Happ', ios:'Get Happ', android:'Get Happ', windows:'Download Happ', linux:'Download Happ' },
+    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'happ.su', linux:'happ.su' },
+    looks:"Looks like you're on ", selected:'You selected: ', how:'How to set up on ',
+    key:'Get a subscription in the <a href="'+BOT+'" target="_blank" rel="noopener">Telegram bot</a> or on the site — your key is in «🌐 Dashboard» or arrives by email.',
+    steps:{
+      ios:['Install <b>Happ</b> from the <b>App Store</b> (button above).','@KEY@','Open Happ → «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN configuration. Done!'],
+      android:['Install <b>Happ</b> from <b>Google Play</b> (button above).','@KEY@','In Happ: «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN request. Done!'],
+      windows:['Download <b>Happ</b> from <b>happ.su</b> (button above) and install it.','@KEY@','In Happ: <b>Import from clipboard</b> → paste the key.','Click «Connect». Done!'],
+      macos:['Install <b>Happ</b> (App Store or <b>happ.su</b>, button above).','@KEY@','In Happ: <b>Import from clipboard</b> → paste the key.','Click «Connect» and allow the VPN configuration. Done!'],
+      linux:['Download <b>Happ</b> from <b>happ.su</b> (button above) and install it.','@KEY@','Launch Happ → <b>Import from clipboard / via link</b> → paste the key.','Click «Connect». Done!'],
+    }
+  } : {
+    soon:'Happ', later:'Happ',
+    btn:{ macos:'Скачать Happ', ios:'Установить Happ', android:'Установить Happ', windows:'Скачать Happ', linux:'Скачать Happ' },
+    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'happ.su', linux:'happ.su' },
+    looks:'Похоже, у вас ', selected:'Вы выбрали: ', how:'Как настроить на ',
+    key:'Оформите подписку в <a href="'+BOT+'" target="_blank" rel="noopener">Telegram-боте</a> или на сайте — ключ в «🌐 Личный кабинет» или придёт на почту.',
+    steps:{
+      ios:['Установите <b>Happ</b> из <b>App Store</b> (кнопка выше).','@KEY@','Откройте Happ → «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите VPN-конфигурацию. Готово!'],
+      android:['Установите <b>Happ</b> из <b>Google Play</b> (кнопка выше).','@KEY@','В Happ: «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите запрос VPN. Готово!'],
+      windows:['Скачайте <b>Happ</b> с <b>happ.su</b> (кнопка выше) и установите.','@KEY@','В Happ: <b>Импорт из буфера</b> → вставьте ключ.','Нажмите «Подключить». Готово!'],
+      macos:['Установите <b>Happ</b> (App Store или <b>happ.su</b>, кнопка выше).','@KEY@','В Happ: <b>Импорт из буфера</b> → вставьте ключ.','Нажмите «Подключить» и разрешите VPN-конфигурацию. Готово!'],
+      linux:['Скачайте <b>Happ</b> с <b>happ.su</b> (кнопка выше) и установите.','@KEY@','Запустите Happ → <b>Импорт из буфера / по ссылке</b> → вставьте ключ.','Нажмите «Подключить». Готово!'],
+    }
+  };
+  const PLATS = {
+    macos:   { name: 'macOS',         ic: '🍏', foot: T.foot.macos,   btn: T.btn.macos,   badge: T.soon },
+    ios:     { name: 'iPhone / iPad', ic: '🍎', foot: T.foot.ios,     btn: T.btn.ios,     badge: T.soon },
+    android: { name: 'Android',       ic: '🤖', foot: T.foot.android, btn: T.btn.android, badge: T.later },
+    windows: { name: 'Windows',       ic: '🪟', foot: T.foot.windows, btn: T.btn.windows, badge: T.later },
+    linux:   { name: 'Linux',         ic: '🐧', foot: T.foot.linux,   btn: T.btn.linux,   badge: T.later },
+  };
+  const ORDER = ['macos', 'ios', 'android', 'windows', 'linux'];
+
+  function detectOS() {
+    const forced = new URLSearchParams(location.search).get('os');
+    if (forced && PLATS[forced]) return forced;
+    const ua = navigator.userAgent || '';
+    const p = navigator.platform || '';
+    const touch = navigator.maxTouchPoints || 0;
+    if (/iPhone|iPad|iPod/i.test(ua) || (p === 'MacIntel' && touch > 1)) return 'ios';
+    if (/Android/i.test(ua)) return 'android';
+    if (/Win/i.test(ua) || /Win/i.test(p)) return 'windows';
+    if (/Mac/i.test(ua) || /Mac/i.test(p)) return 'macos';
+    if (/Linux|X11/i.test(ua) || /Linux/i.test(p)) return 'linux';
+    return 'macos';
+  }
+
+  const os = detectOS();
+  const cur = PLATS[os];
+
+  // основная карточка
+  document.getElementById('heroOs').textContent = T.looks + cur.name;
+  document.getElementById('heroIc').textContent = cur.ic;
+  document.getElementById('heroName').textContent = cur.name;
+  document.getElementById('heroBtn').textContent = cur.btn;
+
+  // список всех платформ
+  const wrap = document.getElementById('plats');
+  wrap.innerHTML = ORDER.map((k) => {
+    const pl = PLATS[k];
+    return '<a class="plat' + (k === os ? ' active' : '') + '" href="#" data-os="' + k + '">' +
+      '<span class="pi">' + pl.ic + '</span>' +
+      '<span class="pn">' + pl.name + '</span>' +
+      '<span class="pf">' + pl.foot + '</span>' +
+      '<span class="pbadge">' + pl.badge + '</span>' +
+    '</a>';
+  }).join('');
+
+  // Happ — рабочий клиент (наше приложение скоро). Наш ключ импортируется в Happ.
+  const STORE = {
+    ios: 'https://apps.apple.com/app/happ-proxy-utility/id6504287215',
+    android: 'https://play.google.com/store/apps/details?id=com.happproxy',
+    macos: 'https://happ.su/', windows: 'https://happ.su/', linux: 'https://happ.su/',
+  };
+  let curOS = os;
+
+  // инструкция под конкретную ОС (двуязычно из T; @KEY@ → ссылка-ключ)
+  const STEPS = {}; Object.keys(T.steps).forEach(function (k) { STEPS[k] = T.steps[k].map(function (s) { return s === '@KEY@' ? T.key : s; }); });
+  document.getElementById('howTitle').textContent = T.how + cur.name;
+  document.getElementById('howSteps').innerHTML = (STEPS[os] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
+  // iOS/Android — ведём в стор (на приложение), десктоп — пока в бота за ключом
+  document.getElementById('heroBtn').addEventListener('click', (e) => { e.preventDefault(); if (STORE[curOS]) window.open(STORE[curOS], '_blank', 'noopener'); else location.href = BOT + '?start=app'; });
+  function showOS(k) {
+    curOS = k;
+    const pl = PLATS[k];
+    document.getElementById('heroOs').textContent = (k === os ? T.looks : T.selected) + pl.name;
+    document.getElementById('heroIc').textContent = pl.ic;
+    document.getElementById('heroName').textContent = pl.name;
+    document.getElementById('heroBtn').textContent = pl.btn;
+    document.getElementById('howTitle').textContent = T.how + pl.name;
+    document.getElementById('howSteps').innerHTML = (STEPS[k] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
+    wrap.querySelectorAll('.plat').forEach((el) => el.classList.toggle('active', el.dataset.os === k));
+  }
+  // клик по платформе — показываем её прямо на странице (без перехода в Telegram)
+  wrap.querySelectorAll('.plat').forEach((el) => el.addEventListener('click', (e) => {
+    e.preventDefault(); showOS(el.dataset.os);
+    document.getElementById('heroDl').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }));
+  // смена языка кнопкой EN/RU → перерисовать инструкции (контент строится в JS)
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('#langToggle')) setTimeout(function () { location.reload(); }, 80);
+  });
+</script>
+<script>(function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');function mode(){var s=localStorage.getItem(key);return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}function apply(){var m=mode();var light=m==='light'||(m==='system'&&mq.matches);if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=m==='light'?'☀️':'🌙';btn.title='Тема: '+(m==='light'?'светлая':'тёмная');}}if(btn)btn.addEventListener('click',function(){var m=mode();localStorage.setItem(key, m==='light'?'dark':'light');apply();});if(mq.addEventListener)mq.addEventListener('change',function(){if(mode()==='system')apply();});apply();})();</script>
+</body>
+</html>
