@@ -891,6 +891,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     var d=parseInt(p.get('dev'),10); if(d>=1&&d<=10) dev=d;})();
   function fmt(n){return n.toLocaleString('ru-RU')+' ₽';}
   function nf(n){return n.toLocaleString('ru-RU');}
+  function escHtml(s){return String(s).replace(/[<>&\"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','\"':'&quot;'}[c];});}
   function paint(){
     document.querySelectorAll('.plan').forEach(function(el){
       var base=+el.dataset.base, mo=+el.dataset.mo;
@@ -920,7 +921,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       var j=await r.json();
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       document.getElementById('page').classList.add('hide');
-      document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> в CryptoBot. После оплаты ключ придёт на <b>'+email+'</b>.';
+      document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> в CryptoBot. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       window.location.href=j.pay_url;
@@ -936,7 +937,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       var j=await r.json();
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       document.getElementById('page').classList.add('hide');
-      document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> по СБП. После оплаты ключ придёт на <b>'+email+'</b>.';
+      document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> по СБП. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       window.location.href=j.pay_url;
