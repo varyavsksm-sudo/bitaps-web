@@ -868,12 +868,6 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   <section class="psec">
     <div class="pgrid">
       <div class="pcard">
-        <h4>🎫 Промокод</h4>
-        <p class="desc">Есть код на скидку? Введи его — пересчитаем сумму к оплате.</p>
-        <div class="sform" style="display:flex;gap:8px"><input id="promo" placeholder="Введи промокод"><button class="btn btn-line" id="promoBtn" type="button" style="width:auto;flex:0 0 auto;padding:0 22px">OK</button></div>
-        <div id="pmsg" class="hide" style="font-size:12.5px;color:var(--acc);margin-top:10px"></div>
-      </div>
-      <div class="pcard">
         <h4>📖 История платежей</h4>
         <p class="desc">Здесь появятся твои оплаты после первой подписки — с датами и суммами.</p>
         <div class="hist-empty">Пока пусто</div>
@@ -914,12 +908,6 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   document.getElementById('plans').addEventListener('click',function(e){var el=e.target.closest('.plan');if(!el)return;code=el.dataset.code;paint();});
   document.getElementById('devMinus').addEventListener('click',function(){if(dev>1){dev--;paint();}});
   document.getElementById('devPlus').addEventListener('click',function(){if(dev<10){dev++;paint();}});
-  document.getElementById('promoBtn').addEventListener('click',function(){
-    var v=document.getElementById('promo').value.trim(), m=document.getElementById('pmsg');
-    m.classList.remove('hide');
-    if(!v){m.style.color='var(--mut)';m.textContent='Введи промокод.';return;}
-    m.style.color='var(--mut)';m.textContent='Промокоды скоро 🎫 — пока оформи по обычной цене.';
-  });
   function showErr(t){var e=document.getElementById('perr');e.textContent=t;e.classList.remove('hide');}
   function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
   document.getElementById('payCrypto').addEventListener('click',async function(){

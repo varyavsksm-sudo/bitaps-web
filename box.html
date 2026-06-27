@@ -106,6 +106,7 @@
           <button type="submit" class="btn">Оформить заказ B-box</button>
         </form>
         <div class="note">Это предзаказ: B-box скоро в продаже. Оплата — после подтверждения, без предоплаты на сайте.</div>
+        <div class="note" id="orderErr" style="display:none;color:#ff7a7a;border-color:rgba(255,122,122,.4)">Не удалось отправить заявку — проверьте интернет и попробуйте ещё раз. Или напишите нам: <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.</div>
         <div class="ok" id="orderOk">
           <div class="c">✓</div>
           <h3>Заявка принята!</h3>
@@ -120,6 +121,7 @@
   const ok = document.getElementById('orderOk');
   const EMAIL = 'bitapssupport@gmail.com';
   const v = (id) => (document.getElementById(id).value || '').trim();
+  const errBox = document.getElementById('orderErr');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const payload = {
@@ -127,22 +129,34 @@
       address: v('oAddr'), method: v('oMethod'), qty: v('oQty'), comment: v('oNote'),
       _subject: 'Заказ доставки B-box — ' + v('oName'), _template: 'table'
     };
-    // на почту
+    const btn = form.querySelector('button[type="submit"]');
+    const btnText = btn ? btn.textContent : '';
+    if (errBox) errBox.style.display = 'none';
+    if (btn) { btn.disabled = true; btn.textContent = 'Отправляем…'; }
+    // на почту — необязательный дубль, не влияет на исход
     try {
       await fetch('https://formsubmit.co/ajax/' + EMAIL, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       });
     } catch (_) {}
-    // в Telegram (через бэкенд-функцию)
+    // в Telegram через бэкенд — основной канал: по его ответу и судим об успехе
+    let sent = false;
     try {
-      await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', {
+      const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', {
         method: 'POST',
         headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' },
         body: JSON.stringify({ type: 'order', name: payload.name, contact: payload.contact, city: payload.city, address: payload.address, method: payload.method, qty: payload.qty, comment: payload.comment, source: 'box.html' })
       });
-    } catch (_) {}
-    form.style.display = 'none'; ok.classList.add('show');
+      sent = res.ok;
+      try { const j = await res.json(); if (j && j.ok === false) sent = false; } catch (_) {}
+    } catch (_) { sent = false; }
+    if (sent) {
+      form.style.display = 'none'; ok.classList.add('show');
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = btnText; }
+      if (errBox) errBox.style.display = '';
+    }
   });
 
   /* переключатель темы: система → светлая → тёмная */
