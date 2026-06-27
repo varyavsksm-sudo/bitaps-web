@@ -92,7 +92,7 @@
       <div class="hero-ic" id="heroIc">💻</div>
       <div class="hero-name" id="heroName">—</div>
       <a class="btn" id="heroBtn" href="#">Скачать</a>
-      <div class="soon" id="heroSoon">✅ рабочий клиент · наш ключ подходит сразу</div>
+      <div class="soon" id="heroSoon">✅ рабочий клиент Happ · наш ключ подходит сразу</div>
     </div>
 
     <div class="h2">Все платформы</div>
@@ -109,8 +109,8 @@
   const EN = (function(){ try { return localStorage.getItem('bitaps-lang') === 'en'; } catch(e){ return false; } })();
   const T = EN ? {
     soon:'Happ', later:'Happ',
-    btn:{ macos:'Download Happ', ios:'Get Happ', android:'Get Happ', windows:'Download Happ', linux:'Download Hiddify' },
-    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'happ.su', linux:'github.com/hiddify' },
+    btn:{ macos:'Download Happ', ios:'Get Happ', android:'Get Happ', windows:'Download Happ', linux:'Download Happ' },
+    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'happ.su', linux:'happ.su' },
     looks:"Looks like you're on ", selected:'You selected: ', how:'How to set up on ',
     key:'Get a subscription in the <a href="'+BOT+'" target="_blank" rel="noopener">Telegram bot</a> or on the site — your key is in «🌐 Dashboard» or arrives by email.',
     steps:{
@@ -118,12 +118,12 @@
       android:['Install <b>Happ</b> from <b>Google Play</b> (button above).','@KEY@','In Happ: «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN request. Done!'],
       windows:['Download <b>Happ</b> from <b>happ.su</b> (button above) and install it.','@KEY@','In Happ: <b>Import from clipboard</b> → paste the key.','Click «Connect». Done!'],
       macos:['Install <b>Happ</b> (App Store or <b>happ.su</b>, button above).','@KEY@','In Happ: <b>Import from clipboard</b> → paste the key.','Click «Connect» and allow the VPN configuration. Done!'],
-      linux:['Download <b>Hiddify</b> for Linux (AppImage) from <b>github.com/hiddify</b> (button above) and run it.','@KEY@','In Hiddify: <b>＋ New profile → Add from clipboard</b> → paste the key.','Click «Connect». Done!'],
+      linux:['Download <b>Happ</b> from <b>happ.su</b> (button above) and install it.','@KEY@','Launch Happ → <b>Import from clipboard / via link</b> → paste the key.','Click «Connect». Done!'],
     }
   } : {
     soon:'Happ', later:'Happ',
-    btn:{ macos:'Скачать Happ', ios:'Установить Happ', android:'Установить Happ', windows:'Скачать Happ', linux:'Скачать Hiddify' },
-    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'happ.su', linux:'github.com/hiddify' },
+    btn:{ macos:'Скачать Happ', ios:'Установить Happ', android:'Установить Happ', windows:'Скачать Happ', linux:'Скачать Happ' },
+    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'happ.su', linux:'happ.su' },
     looks:'Похоже, у вас ', selected:'Вы выбрали: ', how:'Как настроить на ',
     key:'Оформите подписку в <a href="'+BOT+'" target="_blank" rel="noopener">Telegram-боте</a> или на сайте — ключ в «🌐 Личный кабинет» или придёт на почту.',
     steps:{
@@ -131,7 +131,7 @@
       android:['Установите <b>Happ</b> из <b>Google Play</b> (кнопка выше).','@KEY@','В Happ: «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите запрос VPN. Готово!'],
       windows:['Скачайте <b>Happ</b> с <b>happ.su</b> (кнопка выше) и установите.','@KEY@','В Happ: <b>Импорт из буфера</b> → вставьте ключ.','Нажмите «Подключить». Готово!'],
       macos:['Установите <b>Happ</b> (App Store или <b>happ.su</b>, кнопка выше).','@KEY@','В Happ: <b>Импорт из буфера</b> → вставьте ключ.','Нажмите «Подключить» и разрешите VPN-конфигурацию. Готово!'],
-      linux:['Скачайте <b>Hiddify</b> для Linux (AppImage) с <b>github.com/hiddify</b> (кнопка выше) и запустите.','@KEY@','В Hiddify: <b>＋ Новый профиль → Из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить». Готово!'],
+      linux:['Скачайте <b>Happ</b> с <b>happ.su</b> (кнопка выше) и установите.','@KEY@','Запустите Happ → <b>Импорт из буфера / по ссылке</b> → вставьте ключ.','Нажмите «Подключить». Готово!'],
     }
   };
   const PLATS = {
@@ -139,7 +139,7 @@
     ios:     { name: 'iPhone / iPad', ic: '🍎', foot: T.foot.ios,     btn: T.btn.ios,     badge: T.soon },
     android: { name: 'Android',       ic: '🤖', foot: T.foot.android, btn: T.btn.android, badge: T.later },
     windows: { name: 'Windows',       ic: '🪟', foot: T.foot.windows, btn: T.btn.windows, badge: T.later },
-    linux:   { name: 'Linux',         ic: '🐧', foot: T.foot.linux,   btn: T.btn.linux,   badge: 'Hiddify' },
+    linux:   { name: 'Linux',         ic: '🐧', foot: T.foot.linux,   btn: T.btn.linux,   badge: T.later },
   };
   const ORDER = ['macos', 'ios', 'android', 'windows', 'linux'];
 
@@ -182,7 +182,7 @@
   const STORE = {
     ios: 'https://apps.apple.com/app/happ-proxy-utility/id6504287215',
     android: 'https://play.google.com/store/apps/details?id=com.happproxy',
-    macos: 'https://happ.su/', windows: 'https://happ.su/', linux: 'https://github.com/hiddify/hiddify-app/releases/latest',
+    macos: 'https://happ.su/', windows: 'https://happ.su/', linux: 'https://happ.su/',
   };
   let curOS = os;
 
