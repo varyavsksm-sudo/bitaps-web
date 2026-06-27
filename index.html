@@ -1743,9 +1743,11 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   function render() {
     const visible = expanded ? items : items.slice(0, 4);
     list.innerHTML = visible.map(c => {
-      const initial = (c.n || 'Г').trim()[0].toUpperCase();
-      const color = COLORS[(c.n || 'Г').charCodeAt(0) % COLORS.length];
-      const stars = '★'.repeat(c.r) + '☆'.repeat(5 - c.r);
+      const nm = (c.n || '').trim() || 'Гость';
+      const initial = nm[0].toUpperCase();
+      const color = COLORS[nm.charCodeAt(0) % COLORS.length];
+      const rr = Math.max(0, Math.min(5, parseInt(c.r, 10) || 0));
+      const stars = '★'.repeat(rr) + '☆'.repeat(5 - rr);
       return `<div class="citem">
         <div class="citem-top">
           <span class="ava" style="--c:${color}">${esc(initial)}</span>
