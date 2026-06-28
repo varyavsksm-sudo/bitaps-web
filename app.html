@@ -115,28 +115,28 @@
   const T = EN ? {
     soon:'Happ', later:'Happ',
     btn:{ macos:'Download Happ', ios:'Get Happ', android:'Get Happ', windows:'Download for Windows', linux:'Download for Linux' },
-    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'bitaps · .zip', linux:'bitaps · .tar.gz' },
+    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'bitaps · .exe', linux:'bitaps · AppImage' },
     looks:"Looks like you're on ", selected:'You selected: ', how:'How to set up on ',
     key:'Get a subscription in the <a href="'+BOT+'" target="_blank" rel="noopener">Telegram bot</a> or on the site — your key is in «🌐 Dashboard» or arrives by email.',
     steps:{
       ios:['Install <b>Happ</b> from the <b>App Store</b> (button above).','@KEY@','Open Happ → «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN configuration. Done!'],
       android:['Install <b>Happ</b> from <b>Google Play</b> (button above).','@KEY@','In Happ: «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN request. Done!'],
-      windows:['Download <b>bitaps for Windows</b> (button above), unzip and run <b>bitaps_vpn.exe</b>.','@KEY@','In the app, paste the key into the <b>«Ключ доступа»</b> field.','Press the power button to connect. Done!'],
+      windows:['Download <b>bitaps-setup.exe</b> (button above) and run it — it installs and opens automatically (if Windows warns: «More info» → «Run anyway»).','@KEY@','In the app, paste the key into the <b>«Ключ доступа»</b> field.','Press the power button to connect. Done!'],
       macos:['Install <b>Happ</b> (App Store or <b>happ.su</b>, button above).','@KEY@','In Happ: <b>Import from clipboard</b> → paste the key.','Click «Connect» and allow the VPN configuration. Done!'],
-      linux:['Download <b>bitaps for Linux</b> (button above), extract the archive and run <b>bitaps_vpn</b>.','@KEY@','In the app, paste the key into the <b>«Ключ доступа»</b> field.','Press the power button to connect. Done!'],
+      linux:['Download <b>bitaps-x86_64.AppImage</b> (button above), make it executable (<code>chmod +x</code>) and run it.','@KEY@','In the app, paste the key into the <b>«Ключ доступа»</b> field.','Press the power button to connect. Done!'],
     }
   } : {
     soon:'Happ', later:'Happ',
     btn:{ macos:'Скачать Happ', ios:'Установить Happ', android:'Установить Happ', windows:'Скачать для Windows', linux:'Скачать для Linux' },
-    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'bitaps · .zip', linux:'bitaps · .tar.gz' },
+    foot:{ macos:'happ.su / App Store', ios:'App Store', android:'Google Play', windows:'bitaps · .exe', linux:'bitaps · AppImage' },
     looks:'Похоже, у вас ', selected:'Вы выбрали: ', how:'Как настроить на ',
     key:'Оформите подписку в <a href="'+BOT+'" target="_blank" rel="noopener">Telegram-боте</a> или на сайте — ключ в «🌐 Личный кабинет» или придёт на почту.',
     steps:{
       ios:['Установите <b>Happ</b> из <b>App Store</b> (кнопка выше).','@KEY@','Откройте Happ → «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите VPN-конфигурацию. Готово!'],
       android:['Установите <b>Happ</b> из <b>Google Play</b> (кнопка выше).','@KEY@','В Happ: «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите запрос VPN. Готово!'],
-      windows:['Скачайте <b>bitaps для Windows</b> (кнопка выше), распакуйте zip и запустите <b>bitaps_vpn.exe</b>.','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
+      windows:['Скачайте <b>bitaps-setup.exe</b> (кнопка выше) и запустите — установится и откроется само (если Windows предупредит: «Подробнее» → «Выполнить в любом случае»).','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
       macos:['Установите <b>Happ</b> (App Store или <b>happ.su</b>, кнопка выше).','@KEY@','В Happ: <b>Импорт из буфера</b> → вставьте ключ.','Нажмите «Подключить» и разрешите VPN-конфигурацию. Готово!'],
-      linux:['Скачайте <b>bitaps для Linux</b> (кнопка выше), распакуйте архив и запустите <b>bitaps_vpn</b>.','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
+      linux:['Скачайте <b>bitaps-x86_64.AppImage</b> (кнопка выше), сделайте исполняемым (<code>chmod +x</code> или Свойства → «Разрешить запуск») и запустите.','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
     }
   };
   const PLATS = {
@@ -187,7 +187,7 @@
   const STORE = {
     ios: 'https://apps.apple.com/app/happ-proxy-utility/id6504287215',
     android: 'https://play.google.com/store/apps/details?id=com.happproxy',
-    macos: 'https://happ.su/', windows: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-windows-x64.zip', linux: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-linux-x64.tar.gz',
+    macos: 'https://happ.su/', windows: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-setup.exe', linux: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-x86_64.AppImage',
   };
   let curOS = os;
 
