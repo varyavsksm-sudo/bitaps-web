@@ -560,8 +560,10 @@
       emEl.setCustomValidity('');
       const payload = { name: $('sName').value.trim(), email: em, message: $('sMsg').value.trim(), _subject: 'Заявка из личного кабинета bitaps', _template: 'table' };
       // formsubmit убран (приватность): заявка идёт только в свой бэкенд ниже
-      try { await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', { method: 'POST', headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' }, body: JSON.stringify({ type: 'support', name: payload.name, email: payload.email, message: payload.message, source: 'кабинет' }) }); } catch (_) {}
-      $('supForm').hidden = true; $('supOk').hidden = false;
+      let sent = false;
+      try { const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', { method: 'POST', headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' }, body: JSON.stringify({ type: 'support', name: payload.name, email: payload.email, message: payload.message, source: 'кабинет' }) }); sent = res.ok; } catch (_) {}
+      if (sent) { $('supForm').hidden = true; $('supOk').hidden = false; }
+      else { alert('Не удалось отправить — напиши напрямую в Telegram: @bitapssupport'); }
     });
   };
 
