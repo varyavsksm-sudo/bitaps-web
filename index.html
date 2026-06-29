@@ -673,7 +673,7 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .drawer-title{font-size:18px;font-weight:700}
 .drawer-x{background:none;border:none;color:var(--mut);font-size:26px;cursor:pointer;line-height:1}.drawer-x:hover{color:var(--txt)}
 .drawer-group{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--mut);margin:16px 0 6px;opacity:.65}
-.dr-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:11px;color:var(--txt);font-size:14.5px;font-weight:500;cursor:pointer;transition:.16s}
+.dr-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:11px;color:var(--txt);font-size:14.5px;font-weight:500;cursor:pointer;transition:.16s;border:0;background:none;width:100%;text-align:left;font-family:inherit}
 .dr-item:hover{background:rgba(255,122,26,.1);transform:translateX(3px)}
 .dr-item .e{font-size:17px;width:22px;text-align:center}
 .dr-new{font-style:normal;font-size:9px;font-weight:700;color:#03110e;background:linear-gradient(110deg,var(--acc),var(--acc2));padding:2px 5px;border-radius:5px;margin-left:auto}
@@ -1392,12 +1392,12 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       <button class="drawer-x" data-drclose aria-label="закрыть">×</button>
     </div>
     <div class="drawer-group">Ещё на сайте</div>
-    <a class="dr-item" data-modal="status"><span class="e">📡</span> Статус серверов</a>
-    <a class="dr-item" data-modal="map"><span class="e">🌍</span> Карта серверов</a>
-    <a class="dr-item" data-modal="speed"><span class="e">🚀</span> Тест скорости</a>
-    <a class="dr-item" data-modal="reviews"><span class="e">⭐</span> Отзывы</a>
-    <a class="dr-item" data-modal="faq"><span class="e">❓</span> Вопросы и ответы</a>
-    <a class="dr-item" data-support data-drclose><span class="e">🆘</span> Поддержка</a>
+    <button type="button" class="dr-item" data-modal="status"><span class="e">📡</span> Статус серверов</button>
+    <button type="button" class="dr-item" data-modal="map"><span class="e">🌍</span> Карта серверов</button>
+    <button type="button" class="dr-item" data-modal="speed"><span class="e">🚀</span> Тест скорости</button>
+    <button type="button" class="dr-item" data-modal="reviews"><span class="e">⭐</span> Отзывы</button>
+    <button type="button" class="dr-item" data-modal="faq"><span class="e">❓</span> Вопросы и ответы</button>
+    <button type="button" class="dr-item" data-support data-drclose><span class="e">🆘</span> Поддержка</button>
     <div class="drawer-group">Подписка</div>
     <a class="dr-item" href="pay.html"><span class="e">💳</span> Оплатить подписку</a>
     <div class="drawer-group">Развлечение</div>
