@@ -151,7 +151,7 @@
     var address=document.getElementById('address').value.trim();
     var comment=document.getElementById('comment').value.trim();
     if(name.length<2)return showErr('Укажи имя получателя');
-    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=7))return showErr('Укажи телефон в правильном формате или Telegram (@ник)');
+    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=6 || /^[a-zA-Z][\w.]{3,}$/.test(phone) || /t\.me\//i.test(phone)))return showErr('Укажи телефон или Telegram (@ник)');
     if(city.length<2)return showErr('Укажи город');
     if(address.length<3)return showErr('Укажи адрес: улица, дом, квартира');
     var btn=this;btn.disabled=true;btn.textContent='Отправляю…';
