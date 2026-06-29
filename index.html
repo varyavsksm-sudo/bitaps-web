@@ -868,7 +868,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       и гонит его на скорости света через быстрые серверы. Без логов. Без следов. Без тормозов.
     </p>
     <div class="hero-actions reveal">
-      <a href="app.html" class="btn btn-solid btn-lg">Скачать бесплатно <span class="btn-shine"></span></a>
+      <a href="app.html" id="dlBtn" class="btn btn-solid btn-lg">Скачать бесплатно <span class="btn-shine"></span></a>
       <a href="#" class="btn btn-line btn-lg" data-section="speed">▶ Смотреть скорость</a>
     </div>
     <div class="hero-trust reveal">
@@ -2149,6 +2149,26 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       location.href = 'account.html';
     } catch (err) { alert('Не удалось войти через Telegram: ' + (err && err.message || err)); }
   })();
+
+  try {
+    const DL = {
+      ios: 'https://apps.apple.com/app/happ-proxy-utility/id6504287215',
+      android: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps.apk',
+      macos: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-macos.dmg',
+      windows: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-setup.exe',
+      linux: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-linux-x64.tar.gz',
+    };
+    const NM = { ios: 'iPhone (Happ)', android: 'Android', macos: 'macOS', windows: 'Windows', linux: 'Linux' };
+    const ua = navigator.userAgent || '', pf = navigator.platform || '', tp = navigator.maxTouchPoints || 0;
+    let os = 'windows';
+    if (/iPhone|iPad|iPod/i.test(ua) || (pf === 'MacIntel' && tp > 1)) os = 'ios';
+    else if (/Android/i.test(ua)) os = 'android';
+    else if (/Mac/i.test(ua) || /Mac/i.test(pf)) os = 'macos';
+    else if (/Linux/i.test(ua) || /Linux/i.test(pf)) os = 'linux';
+    else if (/Win/i.test(ua) || /Win/i.test(pf)) os = 'windows';
+    const b = document.getElementById('dlBtn');
+    if (b && DL[os]) { b.href = DL[os]; b.innerHTML = (os === 'ios' ? 'Установить (Happ)' : 'Скачать для ' + NM[os]) + ' <span class="btn-shine"></span>'; }
+  } catch (_) {}
 
   sb.auth.onAuthStateChange((_e, session) => renderSession(session && session.user));
   sb.auth.getSession().then(async ({ data }) => {
