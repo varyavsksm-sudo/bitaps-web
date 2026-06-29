@@ -1364,7 +1364,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     </form>
     <div class="auth-or"><span>или войдите через Telegram</span></div>
     <div class="tg-login" id="tgLogin">
-      <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="bitaps_vpn_auth_bot" data-size="large" data-radius="12" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+      <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="bitaps_vpn_auth_bot" data-size="large" data-radius="12" data-auth-url="https://bitapsvpn.com/" data-request-access="write"></script>
     </div>
     <div class="auth-or"><span>или по ключу из бота (надёжно на телефоне)</span></div>
     <div style="display:flex;flex-direction:column;gap:8px">
@@ -2132,6 +2132,23 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
 
   // «Сменить аккаунт» с account.html ведёт на /?login=1 — сразу открываем окно входа
   try { if (new URLSearchParams(location.search).get('login')) { setMode('login'); open(); } } catch (_) {}
+
+  (async () => {
+    try {
+      const qp = new URLSearchParams(location.search);
+      if (!(qp.get('hash') && qp.get('id') && qp.get('auth_date'))) return;
+      const user = {}; for (const [k, v] of qp.entries()) user[k] = v;
+      user.id = Number(user.id); user.auth_date = Number(user.auth_date);
+      history.replaceState(null, '', location.pathname);
+      const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/telegram-auth', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) });
+      const data = await res.json();
+      if (!res.ok || !data.token_hash) throw new Error(data.error || 'Telegram auth failed');
+      const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
+      if (error) throw error;
+      location.href = 'account.html';
+    } catch (err) { alert('Не удалось войти через Telegram: ' + (err && err.message || err)); }
+  })();
 
   sb.auth.onAuthStateChange((_e, session) => renderSession(session && session.user));
   sb.auth.getSession().then(async ({ data }) => {
