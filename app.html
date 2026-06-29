@@ -97,6 +97,7 @@
       <div class="hero-ic" id="heroIc">💻</div>
       <div class="hero-name" id="heroName">—</div>
       <a class="btn" id="heroBtn" href="#">Скачать</a>
+      <a class="btn" id="heroBtn2" href="#" style="display:none;margin-top:10px;opacity:.72">Google Play</a>
       <div class="soon" id="heroSoon">✅ рабочий клиент Happ · наш ключ подходит сразу</div>
     </div>
 
@@ -114,26 +115,26 @@
   const EN = (function(){ try { return localStorage.getItem('bitaps-lang') === 'en'; } catch(e){ return false; } })();
   const T = EN ? {
     soon:'Happ', later:'Happ',
-    btn:{ macos:'Download for macOS', ios:'Get Happ', android:'Get Happ', windows:'Download for Windows', linux:'Download for Linux' },
-    foot:{ macos:'bitaps · .dmg', ios:'App Store', android:'Google Play', windows:'bitaps · .exe', linux:'bitaps · AppImage' },
+    btn:{ macos:'Download for macOS', ios:'Get Happ', android:'Download APK', windows:'Download for Windows', linux:'Download for Linux' },
+    foot:{ macos:'bitaps · .dmg', ios:'App Store', android:'bitaps · .apk', windows:'bitaps · .exe', linux:'bitaps · AppImage' },
     looks:"Looks like you're on ", selected:'You selected: ', how:'How to set up on ',
     key:'Get a subscription in the <a href="'+BOT+'" target="_blank" rel="noopener">Telegram bot</a> or on the site — your key is in «🌐 Dashboard» or arrives by email.',
     steps:{
       ios:['Install <b>Happ</b> from the <b>App Store</b> (button above).','@KEY@','Open Happ → «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN configuration. Done!'],
-      android:['Install <b>Happ</b> from <b>Google Play</b> (button above).','@KEY@','In Happ: «+» → <b>Import from clipboard</b> → paste the key.','Tap «Connect» and allow the VPN request. Done!'],
+      android:['Download <b>bitaps.apk</b> (button above) and open it — allow installation from this source if Android asks.','@KEY@','Open the app → <b>Кабинет → «вход»</b> → paste the key (or tap «Вставить ключ»).','Press the gear button to connect. Done!'],
       windows:['Download <b>bitaps-setup.exe</b> (button above) and run it — it installs and opens automatically (if Windows warns: «More info» → «Run anyway»).','@KEY@','In the app, paste the key into the <b>«Ключ доступа»</b> field.','Press the power button to connect. Done!'],
       macos:['Download <b>bitaps-macos.dmg</b> (button above), open it and drag <b>bitaps VPN</b> to Applications.','@KEY@','First launch: <b>right-click the app → Open → Open</b> (it is not Apple-signed yet).','In the app, paste the key into the <b>«Ключ доступа»</b> field, then press the power button. Done!'],
       linux:['Download <b>bitaps-x86_64.AppImage</b> (button above), make it executable (<code>chmod +x</code>) and run it.','@KEY@','In the app, paste the key into the <b>«Ключ доступа»</b> field.','Press the power button to connect. Done!'],
     }
   } : {
     soon:'Happ', later:'Happ',
-    btn:{ macos:'Скачать для macOS', ios:'Установить Happ', android:'Установить Happ', windows:'Скачать для Windows', linux:'Скачать для Linux' },
-    foot:{ macos:'bitaps · .dmg', ios:'App Store', android:'Google Play', windows:'bitaps · .exe', linux:'bitaps · AppImage' },
+    btn:{ macos:'Скачать для macOS', ios:'Установить Happ', android:'Скачать APK', windows:'Скачать для Windows', linux:'Скачать для Linux' },
+    foot:{ macos:'bitaps · .dmg', ios:'App Store', android:'bitaps · .apk', windows:'bitaps · .exe', linux:'bitaps · AppImage' },
     looks:'Похоже, у вас ', selected:'Вы выбрали: ', how:'Как настроить на ',
     key:'Оформите подписку в <a href="'+BOT+'" target="_blank" rel="noopener">Telegram-боте</a> или на сайте — ключ в «🌐 Личный кабинет» или придёт на почту.',
     steps:{
       ios:['Установите <b>Happ</b> из <b>App Store</b> (кнопка выше).','@KEY@','Откройте Happ → «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите VPN-конфигурацию. Готово!'],
-      android:['Установите <b>Happ</b> из <b>Google Play</b> (кнопка выше).','@KEY@','В Happ: «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.','Нажмите «Подключить» и разрешите запрос VPN. Готово!'],
+      android:['Скачайте <b>bitaps.apk</b> (кнопка выше) и откройте — разрешите установку из этого источника, если Android попросит.','@KEY@','Откройте приложение → <b>Кабинет → «вход»</b> → вставьте ключ (или кнопкой «Вставить ключ»).','Нажмите кнопку-шестерёнку — подключение. Готово!'],
       windows:['Скачайте <b>bitaps-setup.exe</b> (кнопка выше) и запустите — установится и откроется само (если Windows предупредит: «Подробнее» → «Выполнить в любом случае»).','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
       macos:['Скачайте <b>bitaps-macos.dmg</b> (кнопка выше), откройте и перетащите <b>bitaps VPN</b> в Applications.','@KEY@','Первый запуск: <b>правой кнопкой по приложению → «Открыть» → «Открыть»</b> (оно пока без подписи Apple).','В приложении вставьте ключ в поле <b>«Ключ доступа»</b> и нажмите кнопку питания. Готово!'],
       linux:['Скачайте <b>bitaps-x86_64.AppImage</b> (кнопка выше), сделайте исполняемым (<code>chmod +x</code> или Свойства → «Разрешить запуск») и запустите.','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
@@ -142,7 +143,7 @@
   const PLATS = {
     macos:   { name: 'macOS',         ic: '🍏', foot: T.foot.macos,   btn: T.btn.macos,   badge: 'bitaps' },
     ios:     { name: 'iPhone / iPad', ic: '🍎', foot: T.foot.ios,     btn: T.btn.ios,     badge: T.soon },
-    android: { name: 'Android',       ic: '🤖', foot: T.foot.android, btn: T.btn.android, badge: T.later },
+    android: { name: 'Android',       ic: '🤖', foot: T.foot.android, btn: T.btn.android, badge: 'bitaps' },
     windows: { name: 'Windows',       ic: '🪟', foot: T.foot.windows, btn: T.btn.windows, badge: 'bitaps' },
     linux:   { name: 'Linux',         ic: '🐧', foot: T.foot.linux,   btn: T.btn.linux,   badge: 'bitaps' },
   };
@@ -186,7 +187,7 @@
   // Happ — рабочий клиент (наше приложение скоро). Наш ключ импортируется в Happ.
   const STORE = {
     ios: 'https://apps.apple.com/app/happ-proxy-utility/id6504287215',
-    android: 'https://play.google.com/store/apps/details?id=com.happproxy',
+    android: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps.apk',
     macos: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-macos.dmg', windows: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-setup.exe', linux: 'https://github.com/varyavsksm-sudo/bitaps-desktop/releases/latest/download/bitaps-x86_64.AppImage',
   };
   let curOS = os;
@@ -197,6 +198,17 @@
   document.getElementById('howSteps').innerHTML = (STEPS[os] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
   // iOS/Android — ведём в стор (на приложение), десктоп — пока в бота за ключом
   document.getElementById('heroBtn').addEventListener('click', (e) => { e.preventDefault(); if (STORE[curOS]) window.open(STORE[curOS], '_blank', 'noopener'); else location.href = BOT + '?start=app'; });
+  // Android: вторая кнопка — Google Play (листинг скоро)
+  const PLAY_ANDROID = '';
+  const heroBtn2 = document.getElementById('heroBtn2');
+  function syncSecond(k){
+    if (k === 'android'){
+      heroBtn2.style.display = '';
+      heroBtn2.textContent = PLAY_ANDROID ? 'Google Play' : (EN ? 'Google Play — soon' : 'Google Play — скоро');
+    } else { heroBtn2.style.display = 'none'; }
+  }
+  heroBtn2.addEventListener('click', (e) => { e.preventDefault(); if (PLAY_ANDROID) window.open(PLAY_ANDROID, '_blank', 'noopener'); else alert(EN ? 'Coming soon to Google Play. For now download the APK (button above).' : 'Скоро в Google Play. Пока скачай APK (кнопка выше).'); });
+  syncSecond(os);
   function showOS(k) {
     curOS = k;
     const pl = PLATS[k];
@@ -207,6 +219,7 @@
     document.getElementById('howTitle').textContent = T.how + pl.name;
     document.getElementById('howSteps').innerHTML = (STEPS[k] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
     wrap.querySelectorAll('.plat').forEach((el) => el.classList.toggle('active', el.dataset.os === k));
+    syncSecond(k);
   }
   // клик по платформе — показываем её прямо на странице (без перехода в Telegram)
   wrap.querySelectorAll('.plat').forEach((el) => el.addEventListener('click', (e) => {
