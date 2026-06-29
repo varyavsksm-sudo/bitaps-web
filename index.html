@@ -1849,17 +1849,22 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     if (!email) { emailEl.setCustomValidity('Впиши почту для ответа'); emailEl.reportValidity(); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailEl.setCustomValidity('Неправильный формат почты'); emailEl.reportValidity(); return; }
     emailEl.setCustomValidity('');
-    // formsubmit/mailto убраны (приватность): заявка идёт только в свой бэкенд Telegram ниже
-    // дублируем в личный Telegram админу (через бэкенд-функцию)
+    // formsubmit/mailto убраны (приватность): только свой бэкенд. Успех показываем ТОЛЬКО если реально ушло.
+    let sent = false;
     try {
-      await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', {
+      const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', {
         method: 'POST',
         headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' },
         body: JSON.stringify({ type: 'support', name, email, message: msg, source: 'сайт' })
       });
+      sent = res.ok;
     } catch (_) {}
-    form.style.display = 'none';
-    ok.classList.add('show');
+    if (sent) {
+      form.style.display = 'none';
+      ok.classList.add('show');
+    } else {
+      alert('Не удалось отправить заявку — напиши напрямую в Telegram: @bitapssupport');
+    }
   });
 })();
 
