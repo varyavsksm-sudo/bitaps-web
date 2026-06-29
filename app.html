@@ -197,7 +197,9 @@
   document.getElementById('howTitle').textContent = T.how + cur.name;
   document.getElementById('howSteps').innerHTML = (STEPS[os] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
   // iOS/Android — ведём в стор (на приложение), десктоп — пока в бота за ключом
-  document.getElementById('heroBtn').addEventListener('click', (e) => { e.preventDefault(); if (STORE[curOS]) window.open(STORE[curOS], '_blank', 'noopener'); else location.href = BOT + '?start=app'; });
+  // Скачивание — НАСТОЯЩАЯ ссылка href (не window.open: его режут попап-блокировщики, особенно Safari → «не скачивается»).
+  function setDl(k){ const a=document.getElementById('heroBtn'); a.href = STORE[k] || (BOT + '?start=app'); a.removeAttribute('target'); }
+  setDl(os);
   // Android: вторая кнопка — Google Play (листинг скоро)
   const PLAY_ANDROID = '';
   const heroBtn2 = document.getElementById('heroBtn2');
@@ -216,6 +218,7 @@
     document.getElementById('heroIc').textContent = pl.ic;
     document.getElementById('heroName').textContent = pl.name;
     document.getElementById('heroBtn').textContent = pl.btn;
+    setDl(k);
     document.getElementById('howTitle').textContent = T.how + pl.name;
     document.getElementById('howSteps').innerHTML = (STEPS[k] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
     wrap.querySelectorAll('.plat').forEach((el) => el.classList.toggle('active', el.dataset.os === k));
