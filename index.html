@@ -1919,7 +1919,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   const close = () => {
     modal.classList.remove('open'); document.body.style.overflow = '';
     if (typeof stopConfirmPolling === 'function') stopConfirmPolling();
-    setTimeout(() => { form.style.display = ''; ok.classList.remove('show'); form.reset(); errEl.textContent = ''; }, 300);
+    setTimeout(() => { ok.classList.remove('show'); form.reset(); errEl.textContent = ''; }, 300);
   };
 
   const setMode = (m) => {
