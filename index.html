@@ -1366,6 +1366,13 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     <div class="tg-login" id="tgLogin">
       <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="bitaps_vpn_auth_bot" data-size="large" data-radius="12" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
     </div>
+    <div class="auth-or"><span>или по ключу из бота (надёжно на телефоне)</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a class="btn btn-line" href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener" style="width:100%;justify-content:center">🤖 Открыть бота за ключом</a>
+      <input type="text" id="auKey" placeholder="вставь ключ vless://… из бота" autocomplete="off" autocapitalize="off" spellcheck="false" style="width:100%;box-sizing:border-box;padding:11px 12px;border-radius:10px;border:1px solid rgba(140,140,150,.4);background:rgba(140,140,150,.08);color:inherit;font-size:13px" />
+      <button type="button" class="btn btn-solid" id="auKeyBtn" style="width:100%;justify-content:center">Войти по ключу</button>
+      <div class="auth-err" id="auKeyErr"></div>
+    </div>
     <div class="sform-ok" id="auOk">
       <div class="ok-circle">✓</div>
       <h3 id="auOkTitle">Готово!</h3>
@@ -2099,6 +2106,29 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       else alert('Не удалось войти через Telegram');
     }
   };
+
+  // вход по ключу из бота (надёжно на мобильных — без Telegram-виджета)
+  const auKeyBtn = document.getElementById('auKeyBtn');
+  if (auKeyBtn) auKeyBtn.addEventListener('click', async () => {
+    const key = (document.getElementById('auKey').value || '').trim();
+    const ke = document.getElementById('auKeyErr');
+    ke.textContent = '';
+    if (key.length < 12) { ke.textContent = 'Вставь свой ключ из бота (vless://…)'; return; }
+    auKeyBtn.disabled = true; const lbl = auKeyBtn.textContent; auKeyBtn.textContent = 'Вхожу…';
+    try {
+      const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-keylogin', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.token_hash) throw new Error(data.error === 'not found' ? 'ключ не найден — возьми свежий в боте' : (data.error || 'ошибка входа'));
+      const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
+      if (error) throw error;
+      form.style.display = 'none'; ok.classList.add('show');
+      okTitle.textContent = 'С возвращением!'; okMsg.textContent = 'Вы вошли по ключу из бота.';
+    } catch (err) {
+      ke.textContent = 'Не вышло: ' + (err.message || err);
+    } finally { auKeyBtn.disabled = false; auKeyBtn.textContent = lbl; }
+  });
 
   // «Сменить аккаунт» с account.html ведёт на /?login=1 — сразу открываем окно входа
   try { if (new URLSearchParams(location.search).get('login')) { setMode('login'); open(); } } catch (_) {}
