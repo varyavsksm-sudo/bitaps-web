@@ -139,13 +139,7 @@
     const btnText = btn ? btn.textContent : '';
     if (errBox) errBox.style.display = 'none';
     if (btn) { btn.disabled = true; btn.textContent = 'Отправляем…'; }
-    // на почту — необязательный дубль, не влияет на исход
-    try {
-      await fetch('https://formsubmit.co/ajax/' + EMAIL, {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    } catch (_) {}
+    // formsubmit убран (приватность): отправляем только в свой бэкенд (Telegram)
     // в Telegram через бэкенд — основной канал: по его ответу и судим об успехе
     let sent = false;
     try {

@@ -1849,23 +1849,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     if (!email) { emailEl.setCustomValidity('Впиши почту для ответа'); emailEl.reportValidity(); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailEl.setCustomValidity('Неправильный формат почты'); emailEl.reportValidity(); return; }
     emailEl.setCustomValidity('');
-    // отправляем заявку напрямую на почту поддержки через FormSubmit (без бэкенда)
-    try {
-      await fetch('https://formsubmit.co/ajax/' + SUPPORT_EMAIL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          name, email, message: msg,
-          _subject: 'Заявка с сайта bitaps' + (name ? ' — ' + name : ''),
-          _template: 'table'
-        })
-      });
-    } catch (_) {
-      // запасной путь, если нет сети — открыть почтовый клиент
-      const subject = encodeURIComponent('Заявка с сайта bitaps' + (name ? ' — ' + name : ''));
-      const body = encodeURIComponent(`Имя: ${name}\nE-mail: ${email}\n\n${msg}`);
-      window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
-    }
+    // formsubmit/mailto убраны (приватность): заявка идёт только в свой бэкенд Telegram ниже
     // дублируем в личный Telegram админу (через бэкенд-функцию)
     try {
       await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', {

@@ -559,7 +559,7 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { emEl.setCustomValidity('Неправильный формат почты'); emEl.reportValidity(); return; }
       emEl.setCustomValidity('');
       const payload = { name: $('sName').value.trim(), email: em, message: $('sMsg').value.trim(), _subject: 'Заявка из личного кабинета bitaps', _template: 'table' };
-      try { await fetch('https://formsubmit.co/ajax/bitapssupport@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(payload) }); } catch (_) {}
+      // formsubmit убран (приватность): заявка идёт только в свой бэкенд ниже
       try { await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', { method: 'POST', headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' }, body: JSON.stringify({ type: 'support', name: payload.name, email: payload.email, message: payload.message, source: 'кабинет' }) }); } catch (_) {}
       $('supForm').hidden = true; $('supOk').hidden = false;
     });
