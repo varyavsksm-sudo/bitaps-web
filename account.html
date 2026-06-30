@@ -636,8 +636,14 @@
   const display = prov === 'telegram' ? (md.user_name ? '@' + md.user_name : 'Telegram') : (user.email || '');
   fillProfile(name, display, avatar);
 
-  const refId = md.telegram_id || (user.id || '').slice(0, 8);
-  setupRef(md.telegram_id ? `https://t.me/bitaps_vpn_auth_bot?start=ref${refId}` : `https://bitapsvpn.com/?ref=${refId}`);
+  if (md.telegram_id) {
+    setupRef(`https://t.me/bitaps_vpn_auth_bot?start=ref${md.telegram_id}`);
+  } else {
+    // веб/email-аккаунт: реф-бонус привязан к telegram_id, поэтому работает только через бота —
+    // не показываем нерабочую ?ref-ссылку, ведём в Telegram
+    $('refLink').textContent = 'Реферальная программа — в нашем Telegram-боте';
+    const rc = $('refCopy'); if (rc) { rc.textContent = 'Открыть бота'; rc.addEventListener('click', () => window.open('https://t.me/bitaps_vpn_auth_bot', '_blank')); }
+  }
 
   try {
     const { data } = await sb.from('subscriptions').select('plan,expires_at,vpn_key,device_limit').maybeSingle();
