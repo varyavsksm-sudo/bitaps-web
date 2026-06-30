@@ -949,6 +949,9 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
         var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})});
         var j=await r.json();
         if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key); try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
+        if(j&&j.paid&&j.by_email){ /* повторная покупка под существующим email: ключ не раскрываем тут */
+          document.getElementById('waitMsg').textContent='✅ Оплачено! Ключ отправлен на почту и доступен в Личном кабинете (вход по ключу).';
+          try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
       }catch(e){}
       await new Promise(function(res){setTimeout(res,5000);});
     }
