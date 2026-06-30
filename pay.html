@@ -917,37 +917,38 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   document.getElementById('devPlus').addEventListener('click',function(){if(dev<10){dev++;paint();}});
   function showErr(t){var e=document.getElementById('perr');e.textContent=t;e.classList.remove('hide');}
   function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+  var submitting=false; /* общий флаг: не даём создать два счёта (крипта+СБП) подряд */
   document.getElementById('payCrypto').addEventListener('click',async function(){
     var email=document.getElementById('email').value.trim();
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
     if(!validEmail(email))return showErr('Неправильный формат почты.');
-    var btn=this;btn.style.opacity=.6;btn.disabled=true;
+    if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
     try{
       var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email})});
       var j=await r.json();
-      if(!j.ok){btn.style.opacity=1;btn.disabled=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
+      if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       document.getElementById('page').classList.add('hide');
       document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> в CryptoBot. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       window.location.href=j.pay_url;
-    }catch(_){btn.style.opacity=1;btn.disabled=false;showErr('Сеть недоступна, попробуй ещё раз.');}
+    }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
   document.getElementById('paySbp').addEventListener('click',async function(){
     var email=document.getElementById('email').value.trim();
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
     if(!validEmail(email))return showErr('Неправильный формат почты.');
-    var btn=this;btn.style.opacity=.6;btn.disabled=true;
+    if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
     try{
       var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email,method:'sbp'})});
       var j=await r.json();
-      if(!j.ok){btn.style.opacity=1;btn.disabled=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
+      if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       document.getElementById('page').classList.add('hide');
       document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> по СБП. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       window.location.href=j.pay_url;
-    }catch(_){btn.style.opacity=1;btn.disabled=false;showErr('Сеть недоступна, попробуй ещё раз.');}
+    }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
   /* тема: система/светлая/тёмная (как на сайте) */
   (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
