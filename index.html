@@ -1333,7 +1333,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       </div>
     </div>
     <div style="display:grid;gap:12px;margin-top:6px">
-      <a href="pay.html" class="btn btn-solid" style="width:100%;justify-content:center">🌐 На сайте</a>
+      <a id="payChoiceSite" href="pay.html" class="btn btn-solid" style="width:100%;justify-content:center">🌐 На сайте</a>
       <a href="https://t.me/bitaps_vpn_auth_bot?start=subscribe" target="_blank" rel="noopener" class="btn btn-line" style="width:100%;justify-content:center">✈️ В Telegram-боте</a>
     </div>
   </div>
@@ -2401,7 +2401,20 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   if (!modal) return;
   const open = () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
   const close = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
-  document.querySelectorAll('[data-paychoose]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); open(); }));
+  // передаём выбранный тариф (из data-mo карты) и число устройств в ссылку pay.html, чтобы не выбирать заново
+  const MO2CODE = { '1': 'mo', '3': 'q', '6': 'h', '12': 'yr' };
+  document.querySelectorAll('[data-paychoose]').forEach(el => el.addEventListener('click', e => {
+    e.preventDefault();
+    try {
+      const card = e.currentTarget.closest('.plan');
+      const code = card && MO2CODE[card.dataset.mo];
+      const dcEl = document.getElementById('devCount');
+      const dev = dcEl ? (parseInt(dcEl.textContent, 10) || 1) : 1;
+      const site = document.getElementById('payChoiceSite');
+      if (site && code) site.href = 'pay.html?plan=' + code + '&dev=' + dev;
+    } catch (_) {}
+    open();
+  }));
   modal.querySelectorAll('[data-payclose]').forEach(el => el.addEventListener('click', close));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
 })();
