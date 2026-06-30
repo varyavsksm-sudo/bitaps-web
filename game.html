@@ -351,7 +351,12 @@ $('submitScore').onclick=async function(){
   try{ localStorage.setItem('bitaps-game-name',name); }catch(e){}
   this.disabled=true; this.textContent='…';
   try{
-    await fetch(SB+'/rest/v1/game_scores',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name,score})});
+    if(TG&&TG.initData){
+      // в Telegram — через верифицированный эндпоинт: очко привязывается к аккаунту (для честного награждения топ-3)
+      await fetch(SB+'/functions/v1/tg-webapp',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'game_score',initData:TG.initData,score,name})});
+    }else{
+      await fetch(SB+'/rest/v1/game_scores',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name,score})});
+    }
   }catch(e){}
   $('nameRow').classList.add('hide'); $('saved').classList.remove('hide');
   await loadBoard(score);
