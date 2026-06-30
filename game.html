@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Рыбалка карпов · bitaps VPN</title>
 <meta name="description" content="Мини-игра bitaps VPN — налови карпов и попади в топ-5 игроков.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -335,7 +335,7 @@ async function loadBoard(myScore){
   const list=$('boardList'); if(!Array.isArray(data)||!data.length){ list.innerHTML='<div class="bnote">пока пусто — будь первым!</div>'; return; }
   list.innerHTML=data.map((d,i)=>{
     const you=(myScore!=null && d.score===myScore)?' you':'';
-    return '<div class="row'+you+'"><span class="rk">'+(i+1)+'</span><span class="rn">'+esc(d.name)+'</span><span class="rs">'+d.score.toLocaleString('ru-RU')+'</span></div>';
+    return '<div class="row'+you+'"><span class="rk">'+(i+1)+'</span><span class="rn">'+esc(d.name)+'</span><span class="rs">'+(Number(d.score)||0).toLocaleString('ru-RU')+'</span></div>';
   }).join('');
 }
 function esc(s){ return String(s).replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])); }

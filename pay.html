@@ -893,7 +893,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay';
   var EXTRA=50, code='h', dev=1;
   (function(){var p=new URLSearchParams(location.search);
-    var pl=p.get('plan'); if(pl && document.querySelector('.plan[data-code="'+pl+'"]')) code=pl;
+    var pl=p.get('plan'); if(pl && /^[a-z0-9]+$/i.test(pl) && document.querySelector('.plan[data-code="'+pl+'"]')) code=pl;
     var d=parseInt(p.get('dev'),10); if(d>=1&&d<=10) dev=d;})();
   function fmt(n){return n.toLocaleString('ru-RU')+' ₽';}
   function nf(n){return n.toLocaleString('ru-RU');}
