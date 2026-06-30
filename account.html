@@ -482,18 +482,19 @@
   <div class="toast" id="toast">Скопировано ✓</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
 (async () => {
   const $ = (id) => document.getElementById(id);
   const toast = (t) => { const e = $('toast'); e.textContent = t; e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 1400); };
-  const copy = async (t) => { try { await navigator.clipboard.writeText(t); toast('Скопировано ✓'); } catch (_) {} };
+  const copy = async (t) => { try { await navigator.clipboard.writeText(t); toast('Скопировано ✓'); } catch (_) { toast('Не удалось скопировать — выдели и скопируй вручную'); } };
 
   // режим Telegram Mini App
   const TG = window.Telegram && window.Telegram.WebApp;
   const inTG = TG && TG.initData && TG.initData.length > 0;
 
-  const PLAN_NAMES = { mo: '1 месяц', yr: '1 год', yr2: '2 года', trial: 'Пробный период' };
-  const PLAN_DAYS = { mo: 30, yr: 365, yr2: 730, trial: 3 };
+  const PLAN_NAMES = { mo: '1 месяц', q: '3 месяца', h: '6 месяцев', yr: '12 месяцев', trial: 'Пробный период' };
+  const PLAN_DAYS = { mo: 30, q: 90, h: 180, yr: 365, trial: 3 };
 
   // общие функции отрисовки (для обоих режимов)
   const countUp = (el, to) => {
@@ -531,7 +532,8 @@
       $('subBtn').textContent = 'Продлить подписку';
       if (data.vpn_key) {
         $('key').textContent = data.vpn_key;
-        $('qr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=0&data=' + encodeURIComponent(data.vpn_key);
+        // QR генерим ЛОКАЛЬНО в браузере — секретный ключ НЕ уходит на сторонний сервис (важно для «без логов»)
+        if (window.QRCode && QRCode.toDataURL) { QRCode.toDataURL(data.vpn_key, { width: 240, margin: 0, errorCorrectionLevel: 'M' }, (err, url) => { if (!err) $('qr').src = url; }); }
         $('keyCard').hidden = false;
         $('key').addEventListener('click', () => copy(data.vpn_key));
         // автонастройка: deep-link импорта ключа в приложение Happ
