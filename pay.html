@@ -886,7 +886,17 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   <div class="big">📧</div>
   <h2>Счёт создан</h2>
   <p class="sec-p" id="doneTxt" style="margin:0 auto">Открываем оплату…</p>
-  <a class="btn btn-solid btn-lg" id="payAgain" href="#" style="margin-top:18px;display:inline-flex">Открыть оплату ещё раз</a>
+  <a class="btn btn-solid btn-lg" id="payAgain" href="#" target="_blank" rel="noopener" style="margin-top:18px;display:inline-flex">Открыть оплату</a>
+  <p class="sec-p hide" id="waitMsg" style="margin-top:16px">⏳ Ждём подтверждение оплаты… ключ появится здесь автоматически (можно не закрывать страницу).</p>
+  <div class="hide" id="keyReveal" style="margin:22px auto 0;max-width:520px;text-align:left">
+    <h3 style="color:var(--acc);margin:0 0 6px">🔑 Готово! Твой ключ</h3>
+    <p class="sec-p" style="margin:0 0 10px">Скопируй ключ или открой в приложении Happ. Он также придёт на почту и доступен в Личном кабинете.</p>
+    <pre id="keyText" style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-solid" id="keyCopy" type="button">Скопировать ключ</button>
+      <a class="btn btn-line" id="keyHapp" href="#">⚙️ Открыть в Happ</a>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -918,6 +928,34 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   function showErr(t){var e=document.getElementById('perr');e.textContent=t;e.classList.remove('hide');}
   function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
   var submitting=false; /* общий флаг: не даём создать два счёта (крипта+СБП) подряд */
+  /* on-site выдача ключа: опрашиваем статус заказа, показываем ключ прямо на странице (не зависим от письма) */
+  var STATUS_API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay-status';
+  var polling=false;
+  function showKey(k){
+    document.getElementById('waitMsg').classList.add('hide');
+    document.getElementById('keyText').textContent=k;
+    document.getElementById('keyReveal').classList.remove('hide');
+    try{document.getElementById('keyHapp').setAttribute('href','happ://add/'+btoa(unescape(encodeURIComponent(k))));}catch(e){document.getElementById('keyHapp').setAttribute('href',k);}
+    var cp=document.getElementById('keyCopy');
+    cp.onclick=function(){try{navigator.clipboard.writeText(k);cp.textContent='Скопировано ✓';}catch(e){cp.textContent='Выдели и скопируй вручную';}};
+  }
+  async function startPoll(id){
+    if(polling||!id)return; polling=true;
+    document.getElementById('page').classList.add('hide');
+    document.getElementById('done').classList.remove('hide');
+    document.getElementById('waitMsg').classList.remove('hide');
+    for(var i=0;i<240;i++){
+      try{
+        var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})});
+        var j=await r.json();
+        if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key); try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
+      }catch(e){}
+      await new Promise(function(res){setTimeout(res,5000);});
+    }
+    polling=false;
+  }
+  /* возобновление: вернулся на страницу с незакрытым заказом → опрашиваем дальше */
+  (function(){try{var pid=localStorage.getItem('bitaps-pending-pay'); if(pid && /^[0-9a-f-]{36}$/i.test(pid)) startPoll(pid);}catch(e){}})();
   document.getElementById('payCrypto').addEventListener('click',async function(){
     var email=document.getElementById('email').value.trim();
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
@@ -931,7 +969,10 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> в CryptoBot. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
-      window.location.href=j.pay_url;
+      document.getElementById('waitMsg').classList.remove('hide');
+      try{localStorage.setItem('bitaps-pending-pay',j.id||'');}catch(_){}
+      try{window.open(j.pay_url,'_blank');}catch(_){}
+      if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
   document.getElementById('paySbp').addEventListener('click',async function(){
@@ -947,7 +988,10 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> по СБП. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
-      window.location.href=j.pay_url;
+      document.getElementById('waitMsg').classList.remove('hide');
+      try{localStorage.setItem('bitaps-pending-pay',j.id||'');}catch(_){}
+      try{window.open(j.pay_url,'_blank');}catch(_){}
+      if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
   /* тема: система/светлая/тёмная (как на сайте) */
