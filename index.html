@@ -1374,6 +1374,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       <input type="text" id="auKey" placeholder="вставь ключ vless://… из бота" autocomplete="off" autocapitalize="off" spellcheck="false" style="width:100%;box-sizing:border-box;padding:11px 12px;border-radius:10px;border:1px solid rgba(140,140,150,.4);background:rgba(140,140,150,.08);color:inherit;font-size:13px" />
       <button type="button" class="btn btn-solid" id="auKeyBtn" style="width:100%;justify-content:center">Войти по ключу</button>
       <div class="auth-err" id="auKeyErr"></div>
+      <div style="text-align:center;font-size:12px;margin-top:2px"><a href="#" id="auRecover" style="color:var(--mut,#8b97a6);text-decoration:underline">Не приходит «Код входа»? Восстановить по почте →</a></div>
     </div>
     <div class="sform-ok" id="auOk">
       <div class="ok-circle">✓</div>
@@ -2140,6 +2141,32 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       ke.textContent = 'Не вышло: ' + (err.message || err);
     } finally { auKeyBtn.disabled = false; auKeyBtn.textContent = lbl; }
   });
+
+  // восстановление «Кода входа» по почте (email-verified): запрос ссылки + приход по ней
+  const RECOVER_API = 'https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-recover';
+  const auRecover = document.getElementById('auRecover');
+  if (auRecover) auRecover.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = prompt('Впиши почту, на которую покупал(а) VPN — пришлём ссылку с «Кодом входа»:');
+    if (!email || !email.trim()) return;
+    const ke = document.getElementById('auKeyErr'); ke.style.color = '';
+    try {
+      await fetch(RECOVER_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'request', email: email.trim() }) });
+      ke.textContent = 'Если аккаунт с этой почтой есть — прислали письмо со ссылкой. Проверь почту (загляни и в «Спам»).';
+    } catch (err) { ke.textContent = 'Не удалось отправить запрос, попробуй позже.'; }
+  });
+  // приход по ссылке из письма: ?recover=<token> → показываем «Код входа»
+  (async () => {
+    try {
+      const t = new URLSearchParams(location.search).get('recover');
+      if (!t) return;
+      const r = await fetch(RECOVER_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'confirm', token: t }) });
+      const j = await r.json();
+      history.replaceState(null, '', location.pathname); // убираем токен из адреса/истории
+      if (j && j.ok && j.login_secret) alert('Твой «Код входа» — сохрани его, им входишь в кабинет и приложение (не вводи в VPN-клиенты):\n\n' + j.login_secret);
+      else alert('Ссылка недействительна или истекла. Запроси восстановление заново.');
+    } catch (e) {}
+  })();
 
   // «Сменить аккаунт» с account.html ведёт на /?login=1 — сразу открываем окно входа
   try { if (new URLSearchParams(location.search).get('login')) { setMode('login'); open(); } } catch (_) {}
