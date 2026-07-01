@@ -160,6 +160,26 @@
     // confirmed.html — лендинг подтверждения почты
     "Почта подтверждена!": "Email confirmed!", "Спасибо — ваш аккаунт": "Thank you — your account",
     "активирован. Теперь можно пользоваться сайтом.": "is activated. You can now use the site.", "Перейти на сайт →": "Go to the site →",
+    // <title> вкладок
+    "bitaps VPN — приватность без компромиссов": "bitaps VPN — privacy without compromise", "Оплата · bitaps VPN": "Payment · bitaps VPN",
+    "Личный кабинет — bitaps VPN": "Dashboard — bitaps VPN", "Скачать приложение — bitaps VPN": "Download app — bitaps VPN",
+    "Поддержка · bitaps VPN": "Support · bitaps VPN", "Заказать B-box — bitaps VPN": "Order B-box — bitaps VPN",
+    "Заказ B-box · bitaps VPN": "B-box order · bitaps VPN", "Рыбалка карпов · bitaps VPN": "Koi fishing · bitaps VPN",
+    "Почта подтверждена — bitaps": "Email confirmed — bitaps", "Страница не найдена — bitaps VPN": "Page not found — bitaps VPN",
+    // box / box-order (страницы B-box)
+    "📦 Под заказ": "📦 Made to order", "Что это и зачем": "What it is and why", "Как работает": "How it works",
+    "Коробочка-роутер со встроенным VPN bitaps. Подключаешь к домашней сети — и все устройства разом (телефоны, ноуты, Smart TV, приставки) выходят через защищённый канал. Настраивать каждый гаджет не нужно.": "A router-box with built-in bitaps VPN. Connect it to your home network and every device at once (phones, laptops, Smart TVs, consoles) goes through a secure channel. No need to set up each gadget.",
+    "Воткни в розетку и подключи к роутеру": "Plug into a socket and connect to the router", "Раздаёт свой Wi-Fi «bitaps»": "Broadcasts its own «bitaps» Wi-Fi",
+    "Всё, что в этой сети — через VPN автоматически": "Everything on this network — through VPN automatically",
+    "Характеристики": "Specs", "встроенный, bitaps": "built-in, bitaps", "Протокол": "Protocol", "Скорость": "Speed",
+    "Подключение": "Connection", "LAN или Wi-Fi": "LAN or Wi-Fi", "В комплекте": "In the box", "box, БП, кабель": "box, power supply, cable",
+    "Оформить заказ": "Place order", "Количество": "Quantity", "← На главную": "← Home", "Закажи": "Order",
+    "📦 Под заказ · доставка по РФ": "📦 Made to order · delivery across Russia", "весь дом": "the whole home",
+    "разовая покупка · без подписки": "one-time purchase · no subscription", "Подключил один раз — работает само": "Connect once — works on its own",
+    "Защищает даже гаджеты без приложений (ТВ, консоли, умный дом)": "Protects even app-less gadgets (TVs, consoles, smart home)",
+    "Шифрует весь трафик на лету": "Encrypts all traffic on the fly", "Тихая и компактная — помещается на ладони": "Quiet and compact — fits in your palm",
+    "Оформить доставку": "Arrange delivery", "Имя": "Name", "Город": "City", "Адрес доставки или пункт выдачи": "Delivery address or pickup point",
+    "Курьер": "Courier", "Пункт выдачи": "Pickup point",
     "Твой логин в Личный кабинет и приложение (по нему входишь вместо ключа). Сохрани — не вводи в VPN-клиенты и никому не показывай.": "Your login for the Dashboard and app (use it instead of the key). Save it — don't enter it into VPN clients and don't share it.",
     "Скопировать код входа": "Copy login code",
     // account.html — кабинет: код входа, разделы, FAQ
@@ -417,6 +437,10 @@
     if (obs) obs.disconnect();
     textNodes(document.body).forEach(function (n) { tr(n, l); });
     trAttr(l);
+    // перевод <title> вкладки (walk ходит только по body, поэтому title отдельно; RU-оригинал сохраняем для отката)
+    if (document.__ruTitle == null) document.__ruTitle = document.title;
+    var _tt = document.__ruTitle.trim();
+    document.title = (l === 'en' && DICT[_tt]) ? DICT[_tt] : document.__ruTitle;
     document.documentElement.lang = l;
     var b = document.getElementById('langToggle'); if (b) b.textContent = l === 'en' ? 'RU' : 'EN';
     if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
