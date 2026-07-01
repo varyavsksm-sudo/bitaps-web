@@ -896,6 +896,12 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       <button class="btn btn-solid" id="keyCopy" type="button">Скопировать ключ</button>
       <a class="btn btn-line" id="keyHapp" href="#">⚙️ Открыть в Happ</a>
     </div>
+    <div class="hide" id="secretReveal" style="margin:16px 0 0">
+      <h3 style="color:var(--acc);margin:0 0 6px">🔐 Код входа в кабинет</h3>
+      <p class="sec-p" style="margin:0 0 10px">Твой логин в Личный кабинет и приложение (по нему входишь вместо ключа). Сохрани — не вводи в VPN-клиенты и никому не показывай.</p>
+      <pre id="secretText" style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
+      <button class="btn btn-line" id="secretCopy" type="button">Скопировать код входа</button>
+    </div>
   </div>
 </div>
 
@@ -931,10 +937,16 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   /* on-site выдача ключа: опрашиваем статус заказа, показываем ключ прямо на странице (не зависим от письма) */
   var STATUS_API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay-status';
   var polling=false;
-  function showKey(k){
+  function showKey(k, secret){
     document.getElementById('waitMsg').classList.add('hide');
     document.getElementById('keyText').textContent=k;
     document.getElementById('keyReveal').classList.remove('hide');
+    if(secret){
+      document.getElementById('secretText').textContent=secret;
+      document.getElementById('secretReveal').classList.remove('hide');
+      var sc=document.getElementById('secretCopy');
+      sc.onclick=function(){try{navigator.clipboard.writeText(secret);sc.textContent='Скопировано ✓';}catch(e){sc.textContent='Выдели и скопируй вручную';}};
+    }
     try{document.getElementById('keyHapp').setAttribute('href','happ://add/'+btoa(unescape(encodeURIComponent(k))));}catch(e){document.getElementById('keyHapp').setAttribute('href',k);}
     var cp=document.getElementById('keyCopy');
     cp.onclick=function(){try{navigator.clipboard.writeText(k);cp.textContent='Скопировано ✓';}catch(e){cp.textContent='Выдели и скопируй вручную';}};
@@ -948,7 +960,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       try{
         var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})});
         var j=await r.json();
-        if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key); try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
+        if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key, j.login_secret); try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
         if(j&&j.paid&&j.by_email){ /* повторная покупка под существующим email: ключ не раскрываем тут */
           document.getElementById('waitMsg').textContent='✅ Оплачено! Ключ отправлен на почту и доступен в Личном кабинете (вход по ключу).';
           try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
