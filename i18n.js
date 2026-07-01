@@ -131,8 +131,10 @@
     "● защищено": "● protected", "Подключено": "Connected", "12 ms · быстрый узел": "12 ms · fast node",
     // app section
     "// своё приложение": "// our own app", "Приложение, которым": "An app that's", "приятно пользоваться": "a pleasure to use",
-    "Мы пишем его сами — одна большая кнопка, чистый дизайн, мгновенное подключение, один аккаунт на всех платформах. Оно на финальной стадии — совсем скоро. А пока подключайся через Happ: наш ключ работает в нём сразу.":
-      "We build it ourselves — one big button, clean design, instant connection, one account across all platforms. It's in the final stage — coming very soon. Meanwhile connect via Happ: our key works in it right away.",
+    "Мы пишем его сами — одна большая кнопка, чистый дизайн, мгновенное подключение, один аккаунт на всех платформах. Оно на финальной стадии — совсем скоро. А пока подключайся через":
+      "We build it ourselves — one big button, clean design, instant connection, one account across all platforms. It's in the final stage — coming very soon. Meanwhile connect via",
+    ": наш ключ работает в нём сразу.": ": our key works in it right away.",
+    "под заказ · оставь заявку — менеджер свяжется": "made to order · leave a request — manager will contact you",
     "Загрузите в": "Get it on", "Доступно в": "Available on", "Скоро в": "Coming to", "А для компьютера —": "And for desktop —",
     // footer
     "Приватность — это не паранойя. Это гигиена.": "Privacy isn't paranoia. It's hygiene.",
