@@ -135,6 +135,8 @@
       "We build it ourselves — one big button, clean design, instant connection, one account across all platforms. It's in the final stage — coming very soon. Meanwhile connect via",
     ": наш ключ работает в нём сразу.": ": our key works in it right away.",
     "под заказ · оставь заявку — менеджер свяжется": "made to order · leave a request — manager will contact you",
+    // pay page — строка согласия (разбита ссылками на текст-узлы)
+    "Оплачивая, ты принимаешь": "By paying, you accept", "оферту": "the offer", "политику конфиденциальности": "the privacy policy", "и": "and",
     "Загрузите в": "Get it on", "Доступно в": "Available on", "Скоро в": "Coming to", "А для компьютера —": "And for desktop —",
     // footer
     "Приватность — это не паранойя. Это гигиена.": "Privacy isn't paranoia. It's hygiene.",
