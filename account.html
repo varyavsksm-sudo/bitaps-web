@@ -646,8 +646,9 @@
   }
 
   try {
-    const { data } = await sb.from('subscriptions').select('plan,expires_at,vpn_key,device_limit').maybeSingle();
-    fillSub(data);
+    // limit(1) по самой поздней дате: при истории продлений (>1 строка) maybeSingle бросал ошибку → активному юзеру «Нет подписки». Безопасность — на RLS.
+    const { data } = await sb.from('subscriptions').select('plan,expires_at,vpn_key,device_limit').order('expires_at', { ascending: false }).limit(1);
+    fillSub(Array.isArray(data) ? data[0] : data);
   } catch (_) {
     $('planName').firstChild.textContent = 'Нет подписки';
     $('subBadge').textContent = 'Не активна'; $('subBadge').className = 'badge off';
