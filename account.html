@@ -318,6 +318,11 @@
             <a id="autoSetup" href="#" style="flex:1 1 150px;text-align:center;background:linear-gradient(180deg,#ffb74d,var(--acc));color:#1a1205;font-weight:700;padding:13px 12px;border-radius:12px;text-decoration:none">⚙️ Автонастройка</a>
             <a id="dlApp" href="https://bitapsvpn.com/app.html" target="_blank" rel="noopener" style="flex:1 1 150px;text-align:center;background:rgba(245,165,36,.12);color:var(--acc);border:1px solid var(--acc);font-weight:500;padding:12px;border-radius:12px;text-decoration:none">📲 Скачать приложение</a>
           </div>
+          <div id="secretRow" hidden style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08)">
+            <div class="ct" style="margin-bottom:6px"><span class="i">🔐</span> Код входа</div>
+            <p class="hint" style="margin:0 0 10px;line-height:1.55">Для входа в приложение и кабинет. В отличие от ключа доступа — <b>не вводи его в VPN-клиенты</b> и никому не показывай.</p>
+            <code class="key-val" id="secret" title="Нажмите, чтобы скопировать" style="cursor:pointer;word-break:break-all"></code>
+          </div>
         </div>
 
         <div class="card boxcard" id="boxBtn">
@@ -540,6 +545,11 @@
         try { $('autoSetup').setAttribute('href', 'happ://add/' + btoa(unescape(encodeURIComponent(data.vpn_key)))); }
         catch (e) { $('autoSetup').setAttribute('href', data.vpn_key); }
       }
+      if (data.login_secret) {
+        $('secret').textContent = data.login_secret;
+        $('secretRow').hidden = false;
+        $('secret').addEventListener('click', () => copy(data.login_secret));
+      }
     } else {
       $('planName').firstChild.textContent = 'Нет подписки';
       $('planSub').textContent = 'оформите тариф, чтобы получить ключ';
@@ -647,7 +657,7 @@
 
   try {
     // limit(1) по самой поздней дате: при истории продлений (>1 строка) maybeSingle бросал ошибку → активному юзеру «Нет подписки». Безопасность — на RLS.
-    const { data } = await sb.from('subscriptions').select('plan,expires_at,vpn_key,device_limit').order('expires_at', { ascending: false }).limit(1);
+    const { data } = await sb.from('subscriptions').select('plan,expires_at,vpn_key,device_limit,login_secret').order('expires_at', { ascending: false }).limit(1);
     fillSub(Array.isArray(data) ? data[0] : data);
   } catch (_) {
     $('planName').firstChild.textContent = 'Нет подписки';
