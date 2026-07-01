@@ -137,6 +137,13 @@
     "под заказ · оставь заявку — менеджер свяжется": "made to order · leave a request — manager will contact you",
     // pay page — строка согласия (разбита ссылками на текст-узлы)
     "Оплачивая, ты принимаешь": "By paying, you accept", "оферту": "the offer", "политику конфиденциальности": "the privacy policy", "и": "and",
+    // app page (страница загрузки) — шапка, разбитая тегами на узлы
+    "Наше приложение готово — скачай для своей системы и подключись за минуту. На iPhone пока через Happ.": "Our app is ready — download it for your system and connect in a minute. On iPhone via Happ for now.",
+    "Приложение": "The app", "bitaps VPN готово": "bitaps VPN is ready",
+    "для Windows, macOS, Linux и Android — скачай кнопкой ниже и вставь ключ из": "for Windows, macOS, Linux and Android — download with the button below and paste the key from",
+    "Telegram-бота": "the Telegram bot",
+    "или из письма после оплаты. На iPhone/iPad пока подключайся через": "or from the email after payment. On iPhone/iPad connect via",
+    "✅ ключ из Telegram-бота вставляется за минуту": "✅ the key from the Telegram bot pastes in under a minute",
     "Загрузите в": "Get it on", "Доступно в": "Available on", "Скоро в": "Coming to", "А для компьютера —": "And for desktop —",
     // footer
     "Приватность — это не паранойя. Это гигиена.": "Privacy isn't paranoia. It's hygiene.",
