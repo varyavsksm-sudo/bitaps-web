@@ -1962,7 +1962,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   };
 
   const setAvatar = (el, info) => {
-    if (info.avatar) { el.style.backgroundImage = `url("${info.avatar}")`; el.textContent = ''; }
+    if (info.avatar && /^https:\/\//i.test(info.avatar)) { el.style.backgroundImage = `url("${encodeURI(info.avatar)}")`; el.textContent = ''; }
     else { el.style.backgroundImage = ''; el.textContent = info.initial; }
   };
 

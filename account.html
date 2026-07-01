@@ -511,7 +511,7 @@
   const fillProfile = (name, display, avatar) => {
     $('name').textContent = name;
     $('email').textContent = display;
-    if (avatar) { $('avatar').style.backgroundImage = `url("${avatar}")`; $('avatar').textContent = ''; }
+    if (avatar && /^https:\/\//i.test(avatar)) { $('avatar').style.backgroundImage = `url("${encodeURI(avatar)}")`; $('avatar').textContent = ''; }
     else $('avatar').textContent = (name[0] || 'B').toUpperCase();
     // приветствие по времени суток
     const h = new Date().getHours();
@@ -693,7 +693,7 @@
     });
   }
 
-  $('logout').addEventListener('click', async () => { try { await sb.auth.signOut({ scope: 'local' }); } catch (_) {} location.href = '/'; });
+  $('logout').addEventListener('click', async () => { try { await sb.auth.signOut(); } catch (_) {} location.href = '/'; });
 })();
 </script>
 <script>
