@@ -2118,17 +2118,20 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   // вход по ключу из бота (надёжно на мобильных — без Telegram-виджета)
   const auKeyBtn = document.getElementById('auKeyBtn');
   if (auKeyBtn) auKeyBtn.addEventListener('click', async () => {
-    const key = (document.getElementById('auKey').value || '').trim();
+    const val = (document.getElementById('auKey').value || '').trim();
     const ke = document.getElementById('auKeyErr');
     ke.textContent = '';
-    if (key.length < 12) { ke.textContent = 'Вставь свой ключ из бота (vless://…)'; return; }
+    if (val.length < 12) { ke.textContent = 'Вставь ключ из бота (vless://…) или «Код входа»'; return; }
+    // vless://… / https://… → это VPN-ключ; иначе (UUID) — «Код входа» (login_secret)
+    const isKey = /^(vless:|https?:)/i.test(val);
+    const payload = isKey ? { key: val } : { secret: val };
     auKeyBtn.disabled = true; const lbl = auKeyBtn.textContent; auKeyBtn.textContent = 'Вхожу…';
     try {
       const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-keylogin', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key })
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
       const data = await res.json();
-      if (!res.ok || !data.token_hash) throw new Error(data.error === 'not found' ? 'ключ не найден — возьми свежий в боте' : (data.error || 'ошибка входа'));
+      if (!res.ok || !data.token_hash) throw new Error(data.error === 'use_login_secret' ? (data.message || 'войди по Коду входа') : (data.error === 'not found' ? 'не найдено — проверь ключ/Код входа или войди через Telegram' : (data.error || 'ошибка входа')));
       const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
       if (error) throw error;
       form.style.display = 'none'; ok.classList.add('show');
