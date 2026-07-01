@@ -322,6 +322,7 @@
             <div class="ct" style="margin-bottom:6px"><span class="i">🔐</span> Код входа</div>
             <p class="hint" style="margin:0 0 10px;line-height:1.55">Для входа в приложение и кабинет. В отличие от ключа доступа — <b>не вводи его в VPN-клиенты</b> и никому не показывай.</p>
             <code class="key-val" id="secret" title="Нажмите, чтобы скопировать" style="cursor:pointer;word-break:break-all"></code>
+            <button id="rotateSecret" type="button" style="margin-top:10px;background:none;border:1px solid rgba(255,255,255,.15);color:var(--mut);font:inherit;font-size:13px;padding:8px 14px;border-radius:10px;cursor:pointer">🔁 Сменить код</button>
           </div>
         </div>
 
@@ -548,7 +549,21 @@
       if (data.login_secret) {
         $('secret').textContent = data.login_secret;
         $('secretRow').hidden = false;
-        $('secret').addEventListener('click', () => copy(data.login_secret));
+        $('secret').addEventListener('click', () => copy($('secret').textContent));
+        $('rotateSecret').addEventListener('click', async () => {
+          if (!confirm('Сменить код входа? Старый код перестанет работать.')) return;
+          const btn = $('rotateSecret'), old = btn.textContent;
+          btn.disabled = true; btn.textContent = 'Меняю…';
+          const done = (t) => { btn.textContent = t; setTimeout(() => { btn.textContent = old; btn.disabled = false; }, 1600); };
+          try {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) return done('Ошибка');
+            const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/rotate-secret', { method: 'POST', headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' }, body: JSON.stringify({ access_token: session.access_token }) });
+            const j = await res.json();
+            if (j.ok && j.login_secret) { $('secret').textContent = j.login_secret; done('Готово ✓'); }
+            else done('Ошибка');
+          } catch (_) { done('Ошибка'); }
+        });
       }
     } else {
       $('planName').firstChild.textContent = 'Нет подписки';
