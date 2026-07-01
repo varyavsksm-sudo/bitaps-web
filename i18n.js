@@ -180,6 +180,11 @@
     "Шифрует весь трафик на лету": "Encrypts all traffic on the fly", "Тихая и компактная — помещается на ладони": "Quiet and compact — fits in your palm",
     "Оформить доставку": "Arrange delivery", "Имя": "Name", "Город": "City", "Адрес доставки или пункт выдачи": "Delivery address or pickup point",
     "Курьер": "Courier", "Пункт выдачи": "Pickup point",
+    // box.html / game.html — оставшиеся фрагменты
+    ". Оставь заявку — менеджер свяжется и оформит доставку по России.": ". Leave a request — the manager will contact you and arrange delivery across Russia.",
+    "Под заказ: оставь заявку — менеджер подтвердит и оформит доставку. Оплата после подтверждения, без предоплаты на сайте.": "Made to order: leave a request — the manager will confirm and arrange delivery. Payment after confirmation, no prepayment on the site.",
+    "Лови карпов, набивай комбо и попади в топ-3. Золотой карп — джекпот, красный чужак — мимо (за него штраф).": "Catch koi, build combos and make the top-3. The golden koi is a jackpot, the red intruder is a miss (penalty for it).",
+
     "Твой логин в Личный кабинет и приложение (по нему входишь вместо ключа). Сохрани — не вводи в VPN-клиенты и никому не показывай.": "Your login for the Dashboard and app (use it instead of the key). Save it — don't enter it into VPN clients and don't share it.",
     "Скопировать код входа": "Copy login code",
     // account.html — кабинет: код входа, разделы, FAQ
