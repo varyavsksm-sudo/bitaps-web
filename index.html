@@ -2158,11 +2158,12 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   // приход по ссылке из письма: ?recover=<token> → показываем «Код входа»
   (async () => {
     try {
-      const t = new URLSearchParams(location.search).get('recover');
+      const hm = (location.hash || '').match(/[#&]recover=([^&]+)/);
+      const t = hm ? decodeURIComponent(hm[1]) : new URLSearchParams(location.search).get('recover');
       if (!t) return;
       const r = await fetch(RECOVER_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'confirm', token: t }) });
       const j = await r.json();
-      history.replaceState(null, '', location.pathname); // убираем токен из адреса/истории
+      history.replaceState(null, '', location.pathname); // убираем токен из адреса/истории/фрагмента
       if (j && j.ok && j.login_secret) alert('Твой «Код входа» — сохрани его, им входишь в кабинет и приложение (не вводи в VPN-клиенты):\n\n' + j.login_secret);
       else alert('Ссылка недействительна или истекла. Запроси восстановление заново.');
     } catch (e) {}
