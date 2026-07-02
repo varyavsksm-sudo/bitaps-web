@@ -11,13 +11,13 @@
     "Приложение": "App", "Войти": "Log in", "Скачать": "Download",
     "трафик шифруется прямо сейчас": "traffic is being encrypted right now",
     "Интернет,": "The internet", "который": "that", "принадлежит тебе": "belongs to you",
-    "bitaps VPN прячет твой трафик за шифрованием военного класса и гонит его на скорости света через быстрые серверы. Без логов. Без следов. Без тормозов.":
-      "bitaps VPN hides your traffic behind military-grade encryption and pushes it at light speed through fast servers. No logs. No traces. No slowdowns.",
+    "bitaps VPN прячет твой трафик за современным шифрованием и гонит его через быстрые серверы. Без логов. Без следов. Без тормозов.":
+      "bitaps VPN hides your traffic behind modern encryption and pushes it through fast servers. No logs. No traces. No slowdowns.",
     "Скачать бесплатно": "Download free", "▶ Смотреть скорость": "▶ Watch the speed",
     "из 5 · реальные отзывы · 3 дня бесплатно": "out of 5 · real reviews · 3 days free",
     "Твой реальный IP": "Your real IP", "178.62.* спрятан": "178.62.* hidden", "bitaps выдаёт": "bitaps shows",
-    "Аудит безопасности пройден независимой лабораторией": "Security audit passed by an independent lab",
-    "Юрисдикция вне «14 глаз» · No-Logs политика": "Jurisdiction outside the «14 eyes» · No-Logs policy",
+    "Протокол VLESS + Reality · современное шифрование": "VLESS + Reality protocol · modern encryption",
+    "Мгновенный Kill Switch · политика No-Logs": "Instant Kill Switch · No-Logs policy",
     "Оплата картой и криптой · пробный период 3 дня бесплатно": "Pay by card or crypto · 3-day free trial",
     // features
     "// почему bitaps": "// why bitaps", "Не просто VPN.": "Not just a VPN.", "Личная крепость.": "Your private fortress.",
@@ -25,8 +25,8 @@
     "Протокол VLESS + Reality — современное шифрование и стабильное соединение. Стримь 4K и качай торренты — VPN не почувствуешь.":
       "VLESS + Reality protocol — modern encryption and a stable connection. Stream 4K and download torrents — you won't even feel the VPN.",
     "Шифрование AES-256": "AES-256 encryption",
-    "Тот же стандарт, что у банков и спецслужб. Чтобы взломать твой трафик, понадобится больше времени, чем существует Вселенная.":
-      "The same standard banks and intelligence agencies use. Cracking your traffic would take longer than the universe has existed.",
+    "Современное шифрование поверх VLESS + Reality — трафик надёжно защищён от перехвата в открытых сетях.":
+      "Modern encryption on top of VLESS + Reality — your traffic is well protected from interception on open networks.",
     "Политика No-Logs": "No-Logs policy",
     "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Подтверждено независимым аудитом.":
       "We physically don't store what you do. Nothing to keep — nothing to hand over. Confirmed by an independent audit.",
@@ -86,7 +86,7 @@
       "The longer the period, the cheaper the month. Price shown for the selected number of devices, no hidden fees. First 3 days free.",
     "📱 Устройств:": "📱 Devices:", "+50 ₽/мес за каждое доп. устройство · до 10": "+50 ₽/mo per extra device · up to 10",
     "1 месяц": "1 month", "/мес": "/mo", "Итого": "Total", "за 1 месяц": "for 1 month",
-    "Все локации": "All locations", "Безлимит трафика": "Unlimited traffic", "Поддержка 24/7": "24/7 support", "Выбрать": "Choose",
+    "Все локации": "All locations", "Безлимит трафика": "Unlimited traffic", "Поддержка 24/7": "24/7 support", "Поддержка в Telegram": "Telegram support", "Поддержка": "Support", "Выбрать": "Choose",
     "3 месяца": "3 months", "за 3 месяца": "for 3 months", "Всё из «1 месяца»": "Everything in «1 month»",
     "Дешевле помесячно": "Cheaper per month", "YouTube без рекламы": "YouTube without ads",
     "6 месяцев": "6 months", "за 6 месяцев": "for 6 months", "Всё из «3 месяцев»": "Everything in «3 months»",
@@ -126,13 +126,14 @@
     "Картой, через известные платёжные системы или криптовалютой, если хочешь максимум анонимности. Никаких скрытых платежей и автосписаний-сюрпризов.":
       "By card via well-known payment systems, or by crypto if you want maximum anonymity. No hidden fees or surprise auto-charges.",
     "Остались вопросы?": "Still have questions?",
-    "Напишите нам — живая поддержка на связи круглосуточно и отвечает в среднем за": "Message us — live support is online 24/7 and replies on average in",
-    "2 минуты": "2 minutes", "Написать нам": "Message us", "или в Telegram": "or on Telegram", "· на почту": "· by email",
+    "Напишите нам — живая поддержка, обычно отвечаем в течение дня.": "Message us — live support, we usually reply within a day.",
+    "Обычно отвечаем в течение дня.": "We usually reply within a day.",
+    "Написать нам": "Message us", "или в Telegram": "or on Telegram", "· на почту": "· by email",
     "● защищено": "● protected", "Подключено": "Connected", "12 ms · быстрый узел": "12 ms · fast node",
     // app section
     "// своё приложение": "// our own app", "Приложение, которым": "An app that's", "приятно пользоваться": "a pleasure to use",
-    "Мы пишем его сами — одна большая кнопка, чистый дизайн, мгновенное подключение, один аккаунт на всех платформах. Оно на финальной стадии — совсем скоро. А пока подключайся через":
-      "We build it ourselves — one big button, clean design, instant connection, one account across all platforms. It's in the final stage — coming very soon. Meanwhile connect via",
+    "Мы пишем его сами — одна большая кнопка, чистый дизайн, мгновенное подключение, один аккаунт на всех платформах. Приложение уже готово для Windows, macOS, Linux и Android — скачай на странице приложения. На iPhone пока подключайся через":
+      "We build it ourselves — one big button, clean design, instant connection, one account across all platforms. The app is ready for Windows, macOS, Linux and Android — download it on the app page. On iPhone, connect via",
     ": наш ключ работает в нём сразу.": ": our key works in it right away.",
     "под заказ · оставь заявку — менеджер свяжется": "made to order · leave a request — manager will contact you",
     // pay page — строка согласия (разбита ссылками на текст-узлы)

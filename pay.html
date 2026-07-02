@@ -906,6 +906,10 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
 </div>
 
 <script>
+  /* приватная first-party аналитика (без кук/сторонних трекеров) */
+  var TRACK='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/track';
+  function btTrack(name,extra){try{var b=JSON.stringify(Object.assign({name:name,path:location.pathname,ref:document.referrer||''},extra||{}));if(navigator.sendBeacon)navigator.sendBeacon(TRACK,new Blob([b],{type:'text/plain;charset=UTF-8'}));else fetch(TRACK,{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(e){}}
+  btTrack('pageview');
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay';
   var EXTRA=50, code='h', dev=1;
   (function(){var p=new URLSearchParams(location.search);
@@ -928,7 +932,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     document.getElementById('total').textContent=fmt(base+(dev-1)*EXTRA*mo);
     document.getElementById('devCount').textContent=dev;
   }
-  document.getElementById('plans').addEventListener('click',function(e){var el=e.target.closest('.plan');if(!el)return;code=el.dataset.code;paint();});
+  document.getElementById('plans').addEventListener('click',function(e){var el=e.target.closest('.plan');if(!el)return;code=el.dataset.code;paint();btTrack('plan_select',{plan:code});});
   document.getElementById('devMinus').addEventListener('click',function(){if(dev>1){dev--;paint();}});
   document.getElementById('devPlus').addEventListener('click',function(){if(dev<10){dev++;paint();}});
   function showErr(t){var e=document.getElementById('perr');e.textContent=t;e.classList.remove('hide');}
@@ -976,9 +980,11 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
     if(!validEmail(email))return showErr('Неправильный формат почты.');
     if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
+    btTrack('pay_crypto_click',{plan:code});
     try{
       var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email})});
       var j=await r.json();
+      if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('invoice_created',{plan:code});
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       if(!/^https:\/\//i.test(j.pay_url||'')){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr('Не удалось открыть оплату.');}
       document.getElementById('page').classList.add('hide');
@@ -996,9 +1002,11 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
     if(!validEmail(email))return showErr('Неправильный формат почты.');
     if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
+    btTrack('pay_sbp_click',{plan:code});
     try{
       var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email,method:'sbp'})});
       var j=await r.json();
+      if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('invoice_created',{plan:code});
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       if(!/^https:\/\//i.test(j.pay_url||'')){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr('Не удалось открыть оплату.');}
       document.getElementById('page').classList.add('hide');
