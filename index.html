@@ -913,7 +913,7 @@
   // общая база отзывов
   const SB_URL = 'https://bjkozsukvifkxriojxrz.supabase.co';
   const SB_KEY = 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
-  const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+  const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: false, autoRefreshToken: false } }) : null;
 
   const esc = s => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
   const lsLoad = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
