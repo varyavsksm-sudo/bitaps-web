@@ -987,7 +987,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       document.getElementById('done').classList.remove('hide');
       document.getElementById('waitMsg').classList.remove('hide');
       try{localStorage.setItem('bitaps-pending-pay',j.id||'');}catch(_){}
-      try{window.open(j.pay_url,'_blank');}catch(_){}
+      try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
@@ -1007,7 +1007,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       document.getElementById('done').classList.remove('hide');
       document.getElementById('waitMsg').classList.remove('hide');
       try{localStorage.setItem('bitaps-pending-pay',j.id||'');}catch(_){}
-      try{window.open(j.pay_url,'_blank');}catch(_){}
+      try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
