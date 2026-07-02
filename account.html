@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <title>Личный кабинет — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -500,6 +500,12 @@
   const TG = window.Telegram && window.Telegram.WebApp;
   const inTG = TG && TG.initData && TG.initData.length > 0;
 
+  // Supabase-клиент создаём ДО ветвления inTG: fillSub()/обработчик «Сменить код входа»
+  // зовут sb в обеих ветках, иначе в Mini App клик по rotateSecret падал с TDZ.
+  const sb = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient('https://bjkozsukvifkxriojxrz.supabase.co', 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z')
+    : null;
+
   const PLAN_NAMES = { mo: '1 месяц', q: '3 месяца', h: '6 месяцев', yr: '12 месяцев', trial: 'Пробный период' };
   const PLAN_DAYS = { mo: 30, q: 90, h: 180, yr: 365, trial: 3 };
 
@@ -647,7 +653,6 @@
   }
 
   // ===== обычный веб-режим (Supabase-сессия) =====
-  const sb = window.supabase.createClient('https://bjkozsukvifkxriojxrz.supabase.co', 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z');
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { $('guest').hidden = false; return; }
   let user = session.user;
