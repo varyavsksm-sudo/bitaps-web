@@ -82,8 +82,6 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
   transform:skewX(-20deg)}
 .btn:hover .btn-shine{animation:shine .9s ease-out}
 @keyframes shine{from{left:-120%}to{left:160%}}
-.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer}
-.burger span{width:24px;height:2px;background:var(--txt);transition:.3s}
 
 /* ░░ HERO ░░ */
 .hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
@@ -520,7 +518,6 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
   .footer{grid-template-columns:1fr}
   .foot-links{grid-template-columns:1fr 1fr}
   .plan-best{transform:none}.plan-best:hover{transform:translateY(-5px)}
-  .burger{display:flex}
   /* кнопки входа/выхода должны быть доступны и на мобильном */
   .nav-cta{gap:8px}
   .nav-cta .btn-solid{display:none}
@@ -611,7 +608,7 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .nav .nav-cta .btn{padding:8px 13px;font-size:13px}
 .nav .acct-btn{font-size:12.5px;padding:4px 10px 4px 4px}
 .nav .acct-avatar{width:24px;height:24px;font-size:11px}
-@media(max-width:1040px){.nav .nav-links{display:none}.nav .btc-tick{display:none}.burger{display:flex}}
+@media(max-width:1040px){.nav .nav-links{display:none}.nav .btc-tick{display:none}}
 
 /* ░░ короткая главная + выезжающее меню (3 полоски) ░░ */
 .tucked{display:none}
