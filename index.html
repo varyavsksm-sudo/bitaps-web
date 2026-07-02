@@ -27,7 +27,7 @@
     { "@type": "Organization", "name": "bitaps VPN", "url": "https://bitapsvpn.com/", "logo": "https://bitapsvpn.com/favicon.svg" },
     { "@type": "WebSite", "name": "bitaps VPN", "url": "https://bitapsvpn.com/" },
     { "@type": "FAQPage", "mainEntity": [
-      { "@type": "Question", "name": "Вы правда не храните логи?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Серверы физически не пишут историю подключений — это подтвердил независимый аудит. Нечего хранить — значит, нечего запросить и нечего слить." } },
+      { "@type": "Question", "name": "Вы правда не храните логи?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Серверы физически не пишут историю подключений — это заложено в самой архитектуре сервиса (by design). Нечего хранить — значит, нечего запросить и нечего слить." } },
       { "@type": "Question", "name": "VPN сильно замедлит интернет?", "acceptedAnswer": { "@type": "Answer", "text": "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Скорость — до 1 Гбит/с." } },
       { "@type": "Question", "name": "На сколько устройств можно поставить?", "acceptedAnswer": { "@type": "Answer", "text": "Одна подписка — до 10 устройств одновременно: телефон, ноутбук, планшет, телевизор и даже роутер." } },
       { "@type": "Question", "name": "Можно сначала попробовать бесплатно?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Первые 3 дня — бесплатный пробный период со всеми возможностями. Не зашло — просто не продлеваешь, ничего не спишется." } },
@@ -292,11 +292,7 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 
 /* ░░ TRUST STRIP ░░ */
 .trust{max-width:1100px;margin:0 auto;padding:50px clamp(18px,5vw,40px) 10px;text-align:center}
-.trust-lead{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--mut);text-transform:uppercase}
-.press{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(22px,5vw,54px);margin:22px 0 38px}
-.press-logo{font-weight:700;font-size:clamp(17px,2.4vw,24px);color:#5a6478;letter-spacing:.5px;
-  filter:grayscale(1);opacity:.65;transition:.3s;font-family:'Space Grotesk',sans-serif}
-.press-logo:hover{opacity:1;color:var(--txt)}
+.demo-note{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;color:var(--mut);opacity:.75;margin-top:8px}
 .trust-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:left}
 .tb{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;
   background:var(--panel);font-size:14px;color:var(--mut)}
@@ -872,8 +868,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       <a href="#" class="btn btn-line btn-lg" data-section="speed">▶ Смотреть скорость</a>
     </div>
     <div class="hero-trust reveal">
-      <div class="stars">★★★★★</div>
-      <span><b>4.8</b> из 5 · реальные отзывы · 3 дня бесплатно</span>
+      <span>3 дня бесплатно · без скрытых платежей · отмена в один клик</span>
     </div>
   </div>
 
@@ -934,7 +929,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     <article class="card tilt reveal">
       <div class="card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 21V10a7 7 0 0 1 14 0v11l-2.5-2-2.5 2-2-2-2 2-2.5-2L5 21Z"/><circle cx="9.5" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="14.5" cy="10" r="1.2" fill="currentColor" stroke="none"/></svg></div>
       <h3>Политика No-Logs</h3>
-      <p>Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Подтверждено независимым аудитом.</p>
+      <p>Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Так заложено в самой архитектуре сервиса.</p>
       <div class="card-glow"></div>
     </article>
     <article class="card tilt reveal">
@@ -1006,6 +1001,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
       <div class="ms-bar"><i style="width:31%"></i></div>
       <div class="ms-row"><span class="ms-k">Средний пинг</span><span class="ms-v" id="msPing">18 ms</span></div>
       <div class="ms-bar"><i style="width:18%"></i></div>
+      <div class="demo-note">Демо для наглядности</div>
       <a href="https://t.me/bitaps_vpn_auth_bot?start=subscribe" target="_blank" rel="noopener" class="btn btn-solid" style="margin-top:18px;width:100%;justify-content:center">Подключиться к ближайшему</a>
     </div>
   </div>
@@ -1044,6 +1040,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     <span class="kicker">// инфраструктура в реальном времени</span>
     <h2>Серверы, <span class="grad">которые на связи</span></h2>
     <p class="sec-p">Топ-5 серверов по пингу прямо сейчас и средний пинг сети за последнюю неделю.</p>
+    <div class="demo-note">Демо для наглядности</div>
   </div>
   <div class="status-card chart-card reveal">
     <div class="status-h"><span>📈 Средний пинг сети · 7 дней</span><b id="sgAvg">— ms</b></div>
@@ -1158,11 +1155,11 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
 </section>
 
 <!-- ░░ 8 · ОТЗЫВЫ + КОММЕНТАРИИ ░░ -->
-<section class="section section-rev tucked" id="reviews">
+<section class="section section-rev" id="reviews">
   <div class="sec-head reveal">
-    <span class="kicker">// живые люди</span>
-    <h2>Проверено <span class="grad">в деле</span></h2>
-    <p class="sec-p">Это не реклама, а живые отзывы. Оставь и свой — появится сразу.</p>
+    <span class="kicker">// отзывы</span>
+    <h2>Что говорят <span class="grad">о bitaps</span></h2>
+    <p class="sec-p">Оставь свой отзыв — он появится здесь сразу.</p>
   </div>
 
   <div class="comments-wrap reveal" id="comments">
@@ -1179,7 +1176,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
 </section>
 
 <!-- ░░ 10 · FAQ ░░ -->
-<section class="section section-faq tucked" id="faq">
+<section class="section section-faq" id="faq">
   <div class="sec-head reveal">
     <span class="kicker">// вопросы</span>
     <h2>Коротко о <span class="grad">главном</span></h2>
@@ -1187,7 +1184,7 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   <div class="faq reveal">
     <div class="qa">
       <button class="q">Вы правда не храните логи?<span class="q-ic">+</span></button>
-      <div class="a"><p>Да. Архитектура построена так, что серверы физически не пишут историю подключений. Это подтвердил независимый аудит. Нечего хранить — значит, нечего у нас запросить и нечего слить.</p></div>
+      <div class="a"><p>Да. Архитектура построена так, что серверы физически не пишут историю подключений — это заложено by design. Нечего хранить — значит, нечего у нас запросить и нечего слить.</p></div>
     </div>
     <div class="qa">
       <button class="q">VPN сильно замедлит интернет?<span class="q-ic">+</span></button>
@@ -1397,8 +1394,8 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
     <button type="button" class="dr-item" data-modal="status"><span class="e">📡</span> Статус серверов</button>
     <button type="button" class="dr-item" data-modal="map"><span class="e">🌍</span> Карта серверов</button>
     <button type="button" class="dr-item" data-modal="speed"><span class="e">🚀</span> Тест скорости</button>
-    <button type="button" class="dr-item" data-modal="reviews"><span class="e">⭐</span> Отзывы</button>
-    <button type="button" class="dr-item" data-modal="faq"><span class="e">❓</span> Вопросы и ответы</button>
+    <a class="dr-item" href="#reviews" data-drclose><span class="e">⭐</span> Отзывы</a>
+    <a class="dr-item" href="#faq" data-drclose><span class="e">❓</span> Вопросы и ответы</a>
     <button type="button" class="dr-item" data-support data-drclose><span class="e">🆘</span> Поддержка</button>
     <div class="drawer-group">Подписка</div>
     <a class="dr-item" href="pay.html"><span class="e">💳</span> Оплатить подписку</a>
@@ -1716,15 +1713,8 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   const SB_KEY = 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
   const sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
-  const seed = [
-    { n: 'Максим Д.', t: 'Перешёл с дорогого зарубежного VPN. bitaps реально быстрее, а платил в три раза меньше. Netflix US работает без единого затыка.', r: 5, ago: '2 часа назад' },
-    { n: 'Алина К.', t: 'Поставила маме на телефон за минуту, без меня разобралась. Одна кнопка — и всё. Вот так и должно быть сделано.', r: 5, ago: 'вчера' },
-    { n: 'Игорь В.', t: 'Работаю удалённо из разных стран. Kill switch спасал не раз — ни одной утечки за год. Поддержка отвечает ночью за пару минут.', r: 5, ago: '3 дня назад' },
-    { n: 'Денис', t: 'Поставил на роутер — теперь весь дом под защитой. Скорость как была, реально не просел.', r: 5, ago: 'неделю назад' },
-  ];
-
   const esc = s => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
-  const lsLoad = () => { try { return JSON.parse(localStorage.getItem(KEY)) || seed; } catch { return seed; } };
+  const lsLoad = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
   const lsSave = arr => { try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch {} };
   const ago = iso => {
     try { const d = (Date.now() - new Date(iso).getTime()) / 1000;
@@ -1743,7 +1733,6 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
           .select('name,text,rating,created_at').order('created_at', { ascending: false }).limit(200);
         if (!error && Array.isArray(data)) {
           items = data.map(r => ({ n: r.name, t: r.text, r: r.rating, ago: ago(r.created_at) }));
-          if (!items.length) items = seed.slice();
           render(); return;
         }
       } catch (_) {}
@@ -1752,6 +1741,11 @@ html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
   }
 
   function render() {
+    if (!items.length) {
+      list.innerHTML = '<div class="citem-empty" style="text-align:center;color:var(--mut);padding:26px 10px">Пока нет отзывов. Оставь первый — он появится здесь сразу.</div>';
+      const b0 = document.getElementById('cMore'); if (b0) b0.style.display = 'none';
+      return;
+    }
     const visible = expanded ? items : items.slice(0, 4);
     list.innerHTML = visible.map(c => {
       const nm = (c.n || '').trim() || 'Гость';
