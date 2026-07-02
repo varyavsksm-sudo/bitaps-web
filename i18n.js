@@ -114,8 +114,8 @@
     "Да. Архитектура построена так, что серверы физически не пишут историю подключений. Это подтвердил независимый аудит. Нечего хранить — значит, нечего у нас запросить и нечего слить.":
       "Yes. The architecture is built so servers physically don't record connection history. An independent audit confirmed it. Nothing stored means nothing to request from us and nothing to leak.",
     "VPN сильно замедлит интернет?": "Will the VPN slow my internet a lot?",
-    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Скорость — до 2 Гбит/с. На замере выше — реальная картина.":
-      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups». The speed is up to 2 Gbps. The test above shows the real picture.",
+    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Скорость — до 1 Гбит/с. На замере выше — реальная картина.":
+      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups». The speed is up to 1 Gbps. The test above shows the real picture.",
     "На сколько устройств можно поставить?": "How many devices can I use?",
     "Одна подписка — до 10 устройств одновременно: телефон, ноутбук, планшет, телевизор и даже роутер. Этого с запасом хватает на всю семью.":
       "One subscription — up to 10 devices at once: phone, laptop, tablet, TV and even a router. More than enough for the whole family.",
@@ -164,7 +164,7 @@
     "bitaps VPN — приватность без компромиссов": "bitaps VPN — privacy without compromise", "Оплата · bitaps VPN": "Payment · bitaps VPN",
     "Личный кабинет — bitaps VPN": "Dashboard — bitaps VPN", "Скачать приложение — bitaps VPN": "Download app — bitaps VPN",
     "Поддержка · bitaps VPN": "Support · bitaps VPN", "Заказать B-box — bitaps VPN": "Order B-box — bitaps VPN",
-    "Заказ B-box · bitaps VPN": "B-box order · bitaps VPN", "Рыбалка карпов · bitaps VPN": "Koi fishing · bitaps VPN",
+    "Заказ B-box · bitaps VPN": "B-box order · bitaps VPN", "Ловля карпов · bitaps VPN": "Koi fishing · bitaps VPN",
     "Почта подтверждена — bitaps": "Email confirmed — bitaps", "Страница не найдена — bitaps VPN": "Page not found — bitaps VPN",
     // box / box-order (страницы B-box)
     "📦 Под заказ": "📦 Made to order", "Что это и зачем": "What it is and why", "Как работает": "How it works",
@@ -233,7 +233,7 @@
     // drawer menu
     "Меню": "Menu", "Ещё на сайте": "More on the site", "Статус серверов": "Server status", "Карта серверов": "Server map",
     "Тест скорости": "Speed test", "Отзывы": "Reviews", "Вопросы и ответы": "FAQ", "Подписка": "Subscription",
-    "Оплатить подписку": "Pay for subscription", "Развлечение": "Fun", "Рыбалка карпов": "Koi fishing",
+    "Оплатить подписку": "Pay for subscription", "Развлечение": "Fun", "Ловля карпов": "Koi fishing",
     "топ-5": "top-5", "топ-3": "top-3", "Не удалось отправить заявку — проверьте интернет и попробуйте ещё раз. Или напишите нам:": "Couldn't send the request — check your connection and try again. Or message us:", "· приватность без компромиссов": "· privacy without compromise", "Аккаунт": "Account", "Личный кабинет": "Dashboard",
     // attrs
     "Курс Bitcoin · данные bitaps.com": "Bitcoin price · data from bitaps.com",
@@ -322,7 +322,7 @@
     "Пригласи друзей": "Invite friends", "Копировать": "Copy", "Скопировано ✓": "Copied ✓", "Нажмите, чтобы скопировать": "Tap to copy",
     "Новый пароль (минимум 6 символов)": "New password (at least 6 characters)", "E-mail для ответа": "Email for reply", "Ваш вопрос": "Your question",
     "Ответим на твою почту, обычно в течение дня": "We'll reply to your email, usually within a day", "Сообщение отправлено!": "Message sent!", "Мы свяжемся с вами по почте.": "We'll contact you by email.",
-    "// мини-игра": "// mini-game", "Рыбалка": "Koi", "карпов": "fishing",
+    "// мини-игра": "// mini-game", "Ловля": "Koi", "карпов": "fishing",
     "Лови карпов, набивай комбо и попади в топ-5. Золотой карп — джекпот, красный чужак — мимо (за него штраф).": "Catch koi, build combos and reach the top-5. The golden koi is the jackpot, the red intruder is a miss (penalty).",
     "Топ-3 каждый месяц получают бесплатные дни bitaps VPN 🎁": "Top-3 each month get free bitaps VPN days 🎁",
     "СЧЁТ": "SCORE", "КОМБО": "COMBO", "ВРЕМЯ": "TIME", "Готов на": "Ready to", "рыбалку": "fish?",
