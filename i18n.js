@@ -25,7 +25,7 @@
     "Протокол VLESS + Reality — современное шифрование и стабильное соединение. Стримь 4K и качай торренты — VPN не почувствуешь.":
       "VLESS + Reality protocol — modern encryption and a stable connection. Stream 4K and download torrents — you won't even feel the VPN.",
     "Шифрование AES-256": "AES-256 encryption",
-    "Тот же стандарт, что у банков и спецслужб. Взломать твой трафик займёт больше времени, чем существует Вселенная.":
+    "Тот же стандарт, что у банков и спецслужб. Чтобы взломать твой трафик, понадобится больше времени, чем существует Вселенная.":
       "The same standard banks and intelligence agencies use. Cracking your traffic would take longer than the universe has existed.",
     "Политика No-Logs": "No-Logs policy",
     "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Подтверждено независимым аудитом.":
@@ -153,7 +153,7 @@
     "вставь ключ vless://… из бота": "paste the vless://… key from the bot",
     // pay.html — экран успеха оплаты
     "Счёт создан": "Invoice created", "Открываем оплату…": "Opening payment…", "Открыть оплату": "Open payment",
-    "⏳ Ждём подтверждение оплаты… ключ появится здесь автоматически (можно не закрывать страницу).": "⏳ Waiting for payment confirmation… the key will appear here automatically (you can keep the page open).",
+    "⏳ Ждём подтверждения оплаты… ключ появится здесь автоматически (можно не закрывать страницу).": "⏳ Waiting for payment confirmation… the key will appear here automatically (you can keep the page open).",
     "🔑 Готово! Твой ключ": "🔑 Done! Your key",
     "Скопируй ключ или открой в приложении Happ. Он также придёт на почту и доступен в Личном кабинете.": "Copy the key or open it in the Happ app. It will also arrive by email and is available in your Dashboard.",
     "Скопировать ключ": "Copy key", "⚙️ Открыть в Happ": "⚙️ Open in Happ", "🔐 Код входа в кабинет": "🔐 Login code for the dashboard",
@@ -286,7 +286,7 @@
     "Заказ принят!": "Order received!", "Менеджер свяжется, подтвердит наличие, цену и доставку.": "A manager will contact you to confirm availability, price and delivery.",
     "💬 Написать @bitapssupport": "💬 Message @bitapssupport", "Готово": "Done", "Оформить заказ ·": "Place order ·",
     "Фамилия Имя": "Full name", "Москва": "Moscow", "ул. Ленина, д. 10, кв. 5": "123 Main St, apt. 5", "Удобное время, подъезд, домофон…": "Convenient time, entrance, intercom…",
-    "Умная коробочка для роутера": "A smart box for your router", "— маленькое устройство, которое подключается к вашему роутеру и раздаёт VPN сразу на": "— a small device that connects to your router and shares the VPN with",
+    "Умная коробочка для роутера": "A smart box for your router", "— маленькое устройство, которое подключается к твоему роутеру и раздаёт VPN сразу на": "— a small device that connects to your router and shares the VPN with",
     ". Телевизор, телефоны, ноутбуки, приставки — всё работает через защищённое соединение, без настройки на каждом устройстве.": ". TV, phones, laptops, consoles — everything works through a secure connection, with no setup on each device.",
     "Просто работает": "Just works", "— включил в розетку и в роутер, и всё.": "— plug it into a socket and your router, that's it.",
     "Защищает все устройства": "Protects all devices", "в сети сразу, даже те, где нельзя поставить приложение.": "on the network at once, even those you can't install an app on.",
@@ -316,12 +316,12 @@
     "Сколько устройств можно подключить?": "How many devices can I connect?", "До 10 устройств одновременно по одной подписке.": "Up to 10 devices at once on one subscription.",
     "Вы ведёте логи?": "Do you keep logs?", "Нет. Мы не храним историю и трафик — приватность по умолчанию.": "No. We don't store history or traffic — privacy by default.",
     "Как продлить подписку?": "How do I renew?", "Кнопка «Продлить» выше → оплата в Telegram, срок продлится автоматически.": "The «Renew» button above → pay in Telegram, the term extends automatically.",
-    "VPN не подключается?": "VPN won't connect?", "Проверьте, что ключ скопирован полностью, попробуйте другой сервер или напишите в поддержку.": "Make sure the key is copied in full, try another server or message support.",
+    "VPN не подключается?": "VPN won't connect?", "Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.": "Make sure the key is copied in full, try another server or message support.",
     "Обновить пароль": "Update password", "За друзей с подпиской — бонусные дни": "Bonus days for friends who subscribe",
-    "Поделитесь ссылкой — когда друг оформит подписку, вам начислятся бонусные дни.": "Share your link — when a friend subscribes, you get bonus days.",
+    "Поделись ссылкой — когда друг оформит подписку, тебе начислятся бонусные дни.": "Share your link — when a friend subscribes, you get bonus days.",
     "Пригласи друзей": "Invite friends", "Копировать": "Copy", "Скопировано ✓": "Copied ✓", "Нажмите, чтобы скопировать": "Tap to copy",
     "Новый пароль (минимум 6 символов)": "New password (at least 6 characters)", "E-mail для ответа": "Email for reply", "Ваш вопрос": "Your question",
-    "Ответим на вашу почту, обычно в течение дня": "We'll reply to your email, usually within a day", "Сообщение отправлено!": "Message sent!", "Мы свяжемся с вами по почте.": "We'll contact you by email.",
+    "Ответим на твою почту, обычно в течение дня": "We'll reply to your email, usually within a day", "Сообщение отправлено!": "Message sent!", "Мы свяжемся с вами по почте.": "We'll contact you by email.",
     "// мини-игра": "// mini-game", "Рыбалка": "Koi", "карпов": "fishing",
     "Лови карпов, набивай комбо и попади в топ-5. Золотой карп — джекпот, красный чужак — мимо (за него штраф).": "Catch koi, build combos and reach the top-5. The golden koi is the jackpot, the red intruder is a miss (penalty).",
     "Топ-3 каждый месяц получают бесплатные дни bitaps VPN 🎁": "Top-3 each month get free bitaps VPN days 🎁",
