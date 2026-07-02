@@ -291,9 +291,6 @@ let floats=[];
 function flash(x,y,txt,col){ floats.push({x,y,txt,col,a:1}); }
 function drawFloats(){ for(let i=floats.length-1;i>=0;i--){ const fl=floats[i]; fl.y-=0.6; fl.a-=0.02; if(fl.a<=0){floats.splice(i,1);continue;}
   ctx.globalAlpha=Math.max(0,fl.a); ctx.fillStyle=fl.col; ctx.font='800 16px Space Grotesk'; ctx.textAlign='center'; ctx.fillText(fl.txt,fl.x,fl.y); ctx.globalAlpha=1; } }
-// рисуем floats поверх в том же цикле
-const _loop=loop;
-
 function pos(e){ const r=cv.getBoundingClientRect(); const t=e.touches?e.touches[0]:e; return {x:(t.clientX-r.left), y:(t.clientY-r.top)}; }
 // анти-автокликер: не чаще ~9 кликов/сек и не быстрее 80мс между кликами
 let clickT=[], lastClick=0, cheatHits=0;

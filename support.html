@@ -7,7 +7,7 @@
   html[data-theme="light"]{--bg:#f3f5fa;--card:#ffffff;--card2:#eef1f7;--line:#e3e8f0;--tx:#10141b;--mut:#5d6675;--inp:#f4f6fb}
   .tt{position:fixed;top:10px;right:12px;z-index:9;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--tx);font-size:16px;line-height:1;cursor:pointer}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:0 0 110px}
+  body{margin:0;font:15px/1.55 -apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:0 0 110px;overflow-x:hidden}
   .wrap{max-width:520px;margin:0 auto;padding:18px 16px}
   h1{font-size:23px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
   h2{font-size:16px;margin:24px 0 12px}
@@ -20,11 +20,11 @@
   .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 
   /* каналы связи */
-  .chan{display:flex;gap:10px;margin-top:14px}
-  .chan a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center;color:var(--tx)}
+  .chan{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .chan a{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center;color:var(--tx)}
   .chan a .ic{font-size:22px;display:block;margin-bottom:6px}
   .chan a .t{font-weight:700;font-size:14px}
-  .chan a .d{font-size:12px;color:var(--mut);margin-top:1px}
+  .chan a .d{font-size:12px;color:var(--mut);margin-top:1px;overflow-wrap:anywhere}
 
   /* темы */
   .topics{display:flex;flex-wrap:wrap;gap:8px}
