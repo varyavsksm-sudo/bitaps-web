@@ -392,7 +392,19 @@
     "или из письма после оплаты на сайте.": "or from the email after paying on the site.",
     "🔜 скоро в продаже · оставь заявку": "🔜 coming soon · leave a request",
     "🔜 Скоро в продаже · предзаказ": "🔜 Coming soon · preorder",
-    ". Это предзаказ: оставь заявку — сообщим, как только B-box поступит, и оформим доставку.": ". This is a preorder — leave a request and we'll notify you when B-box is available and arrange delivery."
+    ". Это предзаказ: оставь заявку — сообщим, как только B-box поступит, и оформим доставку.": ". This is a preorder — leave a request and we'll notify you when B-box is available and arrange delivery.",
+    // ── добор пропусков (найдено репортером __i18nMissing на live) ──
+    "3 дня бесплатно · без скрытых платежей · отмена в один клик": "3 days free · no hidden fees · cancel in one click",
+    "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Так заложено в самой архитектуре сервиса.": "We physically don't store what you do. Nothing to keep — nothing to hand over. It's built into the service architecture itself.",
+    "Демо для наглядности": "Demo for illustration",
+    "// отзывы": "// reviews",
+    "Что говорят": "What people say",
+    "о bitaps": "about bitaps",
+    "Оставь свой отзыв — он появится здесь сразу.": "Leave your review — it'll appear here right away.",
+    "Пока нет отзывов. Оставь первый — он появится здесь сразу.": "No reviews yet. Be the first — it'll appear here right away.",
+    "Да. Архитектура построена так, что серверы физически не пишут историю подключений — это заложено by design. Нечего хранить — значит, нечего у нас запросить и нечего слить.": "Yes. The architecture is built so that servers physically don't record connection history — it's by design. Nothing to store means nothing to request from us and nothing to leak.",
+    "Рыбалка карпов": "Koi fishing",
+    "«Ключ доступа» (Access key)": "«Access key»"
   };
 
   function detect() {
@@ -402,11 +414,26 @@
   var cur = detect();
   var obs = null;
 
+  // элементы с data-i18n переводятся напрямую (см. trEl) — текстовый движок их поддеревья пропускает
   function textNodes(root) {
     var out = [], w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false), n;
-    while ((n = w.nextNode())) { var p = n.parentNode; if (p && !/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName)) out.push(n); }
+    while ((n = w.nextNode())) {
+      var p = n.parentNode;
+      if (p && !/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName) && !(p.closest && p.closest('[data-i18n]'))) out.push(n);
+    }
     return out;
   }
+  // прямой перевод по ключу-атрибуту: <span data-i18n="English text">Русский текст</span>.
+  // Работает даже если строки нет в DICT — это надёжный путь для нового текста.
+  function trEl(l) {
+    document.querySelectorAll('[data-i18n]').forEach(function (e) {
+      if (e.__ruEl == null) e.__ruEl = e.textContent;
+      var v = l === 'en' ? (e.getAttribute('data-i18n') || e.__ruEl) : e.__ruEl;
+      if (e.textContent !== v) e.textContent = v;
+    });
+  }
+  // репортер пропусков: какие русские строки остались непереведёнными в EN
+  var MISS = {};
   function tr(node, l) {
     var raw = node.__ru != null ? node.__ru : node.textContent;
     var trimmed = raw.trim(); if (!trimmed) return;
@@ -418,6 +445,8 @@
       var out = trimmed, hit = false;
       for (var i = 0; i < SUB.length; i++) { if (out.indexOf(SUB[i][0]) >= 0) { out = out.split(SUB[i][0]).join(SUB[i][1]); hit = true; } }
       if (hit) { var w = raw.replace(trimmed, out); if (node.textContent !== w) node.textContent = w; return; }
+      // не нашли перевод и в тексте есть кириллица → это пропуск, фиксируем
+      if (/[а-яё]/i.test(col)) MISS[col] = (MISS[col] || 0) + 1;
     }
     if (node.textContent !== node.__ru) node.textContent = node.__ru;
   }
@@ -441,6 +470,8 @@
   }
   function apply(l) {
     if (obs) obs.disconnect();
+    if (l === 'en') MISS = {};
+    trEl(l);
     textNodes(document.body).forEach(function (n) { tr(n, l); });
     trAttr(l);
     // перевод <title> вкладки (walk ходит только по body, поэтому title отдельно; RU-оригинал сохраняем для отката)
@@ -450,6 +481,15 @@
     document.documentElement.lang = l;
     var b = document.getElementById('langToggle'); if (b) b.textContent = l === 'en' ? 'RU' : 'EN';
     if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+    if (l === 'en') reportMiss();
+  }
+  // выводит непереведённые строки — видно в консоли на dev/preview, чтобы дыры не уходили в прод молча
+  function reportMiss() {
+    var keys = Object.keys(MISS);
+    window.__i18nMissing = keys;
+    if (keys.length && /localhost|127\.0\.0\.1|^file:|\.local$|preview/.test(location.origin + location.hostname)) {
+      console.warn('[i18n] нет перевода EN для ' + keys.length + ' строк:', keys);
+    }
   }
   function setLang(l) { cur = l; try { localStorage.setItem(KEY, l); } catch (e) {} apply(l); }
 
@@ -506,6 +546,7 @@
       });
       if (!nodes.length) return;
       obs.disconnect();
+      trEl('en');
       nodes.forEach(function (n) { tr(n, 'en'); });
       trAttr('en');
       obs.observe(document.body, { childList: true, subtree: true, characterData: true });
