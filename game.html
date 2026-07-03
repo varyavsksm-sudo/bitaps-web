@@ -181,6 +181,7 @@ window.addEventListener('resize',resize);
 
 // ── состояние ──
 let fish=[], running=false, score=0, timeLeft=60, combo=1, comboTimer=0, last=0, spawnT=0, elapsed=0, ripples=[], bubbles=[], splashes=[], pads=[], bubT=0;
+let gameSession=null; // одноразовая server-side сессия антифрода (game_start → game_score)
 const rnd=(a,b)=>a+Math.random()*(b-a);
 
 const SZ_MIN=11, SZ_MAX=30;
@@ -315,6 +316,9 @@ function startGame(){ resize(); fish=[];floats=[];ripples=[];bubbles=[];splashes
   pads=[ {x:W*0.13,y:H*0.18,r:rnd(24,32),rot:rnd(0,6),ph:0,lotus:true}, {x:W*0.86,y:H*0.82,r:rnd(28,38),rot:rnd(0,6),ph:2,lotus:false}, {x:W*0.72,y:H*0.1,r:rnd(18,26),rot:rnd(0,6),ph:4,lotus:false} ];
   score=0;timeLeft=60;combo=1;comboTimer=0;elapsed=0;spawnT=0;bubT=0;last=performance.now();
   $('score').textContent=0; $('time').textContent=60; updCombo();
+  // антифрод: открываем серверную сессию на старте игры (server-time начало). Успеет к сабмиту (игра 60с).
+  gameSession=null;
+  if(TG&&TG.initData){ fetch(SB+'/functions/v1/tg-webapp',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'game_start',initData:TG.initData})}).then(r=>r.json()).then(j=>{ if(j&&j.session) gameSession=j.session; }).catch(()=>{}); }
   $('overlay').classList.add('hide'); running=true; last=performance.now(); requestAnimationFrame(loop); }
 
 function endGame(){ running=false; $('final').textContent=score; $('overlay').classList.remove('hide');
@@ -347,15 +351,19 @@ $('submitScore').onclick=async function(){
   if(BADNAME.test(name)){ $('pname').value=''; $('pname').placeholder='нормальное имя, пожалуйста 🙂'; $('pname').focus(); return; }
   try{ localStorage.setItem('bitaps-game-name',name); }catch(e){}
   this.disabled=true; this.textContent='…';
+  let okSaved=true;
   try{
     if(TG&&TG.initData){
-      // в Telegram — через верифицированный эндпоинт: очко привязывается к аккаунту (для честного награждения топ-3)
-      await fetch(SB+'/functions/v1/tg-webapp',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'game_score',initData:TG.initData,score,name})});
+      // в Telegram — верифицированный эндпоинт + одноразовая антифрод-сессия (очко привязано к аккаунту, для честного топ-3)
+      const resp=await fetch(SB+'/functions/v1/tg-webapp',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'game_score',initData:TG.initData,score,name,session:gameSession})});
+      const jr=await resp.json().catch(()=>null); okSaved=!!(jr&&jr.ok);
     }else{
       await fetch(SB+'/rest/v1/game_scores',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name,score})});
     }
-  }catch(e){}
-  $('nameRow').classList.add('hide'); $('saved').classList.remove('hide');
+  }catch(e){ okSaved=!(TG&&TG.initData); }
+  $('nameRow').classList.add('hide');
+  $('saved').textContent = okSaved ? '✅ Результат сохранён в топе!' : '⚠️ Результат не засчитан — сыграй ещё раз 🎣';
+  $('saved').classList.remove('hide');
   await loadBoard(score);
   this.disabled=false; this.textContent='В топ';
 };
