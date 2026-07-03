@@ -1516,7 +1516,7 @@
     try {
       const b = JSON.stringify(Object.assign({ name, path: location.pathname, ref: document.referrer || '' }, extra || {}));
       if (navigator.sendBeacon) navigator.sendBeacon(EP, new Blob([b], { type: 'text/plain;charset=UTF-8' }));
-      else fetch(EP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: b, keepalive: true }).catch(() => {});
+      else fetch(EP, { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' }, body: b, keepalive: true }).catch(() => {});
     } catch (_) {}
   };
   window.btTrack('pageview');

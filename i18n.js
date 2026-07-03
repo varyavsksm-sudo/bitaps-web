@@ -1,7 +1,8 @@
 /* bitaps VPN — переключатель языка RU/EN (один общий файл для всех страниц).
-   Движок: автоопределение по языку браузера, кнопка RU/EN, перевод текстовых
-   узлов и атрибутов по словарю (ключ — русский текст со схлопнутыми пробелами),
-   наблюдатель за динамически добавленным содержимым. Юр-доки не трогаем. */
+   Движок: язык берётся из localStorage (по умолчанию русский), переключается
+   кнопкой RU/EN; перевод текстовых узлов и атрибутов по словарю (ключ — русский
+   текст со схлопнутыми пробелами), наблюдатель за динамически добавленным
+   содержимым. Юр-доки не трогаем. */
 (function () {
   var KEY = 'bitaps-lang';
   // ── словарь: русский (схлопнутые пробелы) → english ──
@@ -96,18 +97,8 @@
     "Выделенный IP-адрес": "Dedicated IP address", "Лучшая цена месяца": "Best monthly price",
     "Оплата на сайте или в Telegram-боте · Подписка активируется сразу · 3 дня бесплатно · Без скрытых платежей":
       "Pay on the website or in the Telegram bot · Subscription activates instantly · 3 days free · No hidden fees",
-    // reviews
-    "// живые люди": "// real people", "Проверено": "Proven", "в деле": "in action",
-    "Это не реклама, а живые отзывы. Оставь и свой — появится сразу.": "Not ads — real reviews. Leave yours, it shows up instantly.",
+    // reviews — relative-time метки и кнопка «Отправить» (используются в живой секции отзывов)
     "Отправить": "Send", "часа назад": "hours ago", "вчера": "yesterday", "дня назад": "days ago", "неделю назад": "a week ago",
-    "Перешёл с дорогого зарубежного VPN. bitaps реально быстрее, а платил в три раза меньше. Netflix US работает без единого затыка.":
-      "Switched from a pricey foreign VPN. bitaps is genuinely faster and I pay three times less. Netflix US works without a single hiccup.",
-    "Поставила маме на телефон за минуту, без меня разобралась. Одна кнопка — и всё. Вот так и должно быть сделано.":
-      "Set it up on my mom's phone in a minute, she figured it out without me. One button and done. This is how it should be.",
-    "Работаю удалённо из разных стран. Kill switch спасал не раз — ни одной утечки за год. Поддержка отвечает ночью за пару минут.":
-      "I work remotely from different countries. The kill switch saved me more than once — not a single leak in a year. Support replies at night within minutes.",
-    "Поставил на роутер — теперь весь дом под защитой. Скорость как была, реально не просел.":
-      "Put it on my router — now the whole house is protected. Speed unchanged, really no drop.",
     // faq
     "// вопросы": "// questions", "Коротко о": "Briefly on", "главном": "what matters",
     "Вы правда не храните логи?": "Do you really keep no logs?",
@@ -403,23 +394,13 @@
   var cur = detect();
   var obs = null;
 
-  // элементы с data-i18n переводятся напрямую (см. trEl) — текстовый движок их поддеревья пропускает
   function textNodes(root) {
     var out = [], w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false), n;
     while ((n = w.nextNode())) {
       var p = n.parentNode;
-      if (p && !/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName) && !(p.closest && p.closest('[data-i18n]'))) out.push(n);
+      if (p && !/^(SCRIPT|STYLE|TEXTAREA)$/.test(p.nodeName)) out.push(n);
     }
     return out;
-  }
-  // прямой перевод по ключу-атрибуту: <span data-i18n="English text">Русский текст</span>.
-  // Работает даже если строки нет в DICT — это надёжный путь для нового текста.
-  function trEl(l) {
-    document.querySelectorAll('[data-i18n]').forEach(function (e) {
-      if (e.__ruEl == null) e.__ruEl = e.textContent;
-      var v = l === 'en' ? (e.getAttribute('data-i18n') || e.__ruEl) : e.__ruEl;
-      if (e.textContent !== v) e.textContent = v;
-    });
   }
   // репортер пропусков: какие русские строки остались непереведёнными в EN
   var MISS = {};
@@ -460,7 +441,6 @@
   function apply(l) {
     if (obs) obs.disconnect();
     if (l === 'en') MISS = {};
-    trEl(l);
     textNodes(document.body).forEach(function (n) { tr(n, l); });
     trAttr(l);
     // перевод <title> вкладки (walk ходит только по body, поэтому title отдельно; RU-оригинал сохраняем для отката)
@@ -529,7 +509,6 @@
       });
       if (!nodes.length) return;
       obs.disconnect();
-      trEl('en');
       nodes.forEach(function (n) { tr(n, 'en'); });
       trAttr('en');
       obs.observe(document.body, { childList: true, subtree: true, characterData: true });
