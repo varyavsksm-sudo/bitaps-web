@@ -490,7 +490,7 @@
   <div class="foot-links">
     <div><h4>Продукт</h4><a href="#features">Возможности</a><a href="#" data-section="map">Серверы</a><a href="#pricing">Цены</a></div>
     <div><h4>Платформы</h4><a href="app.html?os=windows">Windows</a><a href="app.html?os=linux">Linux</a><a href="app.html?os=macos">macOS</a><a href="app.html?os=ios">iOS</a><a href="app.html?os=android">Android</a></div>
-    <div><h4>Компания</h4><a href="#" data-support>Поддержка</a><a href="terms.html">Оферта</a><a href="privacy.html">Политика</a></div>
+    <div><h4>Компания</h4><a href="#" data-support>Поддержка</a><a href="support.html">Помощь и FAQ</a><a href="terms.html">Оферта</a><a href="privacy.html">Политика</a></div>
   </div>
   <div class="foot-bottom">
     <span>© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</span>
@@ -1223,7 +1223,8 @@
   const auRecover = document.getElementById('auRecover');
   if (auRecover) auRecover.addEventListener('click', async (e) => {
     e.preventDefault();
-    const email = prompt('Впиши почту, на которую покупал(а) VPN — пришлём ссылку с «Кодом входа»:');
+    const _en = document.documentElement.lang === 'en';
+    const email = prompt(_en ? 'Enter the email you bought the VPN with — we\'ll send a link with your «Login code»:' : 'Впиши почту, на которую покупал(а) VPN — пришлём ссылку с «Кодом входа»:');
     if (!email || !email.trim()) return;
     const ke = document.getElementById('auKeyErr'); ke.style.color = '';
     try {
@@ -1240,8 +1241,9 @@
       const r = await fetch(RECOVER_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'confirm', token: t }) });
       const j = await r.json();
       history.replaceState(null, '', location.pathname); // убираем токен из адреса/истории/фрагмента
-      if (j && j.ok && j.login_secret) alert('Твой «Код входа» — сохрани его, им входишь в кабинет и приложение (не вводи в VPN-клиенты):\n\n' + j.login_secret);
-      else alert('Ссылка недействительна или истекла. Запроси восстановление заново.');
+      const _en = document.documentElement.lang === 'en';
+      if (j && j.ok && j.login_secret) alert((_en ? 'Your «Login code» — save it, you use it to sign in to the dashboard and app (don\'t enter it into VPN clients):\n\n' : 'Твой «Код входа» — сохрани его, им входишь в кабинет и приложение (не вводи в VPN-клиенты):\n\n') + j.login_secret);
+      else alert(_en ? 'The link is invalid or expired. Request recovery again.' : 'Ссылка недействительна или истекла. Запроси восстановление заново.');
     } catch (e) {}
   })();
 
@@ -1262,7 +1264,7 @@
       const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
       if (error) throw error;
       location.href = 'account.html';
-    } catch (err) { alert('Не удалось войти через Telegram: ' + (err && err.message || err)); }
+    } catch (err) { alert((document.documentElement.lang === 'en' ? 'Telegram sign-in failed: ' : 'Не удалось войти через Telegram: ') + (err && err.message || err)); }
   })();
 
   try {

@@ -198,7 +198,7 @@
     // footer
     "Приватность — это не паранойя. Это гигиена.": "Privacy isn't paranoia. It's hygiene.",
     "Продукт": "Product", "Серверы": "Servers", "Платформы": "Platforms", "Компания": "Company",
-    "Оферта": "Terms", "Политика": "Privacy",
+    "Оферта": "Terms", "Политика": "Privacy", "Помощь и FAQ": "Help & FAQ",
     "© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.":
       "© 2026 bitaps VPN. Made for those with something to hide — that is, everyone.",
     // b-box modal
@@ -293,7 +293,9 @@
     "💬 Продолжить в Telegram @bitapssupport": "💬 Continue on Telegram @bitapssupport", "Как к тебе обращаться": "Your name", "@ник или +7…": "@handle or +1…",
     "Опиши вопрос — чем подробнее, тем быстрее поможем": "Describe your question — the more detail, the faster we help",
     "Управление подпиской, ключом и аккаунтом": "Manage your subscription, key and account", "Вы не вошли в аккаунт.": "You're not signed in.",
-    "🚪 Выйти": "🚪 Log out", "Оформить подписку": "Get a subscription", "дней": "days",
+    "🚪 Выйти": "🚪 Log out", "Оформить подписку": "Get a subscription", "дней": "days", "день": "day", "дня": "days",
+    "Нет подписки": "No subscription", "Меняю…": "Saving…", "Готово ✓": "Done ✓", "Ошибка": "Error",
+    "Не удалось скопировать — выдели и скопируй вручную": "Couldn't copy — select and copy manually",
     "Ключ доступа": "Access key", "Один ключ для приложений": "One key for the apps",
     ". Отсканируй QR в приложении или скопируй ключ — и подключайся.": ". Scan the QR in the app or copy the key — and connect.",
     "Нажми на ключ, чтобы скопировать.": "Tap the key to copy.",
@@ -426,6 +428,9 @@
     ['Ошибка: ', 'Error: '], ['Вы выбрали:', 'You selected:'], ['Похоже, у вас', 'Looks like you have'],
     ['Как установить на', 'How to install on'], ['После оплаты ключ придёт на', 'after payment the key will be sent to'],
     ['Оплати ', 'Pay '], ['в CryptoBot.', 'in CryptoBot.'], ['осталось', 'left'],
+    // склонения «устройство» для динамики кабинета (порядок важен: 'устройств' — подстрока
+    // остальных, потому идёт последним, иначе порежет 'устройство'/'устройства')
+    [' устройства', ' devices'], [' устройство', ' device'], [' устройств', ' devices'],
   ];
   function trAttr(l) {
     ['placeholder', 'title', 'aria-label'].forEach(function (a) {
@@ -461,6 +466,21 @@
     }
   }
   function setLang(l) { cur = l; try { localStorage.setItem(KEY, l); } catch (e) {} apply(l); }
+
+  // Сбросить кэш __ru на узлах внутри root и перевести заново. Нужен после того, как
+  // JS перезаписал текст (кабинет, тосты, статусы кнопок): движок кэширует исходный RU
+  // при первом проходе, и в EN динамика иначе откатывалась бы к плейсхолдерам («—»).
+  // В RU просто чистит кэш — безопасно (перекэшируется при следующем apply).
+  window.__i18nRefresh = function (root) {
+    try {
+      root = root || document.body;
+      if (obs) obs.disconnect();
+      var nodes = textNodes(root);
+      nodes.forEach(function (n) { n.__ru = null; });
+      if (cur === 'en') { trEl('en'); nodes.forEach(function (n) { tr(n, 'en'); }); trAttr('en'); }
+      if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+    } catch (e) {}
+  };
 
   function mkButton() {
     if (document.getElementById('langToggle')) return;

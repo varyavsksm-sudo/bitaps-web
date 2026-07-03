@@ -300,7 +300,7 @@
             <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
             <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52"></circle>
           </svg>
-          <div class="ring-center"><b id="leftDays">—</b><span>дней</span></div>
+          <div class="ring-center"><b id="leftDays">—</b><span id="leftLabel">дней</span></div>
         </div>
       </div>
 
@@ -495,7 +495,10 @@
 <script>
 (async () => {
   const $ = (id) => document.getElementById(id);
-  const toast = (t) => { const e = $('toast'); e.textContent = t; e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 1400); };
+  const EN = () => document.documentElement.lang === 'en';
+  // правильное склонение «день/дня/дней» по числу (RU); EN даёт day/days при переводе движком
+  const daysWord = (n) => { const a = n % 100, b = n % 10; if (a > 10 && a < 20) return 'дней'; if (b === 1) return 'день'; if (b >= 2 && b <= 4) return 'дня'; return 'дней'; };
+  const toast = (t) => { const e = $('toast'); e.textContent = t; if (window.__i18nRefresh) window.__i18nRefresh(e); e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 1400); };
   const copy = async (t) => { try { await navigator.clipboard.writeText(t); toast('Скопировано ✓'); } catch (_) { toast('Не удалось скопировать — выдели и скопируй вручную'); } };
 
   // режим Telegram Mini App
@@ -543,6 +546,7 @@
       $('ringFill').style.strokeDasharray = circ;
       setTimeout(() => { $('ringFill').style.strokeDashoffset = circ * (1 - pct / 100); }, 80);
       countUp($('leftDays'), left);
+      $('leftLabel').textContent = daysWord(left);
       $('untilDate').textContent = 'активна до ' + exp.toLocaleDateString('ru-RU');
       $('subBtn').textContent = 'Продлить подписку';
       { const _pl = /^[a-z0-9]+$/i.test(data.plan || '') ? data.plan : ''; const _dv = data.device_limit || 1;
@@ -562,10 +566,10 @@
         $('secretRow').hidden = false;
         $('secret').addEventListener('click', () => copy($('secret').textContent));
         $('rotateSecret').addEventListener('click', async () => {
-          if (!confirm('Сменить код входа? Старый код перестанет работать.')) return;
+          if (!confirm(EN() ? 'Change your login code? The old one will stop working.' : 'Сменить код входа? Старый код перестанет работать.')) return;
           const btn = $('rotateSecret'), old = btn.textContent;
-          btn.disabled = true; btn.textContent = 'Меняю…';
-          const done = (t) => { btn.textContent = t; setTimeout(() => { btn.textContent = old; btn.disabled = false; }, 1600); };
+          btn.disabled = true; btn.textContent = 'Меняю…'; if (window.__i18nRefresh) window.__i18nRefresh(btn);
+          const done = (t) => { btn.textContent = t; if (window.__i18nRefresh) window.__i18nRefresh(btn); setTimeout(() => { btn.textContent = old; if (window.__i18nRefresh) window.__i18nRefresh(btn); btn.disabled = false; }, 1600); };
           try {
             const { data: { session } } = await sb.auth.getSession();
             if (!session) return done('Ошибка');
@@ -580,11 +584,12 @@
       $('planName').firstChild.textContent = 'Нет подписки';
       $('planSub').textContent = 'оформи тариф, чтобы получить ключ';
       $('subBadge').textContent = 'Не активна'; $('subBadge').className = 'badge off';
-      $('leftDays').textContent = '—';
+      $('leftDays').textContent = '—'; $('leftLabel').textContent = 'дней';
       $('untilDate').textContent = 'подписка не активна';
       const circ = 2 * Math.PI * 52;
       $('ringFill').style.strokeDasharray = circ; $('ringFill').style.strokeDashoffset = circ;
     }
+    if (window.__i18nRefresh) window.__i18nRefresh(document.getElementById('cab'));
   };
   const setupRef = (link) => { $('refLink').textContent = link; $('refCopy').addEventListener('click', () => copy(link)); };
   const setupSupport = (name, email) => {
@@ -608,7 +613,7 @@
       supSending = false;
       if (supBtn) { supBtn.disabled = false; supBtn.style.opacity = ''; supBtn.style.cursor = ''; }
       if (sent) { $('supForm').hidden = true; $('supOk').hidden = false; }
-      else { alert('Не удалось отправить — напиши напрямую в Telegram: @bitapssupport'); }
+      else { alert(EN() ? "Couldn't send — message us directly on Telegram: @bitapssupport" : 'Не удалось отправить — напиши напрямую в Telegram: @bitapssupport'); }
     });
   };
 
@@ -659,6 +664,7 @@
       setupRef(`https://t.me/bitaps_vpn_auth_bot?start=ref${u.id}`);
       fillSub(j.sub);
       setupSupport(name, '');
+      if (window.__i18nRefresh) window.__i18nRefresh(document.body);
     } catch (_) { $('guest').hidden = false; }
     return;
   }
@@ -708,9 +714,10 @@
       if (pwSending) return;
       pwSending = true;
       if (pwBtn) { pwBtn.disabled = true; pwBtn.style.opacity = '.6'; pwBtn.style.cursor = 'default'; }
-      $('pwMsg').textContent = 'Обновляю…';
+      $('pwMsg').textContent = 'Обновляю…'; if (window.__i18nRefresh) window.__i18nRefresh($('pwMsg'));
       const { error } = await sb.auth.updateUser({ password: $('pwNew').value });
       $('pwMsg').textContent = error ? ('Ошибка: ' + error.message) : 'Пароль обновлён ✓';
+      if (window.__i18nRefresh) window.__i18nRefresh($('pwMsg'));
       if (!error) $('pwForm').reset();
       pwSending = false;
       if (pwBtn) { pwBtn.disabled = false; pwBtn.style.opacity = ''; pwBtn.style.cursor = ''; }
@@ -718,6 +725,7 @@
   }
 
   $('logout').addEventListener('click', async () => { try { await sb.auth.signOut(); } catch (_) {} location.href = '/'; });
+  if (window.__i18nRefresh) window.__i18nRefresh(document.body);
 })();
 </script>
 <script>

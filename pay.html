@@ -101,9 +101,9 @@
     <div class="sform"><input id="email" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email" aria-label="Почта — на неё придёт ключ"></div>
     <div class="lbl" style="margin-top:18px">Способ оплаты</div>
     <div class="pays">
-      <button class="paybtn primary" id="payCrypto" type="button"><span class="ic">💎</span><span>Криптой (USDT/TON)<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
+      <button class="paybtn primary" id="paySbp" type="button"><span class="ic">🏦</span><span>Карта / СБП<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
+      <button class="paybtn" id="payCrypto" type="button"><span class="ic">💎</span><span>Криптой (USDT/TON)<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
       <a class="paybtn" id="payStars" href="https://t.me/bitaps_vpn_auth_bot?start=subscribe" target="_blank" rel="noopener"><span class="ic">⭐️</span><span>Telegram Stars<span class="d">оплата звёздами в боте</span></span><span class="ar">›</span></a>
-      <button class="paybtn" id="paySbp" type="button"><span class="ic">🏦</span><span>Карта / СБП<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
     </div>
     <div id="perr" class="perr hide"></div>
     <p class="pnote" style="margin-top:14px">Оплачивая, ты принимаешь <a href="terms.html" style="color:var(--acc)">оферту</a> и <a href="privacy.html" style="color:var(--acc)">политику конфиденциальности</a>.</p>
@@ -226,6 +226,16 @@
       await new Promise(function(res){setTimeout(res,5000);});
     }
     polling=false;
+    /* поллинг исчерпан (~20 мин) без успеха (успех делает return выше) — не оставляем вечное «ждём» */
+    var wm=document.getElementById('waitMsg');
+    if(wm){
+      wm.innerHTML=(document.documentElement.lang==='en'
+        ? 'Payment isn\'t confirmed yet. If you\'ve already paid, the key will still arrive by email — or write to '
+        : 'Оплата пока не подтвердилась. Если ты уже оплатил — ключ всё равно придёт на почту, либо напиши в ')
+        +'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc)">bitapssupport@gmail.com</a>.';
+      wm.classList.remove('hide');
+      if(window.__i18nRefresh) window.__i18nRefresh(wm);
+    }
   }
   /* возобновление: вернулся на страницу с незакрытым заказом → опрашиваем дальше */
   (function(){try{var pid=localStorage.getItem('bitaps-pending-pay'); if(pid && /^[0-9a-f-]{36}$/i.test(pid)) startPoll(pid);}catch(e){}})();
