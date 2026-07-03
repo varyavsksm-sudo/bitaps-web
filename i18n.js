@@ -168,6 +168,8 @@
     // pay.html — экран успеха оплаты
     "Счёт создан": "Invoice created", "Открываем оплату…": "Opening payment…", "Открыть оплату": "Open payment",
     "⏳ Ждём подтверждения оплаты… ключ появится здесь автоматически (можно не закрывать страницу).": "⏳ Waiting for payment confirmation… the key will appear here automatically (you can keep the page open).",
+    "Если окно оплаты не открылось автоматически — нажми «Открыть оплату» 👆": "If the payment window didn't open automatically — tap «Open payment» 👆",
+    "← Другой способ оплаты": "← Another payment method",
     "🔑 Готово! Твой ключ": "🔑 Done! Your key",
     "Скопируй ключ или открой в приложении Happ. Он также придёт на почту и доступен в Личном кабинете.": "Copy the key or open it in the Happ app. It will also arrive by email and is available in your Dashboard.",
     "Скопировать ключ": "Copy key", "⚙️ Открыть в Happ": "⚙️ Open in Happ", "🔐 Код входа в кабинет": "🔐 Login code for the dashboard",

@@ -128,7 +128,9 @@
   <h2>Счёт создан</h2>
   <p class="sec-p" id="doneTxt" style="margin:0 auto">Открываем оплату…</p>
   <a class="btn btn-solid btn-lg" id="payAgain" href="#" target="_blank" rel="noopener" style="margin-top:18px;display:inline-flex">Открыть оплату</a>
+  <p class="sec-p" id="payHint" style="margin-top:10px;font-size:13px;opacity:.85">Если окно оплаты не открылось автоматически — нажми «Открыть оплату» 👆</p>
   <p class="sec-p hide" id="waitMsg" style="margin-top:16px">⏳ Ждём подтверждения оплаты… ключ появится здесь автоматически (можно не закрывать страницу).</p>
+  <div style="margin-top:18px"><button type="button" id="payBack" class="btn btn-line">← Другой способ оплаты</button></div>
   <div class="hide" id="keyReveal" style="margin:22px auto 0;max-width:520px;text-align:left">
     <h3 style="color:var(--acc);margin:0 0 6px">🔑 Готово! Твой ключ</h3>
     <p class="sec-p" style="margin:0 0 10px">Скопируй ключ или открой в приложении Happ. Он также придёт на почту и доступен в Личном кабинете.</p>
@@ -215,6 +217,7 @@
     document.getElementById('done').classList.remove('hide');
     document.getElementById('waitMsg').classList.remove('hide');
     for(var i=0;i<240;i++){
+      if(!polling)return; /* прервали поллинг кнопкой «назад» */
       try{
         var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
         var j=await r.json();
@@ -282,6 +285,17 @@
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
+  });
+  /* возврат к выбору способа оплаты со страницы ожидания */
+  document.getElementById('payBack').addEventListener('click',function(){
+    polling=false; /* остановит поллинг на следующей итерации */
+    try{localStorage.removeItem('bitaps-pending-pay');}catch(e){}
+    document.getElementById('done').classList.add('hide');
+    document.getElementById('page').classList.remove('hide');
+    document.getElementById('perr').classList.add('hide');
+    submitting=false;
+    ['payCrypto','paySbp'].forEach(function(id){var b=document.getElementById(id);if(b){b.disabled=false;b.style.opacity=1;}});
+    window.scrollTo(0,0);
   });
   /* тема: система/светлая/тёмная (как на сайте) */
   (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
