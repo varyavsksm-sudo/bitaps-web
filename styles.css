@@ -743,3 +743,20 @@ html[data-theme="light"] .status-row .load,html[data-theme="light"] .dev-btn,
 html[data-theme="light"] .acct-btn{background:rgba(16,26,48,.06)}
 html[data-theme="light"] .g-track{stroke:rgba(16,26,48,.10)}
 
+/* ── доступность ────────────────────────────────────────────── */
+/* визуально скрытая подпись для скринридеров (сохраняет доступное имя поля) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* заметный контур фокуса с клавиатуры — не мешает мышке (:focus-visible) */
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
+select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+
+/* уважение к «уменьшить движение»: гасим печать-эффект, счётчики, кольца, пульсации и переходы */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;animation-iteration-count:1!important;
+    animation-delay:0ms!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+

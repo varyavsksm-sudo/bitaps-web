@@ -243,6 +243,8 @@
   #cab.web .card.acc.closed > .ct::after{transform:rotate(-90deg)}
   #cab.web .card.acc > :not(.ct){overflow:hidden;max-height:600px;opacity:1;transition:max-height .6s ease,opacity .45s ease}
   #cab.web .card.acc.closed > :not(.ct){max-height:0;opacity:0}
+
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="/i18n.js?v=20" defer></script><meta property="og:type" content="website" />
@@ -422,7 +424,7 @@
         <div class="card acc" id="tabPw" hidden>
           <div class="ct"><span class="i">🔒</span> Пароль</div>
           <form id="pwForm" class="sf">
-            <input id="pwNew" type="password" minlength="6" placeholder="Новый пароль (минимум 6 символов)" required />
+            <input id="pwNew" type="password" minlength="6" placeholder="Новый пароль (минимум 6 символов)" aria-label="Новый пароль" required />
             <button class="btn btn-line" type="submit">Обновить пароль</button>
           </form>
           <p class="hint" id="pwMsg" style="text-align:center;margin-top:8px"></p>
@@ -462,9 +464,9 @@
         <div><h3>Поддержка</h3><p style="margin:2px 0 0;color:var(--mut);font-size:13px">Ответим на твою почту, обычно в течение дня</p></div>
       </div>
       <form id="supForm" class="sf">
-        <input id="sName" placeholder="Как к вам обращаться" required />
-        <input id="sEmail" type="email" placeholder="E-mail для ответа" required />
-        <textarea id="sMsg" rows="3" placeholder="Ваш вопрос" required></textarea>
+        <input id="sName" placeholder="Как к вам обращаться" aria-label="Имя" required />
+        <input id="sEmail" type="email" placeholder="E-mail для ответа" aria-label="E-mail для ответа" required />
+        <textarea id="sMsg" rows="3" placeholder="Ваш вопрос" aria-label="Ваш вопрос" required></textarea>
         <button class="btn btn-solid" type="submit">Отправить сообщение</button>
       </form>
       <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:10px">или сразу в Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a></div>
