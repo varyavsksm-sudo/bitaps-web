@@ -501,6 +501,17 @@
     var col = trimmed.replace(/\s+/g, ' ');
     if (node.__ru == null) node.__ru = raw;
     if (l === 'en') {
+      // прямой перевод по data-en на родителе (минуя словарь) — для элемента с единственным
+      // текст-узлом и без HTML-разметки в переводе (иначе отрисовался бы литеральный тег)
+      var pe = node.parentNode;
+      if (pe && pe.nodeType === 1 && pe.childNodes.length === 1 && pe.getAttribute) {
+        var den = pe.getAttribute('data-en');
+        if (den != null && den.indexOf('<') < 0) {
+          var vd = raw.replace(trimmed, den);
+          if (node.textContent !== vd) node.textContent = vd;
+          return;
+        }
+      }
       if (DICT[col]) { var v = raw.replace(trimmed, DICT[col]); if (node.textContent !== v) node.textContent = v; return; }
       // подстрочный перевод динамики (даты/имена/суммы)
       var out = trimmed, hit = false;
@@ -566,7 +577,7 @@
       if (obs) obs.disconnect();
       var nodes = textNodes(root);
       nodes.forEach(function (n) { n.__ru = null; });
-      if (cur === 'en') { trEl('en'); nodes.forEach(function (n) { tr(n, 'en'); }); trAttr('en'); }
+      if (cur === 'en') { nodes.forEach(function (n) { tr(n, 'en'); }); trAttr('en'); }
       if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
     } catch (e) {}
   };
