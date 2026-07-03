@@ -126,6 +126,43 @@
     "Год подписки в подарок сразу.": "A year of subscription as a gift, right away.",
     "Дальше все продления — по цене тарифа на 10 устройств, лимит всё те же 100.": "After that all renewals are at the 10-device plan price, while the limit stays 100.",
     "Приоритетные сервера (VLESS + Reality) и ускоренный вывод токенов.": "Priority servers (VLESS + Reality) and faster token payouts.",
+    // Mini App формы заказа карты (card-order / vip-card-order) + превью vip-card
+    "Заказ карты · bitaps VPN": "Order a card · bitaps VPN",
+    "Заказ VIP-карты · bitaps VPN": "Order a VIP card · bitaps VPN",
+    "VIP-карта — bitaps VPN": "VIP card — bitaps VPN",
+    "🩶 Обычная карта · скоро": "🩶 Standard card · soon",
+    "Заказ обычной карты": "Standard card order",
+    "/ металл · доставка по РФ": "/ metal · delivery in Russia",
+    "Что даёт карта": "What the card gives you",
+    "Как это работает": "How it works",
+    "О карте": "About the card",
+    "Оставляешь заявку — менеджер подтверждает и оформляет доставку.": "Leave a request — a manager confirms it and arranges delivery.",
+    "Оформляешь заказ — менеджер подтверждает и отправляет карту": "Place an order — a manager confirms it and ships the card",
+    "На обороте металлической карты — персональный промокод": "On the back of the metal card there's a personal promo code",
+    "Активируешь код в боте — аккаунт становится VIP": "Activate the code in the bot — your account becomes VIP",
+    "Материал": "Material", "металл": "metal", "Лимит устройств": "Device limit", "100 навсегда": "100 forever",
+    "В подарок": "Gift", "год подписки": "a year of subscription", "Доставка": "Delivery", "по РФ": "across Russia",
+    "100 устройств навсегда": "100 devices forever",
+    "— постоянный лимит на всех подписках": "— a permanent limit on all subscriptions",
+    "— постоянный лимит, который остаётся с тобой на всех подписках": "— a permanent limit that stays with you across every subscription",
+    "Год подписки в подарок": "A year of subscription as a gift",
+    "— активируешь промокод с оборота карты": "— activate the promo code from the card's turnover",
+    "Приоритетные сервера": "Priority servers",
+    "— VLESS + Reality, минимум нагрузки": "— VLESS + Reality, minimal load",
+    "— VLESS + Reality, минимальная нагрузка": "— VLESS + Reality, minimal load",
+    "Дальше продления —": "Renewals after that —",
+    "по цене тарифа на 10 устройств": "at the 10-device plan price",
+    ", лимит всё те же 100": ", the limit stays 100",
+    ", а лимит всё те же 100": ", and the limit stays 100",
+    "УСТРОЙСТВ": "DEVICES", "ПРИОРИТЕТ": "PRIORITY",
+    "Держатель · привилегия": "Holder · privilege",
+    "твоя сеть · твои правила": "your network · your rules",
+    "Реальная металлическая карта · доставка": "Real metal card · delivery",
+    "5000 ₽ · открывается за 100 приглашённых друзей": "5000 ₽ · unlocks at 100 invited friends",
+    "Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту.": "A manager will get in touch, confirm delivery and send your metal card.",
+    "Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту с промокодом.": "A manager will get in touch, confirm delivery and send the metal card with the promo code.",
+    "Оформить ·": "Order ·",
+    "Открой заказ VIP-карты из бота — так мы проверим твой доступ": "Open the VIP card order from the bot so we can verify your access",
     // pricing
     "// тарифы": "// plans", "VIP-доступ": "VIP access", "без подвоха": "no catch",
     "Чем длиннее период — тем дешевле месяц. Цена указана за выбранное число устройств, без скрытых платежей. Первые 3 дня — бесплатно.":
@@ -437,7 +474,13 @@
 
   function detect() {
     try { var s = localStorage.getItem(KEY); if (s === 'en' || s === 'ru') return s; } catch (e) {}
-    return 'ru'; // по умолчанию русский; английский — только по кнопке
+    // авто-детект языка Telegram Mini App: не-русский юзер → EN (запоминается по первому клику)
+    try {
+      var tg = window.Telegram && window.Telegram.WebApp;
+      var lc = tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code;
+      if (lc && lc.slice(0, 2).toLowerCase() !== 'ru') return 'en';
+    } catch (e) {}
+    return 'ru'; // по умолчанию русский; английский — по языку Telegram или по кнопке
   }
   var cur = detect();
   var obs = null;
@@ -537,8 +580,9 @@
     b.id = 'langToggle'; b.type = 'button'; b.textContent = cur === 'en' ? 'RU' : 'EN';
     b.setAttribute('aria-label', 'Сменить язык / Switch language');
     b.addEventListener('click', function () { setLang(cur === 'en' ? 'ru' : 'en'); });
-    // контрастный стиль для обеих тем (оранжевая обводка по акценту)
-    var base = 'cursor:pointer;border:1.5px solid var(--acc,#ff7a1a);background:var(--acc,#ff7a1a);color:#0b0e14;border-radius:10px;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:44px;padding:0 12px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);';
+    // ЕДИНЫЙ бренд-оранжевый тумблер-пилюля — идентичный на всех страницах (цвет захардкожен,
+    // чтобы не зависеть от акцента страницы: напр. на золотой vip-card кнопка всё равно оранжевая)
+    var base = 'cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:\'JetBrains Mono\',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);';
     var theme = document.getElementById('themeToggle');
     if (theme) {
       var tcs = getComputedStyle(theme);

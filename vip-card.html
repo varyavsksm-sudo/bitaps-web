@@ -7,6 +7,7 @@
 <meta name="description" content="bitaps VPN VIP — металлическая black card: 100 устройств навсегда, год подписки в подарок, приоритетные сервера. Открывается за 100 приглашённых друзей.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="stylesheet" href="/fonts.css">
+<script src="/i18n.js?v=20" defer></script>
 <script>try{document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <style>
   :root{
@@ -116,17 +117,9 @@
   .cap b{color:var(--gold)}
   .cap:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:4px}
 
-  .lng{position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:6;font-family:'JetBrains Mono',monospace;
-    font-size:11px;letter-spacing:.16em;color:var(--gold);background:rgba(242,201,107,.08);border:1px solid var(--line);
-    border-radius:999px;padding:7px 12px;cursor:pointer;text-transform:uppercase;-webkit-tap-highlight-color:transparent}
-  .lng:active{background:rgba(242,201,107,.18)}
-  .lng:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-
   @media (prefers-reduced-motion:reduce){.card,.card::before,.aura .a,.aura .b{animation:none!important}.card{transition:none}}
 </style>
 </head><body>
-
-<button class="lng" id="lng" type="button" aria-label="Language">EN</button>
 
 <div class="aura" aria-hidden="true"><b class="a"></b><b class="b"></b></div>
 
@@ -195,25 +188,6 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-  // язык: RU по умолчанию, EN для не-русских Telegram-юзеров; переключатель запоминает выбор
-  (function(){
-    var els=[].slice.call(document.querySelectorAll('[data-en]'));
-    var ru=els.map(function(e){return e.innerHTML;});
-    var btn=document.getElementById('lng');
-    function apply(lang){
-      els.forEach(function(e,i){ e.innerHTML = lang==='en' ? e.getAttribute('data-en') : ru[i]; });
-      document.documentElement.lang=lang;
-      document.title = lang==='en' ? 'VIP card — bitaps VPN' : 'VIP-карта — bitaps VPN';
-      if(btn) btn.textContent = lang==='en' ? 'RU' : 'EN';
-    }
-    var saved; try{ saved=localStorage.getItem('bitaps-lang'); }catch(e){}
-    var tg0=window.Telegram&&window.Telegram.WebApp;
-    var tl=tg0&&tg0.initDataUnsafe&&tg0.initDataUnsafe.user&&tg0.initDataUnsafe.user.language_code;
-    var lang=(saved==='en'||saved==='ru')?saved:((tl&&tl.slice(0,2).toLowerCase()!=='ru')?'en':'ru');
-    apply(lang);
-    if(btn) btn.addEventListener('click',function(){ lang=lang==='en'?'ru':'en'; try{localStorage.setItem('bitaps-lang',lang);}catch(e){} apply(lang); });
-  })();
-
   (function(){
     try{
       var tg = window.Telegram && window.Telegram.WebApp;

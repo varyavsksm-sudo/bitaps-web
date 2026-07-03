@@ -4,11 +4,11 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="/fonts.css">
+<script src="/i18n.js?v=20" defer></script>
 <style>
-  :root{--bg:#0a0d12;--card:#12161d;--line:#232a33;--tx:#e8edf5;--mut:#8a96ab;--acc:#ff7a1a;--acc2:#ffae3d;--ok:#3fb950;--inp:#0e1218}
-  html[data-theme="light"]{--bg:#eef3fb;--card:#ffffff;--line:#dde4ee;--tx:#0f1828;--mut:#5a6781;--inp:#fff}
+  :root{--bg:#0d1014;--card:#161b22;--card2:#1b212b;--line:#232c38;--tx:#e9eff5;--mut:#8b97a6;--acc:#ff7a1a;--acc2:#ffae3d;--ok:#3fb950;--inp:#11161d}
+  html[data-theme="light"]{--bg:#f3f5fa;--card:#ffffff;--card2:#eef1f7;--line:#e3e8f0;--tx:#10141b;--mut:#5d6675;--inp:#f4f6fb}
   .tt{position:fixed;top:10px;right:12px;z-index:9;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--tx);font-size:16px;line-height:1;cursor:pointer}
-  .lng{position:fixed;top:10px;right:56px;z-index:9;height:36px;min-width:40px;padding:0 11px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--tx);font:700 12px 'JetBrains Mono',monospace;cursor:pointer}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font:15px/1.55 'Space Grotesk',-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:0 0 104px}
   .wrap{max-width:520px;margin:0 auto;padding:18px 16px}
@@ -17,7 +17,7 @@
   a{color:var(--acc);text-decoration:none}
   .mono{font-family:'JetBrains Mono',monospace}
 
-  /* верх — компактная карта (стальная, не VIP-чёрная) */
+  /* верх — компактная карта (стальная) */
   .top{display:flex;gap:14px;align-items:center;background:radial-gradient(140% 120% at 0% 0%,rgba(255,122,26,.14),transparent 65%);border:1px solid var(--line);border-radius:16px;padding:16px}
   .mini{flex:0 0 92px;width:92px;height:58px;border-radius:11px;position:relative;overflow:hidden;
     background:linear-gradient(155deg,#2b333f,#141922 82%);border:1px solid rgba(255,255,255,.14);
@@ -49,7 +49,7 @@
   .two{display:flex;gap:12px}.two>div{flex:1}.two>div:last-child{max-width:130px}
   .err{color:#ff6b6b;font-size:13px;margin:2px 0 12px}.hide{display:none}
 
-  .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(10,13,18,0),var(--bg) 28%);padding:14px 16px calc(16px + env(safe-area-inset-bottom));z-index:5}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(13,16,20,0),var(--bg) 28%);padding:14px 16px calc(16px + env(safe-area-inset-bottom));z-index:5}
   .bar .inner{max-width:520px;margin:0 auto}
   .send{width:100%;background:linear-gradient(110deg,var(--acc),var(--acc2));color:#1a0f05;border:0;border-radius:13px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 10px 26px -8px rgba(255,122,26,.5)}
   .send:disabled{opacity:.6;box-shadow:none}
@@ -57,7 +57,6 @@
   .tgbtn{display:inline-block;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;color:var(--tx);font-weight:600}
 </style></head><body>
 
-<button class="lng" id="lng" type="button" aria-label="Language">EN</button>
 <button class="tt" id="themeToggle" type="button" title="Тема"></button>
 <div id="page"><div class="wrap">
   <a href="/card.html" style="display:flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;color:var(--tx);margin:0 0 16px"><svg viewBox="0 0 48 48" style="width:26px;height:26px"><g stroke="var(--acc)" stroke-width="2.4" fill="none" stroke-linejoin="round" stroke-linecap="round"><path d="M24 3.5l4.3 3.1 5.2-1 1.7 5 5 1.7-1 5.2 3.1 4.3-3.1 4.3 1 5.2-5 1.7-1.7 5-5.2-1L24 44.5l-4.3-3.1-5.2 1-1.7-5-5-1.7 1-5.2L5.7 24l3.1-4.3-1-5.2 5-1.7 1.7-5 5.2 1L24 3.5z"/><circle cx="24" cy="24" r="12.4"/></g><text x="24" y="30.5" text-anchor="middle" font-size="16" font-weight="800" fill="var(--acc)">₿</text></svg><b style="font-weight:800;font-size:15px;letter-spacing:-.2px">bitaps<span style="color:var(--acc)"> vpn</span></b></a>
@@ -65,54 +64,54 @@
   <div class="top">
     <div class="mini"><span class="mchip"></span><span class="mbrand">bit<i>aps</i></span></div>
     <div>
-      <span class="chip" data-en="🩶 Standard card · soon">🩶 Обычная карта · скоро</span>
-      <h1 data-en="bitaps <span class=&quot;acc b&quot;>card</span>">Карта <span class="acc b">bitaps</span></h1>
-      <div class="price" data-en="5,000 ₽ <small>/ metal · delivery in Russia</small>">5 000 ₽ <small>/ металл · доставка по РФ</small></div>
+      <span class="chip">🩶 Обычная карта · скоро</span>
+      <h1>Заказ обычной карты</h1>
+      <div class="price">5 000 ₽ <small>/ металл · доставка по РФ</small></div>
     </div>
   </div>
 
   <div class="acc-list">
-    <details open><summary data-en="What the card gives you">Что даёт карта</summary><div class="ac"><ul>
-      <li data-en="<b>A real metal card</b> — pay with it in Russia and abroad"><b>Настоящая металлическая карта</b> — платить в России и за рубежом</li>
-      <li data-en="<b>Crypto payments</b> — top up and pay in crypto"><b>Оплата криптой</b> — пополнение и расчёты в криптовалюте</li>
-      <li data-en="<b>Balance in bitaps tokens</b> — the service's internal currency"><b>Баланс в токенах bitaps</b> — внутренней валюте сервиса</li>
-      <li data-en="<b>Fast payout to the card</b> — referral tokens move to the card and are ready to spend"><b>Быстрый вывод на карту</b> — реферальные токены выводятся на карту и тратятся</li>
+    <details open><summary>Что даёт карта</summary><div class="ac"><ul>
+      <li>Настоящая металлическая карта — платите ей где угодно, в России и за рубежом.</li>
+      <li>Оплата криптовалютой — пополнение и расчёты в крипте, без привязки к банку.</li>
+      <li>Баланс — в токенах bitaps, внутренней валюте сервиса.</li>
+      <li>Быстрый вывод на карту — реферальные токены переводятся на карту в пару касаний и тратятся.</li>
     </ul></div></details>
-    <details><summary data-en="How it works">Как это работает</summary><div class="ac"><ul>
-      <li data-en="Leave a request — a manager confirms it and arranges delivery">Оставляешь заявку — менеджер подтверждает и оформляет доставку</li>
-      <li data-en="Available to everyone for 5,000 ₽ — no conditions or invites">Доступна каждому за 5000 ₽ — без условий и приглашений</li>
-      <li data-en="Payment after confirmation, delivery across Russia">Оплата после подтверждения, доставка по России</li>
+    <details><summary>Как это работает</summary><div class="ac"><ul>
+      <li>Оставляешь заявку — менеджер подтверждает и оформляет доставку.</li>
+      <li>Купить может любой — без условий и приглашений.</li>
+      <li>Доставка по России · оплата после подтверждения</li>
     </ul></div></details>
   </div>
 
-  <h2 data-en="Place your order">Оформить заказ</h2>
+  <h2>Оформить заказ</h2>
   <div class="formcard" id="form">
-    <label data-en="Recipient name">Имя получателя</label>
-    <input id="name" placeholder="Фамилия Имя" data-en-ph="Full name" autocomplete="name">
-    <label data-en="Phone for contact &amp; delivery">Телефон для связи и доставки</label>
+    <label>Имя получателя</label>
+    <input id="name" placeholder="Фамилия Имя" autocomplete="name">
+    <label>Телефон для связи и доставки</label>
     <input id="phone" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel">
     <div class="two">
-      <div><label data-en="City">Город</label><input id="city" placeholder="Москва" data-en-ph="Moscow" autocomplete="address-level2"></div>
-      <div><label data-en="Postal code">Индекс</label><input id="postcode" placeholder="101000" inputmode="numeric" autocomplete="postal-code"></div>
+      <div><label>Город</label><input id="city" placeholder="Москва" autocomplete="address-level2"></div>
+      <div><label>Индекс</label><input id="postcode" placeholder="101000" inputmode="numeric" autocomplete="postal-code"></div>
     </div>
-    <label data-en="Address: street, building, apartment">Адрес: улица, дом, квартира</label>
-    <input id="address" placeholder="ул. Ленина, д. 10, кв. 5" data-en-ph="10 Lenina St, apt. 5" autocomplete="street-address">
-    <label data-en="Email (optional)">Email (необязательно)</label>
+    <label>Адрес: улица, дом, квартира</label>
+    <input id="address" placeholder="ул. Ленина, д. 10, кв. 5" autocomplete="street-address">
+    <label>Email (необязательно)</label>
     <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
-    <label data-en="Delivery comment (optional)">Комментарий к доставке (необязательно)</label>
-    <textarea id="comment" placeholder="Удобное время, подъезд, домофон…" data-en-ph="Convenient time, entrance, intercom…"></textarea>
+    <label>Комментарий к доставке (необязательно)</label>
+    <textarea id="comment" placeholder="Удобное время, подъезд, домофон…"></textarea>
     <div id="err" class="err hide"></div>
   </div>
 
-  <p class="mut" style="text-align:center;margin:16px 0 0;font-size:13px"><span data-en="Questions? Message">Вопросы? Напиши</span> <a href="https://t.me/bitapssupport" target="_blank">@bitapssupport</a></p>
+  <p class="mut" style="text-align:center;margin:16px 0 0;font-size:13px"><span>Вопросы? Напиши</span> <a href="https://t.me/bitapssupport" target="_blank">@bitapssupport</a></p>
 </div></div>
 
 <div id="done" class="done hide">
   <div class="big">💳</div>
-  <h1 data-en="Order received!">Заказ принят!</h1>
-  <p class="mut" data-en="A manager will get in touch, confirm delivery and send your metal card.">Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту.</p>
-  <a class="tgbtn" href="https://t.me/bitapssupport" target="_blank" data-en="💬 Message @bitapssupport">💬 Написать @bitapssupport</a><br>
-  <a class="tgbtn" id="close" style="margin-top:10px" data-en="Done">Готово</a>
+  <h1>Заказ принят!</h1>
+  <p class="mut">Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту.</p>
+  <a class="tgbtn" href="https://t.me/bitapssupport" target="_blank">💬 Написать @bitapssupport</a><br>
+  <a class="tgbtn" id="close" style="margin-top:10px">Готово</a>
 </div>
 
 <div class="bar" id="bar"><div class="inner">
@@ -120,17 +119,15 @@
 </div></div>
 
 <script>
-  var LANG='ru';
-  function T(r,e){return LANG==='en'?e:r;}
-  function sendLabel(){return T('Оформить · <span class="mono">5 000 ₽</span>','Order · <span class="mono">5,000 ₽</span>');}
-
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order';
   var TG=window.Telegram&&window.Telegram.WebApp; if(TG){TG.ready();TG.expand();}
   if(TG){document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
     var h=a.getAttribute('href');if(!h||h.charAt(0)==='#')return;e.preventDefault();
     if(/^(https?:\/\/t\.me\/|tg:)/i.test(h)){TG.openTelegramLink(h);}else if(/^mailto:/i.test(h)){window.location.href=h;}else{TG.openLink(h);}});}
   try{var u=TG&&TG.initDataUnsafe&&TG.initDataUnsafe.user; if(u){document.getElementById('name').value=[u.first_name,u.last_name].filter(Boolean).join(' ');}}catch(e){}
-  function showErr(t){var e=document.getElementById('err');e.textContent=t;e.classList.remove('hide');e.scrollIntoView({behavior:'smooth',block:'center'});}
+  function sendLabel(){return 'Оформить · <span class="mono">5 000 ₽</span>';}
+  function showErr(t){var e=document.getElementById('err');e.textContent=t;e.classList.remove('hide');if(window.__i18nRefresh)try{window.__i18nRefresh(e);}catch(_){}
+    e.scrollIntoView({behavior:'smooth',block:'center'});}
   document.getElementById('close').addEventListener('click',function(){if(TG)TG.close();else history.back();});
   document.getElementById('send').addEventListener('click',async function(){
     var name=document.getElementById('name').value.trim();
@@ -140,45 +137,23 @@
     var address=document.getElementById('address').value.trim();
     var email=document.getElementById('email').value.trim();
     var comment=document.getElementById('comment').value.trim();
-    if(name.length<2)return showErr(T('Укажи имя получателя','Enter the recipient name'));
-    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=7))return showErr(T('Укажи телефон в правильном формате или Telegram (@ник)','Enter a valid phone number or Telegram (@handle)'));
-    if(city.length<2)return showErr(T('Укажи город','Enter your city'));
-    if(address.length<3)return showErr(T('Укажи адрес: улица, дом, квартира','Enter your address: street, building, apartment'));
-    var btn=this;btn.disabled=true;btn.textContent=T('Отправляю…','Sending…');
+    if(name.length<2)return showErr('Укажи имя получателя');
+    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=7))return showErr('Укажи телефон в правильном формате или Telegram (@ник)');
+    if(city.length<2)return showErr('Укажи город');
+    if(address.length<3)return showErr('Укажи адрес: улица, дом, квартира');
+    var btn=this;btn.disabled=true;btn.textContent='Отправляю…';if(window.__i18nRefresh)try{window.__i18nRefresh(btn);}catch(_){}
     try{
       var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({action:'card',initData:(TG&&TG.initData)||'',name:name,phone:phone,city:city,postcode:postcode,address:address,email:email,comment:comment})});
       var j=await r.json();
-      if(!j.ok){btn.disabled=false;btn.innerHTML=sendLabel();return showErr(j.error||T('Что-то пошло не так','Something went wrong'));}
+      if(!j.ok){btn.disabled=false;btn.innerHTML=sendLabel();if(window.__i18nRefresh)try{window.__i18nRefresh(btn);}catch(_){}return showErr(j.error||'Что-то пошло не так');}
       document.getElementById('page').classList.add('hide');document.getElementById('bar').classList.add('hide');
       document.getElementById('done').classList.remove('hide');
+      if(window.__i18nRefresh)try{window.__i18nRefresh(document.getElementById('done'));}catch(_){}
       if(TG&&TG.HapticFeedback)TG.HapticFeedback.notificationOccurred('success');
       window.scrollTo(0,0);
-    }catch(_){btn.disabled=false;btn.innerHTML=sendLabel();showErr(T('Сеть недоступна, попробуй ещё раз','Network unavailable, try again'));}
+    }catch(_){btn.disabled=false;btn.innerHTML=sendLabel();if(window.__i18nRefresh)try{window.__i18nRefresh(btn);}catch(e){}showErr('Сеть недоступна, попробуй ещё раз');}
   });
-
-  /* язык: RU по умолчанию, EN для не-русских Telegram-юзеров; переключатель запоминает выбор */
-  (function(){
-    var els=[].slice.call(document.querySelectorAll('[data-en]'));
-    var ru=els.map(function(e){return e.innerHTML;});
-    var phEls=[].slice.call(document.querySelectorAll('[data-en-ph]'));
-    var ruPh=phEls.map(function(e){return e.getAttribute('placeholder')||'';});
-    var btn=document.getElementById('lng');
-    function apply(lang){
-      LANG=lang;
-      els.forEach(function(e,i){ e.innerHTML = lang==='en' ? e.getAttribute('data-en') : ru[i]; });
-      phEls.forEach(function(e,i){ e.setAttribute('placeholder', lang==='en' ? e.getAttribute('data-en-ph') : ruPh[i]); });
-      document.documentElement.lang=lang;
-      document.title = lang==='en' ? 'Order a card · bitaps VPN' : 'Заказ карты · bitaps VPN';
-      if(btn) btn.textContent = lang==='en' ? 'RU' : 'EN';
-      var sb=document.getElementById('send'); if(sb && !sb.disabled) sb.innerHTML=sendLabel();
-    }
-    var saved; try{ saved=localStorage.getItem('bitaps-lang'); }catch(e){}
-    var tl=TG&&TG.initDataUnsafe&&TG.initDataUnsafe.user&&TG.initDataUnsafe.user.language_code;
-    var lang=(saved==='en'||saved==='ru')?saved:((tl&&tl.slice(0,2).toLowerCase()!=='ru')?'en':'ru');
-    apply(lang);
-    if(btn) btn.addEventListener('click',function(){ lang=lang==='en'?'ru':'en'; try{localStorage.setItem('bitaps-lang',lang);}catch(e){} apply(lang); });
-  })();
 
   (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
     var mq=matchMedia('(prefers-color-scheme: light)');
