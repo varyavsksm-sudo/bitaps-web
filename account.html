@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow">
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <title>Личный кабинет — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -313,7 +314,7 @@
           <div class="key-row">
             <div class="qr"><img id="qr" alt="QR ключа" /></div>
             <div class="key-box">
-              <code class="key-val" id="key" title="Нажмите, чтобы скопировать"></code>
+              <code class="key-val" id="key" title="Нажми, чтобы скопировать"></code>
               <p class="hint" style="margin-top:9px">Нажми на ключ, чтобы скопировать.</p>
             </div>
           </div>
@@ -324,7 +325,7 @@
           <div id="secretRow" hidden style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08)">
             <div class="ct" style="margin-bottom:6px"><span class="i">🔐</span> Код входа</div>
             <p class="hint" style="margin:0 0 10px;line-height:1.55">Для входа в приложение и кабинет. В отличие от ключа доступа — <b>не вводи его в VPN-клиенты</b> и никому не показывай.</p>
-            <code class="key-val" id="secret" title="Нажмите, чтобы скопировать" style="cursor:pointer;word-break:break-all"></code>
+            <code class="key-val" id="secret" title="Нажми, чтобы скопировать" style="cursor:pointer;word-break:break-all"></code>
             <button id="rotateSecret" type="button" style="margin-top:10px;background:none;border:1px solid rgba(255,255,255,.15);color:var(--mut);font:inherit;font-size:13px;padding:8px 14px;border-radius:10px;cursor:pointer">🔁 Сменить код</button>
           </div>
         </div>
@@ -333,7 +334,7 @@
           <div class="box-row">
             <div class="box-ic" style="color:var(--acc)"><svg viewBox="0 0 32 32" fill="none" width="30" height="30" aria-hidden="true"><use href="#blogo"/></svg></div>
             <div>
-              <h3><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span> <span class="new">NEW</span></h3>
+              <h3><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span> <span class="new">Новинка</span></h3>
               <p>VPN для всего дома сразу</p>
             </div>
             <span class="arrowi">→</span>
@@ -464,13 +465,13 @@
         <div><h3>Поддержка</h3><p style="margin:2px 0 0;color:var(--mut);font-size:13px">Ответим на твою почту, обычно в течение дня</p></div>
       </div>
       <form id="supForm" class="sf">
-        <input id="sName" placeholder="Как к вам обращаться" aria-label="Имя" required />
+        <input id="sName" placeholder="Как тебя зовут" aria-label="Имя" required />
         <input id="sEmail" type="email" placeholder="E-mail для ответа" aria-label="E-mail для ответа" required />
-        <textarea id="sMsg" rows="3" placeholder="Ваш вопрос" aria-label="Ваш вопрос" required></textarea>
+        <textarea id="sMsg" rows="3" placeholder="Твой вопрос" aria-label="Твой вопрос" required></textarea>
         <button class="btn btn-solid" type="submit">Отправить сообщение</button>
       </form>
       <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:10px">или сразу в Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a></div>
-      <div id="supOk" class="sup-ok" hidden><div class="c">✓</div><b>Сообщение отправлено!</b><span>Мы свяжемся с вами по почте.</span></div>
+      <div id="supOk" class="sup-ok" hidden><div class="c">✓</div><b>Сообщение отправлено!</b><span>Мы свяжемся с тобой по почте.</span></div>
     </div>
   </div>
 
@@ -576,7 +577,7 @@
       }
     } else {
       $('planName').firstChild.textContent = 'Нет подписки';
-      $('planSub').textContent = 'оформите тариф, чтобы получить ключ';
+      $('planSub').textContent = 'оформи тариф, чтобы получить ключ';
       $('subBadge').textContent = 'Не активна'; $('subBadge').className = 'badge off';
       $('leftDays').textContent = '—';
       $('untilDate').textContent = 'подписка не активна';
@@ -588,16 +589,23 @@
   const setupSupport = (name, email) => {
     if (name) $('sName').value = name;
     if (email) $('sEmail').value = email;
+    let supSending = false;
+    const supBtn = $('supForm').querySelector('button[type="submit"]');
     $('supForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (supSending) return;
       const emEl = $('sEmail'); const em = emEl.value.trim();
       if (!em) { emEl.setCustomValidity('Впиши почту для ответа'); emEl.reportValidity(); return; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { emEl.setCustomValidity('Неправильный формат почты'); emEl.reportValidity(); return; }
       emEl.setCustomValidity('');
       const payload = { name: $('sName').value.trim(), email: em, message: $('sMsg').value.trim(), _subject: 'Заявка из личного кабинета bitaps', _template: 'table' };
       // formsubmit убран (приватность): заявка идёт только в свой бэкенд ниже
+      supSending = true;
+      if (supBtn) { supBtn.disabled = true; supBtn.style.opacity = '.6'; supBtn.style.cursor = 'default'; }
       let sent = false;
       try { const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/notify', { method: 'POST', headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' }, body: JSON.stringify({ type: 'support', name: payload.name, email: payload.email, message: payload.message, source: 'кабинет' }) }); sent = res.ok; } catch (_) {}
+      supSending = false;
+      if (supBtn) { supBtn.disabled = false; supBtn.style.opacity = ''; supBtn.style.cursor = ''; }
       if (sent) { $('supForm').hidden = true; $('supOk').hidden = false; }
       else { alert('Не удалось отправить — напиши напрямую в Telegram: @bitapssupport'); }
     });
@@ -692,12 +700,19 @@
   // смена пароля — только email
   if (prov === 'email') {
     $('tabPw').hidden = false;
+    let pwSending = false;
+    const pwBtn = $('pwForm').querySelector('button[type="submit"]');
     $('pwForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (pwSending) return;
+      pwSending = true;
+      if (pwBtn) { pwBtn.disabled = true; pwBtn.style.opacity = '.6'; pwBtn.style.cursor = 'default'; }
       $('pwMsg').textContent = 'Обновляю…';
       const { error } = await sb.auth.updateUser({ password: $('pwNew').value });
       $('pwMsg').textContent = error ? ('Ошибка: ' + error.message) : 'Пароль обновлён ✓';
       if (!error) $('pwForm').reset();
+      pwSending = false;
+      if (pwBtn) { pwBtn.disabled = false; pwBtn.style.opacity = ''; pwBtn.style.cursor = ''; }
     });
   }
 
