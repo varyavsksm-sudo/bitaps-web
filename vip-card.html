@@ -117,9 +117,17 @@
   .cap b{color:var(--gold)}
   .cap:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:4px}
 
+  .lng{position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:6;font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.16em;color:var(--gold);background:rgba(242,201,107,.08);border:1px solid var(--line);
+    border-radius:999px;padding:7px 12px;cursor:pointer;text-transform:uppercase;-webkit-tap-highlight-color:transparent}
+  .lng:active{background:rgba(242,201,107,.18)}
+  .lng:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
   @media (prefers-reduced-motion:reduce){.card,.card::before,.aura .a,.aura .b{animation:none!important}.card{transition:none}}
 </style>
 </head><body>
+
+<button class="lng" id="lng" type="button" aria-label="Language">EN</button>
 
 <div class="aura" aria-hidden="true"><b class="a"></b><b class="b"></b></div>
 
@@ -149,12 +157,12 @@
 
         <div class="chip" aria-hidden="true"></div>
 
-        <div class="num"><b>∞</b> УСТРОЙСТВ <b>·</b> ПРИОРИТЕТ <b>·</b> VLESS <b>·</b> REALITY</div>
+        <div class="num" data-en="<b>∞</b> DEVICES <b>·</b> PRIORITY <b>·</b> VLESS <b>·</b> REALITY"><b>∞</b> УСТРОЙСТВ <b>·</b> ПРИОРИТЕТ <b>·</b> VLESS <b>·</b> REALITY</div>
 
         <div class="bottom">
           <div>
-            <div class="k">Держатель · привилегия</div>
-            <div class="v tag">твоя сеть · твои&nbsp;правила</div>
+            <div class="k" data-en="Holder · privilege">Держатель · привилегия</div>
+            <div class="v tag" data-en="your network · your&nbsp;rules">твоя сеть · твои&nbsp;правила</div>
           </div>
           <svg class="seal" viewBox="0 0 64 64" aria-hidden="true">
             <defs><path id="ring" d="M32 32 m-22 0 a22 22 0 1 1 44 0 a22 22 0 1 1 -44 0"/></defs>
@@ -172,15 +180,15 @@
   </div>
 
   <ul class="perks">
-    <li><span class="ic">∞</span><span><b>100 устройств навсегда</b> — постоянный лимит, который остаётся с тобой на всех подписках</span></li>
-    <li><span class="ic">★</span><span><b>Год подписки в подарок</b> — активируешь промокод с оборота карты</span></li>
-    <li><span class="ic">↯</span><span><b>Приоритетные сервера</b> — VLESS + Reality, минимальная нагрузка</span></li>
-    <li><span class="ic">₽</span><span>Дальше продления — <b>по цене тарифа на 10 устройств</b>, а лимит всё те же 100</span></li>
+    <li><span class="ic">∞</span><span data-en="<b>100 devices forever</b> — a permanent limit that stays with you across every subscription"><b>100 устройств навсегда</b> — постоянный лимит, который остаётся с тобой на всех подписках</span></li>
+    <li><span class="ic">★</span><span data-en="<b>A year of subscription as a gift</b> — activate the promo code on the back of the card"><b>Год подписки в подарок</b> — активируешь промокод с оборота карты</span></li>
+    <li><span class="ic">↯</span><span data-en="<b>Priority servers</b> — VLESS + Reality, minimal load"><b>Приоритетные сервера</b> — VLESS + Reality, минимальная нагрузка</span></li>
+    <li><span class="ic">₽</span><span data-en="Renewals after that — <b>at the 10-device plan price</b>, while the limit stays 100">Дальше продления — <b>по цене тарифа на 10 устройств</b>, а лимит всё те же 100</span></li>
   </ul>
 
   <div class="meta">
-    <div>Реальная металлическая карта · доставка</div>
-    <div class="price">5000 ₽ · открывается за 100 приглашённых друзей</div>
+    <div data-en="Real metal card · delivery">Реальная металлическая карта · доставка</div>
+    <div class="price" data-en="5000 ₽ · unlocks at 100 invited friends">5000 ₽ · открывается за 100 приглашённых друзей</div>
   </div>
 
   <a class="cap" href="https://bitapsvpn.com" target="_blank" rel="noopener">bitapsvpn<b>.</b>com</a>
@@ -188,6 +196,25 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
+  // язык: RU по умолчанию, EN для не-русских Telegram-юзеров; переключатель запоминает выбор
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('[data-en]'));
+    var ru=els.map(function(e){return e.innerHTML;});
+    var btn=document.getElementById('lng');
+    function apply(lang){
+      els.forEach(function(e,i){ e.innerHTML = lang==='en' ? e.getAttribute('data-en') : ru[i]; });
+      document.documentElement.lang=lang;
+      document.title = lang==='en' ? 'VIP card — bitaps VPN' : 'VIP-карта — bitaps VPN';
+      if(btn) btn.textContent = lang==='en' ? 'RU' : 'EN';
+    }
+    var saved; try{ saved=localStorage.getItem('bitaps-lang'); }catch(e){}
+    var tg0=window.Telegram&&window.Telegram.WebApp;
+    var tl=tg0&&tg0.initDataUnsafe&&tg0.initDataUnsafe.user&&tg0.initDataUnsafe.user.language_code;
+    var lang=(saved==='en'||saved==='ru')?saved:((tl&&tl.slice(0,2).toLowerCase()!=='ru')?'en':'ru');
+    apply(lang);
+    if(btn) btn.addEventListener('click',function(){ lang=lang==='en'?'ru':'en'; try{localStorage.setItem('bitaps-lang',lang);}catch(e){} apply(lang); });
+  })();
+
   (function(){
     try{
       var tg = window.Telegram && window.Telegram.WebApp;
