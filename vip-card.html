@@ -7,7 +7,7 @@
 <meta name="description" content="bitaps VPN VIP — металлическая black card: 100 устройств навсегда, год подписки в подарок, приоритетные сервера. Открывается за 100 приглашённых друзей.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="stylesheet" href="/fonts.css">
-<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<script>try{document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <style>
   :root{
     --stage-1:#08060a; --stage-2:#151007; --ink:#f6ecd6; --muted:#9c885d;
@@ -15,7 +15,6 @@
     --card-1:#171009; --card-2:#070502; --line:rgba(242,201,107,.20);
     --glow:rgba(242,201,107,.5);
   }
-  :root[data-theme="light"]{--stage-1:#e7dcc3; --stage-2:#f2e9d3; --muted:#7c6a44}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
@@ -220,10 +219,7 @@
       var tg = window.Telegram && window.Telegram.WebApp;
       if(tg){
         tg.ready(); tg.expand();
-        // подхватываем тему Telegram, если пользователь пришёл из Mini App
-        var scheme = tg.colorScheme;
-        if(scheme==='light') document.documentElement.setAttribute('data-theme','light');
-        else if(scheme==='dark') document.documentElement.removeAttribute('data-theme');
+        // страница всегда тёмная (чёрная VIP-карта на светлом фоне выглядит плохо)
       }
     }catch(e){}
 
