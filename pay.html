@@ -246,7 +246,7 @@
     if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
     btTrack('pay_crypto_click',{plan:code});
     try{
-      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({plan:code,device_limit:dev,email:email,lang:(document.documentElement.lang==='en'?'en':'ru')})});
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email,lang:(document.documentElement.lang==='en'?'en':'ru')})});
       var j=await r.json();
       if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('invoice_created',{plan:code});
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
@@ -268,7 +268,7 @@
     if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
     btTrack('pay_sbp_click',{plan:code});
     try{
-      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({plan:code,device_limit:dev,email:email,method:'sbp',lang:(document.documentElement.lang==='en'?'en':'ru')})});
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email,method:'sbp',lang:(document.documentElement.lang==='en'?'en':'ru')})});
       var j=await r.json();
       if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('invoice_created',{plan:code});
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
