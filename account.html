@@ -356,7 +356,8 @@
             <div class="box-ic">👥</div>
             <div>
               <h3>Друзья</h3>
-              <p>Приглашай — получай бонусные дни</p>
+              <p data-en="Invite — earn days and 🪙 tokens">Приглашай — дни и 🪙 токены</p>
+              <p id="tokChip" hidden style="margin:2px 0 0;color:var(--mut);font-size:13px"></p>
             </div>
             <span class="arrowi">→</span>
           </div>
@@ -483,8 +484,10 @@
         <div class="bi">👥</div>
         <div><h3>Пригласи друзей</h3><p style="margin:2px 0 0;color:var(--mut);font-size:13px">За друзей с подпиской — бонусные дни</p></div>
       </div>
-      <p class="hint" style="margin-bottom:12px">Поделись ссылкой — когда друг оформит подписку, тебе начислятся бонусные дни.</p>
+      <p class="hint" style="margin-bottom:12px" data-en="Share your link — when a friend subscribes, you get bonus days and 🪙 tokens.">Поделись ссылкой — когда друг оформит подписку, тебе начислятся бонусные дни и 🪙 токены.</p>
       <div class="copybox"><code id="refLink">—</code><button id="refCopy">Копировать</button></div>
+      <p class="hint" style="margin-top:12px;margin-bottom:2px">🪙 <b id="tokBal">0</b> <span data-en="bitaps tokens">токенов bitaps</span></p>
+      <p class="hint" style="margin:0" data-en="They accrue for friends, redeem for subscription days (in the Telegram bot) and will go to the bitaps card.">Капают за друзей, обмениваются на дни подписки (в Telegram-боте) и пойдут на карту bitaps.</p>
     </div>
   </div>
 
@@ -592,6 +595,8 @@
     if (window.__i18nRefresh) window.__i18nRefresh(document.getElementById('cab'));
   };
   const setupRef = (link) => { $('refLink').textContent = link; $('refCopy').addEventListener('click', () => copy(link)); };
+  const setTokens = (n) => { n = Number(n) || 0; const b = $('tokBal'); if (b) b.textContent = n;
+    const chip = $('tokChip'); if (chip) { if (n > 0) { chip.textContent = '🪙 ' + n; chip.hidden = false; } else chip.hidden = true; } };
   const setupSupport = (name, email) => {
     if (name) $('sName').value = name;
     if (email) $('sEmail').value = email;
@@ -662,6 +667,7 @@
       const display = u.username ? '@' + u.username : 'Telegram';
       fillProfile(name, display, u.photo_url || '');
       setupRef(`https://t.me/bitaps_vpn_auth_bot?start=ref${u.id}`);
+      setTokens(j.tokens);
       fillSub(j.sub);
       setupSupport(name, '');
       if (window.__i18nRefresh) window.__i18nRefresh(document.body);
