@@ -146,7 +146,7 @@
     "или из письма после оплаты. На iPhone/iPad пока подключайся через": "or from the email after payment. On iPhone/iPad connect via",
     "✅ ключ из Telegram-бота вставляется за минуту": "✅ the key from the Telegram bot pastes in under a minute",
     // auth-модалка (index.html) — вход/пароль/ключ/восстановление
-    "Пароль": "Password", "Повторите пароль": "Repeat password", "Войти": "Log in", "Забыл пароль?": "Forgot password?",
+    "Пароль": "Password", "Повторите пароль": "Repeat password", "Забыл пароль?": "Forgot password?",
     "Войти через Google": "Log in with Google", "или войдите через Telegram": "or log in with Telegram",
     "или по ключу из бота (надёжно на телефоне)": "or with a key from the bot (reliable on mobile)",
     "🤖 Открыть бота за ключом": "🤖 Open the bot to get a key", "Войти по ключу": "Log in with key",
@@ -161,6 +161,10 @@
     // confirmed.html — лендинг подтверждения почты
     "Почта подтверждена!": "Email confirmed!", "Спасибо — ваш аккаунт": "Thank you — your account",
     "активирован. Теперь можно пользоваться сайтом.": "is activated. You can now use the site.", "Перейти на сайт →": "Go to the site →",
+    // 404.html — страница «не найдено»
+    "Страница не найдена": "Page not found",
+    "Похоже, такой страницы нет или она переехала. Вернись на главную — там всё работает.": "Looks like this page doesn't exist or has moved. Go back home — everything works there.",
+    "или напиши в": "or message", "поддержку": "support",
     // <title> вкладок
     "bitaps VPN — приватность без компромиссов": "bitaps VPN — privacy without compromise", "Оплата · bitaps VPN": "Payment · bitaps VPN",
     "Личный кабинет — bitaps VPN": "Dashboard — bitaps VPN", "Скачать приложение — bitaps VPN": "Download app — bitaps VPN",
@@ -168,15 +172,15 @@
     "Заказ B-box · bitaps VPN": "B-box order · bitaps VPN", "Ловля карпов · bitaps VPN": "Koi fishing · bitaps VPN",
     "Почта подтверждена — bitaps": "Email confirmed — bitaps", "Страница не найдена — bitaps VPN": "Page not found — bitaps VPN",
     // box / box-order (страницы B-box)
-    "📦 Под заказ": "📦 Made to order", "Что это и зачем": "What it is and why", "Как работает": "How it works",
+    "📦 Под заказ": "📦 Made to order", "Что это и зачем": "What it is and why",
     "Коробочка-роутер со встроенным VPN bitaps. Подключаешь к домашней сети — и все устройства разом (телефоны, ноуты, Smart TV, приставки) выходят через защищённый канал. Настраивать каждый гаджет не нужно.": "A router-box with built-in bitaps VPN. Connect it to your home network and every device at once (phones, laptops, Smart TVs, consoles) goes through a secure channel. No need to set up each gadget.",
-    "Воткни в розетку и подключи к роутеру": "Plug into a socket and connect to the router", "Раздаёт свой Wi-Fi «bitaps»": "Broadcasts its own «bitaps» Wi-Fi",
-    "Всё, что в этой сети — через VPN автоматически": "Everything on this network — through VPN automatically",
+    "Воткни в розетку и подключи к роутеру": "Plug into a socket and connect to your router", "Раздаёт свой Wi-Fi «bitaps»": "Broadcasts its own «bitaps» Wi-Fi",
+    "Всё, что в этой сети — через VPN автоматически": "Everything on this network goes through the VPN automatically",
     "Характеристики": "Specs", "встроенный, bitaps": "built-in, bitaps", "Протокол": "Protocol", "Скорость": "Speed",
     "Подключение": "Connection", "LAN или Wi-Fi": "LAN or Wi-Fi", "В комплекте": "In the box", "box, БП, кабель": "box, power supply, cable",
     "Оформить заказ": "Place order", "Количество": "Quantity", "← На главную": "← Home", "Закажи": "Order",
     "📦 Под заказ · доставка по РФ": "📦 Made to order · delivery across Russia", "весь дом": "the whole home",
-    "разовая покупка · без подписки": "one-time purchase · no subscription", "Подключил один раз — работает само": "Connect once — works on its own",
+    "разовая покупка · без подписки": "one-time purchase · no subscription", "Подключил один раз — работает само": "Set up once — runs by itself",
     "Защищает даже гаджеты без приложений (ТВ, консоли, умный дом)": "Protects even app-less gadgets (TVs, consoles, smart home)",
     "Шифрует весь трафик на лету": "Encrypts all traffic on the fly", "Тихая и компактная — помещается на ладони": "Quiet and compact — fits in your palm",
     "Оформить доставку": "Arrange delivery", "Имя": "Name", "Город": "City", "Адрес доставки или пункт выдачи": "Delivery address or pickup point",
@@ -185,7 +189,6 @@
     ". Оставь заявку — менеджер свяжется и оформит доставку по России.": ". Leave a request — the manager will contact you and arrange delivery across Russia.",
     "Под заказ: оставь заявку — менеджер подтвердит и оформит доставку. Оплата после подтверждения, без предоплаты на сайте.": "Made to order: leave a request — the manager will confirm and arrange delivery. Payment after confirmation, no prepayment on the site.",
     "Лови карпов, набивай комбо и попади в топ-3. Золотой карп — джекпот, красный чужак — мимо (за него штраф).": "Catch koi, build combos and make the top-3. The golden koi is a jackpot, the red intruder is a miss (penalty for it).",
-
     "Твой логин в Личный кабинет и приложение (по нему входишь вместо ключа). Сохрани — не вводи в VPN-клиенты и никому не показывай.": "Your login for the Dashboard and app (use it instead of the key). Save it — don't enter it into VPN clients and don't share it.",
     "Скопировать код входа": "Copy login code",
     // account.html — кабинет: код входа, разделы, FAQ
@@ -193,8 +196,8 @@
     "Для входа в приложение и кабинет. В отличие от ключа доступа —": "For logging into the app and dashboard. Unlike the access key —",
     "не вводи его в VPN-клиенты": "don't enter it into VPN clients", "и никому не показывай.": "and don't show it to anyone.",
     "🔁 Сменить код": "🔁 Change code", "VPN для всего дома сразу": "VPN for the whole home at once",
-    "Поддержка": "Support", "Ответим на почту, обычно за день": "We reply by email, usually within a day",
-    "Друзья": "Friends", "Приглашай — получай бонусные дни": "Invite — get bonus days", "Вопросы": "Questions",
+    "Ответим на почту, обычно за день": "We'll reply by email, usually within a day",
+    "Друзья": "Friends", "Приглашай — получай бонусные дни": "Invite friends — earn bonus days", "Вопросы": "FAQ",
     "Сколько устройств можно подключить?": "How many devices can I connect?",
     "По умолчанию 1 устройство. Нужно больше — добавь в боте дополнительные (+50 ₽/мес за каждое).": "1 device by default. Need more — add extra ones in the bot (+50 ₽/mo each).",
     "Вы ведёте логи?": "Do you keep logs?", "Нет. Мы не храним историю и трафик — приватность по умолчанию.": "No. We don't store history or traffic — privacy by default.",
@@ -204,20 +207,15 @@
     // footer
     "Приватность — это не паранойя. Это гигиена.": "Privacy isn't paranoia. It's hygiene.",
     "Продукт": "Product", "Серверы": "Servers", "Платформы": "Platforms", "Компания": "Company",
-    "Поддержка": "Support", "Оферта": "Terms", "Политика": "Privacy",
+    "Оферта": "Terms", "Политика": "Privacy",
     "© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.":
       "© 2026 bitaps VPN. Made for those with something to hide — that is, everyone.",
     // b-box modal
     "VPN для всего дома — в одной коробочке": "VPN for the whole home — in one box",
     "Маленькое устройство, которое втыкается в роутер и раздаёт VPN сразу на": "A small device that plugs into your router and shares the VPN with",
-    "весь дом": "the whole home",
     ": телефоны, ноуты, ТВ, приставки, умные колонки — без настройки на каждом устройстве.": ": phones, laptops, TVs, consoles, smart speakers — no setup on each device.",
-    "Подключил один раз — работает само": "Set up once — runs by itself",
-    "Защищает даже гаджеты без приложений (ТВ, консоли, умный дом)": "Protects even app-less gadgets (TVs, consoles, smart home)",
-    "Шифрует весь трафик на лету": "Encrypts all traffic on the fly",
-    "Тихая и компактная — помещается на ладони": "Quiet and compact — fits in your palm",
-    "Имя": "Name", "Telegram или телефон": "Telegram or phone", "Город / адрес доставки": "City / delivery address",
-    "Количество": "Quantity", "Оформить заказ B-box": "Place B-box order",
+    "Telegram или телефон": "Telegram or phone", "Город / адрес доставки": "City / delivery address",
+    "Оформить заказ B-box": "Place B-box order",
     "Заказ принят!": "Order received!", "Мы свяжемся с тобой, чтобы подтвердить доставку B-box.": "We'll contact you to confirm B-box delivery.",
     "Закрыть": "Close",
     // support modal
@@ -229,8 +227,8 @@
     "🌐 На сайте": "🌐 On the website", "✈️ В Telegram-боте": "✈️ In the Telegram bot",
     // auth modal
     "Вход в аккаунт": "Sign in", "Войдите, чтобы управлять подпиской bitaps.": "Sign in to manage your bitaps subscription.",
-    "Вход": "Sign in", "Регистрация": "Sign up", "Пароль": "Password", "Повторите пароль": "Repeat password",
-    "или": "or", "Войти через Google": "Continue with Google", "Готово!": "Done!", "Вы вошли в аккаунт.": "You're signed in.",
+    "Вход": "Sign in", "Регистрация": "Sign up",
+    "или": "or", "Готово!": "Done!", "Вы вошли в аккаунт.": "You're signed in.",
     // drawer menu
     "Меню": "Menu", "Ещё на сайте": "More on the site", "Статус серверов": "Server status", "Карта серверов": "Server map",
     "Тест скорости": "Speed test", "Отзывы": "Reviews", "Вопросы и ответы": "FAQ", "Подписка": "Subscription",
@@ -245,7 +243,7 @@
     "Город, улица, дом": "City, street, building", "чтобы прислать ответ": "so we can reply",
     "Опишите вопрос — поможем": "Describe your question — we'll help", "минимум 6 символов": "at least 6 characters",
     "ещё раз тот же пароль": "the same password again",
-    "← На главную": "← Home", "На главную": "Home", "// оплата": "// payment",
+    "На главную": "Home", "// оплата": "// payment",
     "Оформить": "Get a", "подписку": "subscription",
     "Выбери тариф — ключ придёт на почту. Чем длиннее период, тем дешевле каждый месяц.": "Choose a plan — the key comes to your email. The longer the period, the cheaper each month.",
     "Выбери тариф": "Choose a plan", "шаг 1 из 2": "step 1 of 2", "шаг 2 из 2": "step 2 of 2",
@@ -257,36 +255,32 @@
     "🎫 Промокод": "🎫 Promo code", "Есть код на скидку? Введи его — пересчитаем сумму к оплате.": "Got a discount code? Enter it — we'll recalculate the total.",
     "📖 История платежей": "📖 Payment history", "Здесь появятся твои оплаты после первой подписки — с датами и суммами.": "Your payments will appear here after your first subscription — with dates and amounts.",
     "Пока пусто": "Empty for now", "Открыть личный кабинет →": "Open dashboard →",
-    "Счёт создан": "Invoice created", "Открываем оплату…": "Opening payment…", "Открыть оплату ещё раз": "Open payment again",
+    "Открыть оплату ещё раз": "Open payment again",
     "Введи промокод": "Enter promo code", "Сменить тему": "Switch theme", "тема": "theme", "Тема": "Theme",
     "// приложение bitaps": "// bitaps app",
     "Один аккаунт — на всех устройствах. Мы определили вашу платформу автоматически и предлагаем лучший вариант установки.": "One account — on all your devices. We detected your platform automatically and suggest the best way to install.",
     "Приложение на финальной стадии —": "The app is in its final stage —", "скоро запуск": "launching soon",
-    ". Уже сейчас можно пользоваться VPN по ключу из": ". You can already use the VPN with a key from", "Telegram-бота": "the Telegram bot",
+    ". Уже сейчас можно пользоваться VPN по ключу из": ". You can already use the VPN with a key from",
     ". Нажмите «Уведомить» — пришлём ссылку первыми.": ". Tap «Notify me» — we'll send the link first.",
     "Ваше устройство": "Your device", "🔜 скоро · нажмите, чтобы получить уведомление": "🔜 soon · tap to get notified",
     "Все платформы": "All platforms", "Как подключиться": "How to connect",
-    "Закажи": "Order", "Маленькая коробочка, которая втыкается в роутер и раздаёт VPN сразу на": "A small box that plugs into your router and shares the VPN with",
-    "разовая покупка · без подписки": "one-time purchase · no subscription",
-    "Оформить доставку": "Arrange delivery", ". Оставь заявку — свяжемся, подтвердим наличие и доставку.": ". Leave a request — we'll get in touch and confirm availability and delivery.",
-    "Город": "City", "Адрес доставки или пункт выдачи": "Delivery address or pickup point", "Способ доставки": "Delivery method",
-    "Курьер": "Courier", "Пункт выдачи": "Pickup point", "Почта России": "Russian Post", "Кол-во": "Qty", "Количество": "Quantity",
+    "Маленькая коробочка, которая втыкается в роутер и раздаёт VPN сразу на": "A small box that plugs into your router and shares the VPN with",
+    ". Оставь заявку — свяжемся, подтвердим наличие и доставку.": ". Leave a request — we'll get in touch and confirm availability and delivery.",
+    "Способ доставки": "Delivery method",
+    "Почта России": "Russian Post", "Кол-во": "Qty",
     "Комментарий (необязательно)": "Comment (optional)",
     "Это предзаказ: B-box скоро в продаже. Оплата — после подтверждения, без предоплаты на сайте.": "This is a pre-order: B-box goes on sale soon. Payment after confirmation, no prepayment on the site.",
-    "Заявка принята!": "Request received!", "Мы свяжемся с тобой, чтобы подтвердить доставку B-box.": "We'll contact you to confirm B-box delivery.",
-    "Как тебя зовут": "Your name", "@username или +7…": "@username or +1…", "Например, Москва": "e.g., Moscow",
+    "Заявка принята!": "Request received!",
+    "Например, Москва": "e.g., Moscow",
     "Улица, дом, кв. / ПВЗ": "Street, building, apt. / pickup", "Удобное время, пожелания…": "Convenient time, notes…",
     "🔜 Предзаказ": "🔜 Pre-order", "/ шт · доставка по РФ": "/ each · delivery across Russia",
-    "Что это и зачем": "What it is and why", "Воткни в розетку и подключи к роутеру": "Plug into a socket and connect to your router",
-    "Раздаёт свой Wi-Fi «bitaps»": "Broadcasts its own «bitaps» Wi-Fi", "Всё, что в этой сети — через VPN автоматически": "Everything on this network goes through the VPN automatically",
-    "Характеристики": "Specs", "встроенный, bitaps": "built-in, bitaps", "Протокол": "Protocol", "Скорость": "Speed",
-    "до 2 Гбит/с": "up to 2 Gbps", "Подключение": "Connection", "LAN или Wi-Fi": "LAN or Wi-Fi", "В комплекте": "In the box",
-    "box, БП, кабель": "box, power supply, cable", "Оформить заказ": "Place order", "итого": "total", "Имя получателя": "Recipient name",
+    "до 2 Гбит/с": "up to 2 Gbps",
+    "итого": "total", "Имя получателя": "Recipient name",
     "Телефон для связи и доставки": "Phone for contact & delivery", "Индекс": "Postal code", "Адрес: улица, дом, квартира": "Address: street, building, apartment",
     "Комментарий к доставке (необязательно)": "Delivery comment (optional)", "Вопросы? Напиши": "Questions? Message",
-    "Заказ принят!": "Order received!", "Менеджер свяжется, подтвердит наличие, цену и доставку.": "A manager will contact you to confirm availability, price and delivery.",
+    "Менеджер свяжется, подтвердит наличие, цену и доставку.": "A manager will contact you to confirm availability, price and delivery.",
     "💬 Написать @bitapssupport": "💬 Message @bitapssupport", "Готово": "Done", "Оформить заказ ·": "Place order ·",
-    "Фамилия Имя": "Full name", "Москва": "Moscow", "ул. Ленина, д. 10, кв. 5": "123 Main St, apt. 5", "Удобное время, подъезд, домофон…": "Convenient time, entrance, intercom…",
+    "Фамилия Имя": "Full name", "ул. Ленина, д. 10, кв. 5": "123 Main St, apt. 5", "Удобное время, подъезд, домофон…": "Convenient time, entrance, intercom…",
     "Умная коробочка для роутера": "A smart box for your router", "— маленькое устройство, которое подключается к твоему роутеру и раздаёт VPN сразу на": "— a small device that connects to your router and shares the VPN with",
     ". Телевизор, телефоны, ноутбуки, приставки — всё работает через защищённое соединение, без настройки на каждом устройстве.": ". TV, phones, laptops, consoles — everything works through a secure connection, with no setup on each device.",
     "Просто работает": "Just works", "— включил в розетку и в роутер, и всё.": "— plug it into a socket and your router, that's it.",
@@ -309,15 +303,11 @@
     "Опиши вопрос — чем подробнее, тем быстрее поможем": "Describe your question — the more detail, the faster we help",
     "Управление подпиской, ключом и аккаунтом": "Manage your subscription, key and account", "Вы не вошли в аккаунт.": "You're not signed in.",
     "🚪 Выйти": "🚪 Log out", "Оформить подписку": "Get a subscription", "дней": "days",
-    "Ключ доступа": "Access key", "Один ключ для приложений": "One key for the apps", "и": "and",
+    "Ключ доступа": "Access key", "Один ключ для приложений": "One key for the apps",
     ". Отсканируй QR в приложении или скопируй ключ — и подключайся.": ". Scan the QR in the app or copy the key — and connect.",
-    "Нажми на ключ, чтобы скопировать.": "Tap the key to copy.", "⚙️ Автонастройка": "⚙️ Auto-setup", "📲 Скачать приложение": "📲 Download app",
-    "VPN для всего дома сразу": "VPN for the whole home at once", "Ответим на почту, обычно за день": "We'll reply by email, usually within a day",
-    "Друзья": "Friends", "Приглашай — получай бонусные дни": "Invite friends — earn bonus days", "Вопросы": "FAQ",
-    "Сколько устройств можно подключить?": "How many devices can I connect?", "До 10 устройств одновременно по одной подписке.": "Up to 10 devices at once on one subscription.",
-    "Вы ведёте логи?": "Do you keep logs?", "Нет. Мы не храним историю и трафик — приватность по умолчанию.": "No. We don't store history or traffic — privacy by default.",
-    "Как продлить подписку?": "How do I renew?", "Кнопка «Продлить» выше → оплата на сайте (карта, СБП или крипта), срок продлится автоматически. Можно оплатить и в Telegram-боте.": "The «Renew» button above → pay on the website (card, SBP or crypto), the term extends automatically. You can also pay in the Telegram bot.",
-    "VPN не подключается?": "VPN won't connect?", "Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.": "Make sure the key is copied in full, try another server or message support.",
+    "Нажми на ключ, чтобы скопировать.": "Tap the key to copy.",
+    "До 10 устройств одновременно по одной подписке.": "Up to 10 devices at once on one subscription.",
+    "Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.": "Make sure the key is copied in full, try another server or message support.",
     "Обновить пароль": "Update password", "За друзей с подпиской — бонусные дни": "Bonus days for friends who subscribe",
     "Поделись ссылкой — когда друг оформит подписку, тебе начислятся бонусные дни.": "Share your link — when a friend subscribes, you get bonus days.",
     "Пригласи друзей": "Invite friends", "Копировать": "Copy", "Скопировано ✓": "Copied ✓", "Нажми, чтобы скопировать": "Tap to copy",
@@ -341,9 +331,9 @@
     "Сеть недоступна, попробуй ещё раз": "Network unavailable, please try again", "Сеть недоступна, попробуй ещё раз.": "Network unavailable, please try again.",
     "Неправильный формат почты": "Invalid email format", "Неправильный формат почты.": "Invalid email format.",
     "Напиши, что случилось": "Tell us what happened", "Оставь почту или Telegram/телефон для ответа": "Leave an email or Telegram/phone for a reply",
-    "Подключение": "Connection", "Оплата": "Payment", "Укажи имя получателя": "Enter the recipient's name",
+    "Укажи имя получателя": "Enter the recipient's name",
     "Укажи телефон для связи": "Enter a contact phone", "Укажи адрес: улица, дом, квартира": "Enter address: street, building, apartment",
-    "Заказ принят!": "Order received!", "Активна": "Active", "Пробный период": "Trial period", "Продлить подписку": "Renew subscription",
+    "Активна": "Active", "Пробный период": "Trial period", "Продлить подписку": "Renew subscription",
     "Доброй ночи,": "Good night,", "Доброе утро,": "Good morning,", "Добрый день,": "Good afternoon,", "Добрый вечер,": "Good evening,",
     "Пароль обновлён ✓": "Password updated ✓", "Заявка из личного кабинета bitaps": "Request from the bitaps dashboard",
     "Твоя панель управления bitaps VPN": "Your bitaps VPN control panel", "оформи тариф, чтобы получить ключ": "choose a plan to get your key",
@@ -372,12 +362,11 @@
     "Открыть приложение → «+» → <b>Импорт из буфера обмена</b> → вставьте ключ.": "Open the app → «+» → <b>Import from clipboard</b> → paste the key.",
     "Запустите приложение → <b>Импорт из буфера / по ссылке</b> → вставьте ключ.": "Launch the app → <b>Import from clipboard / via link</b> → paste the key.",
     "Скачайте пакет <b>.deb</b> (кнопка выше) и установите: <code>sudo dpkg -i bitaps-vpn.deb</code>.": "Download the <b>.deb</b> package (button above) and install: <code>sudo dpkg -i bitaps-vpn.deb</code>.",
-    "Тема": "Theme",
     // валидация телефона/почты/паролей
     "Укажи телефон в правильном формате или Telegram (@ник)": "Enter a valid phone number or Telegram (@handle)",
     "Неправильный формат телефона или Telegram": "Invalid phone or Telegram format",
     "Укажи город": "Enter your city", "Пароль слишком короткий — минимум 6 символов.": "Password too short — at least 6 characters.",
-    "Пароли не совпадают.": "Passwords don't match.", "Секунду…": "One sec…", "Войти": "Log in", "Регистрация": "Sign up",
+    "Пароли не совпадают.": "Passwords don't match.", "Секунду…": "One sec…",
     // hero-терминал (script.js, динамика)
     "поиск ближайшего узла": "finding nearest node", "узел: Москва": "node: Moscow", "рукопожатие": "handshake",
     "ключи обменяны · AES-256-GCM": "keys exchanged · AES-256-GCM", "активен": "active",
@@ -495,15 +484,9 @@
 
   function mkButton() {
     if (document.getElementById('langToggle')) return;
-    // Контекст: Telegram Mini App (web app) vs обычный сайт в браузере.
-    var miniApp = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData && window.Telegram.WebApp.initData.length);
-    var path = location.pathname;
-    var mainPage = path === '/' || /\/(index|bitaps-site)\.html$/.test(path);
-    // страницы, открытые ИЗ БОТА в браузере (метка ?l=1) — им тоже нужна кнопка.
-    var botLink = /[?&]l=1(\b|&|$)/.test(location.search);
-    // САЙТ (браузер): кнопка ТОЛЬКО на главной + на bot-link страницах — язык глобальный
-    // (localStorage), остальные страницы подхватывают его сами при загрузке (apply на init).
-    if (!miniApp && !mainPage && !botLink) return;
+    // Кнопка языка нужна на ВСЕХ страницах: кто зашёл напрямую на pay/account/app/box/
+    // game/support/confirmed/404 тоже должен мочь переключить язык. Язык глобальный
+    // (localStorage) — apply() на init применяет его на каждой странице при загрузке.
     var b = document.createElement('button');
     b.id = 'langToggle'; b.type = 'button'; b.textContent = cur === 'en' ? 'RU' : 'EN';
     b.setAttribute('aria-label', 'Сменить язык / Switch language');
