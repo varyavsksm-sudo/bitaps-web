@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 <title>bitaps VPN — приватность без компромиссов</title>
@@ -37,9 +37,7 @@
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/fonts.css">
 <link rel="stylesheet" href="styles.css" />
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <script src="/i18n.js?v=20" defer></script>
@@ -369,7 +367,7 @@
       <button type="button" class="btn btn-solid" data-paychoose>Выбрать <span class="btn-shine"></span></button>
     </article>
   </div>
-  <p class="price-foot reveal">Оформление и оплата — в Telegram-боте · Подписка активируется сразу · 3 дня бесплатно · Без скрытых платежей</p>
+  <p class="price-foot reveal">Оплата на сайте или в Telegram-боте · Подписка активируется сразу · 3 дня бесплатно · Без скрытых платежей</p>
 </section>
 
 <!-- ░░ 8 · ОТЗЫВЫ + КОММЕНТАРИИ ░░ -->
@@ -510,7 +508,7 @@
 
 <div class="modal" id="supportModal">
   <div class="modal-bg" data-close></div>
-  <div class="modal-card" role="dialog">
+  <div class="modal-card" role="dialog" aria-modal="true">
     <button class="modal-x" data-close aria-label="закрыть">×</button>
     <div class="modal-head">
       <div class="modal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5Z"/></svg></div>
@@ -538,7 +536,7 @@
 <!-- ░░ ВЫБОР ОПЛАТЫ (сайт / Telegram) ░░ -->
 <div class="modal" id="payChoiceModal">
   <div class="modal-bg" data-payclose></div>
-  <div class="modal-card" role="dialog">
+  <div class="modal-card" role="dialog" aria-modal="true">
     <button class="modal-x" data-payclose aria-label="закрыть">×</button>
     <div class="modal-head">
       <div class="modal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg></div>
@@ -557,7 +555,7 @@
 <!-- ░░ AUTH MODAL ░░ -->
 <div class="modal" id="authModal">
   <div class="modal-bg" data-aclose></div>
-  <div class="modal-card" role="dialog">
+  <div class="modal-card" role="dialog" aria-modal="true">
     <button class="modal-x" data-aclose aria-label="закрыть">×</button>
     <div class="modal-head">
       <div class="modal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></div>
@@ -566,18 +564,7 @@
         <p id="authSub">Войдите, чтобы управлять подпиской bitaps.</p>
       </div>
     </div>
-    <div class="auth-tabs" style="display:none">
-      <button class="auth-tab active" type="button" data-tab="login">Вход</button>
-      <button class="auth-tab" type="button" data-tab="signup">Регистрация</button>
-    </div>
-    <form id="authForm" class="sform" style="display:none">
-      <label>E-mail<input type="email" id="auEmail" required placeholder="you@example.com" autocomplete="email" /></label>
-      <label>Пароль<input type="password" id="auPass" required minlength="6" placeholder="минимум 6 символов" autocomplete="current-password" /></label>
-      <label id="auPass2Wrap" hidden>Повторите пароль<input type="password" id="auPass2" minlength="6" placeholder="ещё раз тот же пароль" autocomplete="new-password" /></label>
-      <div class="auth-err" id="authErr"></div>
-      <button type="submit" class="btn btn-solid" id="authSubmit" style="width:100%;justify-content:center">Войти <span class="btn-shine"></span></button>
-      <button type="button" id="auForgot" style="background:none;border:none;color:var(--mut,#8a93a5);font-size:12.5px;cursor:pointer;padding:8px 0 0;text-align:center;width:100%;text-decoration:underline">Забыл пароль?</button>
-    </form>
+    <div class="auth-err" id="authErr"></div>
     <button type="button" class="btn btn-line" id="googleBtn" style="width:100%;justify-content:center;gap:9px"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Войти через Google</button>
     <div class="auth-or"><span>или войдите через Telegram</span></div>
     <div class="tg-login" id="tgLogin">
@@ -603,7 +590,7 @@
 <!-- ░░ ВЫЕЗЖАЮЩЕЕ МЕНЮ (3 полоски) ░░ -->
 <div class="drawer" id="drawer">
   <div class="drawer-bg" data-drclose></div>
-  <aside class="drawer-panel" role="dialog" aria-label="Меню">
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="Меню">
     <div class="drawer-top">
       <span class="drawer-title">Меню</span>
       <button class="drawer-x" data-drclose aria-label="закрыть">×</button>
@@ -1122,51 +1109,20 @@
   const acctName  = document.getElementById('acctName');
   const acctAvatar= document.getElementById('acctAvatar');
   // личный кабинет — отдельная страница account.html (кнопка #acctBtn = ссылка)
-  const form      = document.getElementById('authForm');
   const ok        = document.getElementById('auOk');
   const errEl     = document.getElementById('authErr');
-  const submitBtn = document.getElementById('authSubmit');
-  const titleEl   = document.getElementById('authTitle');
-  const subEl     = document.getElementById('authSub');
   const okTitle   = document.getElementById('auOkTitle');
   const okMsg     = document.getElementById('auOkMsg');
-  const emailIn   = document.getElementById('auEmail');
-  const passIn    = document.getElementById('auPass');
-  const pass2Wrap = document.getElementById('auPass2Wrap');
-  const pass2In   = document.getElementById('auPass2');
   const googleBtn = document.getElementById('googleBtn');
-  const tabs      = [...document.querySelectorAll('.auth-tab')];
-  if (!modal || !form) return;
-
-  let mode = 'login';
-  const btnText = (t) => { submitBtn.firstChild.textContent = t; };
+  if (!modal) return;
 
   const open  = () => { modal.classList.add('open'); document.body.style.overflow = 'hidden'; errEl.textContent = ''; };
   const close = () => {
     modal.classList.remove('open'); document.body.style.overflow = '';
-    if (typeof stopConfirmPolling === 'function') stopConfirmPolling();
-    setTimeout(() => { ok.classList.remove('show'); form.reset(); errEl.textContent = ''; }, 300);
+    setTimeout(() => { ok.classList.remove('show'); errEl.textContent = ''; }, 300);
   };
 
-  const setMode = (m) => {
-    mode = m;
-    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === m));
-    if (m === 'login') {
-      titleEl.textContent = 'Вход в аккаунт';
-      subEl.textContent   = 'Войдите, чтобы управлять подпиской bitaps.';
-      btnText('Войти '); passIn.autocomplete = 'current-password';
-      if (pass2Wrap) { pass2Wrap.hidden = true; pass2In.required = false; }
-    } else {
-      titleEl.textContent = 'Регистрация';
-      subEl.textContent   = 'Создайте аккаунт bitaps за 10 секунд.';
-      btnText('Создать аккаунт '); passIn.autocomplete = 'new-password';
-      if (pass2Wrap) { pass2Wrap.hidden = false; pass2In.required = true; }
-    }
-    errEl.textContent = '';
-  };
-  tabs.forEach(t => t.addEventListener('click', () => setMode(t.dataset.tab)));
-
-  if (openBtn) openBtn.addEventListener('click', e => { e.preventDefault(); setMode('login'); open(); });
+  if (openBtn) openBtn.addEventListener('click', e => { e.preventDefault(); open(); });
   modal.querySelectorAll('[data-aclose]').forEach(el => el.addEventListener('click', close));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
 
@@ -1218,91 +1174,6 @@
     return (err && err.message) || 'Что-то пошло не так, попробуйте ещё раз.';
   };
 
-  // ожидание подтверждения почты: страница сама войдёт, как только юзер
-  // перейдёт по ссылке из письма (хоть на другом устройстве) — решает кейс
-  // «подтвердил на телефоне, а на компе не залогинено»
-  let confirmTimer = null;
-  const stopConfirmPolling = () => { if (confirmTimer) { clearInterval(confirmTimer); confirmTimer = null; } };
-  const startConfirmPolling = (email, password) => {
-    stopConfirmPolling();
-    let tries = 0;
-    confirmTimer = setInterval(async () => {
-      tries++;
-      if (tries > 22) { stopConfirmPolling(); return; }   // ~3 мин
-      try {
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
-        if (!error && data && data.session) {
-          stopConfirmPolling();
-          okTitle.textContent = 'Готово!';
-          okMsg.textContent = 'Почта подтверждена — вы вошли в аккаунт.';
-          // шапка обновится через onAuthStateChange
-        }
-      } catch (_) {}
-    }, 8000);
-  };
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    errEl.textContent = '';
-    const email = emailIn.value.trim(), pass = passIn.value;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Неправильный формат почты.'; return; }
-    // при регистрации пароль вводится дважды — проверяем совпадение
-    if (mode === 'signup') {
-      if (pass.length < 6) { errEl.textContent = 'Пароль слишком короткий — минимум 6 символов.'; return; }
-      if (pass2In && pass2In.value !== pass) { errEl.textContent = 'Пароли не совпадают.'; return; }
-    }
-    const restore = submitBtn.firstChild.textContent;
-    submitBtn.disabled = true; btnText('Секунду… ');
-    try {
-      const res = mode === 'signup'
-        ? await sb.auth.signUp({ email, password: pass, options: { emailRedirectTo: 'https://bitapsvpn.com/confirmed.html' } })
-        : await sb.auth.signInWithPassword({ email, password: pass });
-      if (res.error) throw res.error;
-      // Supabase при дубле почты возвращает user с пустым identities (без ошибки) — ловим это
-      if (mode === 'signup' && res.data.user && Array.isArray(res.data.user.identities) && res.data.user.identities.length === 0) {
-        errEl.textContent = 'Аккаунт с такой почтой уже существует — войдите.';
-        setMode('login');
-        emailIn.value = email;
-        return;
-      }
-      // если подтверждение почты включено — сессии не будет, покажем подсказку
-      if (mode === 'signup' && !res.data.session) {
-        form.style.display = 'none'; ok.classList.add('show');
-        okTitle.textContent = 'Подтвердите почту';
-        okMsg.textContent = 'Мы отправили письмо на ' + email + '. Откройте ссылку из письма (на любом устройстве) — и эта страница войдёт автоматически.';
-        startConfirmPolling(email, pass);
-        return;
-      }
-      form.style.display = 'none'; ok.classList.add('show');
-      if (mode === 'signup') { okTitle.textContent = 'Аккаунт создан!'; okMsg.textContent = 'Добро пожаловать в bitaps — вы вошли в систему.'; }
-      else { okTitle.textContent = 'С возвращением!'; okMsg.textContent = 'Вы вошли в аккаунт bitaps.'; }
-    } catch (err) {
-      const msg = humanError(err);
-      errEl.textContent = msg;
-      // если почта уже занята — переключаем на вкладку «Вход»
-      if (/уже зарегистрирована|уже существует/.test(msg)) { setMode('login'); emailIn.value = email; errEl.textContent = msg; }
-    } finally {
-      submitBtn.disabled = false; btnText(restore);
-    }
-  });
-
-  // восстановление пароля: шлём ссылку сброса на почту, юзер задаёт новый пароль на account.html
-  const forgotBtn = document.getElementById('auForgot');
-  if (forgotBtn) forgotBtn.addEventListener('click', async () => {
-    const email = emailIn.value.trim();
-    errEl.textContent = '';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Впиши почту аккаунта выше, потом нажми «Забыл пароль?».'; return; }
-    forgotBtn.disabled = true;
-    try {
-      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: 'https://bitapsvpn.com/account.html' });
-      if (error) throw error;
-      form.style.display = 'none'; ok.classList.add('show');
-      okTitle.textContent = 'Письмо отправлено';
-      okMsg.textContent = 'Ссылка для сброса пароля ушла на ' + email + '. Открой её и задай новый пароль.';
-    } catch (err) { errEl.textContent = (typeof humanError === 'function' ? humanError(err) : 'Не удалось отправить письмо, попробуй позже.'); }
-    finally { forgotBtn.disabled = false; }
-  });
-
   if (googleBtn) googleBtn.addEventListener('click', async () => {
     googleBtn.disabled = true; errEl.textContent = '';
     try {
@@ -1318,27 +1189,8 @@
     }
   });
 
-  // вход через Telegram (виджет вызывает onTelegramAuth с подписанными данными)
-  window.onTelegramAuth = async (user) => {
-    try {
-      const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/telegram-auth', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user)
-      });
-      const data = await res.json();
-      if (!res.ok || !data.token_hash) throw new Error(data.error || 'Telegram auth failed');
-      const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
-      if (error) throw error;
-      // успех — открываем окно с подтверждением (если оно закрыто) и показываем статус
-      if (modal.classList.contains('open')) {
-        form.style.display = 'none'; ok.classList.add('show');
-        okTitle.textContent = 'С возвращением!'; okMsg.textContent = 'Вы вошли через Telegram.';
-      }
-      // шапка обновится через onAuthStateChange
-    } catch (err) {
-      if (modal.classList.contains('open')) errEl.textContent = 'Не удалось войти через Telegram: ' + (err.message || err);
-      else alert('Не удалось войти через Telegram');
-    }
-  };
+  // Вход через Telegram-виджет идёт в redirect-режиме (data-auth-url) — обработчик ниже
+  // разбирает параметры из URL после возврата. Отдельного onTelegramAuth-колбэка нет.
 
   // вход по ключу из бота (надёжно на мобильных — без Telegram-виджета)
   const auKeyBtn = document.getElementById('auKeyBtn');
@@ -1359,7 +1211,7 @@
       if (!res.ok || !data.token_hash) throw new Error(data.error === 'use_login_secret' ? (data.message || 'войди по Коду входа') : (data.error === 'not found' ? 'не найдено — проверь ключ/Код входа или войди через Telegram' : (data.error || 'ошибка входа')));
       const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
       if (error) throw error;
-      form.style.display = 'none'; ok.classList.add('show');
+      ok.classList.add('show');
       okTitle.textContent = 'С возвращением!'; okMsg.textContent = 'Вы вошли по ключу из бота.';
     } catch (err) {
       ke.textContent = 'Не вышло: ' + (err.message || err);
@@ -1394,7 +1246,7 @@
   })();
 
   // «Сменить аккаунт» с account.html ведёт на /?login=1 — сразу открываем окно входа
-  try { if (new URLSearchParams(location.search).get('login')) { setMode('login'); open(); } } catch (_) {}
+  try { if (new URLSearchParams(location.search).get('login')) { open(); } } catch (_) {}
 
   (async () => {
     try {
@@ -1668,6 +1520,48 @@
     } catch (_) {}
   };
   window.btTrack('pageview');
+})();
+</script>
+<script>
+/* ── переиспользуемый focus-trap для модалок (a11y) ──
+   следит за классом .open/.show на .modal/.drawer/.secmodal: при открытии
+   переносит фокус внутрь и запирает Tab, при закрытии возвращает фокус на триггер. */
+(function () {
+  var SEL = 'a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  var CONTAINERS = '.modal, .drawer, .secmodal';
+  var visible = function (el) { return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length); };
+  var focusables = function (root) { return Array.prototype.filter.call(root.querySelectorAll(SEL), visible); };
+  var active = null, trigger = null, keyHandler = null;
+  function release() {
+    if (keyHandler) { document.removeEventListener('keydown', keyHandler, true); keyHandler = null; }
+    var t = trigger; trigger = null; active = null;
+    if (t && t.focus) { try { t.focus(); } catch (e) {} }
+  }
+  function trap(container) {
+    if (active === container) return;
+    if (active) release();
+    trigger = document.activeElement;
+    active = container;
+    var f = focusables(container);
+    if (f[0]) { var first = f[0]; setTimeout(function () { try { first.focus(); } catch (e) {} }, 30); }
+    keyHandler = function (e) {
+      if (e.key !== 'Tab') return;
+      var list = focusables(container); if (!list.length) return;
+      var a = list[0], b = list[list.length - 1];
+      if (!container.contains(document.activeElement)) { e.preventDefault(); a.focus(); }
+      else if (e.shiftKey && document.activeElement === a) { e.preventDefault(); b.focus(); }
+      else if (!e.shiftKey && document.activeElement === b) { e.preventDefault(); a.focus(); }
+    };
+    document.addEventListener('keydown', keyHandler, true);
+  }
+  function scan() {
+    var open = document.querySelector('.modal.open, .drawer.open, .secmodal.open');
+    if (open) { if (active !== open) trap(open); }
+    else if (active) { release(); }
+  }
+  var mo = new MutationObserver(scan);
+  document.querySelectorAll(CONTAINERS).forEach(function (m) { mo.observe(m, { attributes: true, attributeFilter: ['class'] }); });
+  scan();
 })();
 </script>
 </body>

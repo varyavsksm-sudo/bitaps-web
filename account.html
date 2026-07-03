@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств.">
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex,nofollow">
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <title>Личный кабинет — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/fonts.css">
 <style>
   :root{--acc:#ff7a1a;--acc2:#ffae3d;--blue:#2d8bff;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(15,21,33,.72);--green:#46d39a}
   *{margin:0;padding:0;box-sizing:border-box}
@@ -292,7 +291,7 @@
           <div class="ct"><span class="i">💎</span> Подписка <span class="badge off" id="subBadge">—</span></div>
           <div class="sub-plan" id="planName">—<small id="planSub">—</small></div>
           <div class="sub-until" id="untilDate">—</div>
-          <a class="btn btn-solid" id="subBtn" href="https://t.me/bitaps_vpn_auth_bot?start=subscribe" target="_blank" rel="noopener">Оформить подписку в Telegram</a>
+          <a class="btn btn-solid" id="subBtn" href="pay.html">Оформить подписку</a>
           <div id="barWrap" hidden><div class="bar"><i id="bar"></i></div></div>
         </div>
         <div class="ring-wrap">
@@ -368,7 +367,7 @@
           <div class="faq">
             <details><summary>Сколько устройств можно подключить?</summary><p>По умолчанию 1 устройство. Нужно больше — добавь в боте дополнительные (+50 ₽/мес за каждое).</p></details>
             <details><summary>Вы ведёте логи?</summary><p>Нет. Мы не храним историю и трафик — приватность по умолчанию.</p></details>
-            <details><summary>Как продлить подписку?</summary><p>Кнопка «Продлить» выше → оплата в Telegram, срок продлится автоматически.</p></details>
+            <details><summary>Как продлить подписку?</summary><p>Кнопка «Продлить» выше → оплата на сайте (карта, СБП или крипта), срок продлится автоматически. Можно оплатить и в Telegram-боте.</p></details>
             <details><summary>VPN не подключается?</summary><p>Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.</p></details>
           </div>
         </div>
@@ -438,7 +437,7 @@
   <!-- модалка bitaps Box -->
   <div class="modal" id="boxModal">
     <div class="modal-bg" data-bxclose></div>
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="B-box">
       <button class="modal-x" data-bxclose>×</button>
       <div class="modal-hero">
         <div class="bi" style="color:var(--acc)"><svg viewBox="0 0 32 32" fill="none" width="38" height="38" aria-hidden="true"><use href="#blogo"/></svg></div>
@@ -458,7 +457,7 @@
   <!-- модалка Поддержка -->
   <div class="modal" id="supModal">
     <div class="modal-bg" data-bxclose></div>
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Поддержка">
       <button class="modal-x" data-bxclose>×</button>
       <div class="modal-hero">
         <div class="bi">🆘</div>
@@ -478,7 +477,7 @@
   <!-- модалка Друзья -->
   <div class="modal" id="refModal">
     <div class="modal-bg" data-bxclose></div>
-    <div class="modal-card">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Пригласи друзей">
       <button class="modal-x" data-bxclose>×</button>
       <div class="modal-hero">
         <div class="bi">👥</div>
@@ -546,6 +545,8 @@
       countUp($('leftDays'), left);
       $('untilDate').textContent = 'активна до ' + exp.toLocaleDateString('ru-RU');
       $('subBtn').textContent = 'Продлить подписку';
+      { const _pl = /^[a-z0-9]+$/i.test(data.plan || '') ? data.plan : ''; const _dv = data.device_limit || 1;
+        $('subBtn').setAttribute('href', 'pay.html' + (_pl ? '?plan=' + _pl + '&dev=' + _dv : '')); }
       if (data.vpn_key) {
         $('key').textContent = data.vpn_key;
         // QR генерим ЛОКАЛЬНО в браузере — секретный ключ НЕ уходит на сторонний сервис (важно для «без логов»)
@@ -750,6 +751,47 @@
 </script>
 <script>
 /* виджет-аврора: чистая CSS-анимация, JS не нужен */
+</script>
+<script>
+/* ── переиспользуемый focus-trap для модалок (a11y) ──
+   следит за классом .open на .modal: при открытии переносит фокус внутрь и
+   запирает Tab, при закрытии возвращает фокус на триггер. */
+(function () {
+  var SEL = 'a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  var visible = function (el) { return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length); };
+  var focusables = function (root) { return Array.prototype.filter.call(root.querySelectorAll(SEL), visible); };
+  var active = null, trigger = null, keyHandler = null;
+  function release() {
+    if (keyHandler) { document.removeEventListener('keydown', keyHandler, true); keyHandler = null; }
+    var t = trigger; trigger = null; active = null;
+    if (t && t.focus) { try { t.focus(); } catch (e) {} }
+  }
+  function trap(container) {
+    if (active === container) return;
+    if (active) release();
+    trigger = document.activeElement;
+    active = container;
+    var f = focusables(container);
+    if (f[0]) { var first = f[0]; setTimeout(function () { try { first.focus(); } catch (e) {} }, 30); }
+    keyHandler = function (e) {
+      if (e.key !== 'Tab') return;
+      var list = focusables(container); if (!list.length) return;
+      var a = list[0], b = list[list.length - 1];
+      if (!container.contains(document.activeElement)) { e.preventDefault(); a.focus(); }
+      else if (e.shiftKey && document.activeElement === a) { e.preventDefault(); b.focus(); }
+      else if (!e.shiftKey && document.activeElement === b) { e.preventDefault(); a.focus(); }
+    };
+    document.addEventListener('keydown', keyHandler, true);
+  }
+  function scan() {
+    var open = document.querySelector('.modal.open');
+    if (open) { if (active !== open) trap(open); }
+    else if (active) { release(); }
+  }
+  var mo = new MutationObserver(scan);
+  document.querySelectorAll('.modal').forEach(function (m) { mo.observe(m, { attributes: true, attributeFilter: ['class'] }); });
+  scan();
+})();
 </script>
 </body>
 </html>

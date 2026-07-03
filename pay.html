@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Оплата подписки bitaps VPN: банковская карта, СБП, криптовалюта и Telegram Stars. Быстро и безопасно."><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Оплата · bitaps VPN</title><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://bitapsvpn.com/pay.html"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css" />
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Оплата подписки bitaps VPN: банковская карта, СБП, криптовалюта и Telegram Stars. Быстро и безопасно."><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Оплата · bitaps VPN</title><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="https://bitapsvpn.com/pay.html"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="styles.css" />
 <style>
 /* pay.html — только специфичное для страницы оплаты; общий CSS в styles.css */
 .trust-lead{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--mut);text-transform:uppercase}
@@ -85,11 +85,11 @@
     <button class="dev-btn" id="devPlus" type="button" aria-label="больше">+</button>
     <span class="dev-hint">+50&nbsp;₽/мес за каждое доп. устройство · до 10</span>
   </div>
-  <div class="plans plans-4" id="plans">
-    <article class="plan" data-code="mo" data-base="399" data-mo="1"><div class="plan-name">1 месяц</div><div class="plan-price"><span class="pm">399</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">399 ₽</b></div></article>
-    <article class="plan" data-code="q" data-base="999" data-mo="3"><div class="plan-save"></div><div class="plan-name">3 месяца</div><div class="plan-price"><span class="pm">333</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">999 ₽</b></div></article>
-    <article class="plan sel" data-code="h" data-base="1790" data-mo="6"><div class="plan-save"></div><div class="plan-name">6 месяцев</div><div class="plan-price"><span class="pm">298</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">1 790 ₽</b></div></article>
-    <article class="plan plan-best" data-code="yr" data-base="2990" data-mo="12"><div class="plan-flag">★ выбор большинства</div><div class="plan-save"></div><div class="plan-name">12 месяцев</div><div class="plan-price"><span class="pm">249</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">2 990 ₽</b></div></article>
+  <div class="plans plans-4" id="plans" role="radiogroup" aria-label="Выбери тариф подписки">
+    <article class="plan" data-code="mo" data-base="399" data-mo="1" role="radio" tabindex="0" aria-checked="false"><div class="plan-name">1 месяц</div><div class="plan-price"><span class="pm">399</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">399 ₽</b></div></article>
+    <article class="plan" data-code="q" data-base="999" data-mo="3" role="radio" tabindex="0" aria-checked="false"><div class="plan-save"></div><div class="plan-name">3 месяца</div><div class="plan-price"><span class="pm">333</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">999 ₽</b></div></article>
+    <article class="plan sel" data-code="h" data-base="1790" data-mo="6" role="radio" tabindex="0" aria-checked="true"><div class="plan-save"></div><div class="plan-name">6 месяцев</div><div class="plan-price"><span class="pm">298</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">1 790 ₽</b></div></article>
+    <article class="plan plan-best" data-code="yr" data-base="2990" data-mo="12" role="radio" tabindex="0" aria-checked="false"><div class="plan-flag">★ выбор большинства</div><div class="plan-save"></div><div class="plan-name">12 месяцев</div><div class="plan-price"><span class="pm">249</span><small> ₽</small><em>/мес</em></div><div class="plan-bill">Итого <b class="tot">2 990 ₽</b></div></article>
   </div>
   </section>
 
@@ -149,7 +149,8 @@
 <script>
   /* приватная first-party аналитика (без кук/сторонних трекеров) */
   var TRACK='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/track';
-  function btTrack(name,extra){try{var b=JSON.stringify(Object.assign({name:name,path:location.pathname,ref:document.referrer||''},extra||{}));if(navigator.sendBeacon)navigator.sendBeacon(TRACK,new Blob([b],{type:'text/plain;charset=UTF-8'}));else fetch(TRACK,{method:'POST',headers:{'Content-Type':'application/json'},body:b,keepalive:true}).catch(function(){});}catch(e){}}
+  var SB_KEY='sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
+  function btTrack(name,extra){try{var b=JSON.stringify(Object.assign({name:name,path:location.pathname,ref:document.referrer||''},extra||{}));if(navigator.sendBeacon)navigator.sendBeacon(TRACK,new Blob([b],{type:'text/plain;charset=UTF-8'}));else fetch(TRACK,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:b,keepalive:true}).catch(function(){});}catch(e){}}
   btTrack('pageview');
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay';
   var EXTRA=50, code='h', dev=1;
@@ -167,13 +168,25 @@
       el.querySelector('.tot').textContent=fmt(total);
       el.classList.toggle('sel', el.dataset.code===code && !el.classList.contains('plan-best'));
       if(el.classList.contains('plan-best')) el.style.outline = el.dataset.code===code ? '2px solid var(--acc)' : '';
+      el.setAttribute('aria-checked', el.dataset.code===code ? 'true' : 'false');
     });
     var sel=document.querySelector('.plan[data-code="'+code+'"]');
     var base=+sel.dataset.base, mo=+sel.dataset.mo;
     document.getElementById('total').textContent=fmt(base+(dev-1)*EXTRA*mo);
     document.getElementById('devCount').textContent=dev;
   }
-  document.getElementById('plans').addEventListener('click',function(e){var el=e.target.closest('.plan');if(!el)return;code=el.dataset.code;paint();btTrack('plan_select',{plan:code});});
+  function selectPlan(el){if(!el)return;code=el.dataset.code;paint();el.focus();btTrack('plan_select',{plan:code});}
+  document.getElementById('plans').addEventListener('click',function(e){selectPlan(e.target.closest('.plan'));});
+  document.getElementById('plans').addEventListener('keydown',function(e){
+    var el=e.target.closest('.plan');if(!el)return;
+    if(e.key===' '||e.key==='Enter'||e.key==='Spacebar'){e.preventDefault();selectPlan(el);return;}
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='ArrowLeft'||e.key==='ArrowUp'){
+      e.preventDefault();
+      var list=Array.prototype.slice.call(document.querySelectorAll('#plans .plan'));
+      var i=list.indexOf(el),d=(e.key==='ArrowRight'||e.key==='ArrowDown')?1:-1;
+      selectPlan(list[(i+d+list.length)%list.length]);
+    }
+  });
   document.getElementById('devMinus').addEventListener('click',function(){if(dev>1){dev--;paint();}});
   document.getElementById('devPlus').addEventListener('click',function(){if(dev<10){dev++;paint();}});
   function showErr(t){var e=document.getElementById('perr');e.textContent=t;e.classList.remove('hide');}
@@ -203,7 +216,7 @@
     document.getElementById('waitMsg').classList.remove('hide');
     for(var i=0;i<240;i++){
       try{
-        var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})});
+        var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
         var j=await r.json();
         if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key, j.login_secret); try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
         if(j&&j.paid&&j.by_email){ /* повторная покупка под существующим email: ключ не раскрываем тут */
@@ -223,7 +236,7 @@
     if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
     btTrack('pay_crypto_click',{plan:code});
     try{
-      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email,lang:(document.documentElement.lang==='en'?'en':'ru')})});
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({plan:code,device_limit:dev,email:email,lang:(document.documentElement.lang==='en'?'en':'ru')})});
       var j=await r.json();
       if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('invoice_created',{plan:code});
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
@@ -245,7 +258,7 @@
     if(submitting)return;submitting=true;var btn=this;btn.style.opacity=.6;btn.disabled=true;
     btTrack('pay_sbp_click',{plan:code});
     try{
-      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,email:email,method:'sbp',lang:(document.documentElement.lang==='en'?'en':'ru')})});
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({plan:code,device_limit:dev,email:email,method:'sbp',lang:(document.documentElement.lang==='en'?'en':'ru')})});
       var j=await r.json();
       if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('invoice_created',{plan:code});
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}

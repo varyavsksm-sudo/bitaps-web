@@ -28,8 +28,8 @@
     "Современное шифрование поверх VLESS + Reality — трафик надёжно защищён от перехвата в открытых сетях.":
       "Modern encryption on top of VLESS + Reality — your traffic is well protected from interception on open networks.",
     "Политика No-Logs": "No-Logs policy",
-    "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Подтверждено независимым аудитом.":
-      "We physically don't store what you do. Nothing to keep — nothing to hand over. Confirmed by an independent audit.",
+    "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Так заложено в самой архитектуре сервиса.":
+      "We physically don't store what you do. Nothing to keep — nothing to hand over. It's built into the service architecture itself.",
     "Связь с сервером оборвалась? bitaps мгновенно режет весь трафик. Ни один байт не утечёт без защиты.":
       "Lost the connection to the server? bitaps instantly cuts all traffic. Not a single byte leaks unprotected.",
     "Россия + зарубеж": "Russia + abroad",
@@ -94,8 +94,8 @@
     "★ выбор большинства": "★ most popular", "12 месяцев": "12 months", "за 12 месяцев": "for 12 months",
     "Всё из «6 месяцев»": "Everything in «6 months»", "Максимальная выгода": "Maximum value",
     "Выделенный IP-адрес": "Dedicated IP address", "Лучшая цена месяца": "Best monthly price",
-    "Оформление и оплата — в Telegram-боте · Подписка активируется сразу · 3 дня бесплатно · Без скрытых платежей":
-      "Checkout & payment in the Telegram bot · Subscription activates instantly · 3 days free · No hidden fees",
+    "Оплата на сайте или в Telegram-боте · Подписка активируется сразу · 3 дня бесплатно · Без скрытых платежей":
+      "Pay on the website or in the Telegram bot · Subscription activates instantly · 3 days free · No hidden fees",
     // reviews
     "// живые люди": "// real people", "Проверено": "Proven", "в деле": "in action",
     "Это не реклама, а живые отзывы. Оставь и свой — появится сразу.": "Not ads — real reviews. Leave yours, it shows up instantly.",
@@ -198,7 +198,7 @@
     "Сколько устройств можно подключить?": "How many devices can I connect?",
     "По умолчанию 1 устройство. Нужно больше — добавь в боте дополнительные (+50 ₽/мес за каждое).": "1 device by default. Need more — add extra ones in the bot (+50 ₽/mo each).",
     "Вы ведёте логи?": "Do you keep logs?", "Нет. Мы не храним историю и трафик — приватность по умолчанию.": "No. We don't store history or traffic — privacy by default.",
-    "Как продлить подписку?": "How do I renew?", "Кнопка «Продлить» выше → оплата в Telegram, срок продлится автоматически.": "The «Renew» button above → pay in Telegram, the term extends automatically.",
+    "Как продлить подписку?": "How do I renew?", "Кнопка «Продлить» выше → оплата на сайте (карта, СБП или крипта), срок продлится автоматически. Можно оплатить и в Telegram-боте.": "The «Renew» button above → pay on the website (card, SBP or crypto), the term extends automatically. You can also pay in the Telegram bot.",
     "VPN не подключается?": "VPN won't connect?",
     "Загрузите в": "Get it on", "Доступно в": "Available on", "Скоро в": "Coming to", "А для компьютера —": "And for desktop —",
     // footer
@@ -308,7 +308,7 @@
     "💬 Продолжить в Telegram @bitapssupport": "💬 Continue on Telegram @bitapssupport", "Как к тебе обращаться": "Your name", "@ник или +7…": "@handle or +1…",
     "Опиши вопрос — чем подробнее, тем быстрее поможем": "Describe your question — the more detail, the faster we help",
     "Управление подпиской, ключом и аккаунтом": "Manage your subscription, key and account", "Вы не вошли в аккаунт.": "You're not signed in.",
-    "🚪 Выйти": "🚪 Log out", "Оформить подписку в Telegram": "Get a subscription in Telegram", "дней": "days",
+    "🚪 Выйти": "🚪 Log out", "Оформить подписку": "Get a subscription", "дней": "days",
     "Ключ доступа": "Access key", "Один ключ для приложений": "One key for the apps", "и": "and",
     ". Отсканируй QR в приложении или скопируй ключ — и подключайся.": ". Scan the QR in the app or copy the key — and connect.",
     "Нажми на ключ, чтобы скопировать.": "Tap the key to copy.", "⚙️ Автонастройка": "⚙️ Auto-setup", "📲 Скачать приложение": "📲 Download app",
@@ -316,7 +316,7 @@
     "Друзья": "Friends", "Приглашай — получай бонусные дни": "Invite friends — earn bonus days", "Вопросы": "FAQ",
     "Сколько устройств можно подключить?": "How many devices can I connect?", "До 10 устройств одновременно по одной подписке.": "Up to 10 devices at once on one subscription.",
     "Вы ведёте логи?": "Do you keep logs?", "Нет. Мы не храним историю и трафик — приватность по умолчанию.": "No. We don't store history or traffic — privacy by default.",
-    "Как продлить подписку?": "How do I renew?", "Кнопка «Продлить» выше → оплата в Telegram, срок продлится автоматически.": "The «Renew» button above → pay in Telegram, the term extends automatically.",
+    "Как продлить подписку?": "How do I renew?", "Кнопка «Продлить» выше → оплата на сайте (карта, СБП или крипта), срок продлится автоматически. Можно оплатить и в Telegram-боте.": "The «Renew» button above → pay on the website (card, SBP or crypto), the term extends automatically. You can also pay in the Telegram bot.",
     "VPN не подключается?": "VPN won't connect?", "Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.": "Make sure the key is copied in full, try another server or message support.",
     "Обновить пароль": "Update password", "За друзей с подпиской — бонусные дни": "Bonus days for friends who subscribe",
     "Поделись ссылкой — когда друг оформит подписку, тебе начислятся бонусные дни.": "Share your link — when a friend subscribes, you get bonus days.",
@@ -354,6 +354,8 @@
     "Ещё разок — и будет круче!": "One more — it'll be even better!", "🔥 Это уровень сенсея! Закрепи в топе.": "🔥 Sensei level! Lock it into the leaderboard.",
     "💪 Сильный улов! Давай в топ.": "💪 Strong catch! Get on the leaderboard.",
     "Скачать для macOS": "Download for macOS", "Скачать для Windows": "Download for Windows",
+    "Скачать для Android": "Download for Android", "Скачать для Linux": "Download for Linux",
+    "Установить (Happ)": "Install (Happ)",
     "Открыть в App Store": "Open in App Store", "Открыть в Google Play": "Open in Google Play",
     "Скачать .deb": "Download .deb", "пакет .deb": ".deb package", "установщик .exe": ".exe installer",
     "Нажмите «Подключить». Готово!": "Tap «Connect». Done!",
@@ -395,7 +397,6 @@
     ". Это предзаказ: оставь заявку — сообщим, как только B-box поступит, и оформим доставку.": ". This is a preorder — leave a request and we'll notify you when B-box is available and arrange delivery.",
     // ── добор пропусков (найдено репортером __i18nMissing на live) ──
     "3 дня бесплатно · без скрытых платежей · отмена в один клик": "3 days free · no hidden fees · cancel in one click",
-    "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Так заложено в самой архитектуре сервиса.": "We physically don't store what you do. Nothing to keep — nothing to hand over. It's built into the service architecture itself.",
     "Демо для наглядности": "Demo for illustration",
     "// отзывы": "// reviews",
     "Что говорят": "What people say",

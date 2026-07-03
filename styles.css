@@ -294,16 +294,9 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .step p{color:var(--mut);font-size:15px}
 .step-line{position:absolute;top:46px;right:-24px;width:24px;height:2px;background:linear-gradient(90deg,var(--acc),transparent);z-index:2}
 
-/* ░░ REVIEWS ░░ */
-.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.review{border:1px solid var(--line);border-radius:var(--r);padding:28px 26px;background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.01));transition:.3s}
-.review:hover{border-color:rgba(255,122,26,.3);transform:translateY(-4px)}
-.review p{margin:14px 0 20px;font-size:15.5px;line-height:1.6}
-.rev-by{display:flex;align-items:center;gap:12px}
+/* аватар-кружок (отзывы / шапка кабинета) */
 .ava{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#03110e;
   background:var(--c,#ff7a1a);box-shadow:0 0 18px color-mix(in srgb,var(--c) 50%,transparent)}
-.rev-by b{display:block;font-size:15px}
-.rev-by i{font-style:normal;font-size:13px;color:var(--mut)}
 
 /* ░░ FAQ ░░ */
 .section-faq{max-width:840px}
@@ -317,15 +310,6 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .a{max-height:0;overflow:hidden;transition:max-height .35s ease}
 .a p{padding:0 22px 22px;color:var(--mut);font-size:15px;line-height:1.6}
 
-/* ░░ DOWNLOAD ░░ */
-.dl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.dl{display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 18px;border:1px solid var(--line);
-  border-radius:var(--r);background:var(--panel);transition:.3s;text-align:center}
-.dl:hover{border-color:rgba(255,122,26,.4);transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
-.dl svg{width:38px;height:38px;color:var(--txt);margin-bottom:8px;transition:.3s}
-.dl:hover svg{color:var(--acc);filter:drop-shadow(0 0 10px rgba(255,122,26,.6))}
-.dl-k{font-size:12px;color:var(--mut)}
-.dl b{font-size:18px}
 
 /* ░░ AURORA за заголовком (живой фон) ░░ */
 .hero-inner{position:relative}
@@ -410,10 +394,6 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .sform-ok p{color:var(--mut);font-size:14.5px;margin-bottom:20px}
 
 /* ░░ авторизация ░░ */
-.auth-tabs{display:flex;gap:6px;padding:4px;margin-bottom:18px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid var(--line)}
-.auth-tab{flex:1;padding:9px 0;border:none;background:none;color:var(--mut);font:inherit;font-size:14px;font-weight:600;border-radius:9px;cursor:pointer;transition:.2s}
-.auth-tab:hover{color:var(--txt)}
-.auth-tab.active{color:#03110e;background:linear-gradient(110deg,var(--acc),var(--acc2));box-shadow:0 4px 16px rgba(255,122,26,.3)}
 .auth-err{color:#ff6b6b;font-size:13px;min-height:0;margin:-4px 0 0;line-height:1.4}
 .auth-err:empty{display:none}
 .acct{display:flex;align-items:center;gap:10px}
@@ -519,14 +499,11 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
   .nav-cta .btn-solid{display:none}
   .nav-cta .btn-ghost{display:inline-flex;padding:8px 14px}
   .acct{gap:8px}
-  .trust-badges,.steps,.reviews,.dl-grid{grid-template-columns:1fr}
+  .trust-badges,.steps{grid-template-columns:1fr}
   .step-line{display:none}
 }
-@media(max-width:700px){.dl-grid{grid-template-columns:1fr 1fr}}
 
-/* ░░ СТАТУС СЕРВЕРОВ + BTC ░░ */
-.status-wrap{display:grid;grid-template-columns:1fr 340px;gap:20px;max-width:1080px;margin:0 auto}
-@media(max-width:860px){.status-wrap{grid-template-columns:1fr}}
+/* ░░ СТАТУС СЕРВЕРОВ ░░ */
 .status-card{background:rgba(13,19,30,.6);border:1px solid var(--line);border-radius:20px;padding:22px}
 .status-h{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;margin-bottom:14px;color:var(--txt)}
 .status-on{font-size:12.5px;color:#46d39a;display:flex;align-items:center;gap:6px}
@@ -543,12 +520,6 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .status-side{display:flex;flex-direction:column;gap:20px}
 .ping-chart{width:100%;height:110px;display:block}
 .sg-days{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:8px}
-.btc-card{display:flex;align-items:center;gap:14px}
-.btc-ic{width:46px;height:46px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;font-size:24px;font-weight:700;color:#05080f;background:linear-gradient(135deg,#f7931a,#ffce6b)}
-.btc-body{display:flex;flex-direction:column;gap:1px}
-.btc-label{font-size:12px;color:var(--mut)}
-.btc-body b{font-size:18px}
-.btc-usd{font-size:12px;color:var(--mut)}
 .status-foot{text-align:center;font-size:12px;color:var(--mut);margin-top:18px}
 .status-foot a{color:var(--acc);border-bottom:1px solid transparent;transition:.2s}
 .status-foot a:hover{border-color:var(--acc)}
@@ -565,8 +536,6 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .term-line .ci{color:var(--txt);flex:1}
 .term-line .bars{color:var(--acc2);letter-spacing:1px}
 .term-line .ms{color:#46d39a;min-width:50px;text-align:right}
-.btc-card{display:block!important}
-.btc-head{display:flex;align-items:center;gap:13px;margin-bottom:16px}
 .blocks-h{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut);margin-bottom:6px}
 .blocks-h b{color:var(--acc2);font-family:'JetBrains Mono',monospace}
 .blocks{display:flex;flex-direction:column}
@@ -576,18 +545,10 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .block-hash{font-family:'JetBrains Mono',monospace;color:var(--mut);flex:1;overflow:hidden;text-overflow:ellipsis}
 .block-ago{color:var(--mut);white-space:nowrap}
 
-/* BTC-тикер в навбаре (мелкий, не про VPN, но bitaps) */
-.btc-tick{display:inline-flex;align-items:center;gap:6px;margin-right:auto;margin-left:14px;padding:5px 11px;border-radius:999px;
-  border:1px solid var(--line);background:rgba(247,147,26,.07);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut);white-space:nowrap;transition:.2s}
-.btc-tick:hover{border-color:#f7931a;color:var(--txt)}
-.btc-tick .bi{color:#f7931a;font-weight:700}
-@media(max-width:680px){.btc-tick{display:none}}
-
 /* навбар: компактнее и аккуратнее */
 .nav-left{display:flex;align-items:center;gap:12px}
 .nav .nav-links{gap:14px;font-size:13px}
 .nav .brand-name{font-size:18px}
-.nav .btc-tick{margin:0;font-size:11.5px;padding:4px 9px;gap:5px}
 @media(max-width:1080px){.nav .nav-links{gap:11px;font-size:12.5px}}
 
 /* навбар: фикс переносов и кривизны (v2) */
@@ -596,14 +557,13 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .nav-left{gap:10px;flex-shrink:0}
 .nav .brand-mark{width:26px;height:26px}
 .nav .brand-name{font-size:16px}
-.nav .btc-tick{font-size:11px;padding:3px 8px;gap:4px}
 .nav .nav-links{gap:13px;font-size:12.5px;flex-wrap:nowrap}
 .nav .nav-links a{white-space:nowrap}
 .nav .nav-cta{gap:8px;flex-shrink:0}
 .nav .nav-cta .btn{padding:8px 13px;font-size:13px}
 .nav .acct-btn{font-size:12.5px;padding:4px 10px 4px 4px}
 .nav .acct-avatar{width:24px;height:24px;font-size:11px}
-@media(max-width:1040px){.nav .nav-links{display:none}.nav .btc-tick{display:none}}
+@media(max-width:1040px){.nav .nav-links{display:none}}
 
 /* ░░ короткая главная + выезжающее меню (3 полоски) ░░ */
 .tucked{display:none}
@@ -698,7 +658,6 @@ html[data-theme="light"] .box-list li{color:#33415c}
 html[data-theme="light"] .card,
 html[data-theme="light"] .speed-wrap,
 html[data-theme="light"] .cform,
-html[data-theme="light"] .review,
 html[data-theme="light"] .status-card,
 html[data-theme="light"] .plan,
 html[data-theme="light"] .store-badge{
@@ -735,7 +694,6 @@ html[data-theme="light"] .drawer-panel,
 html[data-theme="light"] .secmodal-card{background:#ffffff;box-shadow:0 30px 90px rgba(16,24,40,.22)}
 html[data-theme="light"] .footer{background:rgba(16,26,48,.03);border-top-color:rgba(16,26,48,.08)}
 html[data-theme="light"] .map-tip{background:#fff;color:var(--txt);box-shadow:0 10px 28px rgba(16,24,40,.14)}
-html[data-theme="light"] .auth-tabs{background:rgba(16,26,48,.05)}
 html[data-theme="light"] .cform input,html[data-theme="light"] .cform textarea,
 html[data-theme="light"] .sform input,html[data-theme="light"] .sform textarea{background:#fff;color:var(--txt);border-color:rgba(16,26,48,.14)}
 html[data-theme="light"] .ms-bar,html[data-theme="light"] .si-bar,
