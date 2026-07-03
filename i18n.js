@@ -103,6 +103,29 @@
     "Скоро — сейчас оставь заявку, свяжемся первыми": "Coming soon — leave a request now and we'll reach out first",
     "Не удалось отправить заявку. Напиши нам:": "Could not send the request. Message us:",
     "Свяжемся, как только карта поступит в продажу.": "We'll get in touch as soon as the card goes on sale.",
+    // card.html — подробное описание
+    "Что такое карта bitaps": "What the bitaps card is",
+    "Металлическая карта bitaps — не сувенир, а настоящая банковская карта: ей реально можно платить. Внутри — кошелёк на токенах bitaps, который растёт за приглашённых друзей.":
+      "The bitaps metal card isn't a souvenir — it's a real bank card you can actually pay with. Inside is a wallet in bitaps tokens that grows as you invite friends.",
+    "Настоящая металлическая карта — платите ей где угодно, в России и за рубежом.": "A real metal card — pay with it anywhere, in Russia and abroad.",
+    "Оплата криптовалютой — пополнение и расчёты в крипте, без привязки к банку.": "Crypto payments — top up and pay in crypto, with no bank attached.",
+    "Баланс — в токенах bitaps, внутренней валюте сервиса.": "The balance is in bitaps tokens, the service's internal currency.",
+    "Токены капают за приглашённых друзей — чем больше рефералов, тем больше баланс.": "Tokens accrue for invited friends — the more referrals, the bigger the balance.",
+    "Быстрый вывод на карту — реферальные токены переводятся на карту в пару касаний и тратятся.": "Fast payout to the card — referral tokens move to the card in a couple of taps and are ready to spend.",
+    "Два вида карты": "Two kinds of card",
+    "Настоящая металлическая карта bitaps для каждого. Кошелёк на токенах и статусный предмет — без дополнительных бонусов подписки.":
+      "A real bitaps metal card for everyone. A token wallet and a status item — without extra subscription bonuses.",
+    "Купить может любой — без условий и приглашений.": "Anyone can buy it — no conditions, no invites.",
+    "Оплата криптой, баланс в токенах, вывод реф-токенов на карту.": "Crypto payments, a token balance, and referral-token payouts to the card.",
+    "Работает в России и за рубежом.": "Works in Russia and abroad.",
+    "Чёрная металлическая black card с вашим именем. Всё из обычной карты — плюс пожизненные привилегии подписки.":
+      "A black metal card with your name on it. Everything from the standard card — plus lifetime subscription privileges.",
+    "Всё из обычной карты, плюс:": "Everything from the standard card, plus:",
+    "Персонализация — ваше имя на карте.": "Personalization — your name on the card.",
+    "100 устройств навсегда — постоянный лимит на всех будущих подписках.": "100 devices forever — a permanent limit across all future subscriptions.",
+    "Год подписки в подарок сразу.": "A year of subscription as a gift, right away.",
+    "Дальше все продления — по цене тарифа на 10 устройств, лимит всё те же 100.": "After that all renewals are at the 10-device plan price, while the limit stays 100.",
+    "Приоритетные сервера (VLESS + Reality) и ускоренный вывод токенов.": "Priority servers (VLESS + Reality) and faster token payouts.",
     // pricing
     "// тарифы": "// plans", "VIP-доступ": "VIP access", "без подвоха": "no catch",
     "Чем длиннее период — тем дешевле месяц. Цена указана за выбранное число устройств, без скрытых платежей. Первые 3 дня — бесплатно.":
