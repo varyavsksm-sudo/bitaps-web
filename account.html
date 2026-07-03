@@ -170,48 +170,6 @@
   @media(max-width:560px){.sub-hero{flex-direction:column-reverse;align-items:stretch;text-align:center}
     .sub-hero .sub-info{align-items:center}.sub-hero .ct{justify-content:center}.sub-hero .ct .badge{margin-left:8px}
     .ring-wrap{margin:0 auto}.sub-hero .sub-info .btn{max-width:none}}
-  /* ░ именная карта доступа ░ */
-  .mc-wrap{margin-bottom:18px;perspective:1300px;animation:rise .5s ease both;animation-delay:.04s}
-  .mc{position:relative;width:100%;max-width:470px;aspect-ratio:1.62/1;border-radius:20px;margin:0 auto;
-    --rx:0deg;--ry:0deg;--mx:50%;--my:22%;
-    background:linear-gradient(155deg,#1c1408,#0a0704 80%);
-    box-shadow:0 1px 0 rgba(255,220,170,.08) inset,0 30px 66px -28px rgba(0,0,0,.85),0 0 0 1px rgba(255,122,26,.24),0 0 55px -20px rgba(255,122,26,.5);
-    transform:rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;
-    transition:transform .25s cubic-bezier(.2,.7,.2,1);overflow:hidden;will-change:transform}
-  .mc::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background:repeating-conic-gradient(from 0deg at 30% 18%,rgba(255,200,140,.20) 0deg 16deg,rgba(255,122,26,.16) 16deg 32deg,rgba(255,174,61,.14) 32deg 48deg,rgba(255,235,200,.20) 48deg 64deg,rgba(255,122,26,.14) 64deg 80deg);
-    background-size:220% 220%;mix-blend-mode:color-dodge;opacity:.34;
-    -webkit-mask:radial-gradient(140% 120% at var(--mx) var(--my),#000,transparent 58%);mask:radial-gradient(140% 120% at var(--mx) var(--my),#000,transparent 58%);
-    animation:mcfoil 9s linear infinite}
-  @keyframes mcfoil{to{background-position:220% 0}}
-  .mc::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background:radial-gradient(560px circle at var(--mx) var(--my),rgba(255,240,210,.16),transparent 40%)}
-  .mc-grid{position:absolute;inset:0;opacity:.09;background-image:linear-gradient(#ff7a1a 1px,transparent 1px),linear-gradient(90deg,#ff7a1a 1px,transparent 1px);background-size:26px 26px;-webkit-mask:radial-gradient(120% 90% at 82% 16%,#000,transparent 70%);mask:radial-gradient(120% 90% at 82% 16%,#000,transparent 70%)}
-  .mc-in{position:absolute;inset:0;padding:clamp(18px,4.6%,26px);display:flex;flex-direction:column;transform:translateZ(38px);transform-style:preserve-3d;color:#f7ecd9}
-  .mc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-  .mc-brand{display:flex;align-items:center;gap:10px}
-  .mc-mark{width:32px;height:32px;color:#ff9a3d;filter:drop-shadow(0 0 9px rgba(255,122,26,.55))}
-  .mc-mark svg{width:100%;height:100%}
-  .mc-wm{font-weight:700;font-size:18px;letter-spacing:.2px;line-height:1}
-  .mc-wm span{color:#ffae3d}
-  .mc-sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.32em;color:#9a835f;text-transform:uppercase;margin-top:4px}
-  .mc .badge{margin:0;flex-shrink:0}
-  .mc-chip{margin-top:auto;width:44px;height:32px;border-radius:7px;position:relative;background:linear-gradient(135deg,#f8dfa0,#c07f34 55%,#f9e6ba);box-shadow:0 1px 2px rgba(0,0,0,.45) inset,0 0 0 1px rgba(0,0,0,.28)}
-  .mc-chip::before{content:"";position:absolute;inset:5px;border-radius:3px;background:linear-gradient(90deg,transparent 46%,rgba(60,35,0,.4) 46% 54%,transparent 54%),linear-gradient(0deg,transparent 30%,rgba(60,35,0,.34) 30% 34%,transparent 34% 66%,rgba(60,35,0,.34) 66% 70%,transparent 70%)}
-  .mc-num{font-family:'JetBrains Mono',monospace;margin-top:13px;font-size:clamp(11px,3vw,14px);letter-spacing:.16em;color:#f2e6d2;text-shadow:0 0 12px rgba(255,122,26,.3);display:flex;flex-wrap:wrap;gap:.5em}
-  .mc-num b{color:#ffae3d;font-weight:600}
-  .mc-bottom{margin-top:12px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
-  .mc-k{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.26em;color:#9a835f;text-transform:uppercase}
-  .mc-name{font-size:15px;font-weight:700;margin-top:3px;letter-spacing:.01em;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .mc .mc-plan{font-size:12.5px!important;font-weight:600;margin-top:4px;color:#ffbe6a;display:block}
-  .mc .mc-plan small{display:block;font-size:10px;font-weight:500;color:#9a835f;margin-top:2px}
-  .mc-meta{text-align:right;flex-shrink:0}
-  .mc-until{font-size:12.5px;font-weight:600;margin-top:3px}
-  .mc-left{font-family:'JetBrains Mono',monospace;font-size:10px;color:#9a835f;margin-top:4px}
-  .mc-left b{color:#ffae3d;font-size:13px;font-weight:700}
-  .mc-btn{max-width:470px;margin:14px auto 0;display:block}
-  @media(max-width:520px){.mc-name{max-width:135px}}
-  @media(prefers-reduced-motion:reduce){.mc{transition:none}.mc::before{animation:none!important}}
   /* сетка карточек */
   .dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
   .dash .card{min-width:0}
@@ -327,39 +285,23 @@
         <button class="btn btn-ghost" id="logout">🚪 Выйти</button>
       </div>
 
-      <!-- ГЛАВНАЯ карта подписки (именная) -->
-      <div class="mc-wrap">
-        <article class="mc" id="mcard" aria-label="Карта доступа bitaps VPN">
-          <div class="mc-grid" aria-hidden="true"></div>
-          <div class="mc-in">
-            <div class="mc-top">
-              <div class="mc-brand">
-                <span class="mc-mark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><use href="#blogo"/></svg></span>
-                <div>
-                  <div class="mc-wm">bitaps<span> VPN</span></div>
-                  <div class="mc-sub">карта доступа</div>
-                </div>
-              </div>
-              <span class="badge off" id="subBadge">—</span>
-            </div>
-            <div class="mc-chip" aria-hidden="true"></div>
-            <div class="mc-num">VLESS <b>·</b> REALITY <b>·</b> БЕЗ&nbsp;ЛОГОВ</div>
-            <div class="mc-bottom">
-              <div>
-                <div class="mc-k">держатель</div>
-                <div class="mc-name" id="mcName">—</div>
-                <div class="mc-plan" id="planName">—<small id="planSub">—</small></div>
-              </div>
-              <div class="mc-meta">
-                <div class="mc-k">действует</div>
-                <div class="mc-until" id="untilDate">—</div>
-                <div class="mc-left"><b id="leftDays">—</b> <span>дн.</span></div>
-              </div>
-            </div>
-          </div>
-          <svg width="0" height="0" style="position:absolute" aria-hidden="true"><circle id="ringFill" r="52"></circle></svg>
-        </article>
-        <a class="btn btn-solid mc-btn" id="subBtn" href="pay.html">Оформить подписку</a>
+      <!-- ГЛАВНАЯ карточка подписки -->
+      <div class="card sub-hero">
+        <div class="sub-info">
+          <div class="ct"><span class="i">💎</span> Подписка <span class="badge off" id="subBadge">—</span></div>
+          <div class="sub-plan" id="planName">—<small id="planSub">—</small></div>
+          <div class="sub-until" id="untilDate">—</div>
+          <a class="btn btn-solid" id="subBtn" href="pay.html">Оформить подписку</a>
+          <div id="barWrap" hidden><div class="bar"><i id="bar"></i></div></div>
+        </div>
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+            <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ffae3d"/></linearGradient></defs>
+            <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+            <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <div class="ring-center"><b id="leftDays">—</b><span>дней</span></div>
+        </div>
       </div>
 
 
@@ -577,7 +519,6 @@
   };
   const fillProfile = (name, display, avatar) => {
     $('name').textContent = name;
-    { const _mn = $('mcName'); if (_mn) _mn.textContent = name; }   // имя держателя на карте доступа
     $('email').textContent = display;
     if (avatar && /^https:\/\//i.test(avatar)) { $('avatar').style.backgroundImage = `url("${encodeURI(avatar)}")`; $('avatar').textContent = ''; }
     else $('avatar').textContent = (name[0] || 'B').toUpperCase();
@@ -777,29 +718,6 @@
   }
 
   $('logout').addEventListener('click', async () => { try { await sb.auth.signOut(); } catch (_) {} location.href = '/'; });
-})();
-</script>
-<script>
-/* именная карта доступа — 3D-наклон, блик и голо-отлив следуют за курсором */
-(function(){
-  var card=document.getElementById('mcard'); if(!card) return;
-  var scene=card.closest('.mc-wrap')||card;
-  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches, raf=0;
-  function move(e){
-    var r=card.getBoundingClientRect();
-    var px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
-    cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(function(){
-      card.style.setProperty('--mx',(px*100)+'%');
-      card.style.setProperty('--my',(py*100)+'%');
-      if(!reduce){
-        card.style.setProperty('--ry',((px-.5)*18).toFixed(2)+'deg');
-        card.style.setProperty('--rx',((.5-py)*13).toFixed(2)+'deg');
-      }
-    });
-  }
-  function reset(){card.style.setProperty('--rx','0deg');card.style.setProperty('--ry','0deg');card.style.setProperty('--mx','50%');card.style.setProperty('--my','22%');}
-  scene.addEventListener('pointermove',move); scene.addEventListener('pointerleave',reset); reset();
 })();
 </script>
 <script>
