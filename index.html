@@ -64,6 +64,7 @@
     <a href="#features">Возможности</a>
     <a href="#how">Как работает</a>
     <a href="#box" class="nav-new"><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span></a>
+    <a href="#card">🖤 Карта</a>
     <a href="#pricing">Цены</a>
     <a href="app.html">Приложение</a>
   </nav>
@@ -317,6 +318,114 @@
     </div>
   </div>
 
+</section>
+
+<!-- ░░ 6 · VIP CARD (коллекционная металлическая карта) ░░ -->
+<section class="section section-card" id="card">
+  <style>
+    .section-card .vc-wrap{max-width:1080px;margin:0 auto}
+    .vc-hero{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:38px;align-items:center;margin-top:6px}
+    @media(max-width:860px){.vc-hero{grid-template-columns:1fr;gap:26px}}
+    .vc-card{position:relative;aspect-ratio:1.585/1;border-radius:18px;overflow:hidden;text-decoration:none;display:block;
+      background:linear-gradient(155deg,#171009,#070502 82%);border:1px solid rgba(242,201,107,.28);
+      box-shadow:0 26px 60px -22px rgba(242,201,107,.5),0 0 0 1px rgba(255,232,180,.06) inset;transition:transform .35s,box-shadow .35s}
+    .vc-card:hover{transform:translateY(-5px) rotate(-.6deg);box-shadow:0 34px 74px -20px rgba(242,201,107,.62)}
+    .vc-card::before{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:color-dodge;
+      background:repeating-conic-gradient(from 0deg at 26% 18%,rgba(248,230,180,.22) 0 16deg,rgba(242,201,107,.16) 16deg 32deg,rgba(224,166,58,.12) 32deg 48deg,rgba(255,244,210,.2) 48deg 64deg)}
+    .vc-card .vc-chip{position:absolute;left:22px;top:30px;width:42px;height:31px;border-radius:6px;background:linear-gradient(135deg,#f8e6b4,#c69a4a 55%,#f9ecc0)}
+    .vc-card .vc-vip{position:absolute;right:20px;top:24px;font:700 12px 'JetBrains Mono',monospace;letter-spacing:.2em;color:#f2c96b}
+    .vc-card .vc-brand{position:absolute;left:22px;bottom:22px;font:800 20px 'Space Grotesk';background:linear-gradient(100deg,#f8e6b4,#e0a63a);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .vc-card .vc-look{position:absolute;right:18px;bottom:20px;font:600 12px 'JetBrains Mono',monospace;color:rgba(242,201,107,.85)}
+    .vc-tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:620px){.vc-tiers{grid-template-columns:1fr}}
+    .vc-tier{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:9px}
+    .vc-tier.vip{border-color:rgba(242,201,107,.4);background:radial-gradient(120% 120% at 100% 0%,rgba(242,201,107,.09),transparent 60%),var(--panel)}
+    .vc-tag{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.03em;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--mut)}
+    .vc-tier.vip .vc-tag{color:#e0a63a;border-color:rgba(242,201,107,.5);background:rgba(242,201,107,.12)}
+    .vc-tier h3{font-size:18px;margin:2px 0 0;font-weight:700}
+    .vc-price{font-size:25px;font-weight:800;letter-spacing:-.5px}
+    .vc-price small{font-size:13px;color:var(--mut);font-weight:600;letter-spacing:0}
+    .vc-tier p{color:var(--mut);font-size:14px;margin:0;line-height:1.5}
+    .vc-tier .btn,.vc-tier .btn-line{margin-top:auto}
+    .vc-note{font-size:12.5px;color:var(--mut)}
+    .vc-form-wrap{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+    .vc-form-wrap h3{font-size:19px;margin:0 0 4px;font-weight:700}
+    .vc-form-wrap .vc-sub{color:var(--mut);font-size:14px;margin-bottom:16px}
+    #cardForm{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+    #cardForm label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+    #cardForm .full{grid-column:1/-1}
+    #cardForm input,#cardForm textarea{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:11px;padding:12px;font-size:15px;font-family:inherit}
+    #cardForm input:focus,#cardForm textarea:focus{outline:none;border-color:var(--acc)}
+    #cardForm textarea{min-height:64px;resize:vertical}
+    @media(max-width:560px){#cardForm{grid-template-columns:1fr}}
+    .vc-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+    .vc-err{display:none;color:#ff7a7a;font-size:13.5px;margin-top:12px}
+    .vc-ok{display:none;text-align:center;padding:26px 6px}
+    .vc-ok.show{display:block}
+    .vc-ok .c{font-size:44px}
+    .vc-ok h3{margin:8px 0 4px;font-size:19px}
+  </style>
+  <div class="vc-wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">// коллекционная карта</span>
+      <h2>Металлическая <span class="grad">VIP-карта</span></h2>
+      <p class="sec-p">Настоящая карта из металла с брендом bitaps. Премиальный статус в кармане — и путь к пожизненным привилегиям.</p>
+    </div>
+
+    <div class="vc-hero reveal">
+      <a class="vc-card" href="vip-card.html" aria-label="Посмотреть VIP-карту">
+        <span class="vc-chip"></span>
+        <span class="vc-vip">★ VIP</span>
+        <span class="vc-brand">bitaps VPN</span>
+        <span class="vc-look">посмотреть карту →</span>
+      </a>
+
+      <div class="vc-tiers">
+        <div class="vc-tier">
+          <span class="vc-tag">скоро</span>
+          <h3>Обычная карта</h3>
+          <div class="vc-price">5000 ₽ <small>/ металл</small></div>
+          <p>Коллекционная металлическая карта bitaps. Премиум-предмет и статус — доступна каждому, без бонусов подписки.</p>
+          <button type="button" class="btn btn-solid" id="cardOrderBtn">Заказать</button>
+          <span class="vc-note">Доставка по России · оплата после подтверждения</span>
+        </div>
+
+        <div class="vc-tier vip">
+          <span class="vc-tag">по приглашению</span>
+          <h3>VIP-карта · персональная</h3>
+          <div class="vc-price">5000 ₽ <small>/ персональная</small></div>
+          <p>Имя на карте и полные привилегии: 100 устройств навсегда, год подписки в подарок, дальше продления по цене тарифа на 10 устройств.</p>
+          <a class="btn btn-line" href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener">Заказать в боте</a>
+          <span class="vc-note">Открывается за 100 приглашённых друзей</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="vc-form-wrap reveal" id="cardFormWrap" style="display:none">
+      <h3>Заказать обычную карту</h3>
+      <div class="vc-sub">Оставь контакты — менеджер подтвердит заказ и оформит доставку. <b>Скоро в продаже.</b></div>
+      <form id="cardForm" autocomplete="on">
+        <div><label>Имя</label><input id="cName" placeholder="Как тебя зовут" autocomplete="name"></div>
+        <div><label>Телефон</label><input id="cPhone" placeholder="+7 ___ ___-__-__" inputmode="tel" autocomplete="tel"></div>
+        <div><label>Город</label><input id="cCity" placeholder="Например, Москва" autocomplete="address-level2"></div>
+        <div><label>Индекс</label><input id="cPost" placeholder="101000" inputmode="numeric" autocomplete="postal-code"></div>
+        <div class="full"><label>Адрес доставки</label><input id="cAddr" placeholder="Улица, дом, квартира / ПВЗ" autocomplete="street-address"></div>
+        <div class="full"><label>Email (необязательно)</label><input id="cEmail" type="email" placeholder="you@example.com" autocomplete="email"></div>
+        <div class="full"><label>Комментарий (необязательно)</label><textarea id="cNote" maxlength="400" placeholder="Удобное время, пожелания…"></textarea></div>
+      </form>
+      <div class="vc-actions">
+        <button type="button" class="btn btn-solid" id="cardSend">Оформить заказ</button>
+        <a class="btn btn-line" href="https://t.me/bitapssupport" target="_blank" rel="noopener">Заказать в Telegram</a>
+        <span class="vc-note">Скоро — сейчас оставь заявку, свяжемся первыми</span>
+      </div>
+      <div class="vc-err" id="cardErr">Не удалось отправить заявку. Напиши нам: <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.</div>
+      <div class="vc-ok" id="cardOk">
+        <div class="c">🖤</div>
+        <h3>Заявка принята!</h3>
+        <p style="color:var(--mut)">Свяжемся, как только карта поступит в продажу.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ░░ 7 · PRICING ░░ -->
@@ -599,6 +708,7 @@
     <button type="button" class="dr-item" data-modal="status"><span class="e">📡</span> Статус серверов</button>
     <button type="button" class="dr-item" data-modal="map"><span class="e">🌍</span> Карта серверов</button>
     <button type="button" class="dr-item" data-modal="speed"><span class="e">🚀</span> Тест скорости</button>
+    <a class="dr-item" href="#card" data-drclose><span class="e">🖤</span> VIP-карта</a>
     <a class="dr-item" href="#reviews" data-drclose><span class="e">⭐</span> Отзывы</a>
     <a class="dr-item" href="#faq" data-drclose><span class="e">❓</span> Вопросы и ответы</a>
     <button type="button" class="dr-item" data-support data-drclose><span class="e">🆘</span> Поддержка</button>
@@ -1564,6 +1674,58 @@
   var mo = new MutationObserver(scan);
   document.querySelectorAll(CONTAINERS).forEach(function (m) { mo.observe(m, { attributes: true, attributeFilter: ['class'] }); });
   scan();
+})();
+</script>
+<script>
+/* Заказ обычной VIP-карты: раскрытие формы + отправка в бэкенд (action:'card') */
+(function () {
+  var openBtn = document.getElementById('cardOrderBtn');
+  var wrap = document.getElementById('cardFormWrap');
+  var sendBtn = document.getElementById('cardSend');
+  var errBox = document.getElementById('cardErr');
+  var okBox = document.getElementById('cardOk');
+  var form = document.getElementById('cardForm');
+  var actions = document.querySelector('.vc-actions');
+  if (!openBtn || !wrap || !sendBtn) return;
+  var en = function () { return document.documentElement.lang === 'en'; };
+  var val = function (id) { var e = document.getElementById(id); return e ? (e.value || '').trim() : ''; };
+  openBtn.addEventListener('click', function () {
+    wrap.style.display = '';
+    if (window.__i18nRefresh) try { window.__i18nRefresh(wrap); } catch (e) {}
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var f = document.getElementById('cName'); if (f) setTimeout(function () { f.focus(); }, 350);
+  });
+  sendBtn.addEventListener('click', async function () {
+    var name = val('cName'), phone = val('cPhone'), city = val('cCity');
+    var postcode = val('cPost'), address = val('cAddr'), email = val('cEmail'), comment = val('cNote');
+    errBox.style.display = 'none';
+    if (name.length < 2 || phone.length < 3) {
+      errBox.textContent = en() ? 'Enter your name and phone' : 'Укажи имя и телефон';
+      errBox.style.display = ''; return;
+    }
+    var t = sendBtn.textContent;
+    sendBtn.disabled = true; sendBtn.textContent = en() ? 'Sending…' : 'Отправляем…';
+    var ok = false;
+    try {
+      var r = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'card', name: name, phone: phone, city: city, postcode: postcode, address: address, comment: comment, email: email })
+      });
+      ok = r.ok;
+      try { var j = await r.json(); if (j && j.ok === false) ok = false; } catch (_) {}
+    } catch (_) { ok = false; }
+    if (ok) {
+      form.style.display = 'none'; if (actions) actions.style.display = 'none';
+      okBox.classList.add('show');
+    } else {
+      sendBtn.disabled = false; sendBtn.textContent = t;
+      errBox.innerHTML = (en()
+        ? 'Could not send the request. Message us: '
+        : 'Не удалось отправить заявку. Напиши нам: ')
+        + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.';
+      errBox.style.display = '';
+    }
+  });
 })();
 </script>
 </body>

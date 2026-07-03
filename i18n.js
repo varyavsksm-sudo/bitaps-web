@@ -81,6 +81,28 @@
     "Скорость не проседает — VLESS + Reality работает незаметно": "Speed stays up — VLESS + Reality works invisibly",
     "Заказать B-box": "Order B-box", "в наличии · доставка по миру": "in stock · worldwide delivery",
     "подключается к роутеру": "plugs into your router", "↑ нажми на коробочку — инфо и заказ": "↑ tap the box — info & order",
+    // vip card (коллекционная металлическая карта)
+    "🖤 Карта": "🖤 Card", "VIP-карта": "VIP card",
+    "// коллекционная карта": "// collectible card", "Металлическая": "Metal",
+    "Настоящая карта из металла с брендом bitaps. Премиальный статус в кармане — и путь к пожизненным привилегиям.":
+      "A real metal card branded bitaps. Premium status in your pocket — and a path to lifetime privileges.",
+    "Посмотреть VIP-карту": "View the VIP card", "посмотреть карту →": "view the card →",
+    "Обычная карта": "Standard card", "/ металл": "/ metal",
+    "Коллекционная металлическая карта bitaps. Премиум-предмет и статус — доступна каждому, без бонусов подписки.":
+      "A collectible bitaps metal card. A premium item and status — available to everyone, without subscription bonuses.",
+    "Заказать": "Order", "Доставка по России · оплата после подтверждения": "Delivery across Russia · payment after confirmation",
+    "по приглашению": "by invitation", "VIP-карта · персональная": "VIP card · personalized", "/ персональная": "/ personalized",
+    "Имя на карте и полные привилегии: 100 устройств навсегда, год подписки в подарок, дальше продления по цене тарифа на 10 устройств.":
+      "Your name on the card and full privileges: 100 devices forever, a year of subscription as a gift, then renewals at the 10-device plan price.",
+    "Заказать в боте": "Order in the bot", "Открывается за 100 приглашённых друзей": "Unlocks at 100 invited friends",
+    "Заказать обычную карту": "Order the standard card",
+    "Оставь контакты — менеджер подтвердит заказ и оформит доставку.": "Leave your contacts — a manager will confirm the order and arrange delivery.",
+    "Скоро в продаже.": "On sale soon.", "Телефон": "Phone", "Адрес доставки": "Delivery address", "Email (необязательно)": "Email (optional)",
+    "Как тебя зовут": "Your name", "Улица, дом, квартира / ПВЗ": "Street, building, apartment / pickup",
+    "Оформить заказ": "Place order", "Заказать в Telegram": "Order via Telegram",
+    "Скоро — сейчас оставь заявку, свяжемся первыми": "Coming soon — leave a request now and we'll reach out first",
+    "Не удалось отправить заявку. Напиши нам:": "Could not send the request. Message us:",
+    "Свяжемся, как только карта поступит в продажу.": "We'll get in touch as soon as the card goes on sale.",
     // pricing
     "// тарифы": "// plans", "VIP-доступ": "VIP access", "без подвоха": "no catch",
     "Чем длиннее период — тем дешевле месяц. Цена указана за выбранное число устройств, без скрытых платежей. Первые 3 дня — бесплатно.":

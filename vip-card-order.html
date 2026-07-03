@@ -8,6 +8,7 @@
   :root{--bg:#0a0709;--card:#140f0a;--line:#2a2114;--tx:#f6ecd6;--mut:#9c885d;--acc:#f2c96b;--acc2:#f8e6b4;--ok:#3fb950;--inp:#100b06}
   html[data-theme="light"]{--bg:#efe7d5;--card:#fbf6ea;--line:#e2d4b4;--tx:#241a0b;--mut:#7c6a44;--inp:#fff}
   .tt{position:fixed;top:10px;right:12px;z-index:9;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--tx);font-size:16px;line-height:1;cursor:pointer}
+  .lng{position:fixed;top:10px;right:56px;z-index:9;height:36px;min-width:40px;padding:0 11px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--tx);font:700 12px 'JetBrains Mono',monospace;cursor:pointer}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font:15px/1.55 'Space Grotesk',-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:0 0 104px}
   .wrap{max-width:520px;margin:0 auto;padding:18px 16px}
@@ -58,6 +59,7 @@
   .tgbtn{display:inline-block;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 18px;color:var(--tx);font-weight:600}
 </style></head><body>
 
+<button class="lng" id="lng" type="button" aria-label="Language">EN</button>
 <button class="tt" id="themeToggle" type="button" title="Тема"></button>
 <div id="page"><div class="wrap">
   <a href="/" style="display:flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;color:var(--tx);margin:0 0 16px"><svg viewBox="0 0 48 48" style="width:26px;height:26px"><g stroke="var(--acc)" stroke-width="2.4" fill="none" stroke-linejoin="round" stroke-linecap="round"><path d="M24 3.5l4.3 3.1 5.2-1 1.7 5 5 1.7-1 5.2 3.1 4.3-3.1 4.3 1 5.2-5 1.7-1.7 5-5.2-1L24 44.5l-4.3-3.1-5.2 1-1.7-5-5-1.7 1-5.2L5.7 24l3.1-4.3-1-5.2 5-1.7 1.7-5 5.2 1L24 3.5z"/><circle cx="24" cy="24" r="12.4"/></g><text x="24" y="30.5" text-anchor="middle" font-size="16" font-weight="800" fill="var(--acc)">₿</text></svg><b style="font-weight:800;font-size:15px;letter-spacing:-.2px">bitaps<span style="color:var(--acc)"> vpn</span></b></a>
@@ -65,58 +67,58 @@
   <div class="top">
     <div class="mini"><span class="mchip"></span><span class="mvip">★ VIP</span><span class="mbrand">bitaps VPN</span></div>
     <div>
-      <span class="chip">🖤 VIP · black card</span>
-      <h1>VIP-<span class="acc b">карта</span></h1>
-      <div class="price">5 000 ₽ <small>/ металл · доставка по РФ</small></div>
+      <span class="chip" data-en="🖤 VIP · black card">🖤 VIP · black card</span>
+      <h1 data-en="VIP <span class=&quot;acc b&quot;>card</span>">VIP-<span class="acc b">карта</span></h1>
+      <div class="price" data-en="5,000 ₽ <small>/ metal · delivery in Russia</small>">5 000 ₽ <small>/ металл · доставка по РФ</small></div>
     </div>
   </div>
 
   <div class="acc-list">
-    <details open><summary>Что даёт карта</summary><div class="ac"><ul>
-      <li><b>100 устройств навсегда</b> — постоянный лимит на всех подписках</li>
-      <li><b>Год подписки в подарок</b> — активируешь промокод с оборота карты</li>
-      <li><b>Приоритетные сервера</b> — VLESS + Reality, минимум нагрузки</li>
-      <li>Дальше продления — <b>по цене тарифа на 10 устройств</b>, лимит всё те же 100</li>
+    <details open><summary data-en="What the card gives you">Что даёт карта</summary><div class="ac"><ul>
+      <li data-en="<b>100 devices forever</b> — a permanent limit across every subscription"><b>100 устройств навсегда</b> — постоянный лимит на всех подписках</li>
+      <li data-en="<b>A year of subscription as a gift</b> — activate the promo code from the card's turnover"><b>Год подписки в подарок</b> — активируешь промокод с оборота карты</li>
+      <li data-en="<b>Priority servers</b> — VLESS + Reality, minimal load"><b>Приоритетные сервера</b> — VLESS + Reality, минимум нагрузки</li>
+      <li data-en="Renewals after that — <b>at the 10-device plan price</b>, while the limit stays 100">Дальше продления — <b>по цене тарифа на 10 устройств</b>, лимит всё те же 100</li>
     </ul></div></details>
-    <details><summary>Как это работает</summary><div class="ac"><ul>
-      <li>Оформляешь заказ — менеджер подтверждает и отправляет карту</li>
-      <li>На обороте металлической карты — персональный промокод</li>
-      <li>Активируешь код в боте — аккаунт становится VIP</li>
+    <details><summary data-en="How it works">Как это работает</summary><div class="ac"><ul>
+      <li data-en="Place an order — a manager confirms it and ships the card">Оформляешь заказ — менеджер подтверждает и отправляет карту</li>
+      <li data-en="On the back of the metal card there's a personal promo code">На обороте металлической карты — персональный промокод</li>
+      <li data-en="Activate the code in the bot — your account becomes VIP">Активируешь код в боте — аккаунт становится VIP</li>
     </ul></div></details>
-    <details><summary>О карте</summary><div class="ac">
-      <div class="row"><span>Материал</span><span class="v">металл</span></div>
-      <div class="row"><span>Лимит устройств</span><span class="v">100 навсегда</span></div>
-      <div class="row"><span>В подарок</span><span class="v">год подписки</span></div>
-      <div class="row"><span>Доставка</span><span class="v">по РФ</span></div>
+    <details><summary data-en="About the card">О карте</summary><div class="ac">
+      <div class="row"><span data-en="Material">Материал</span><span class="v" data-en="metal">металл</span></div>
+      <div class="row"><span data-en="Device limit">Лимит устройств</span><span class="v" data-en="100 forever">100 навсегда</span></div>
+      <div class="row"><span data-en="Gift">В подарок</span><span class="v" data-en="a year of subscription">год подписки</span></div>
+      <div class="row"><span data-en="Delivery">Доставка</span><span class="v" data-en="across Russia">по РФ</span></div>
     </div></details>
   </div>
 
-  <h2>Оформить заказ</h2>
+  <h2 data-en="Place your order">Оформить заказ</h2>
   <div class="formcard" id="form">
-    <label>Имя получателя</label>
-    <input id="name" placeholder="Фамилия Имя" autocomplete="name">
-    <label>Телефон для связи и доставки</label>
-    <input id="phone" placeholder="+7 ___ ___-__-__" inputmode="tel" autocomplete="tel">
+    <label data-en="Recipient name">Имя получателя</label>
+    <input id="name" placeholder="Фамилия Имя" data-en-ph="Full name" autocomplete="name">
+    <label data-en="Phone for contact &amp; delivery">Телефон для связи и доставки</label>
+    <input id="phone" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel">
     <div class="two">
-      <div><label>Город</label><input id="city" placeholder="Москва" autocomplete="address-level2"></div>
-      <div><label>Индекс</label><input id="postcode" placeholder="101000" inputmode="numeric" autocomplete="postal-code"></div>
+      <div><label data-en="City">Город</label><input id="city" placeholder="Москва" data-en-ph="Moscow" autocomplete="address-level2"></div>
+      <div><label data-en="Postal code">Индекс</label><input id="postcode" placeholder="101000" inputmode="numeric" autocomplete="postal-code"></div>
     </div>
-    <label>Адрес: улица, дом, квартира</label>
-    <input id="address" placeholder="ул. Ленина, д. 10, кв. 5" autocomplete="street-address">
-    <label>Комментарий к доставке (необязательно)</label>
-    <textarea id="comment" placeholder="Удобное время, подъезд, домофон…"></textarea>
+    <label data-en="Address: street, building, apartment">Адрес: улица, дом, квартира</label>
+    <input id="address" placeholder="ул. Ленина, д. 10, кв. 5" data-en-ph="10 Lenina St, apt. 5" autocomplete="street-address">
+    <label data-en="Delivery comment (optional)">Комментарий к доставке (необязательно)</label>
+    <textarea id="comment" placeholder="Удобное время, подъезд, домофон…" data-en-ph="Convenient time, entrance, intercom…"></textarea>
     <div id="err" class="err hide"></div>
   </div>
 
-  <p class="mut" style="text-align:center;margin:16px 0 0;font-size:13px">Вопросы? Напиши <a href="https://t.me/bitapssupport" target="_blank">@bitapssupport</a></p>
+  <p class="mut" style="text-align:center;margin:16px 0 0;font-size:13px"><span data-en="Questions? Message">Вопросы? Напиши</span> <a href="https://t.me/bitapssupport" target="_blank">@bitapssupport</a></p>
 </div></div>
 
 <div id="done" class="done hide">
   <div class="big">🖤</div>
-  <h1>Заказ принят!</h1>
-  <p class="mut">Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту с промокодом.</p>
-  <a class="tgbtn" href="https://t.me/bitapssupport" target="_blank">💬 Написать @bitapssupport</a><br>
-  <a class="tgbtn" id="close" style="margin-top:10px">Готово</a>
+  <h1 data-en="Order received!">Заказ принят!</h1>
+  <p class="mut" data-en="A manager will get in touch, confirm delivery and send the metal card with the promo code.">Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту с промокодом.</p>
+  <a class="tgbtn" href="https://t.me/bitapssupport" target="_blank" data-en="💬 Message @bitapssupport">💬 Написать @bitapssupport</a><br>
+  <a class="tgbtn" id="close" style="margin-top:10px" data-en="Done">Готово</a>
 </div>
 
 <div class="bar" id="bar"><div class="inner">
@@ -124,6 +126,10 @@
 </div></div>
 
 <script>
+  var LANG='ru';
+  function T(r,e){return LANG==='en'?e:r;}
+  function sendLabel(){return T('Оформить · <span class="mono">5 000 ₽</span>','Order · <span class="mono">5,000 ₽</span>');}
+
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order';
   var TG=window.Telegram&&window.Telegram.WebApp; if(TG){TG.ready();TG.expand();}
   if(TG){document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
@@ -139,23 +145,47 @@
     var postcode=document.getElementById('postcode').value.trim();
     var address=document.getElementById('address').value.trim();
     var comment=document.getElementById('comment').value.trim();
-    if(name.length<2)return showErr('Укажи имя получателя');
-    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=7))return showErr('Укажи телефон в правильном формате или Telegram (@ник)');
-    if(city.length<2)return showErr('Укажи город');
-    if(address.length<3)return showErr('Укажи адрес: улица, дом, квартира');
-    if(!(TG&&TG.initData))return showErr('Открой заказ VIP-карты из бота — так мы проверим твой доступ');
-    var btn=this;btn.disabled=true;btn.textContent='Отправляю…';
+    if(name.length<2)return showErr(T('Укажи имя получателя','Enter the recipient name'));
+    if(!((phone[0]==='@'&&phone.length>=3) || phone.replace(/\D/g,'').length>=7))return showErr(T('Укажи телефон в правильном формате или Telegram (@ник)','Enter a valid phone number or Telegram (@handle)'));
+    if(city.length<2)return showErr(T('Укажи город','Enter your city'));
+    if(address.length<3)return showErr(T('Укажи адрес: улица, дом, квартира','Enter your address: street, building, apartment'));
+    if(!(TG&&TG.initData))return showErr(T('Открой заказ VIP-карты из бота — так мы проверим твой доступ','Open the VIP card order from the bot so we can verify your access'));
+    var btn=this;btn.disabled=true;btn.textContent=T('Отправляю…','Sending…');
     try{
       var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({action:'vip',initData:(TG&&TG.initData)||'',name:name,phone:phone,city:city,postcode:postcode,address:address,comment:comment})});
       var j=await r.json();
-      if(!j.ok){btn.disabled=false;btn.innerHTML='Оформить · <span class="mono">5 000 ₽</span>';return showErr(j.error||'Что-то пошло не так');}
+      if(!j.ok){btn.disabled=false;btn.innerHTML=sendLabel();return showErr(j.error||T('Что-то пошло не так','Something went wrong'));}
       document.getElementById('page').classList.add('hide');document.getElementById('bar').classList.add('hide');
       document.getElementById('done').classList.remove('hide');
       if(TG&&TG.HapticFeedback)TG.HapticFeedback.notificationOccurred('success');
       window.scrollTo(0,0);
-    }catch(_){btn.disabled=false;btn.innerHTML='Оформить · <span class="mono">5 000 ₽</span>';showErr('Сеть недоступна, попробуй ещё раз');}
+    }catch(_){btn.disabled=false;btn.innerHTML=sendLabel();showErr(T('Сеть недоступна, попробуй ещё раз','Network unavailable, try again'));}
   });
+
+  /* язык: RU по умолчанию, EN для не-русских Telegram-юзеров; переключатель запоминает выбор */
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('[data-en]'));
+    var ru=els.map(function(e){return e.innerHTML;});
+    var phEls=[].slice.call(document.querySelectorAll('[data-en-ph]'));
+    var ruPh=phEls.map(function(e){return e.getAttribute('placeholder')||'';});
+    var btn=document.getElementById('lng');
+    function apply(lang){
+      LANG=lang;
+      els.forEach(function(e,i){ e.innerHTML = lang==='en' ? e.getAttribute('data-en') : ru[i]; });
+      phEls.forEach(function(e,i){ e.setAttribute('placeholder', lang==='en' ? e.getAttribute('data-en-ph') : ruPh[i]); });
+      document.documentElement.lang=lang;
+      document.title = lang==='en' ? 'Order VIP card · bitaps VPN' : 'Заказ VIP-карты · bitaps VPN';
+      if(btn) btn.textContent = lang==='en' ? 'RU' : 'EN';
+      var sb=document.getElementById('send'); if(sb && !sb.disabled) sb.innerHTML=sendLabel();
+    }
+    var saved; try{ saved=localStorage.getItem('bitaps-lang'); }catch(e){}
+    var tl=TG&&TG.initDataUnsafe&&TG.initDataUnsafe.user&&TG.initDataUnsafe.user.language_code;
+    var lang=(saved==='en'||saved==='ru')?saved:((tl&&tl.slice(0,2).toLowerCase()!=='ru')?'en':'ru');
+    apply(lang);
+    if(btn) btn.addEventListener('click',function(){ lang=lang==='en'?'ru':'en'; try{localStorage.setItem('bitaps-lang',lang);}catch(e){} apply(lang); });
+  })();
+
   (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
     var mq=matchMedia('(prefers-color-scheme: light)');
     function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:'system';}
