@@ -265,7 +265,6 @@
     "Например, Москва": "e.g., Moscow",
     "Улица, дом, кв. / ПВЗ": "Street, building, apt. / pickup", "Удобное время, пожелания…": "Convenient time, notes…",
     "🔜 Предзаказ": "🔜 Pre-order", "/ шт · доставка по РФ": "/ each · delivery across Russia",
-    "до 2 Гбит/с": "up to 2 Gbps",
     "итого": "total", "Имя получателя": "Recipient name",
     "Телефон для связи и доставки": "Phone for contact & delivery", "Индекс": "Postal code", "Адрес: улица, дом, квартира": "Address: street, building, apartment",
     "Комментарий к доставке (необязательно)": "Delivery comment (optional)", "Вопросы? Напиши": "Questions? Message",
