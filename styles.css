@@ -265,12 +265,14 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .box-soon{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--acc)}
 
 /* мокап устройства */
-.box-visual{position:relative;display:grid;place-items:center;min-height:360px}
+.box-visual{position:relative;display:grid;place-items:center;min-height:360px;overflow:hidden}
 .box-waves{position:absolute;top:50%;left:50%;width:10px;height:10px;transform:translate(-50%,-50%);z-index:1;pointer-events:none}
-.box-waves i{position:absolute;left:50%;top:50%;border:2px solid var(--acc);border-radius:50%;transform:translate(-50%,-50%);opacity:0;animation:wave 3.2s ease-out infinite}
+/* кольца фикс-размера, анимируем transform:scale (GPU) — плавно и без раздувания layout */
+.box-waves i{position:absolute;left:50%;top:50%;width:340px;height:340px;margin:-170px 0 0 -170px;border:2px solid var(--acc);border-radius:50%;opacity:0;transform:scale(.2);will-change:transform,opacity;animation:wave 3.2s ease-out infinite}
 .box-waves i:nth-child(2){animation-delay:1.06s;border-color:var(--acc2)}
 .box-waves i:nth-child(3){animation-delay:2.13s;border-color:var(--acc3)}
-@keyframes wave{0%{width:70px;height:70px;opacity:.65}100%{width:360px;height:360px;opacity:0}}
+@keyframes wave{0%{opacity:.65;transform:scale(.2)}100%{opacity:0;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.box-waves i{animation:none;opacity:0}}
 .box-unit{position:relative;z-index:2;width:248px;height:158px;border-radius:24px;
   background:linear-gradient(160deg,#101a2c,#070b13);border:1px solid var(--line);
   box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07),0 0 50px rgba(255,122,26,.12);
