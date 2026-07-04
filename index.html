@@ -239,7 +239,7 @@
 </section>
 
 <!-- ░░ 6 · SPEED TEST ░░ -->
-<section class="section section-speed tucked" id="speed">
+<section class="section section-speed" id="speed">
   <div class="sec-head reveal">
     <span class="kicker">// замер в реале</span>
     <h2>С bitaps быстрее, <span class="grad">чем без него</span></h2>
@@ -259,7 +259,7 @@
     <div class="speed-info">
       <div class="si-row"><span>Без VPN</span><div class="si-bar"><i class="si-slow" style="width:46%"></i></div><b>462</b></div>
       <div class="si-row"><span>Другой VPN</span><div class="si-bar"><i class="si-mid" style="width:38%"></i></div><b>384</b></div>
-      <div class="si-row si-best"><span>bitaps</span><div class="si-bar"><i class="si-fast" style="width:94%"></i></div><b>940</b></div>
+      <div class="si-row si-best"><span>bitaps</span><div class="si-bar"><i class="si-fast" id="siFast" style="width:94%"></i></div><b id="siNum">940</b></div>
       <button class="btn btn-line" id="reSpeed" style="margin-top:14px">↻ Замерить ещё раз</button>
     </div>
   </div>
@@ -405,7 +405,7 @@
     </div>
     <div class="qa">
       <button class="q">VPN сильно замедлит интернет?<span class="q-ic">+</span></button>
-      <div class="a"><p>На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера.</p></div>
+      <div class="a"><p>На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Замер выше показывает реальную скорость твоего устройства.</p></div>
     </div>
     <div class="qa">
       <button class="q">На сколько устройств можно поставить?<span class="q-ic">+</span></button>
@@ -820,36 +820,57 @@
   setInterval(() => { if (msPing) msPing.textContent = (14 + Math.floor(Math.random() * 9)) + ' ms'; }, 2200);
 })();
 
-/* ---------- 7. спидометр ---------- */
+/* ---------- 7. спидометр — НАСТОЯЩИЙ замер скорости устройства ---------- */
 (() => {
   const fill = document.getElementById('gFill');
   const num = document.getElementById('gNum');
   const btn = document.getElementById('reSpeed');
+  const siNum = document.getElementById('siNum');
+  const siFast = document.getElementById('siFast');
   const CIRC = 578;
+  const GMAX = 1000; // потолок шкалы, Mbit/s
+  const ASSET = 'tg-gift.png'; // ~1.39 МБ, тот же домен (CSP connect-src 'self')
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let busy = false;
-  function runTest() {
-    if (busy) return; busy = true;
-    const target = 880 + Math.floor(Math.random() * 120); // 880-1000
-    // reduced-motion: без анимации замера — сразу финальное значение
-    if (reduceMotion) {
-      num.textContent = target;
-      fill.style.strokeDashoffset = CIRC - CIRC * (target / 1000);
-      busy = false; return;
+  function setGauge(v) {
+    const pct = Math.min(v / GMAX, 1);
+    fill.style.strokeDashoffset = CIRC - CIRC * pct;
+    if (siNum) siNum.textContent = v;
+    if (siFast) siFast.style.width = Math.max(6, pct * 100) + '%';
+  }
+  // Реальный замер: качаем файл несколько раз без кэша, считаем биты/сек по факту.
+  async function measure() {
+    let bytes = 0, ms = 0, rounds = 0;
+    const t0 = performance.now();
+    while (rounds < 6 && (performance.now() - t0) < 3000) {
+      const s = performance.now();
+      const r = await fetch(ASSET + '?sp=' + Date.now() + '-' + rounds, { cache: 'no-store' });
+      if (!r.ok) throw new Error('net');
+      const buf = await r.arrayBuffer();
+      ms += performance.now() - s;
+      bytes += buf.byteLength;
+      rounds++;
+      if (bytes >= 6e6 && ms >= 500) break; // выборки достаточно
     }
+    if (ms <= 0 || bytes <= 0) return null;
+    return Math.max(1, Math.round((bytes * 8) / (ms / 1000) / 1e6)); // Mbit/s
+  }
+  async function runTest() {
+    if (busy) return; busy = true;
+    if (btn) btn.disabled = true;
+    num.textContent = '…';
+    let mbps = null;
+    try { mbps = await measure(); } catch (e) { mbps = null; }
+    if (mbps == null) { num.textContent = '—'; busy = false; if (btn) btn.disabled = false; return; }
+    if (reduceMotion) { num.textContent = mbps; setGauge(mbps); busy = false; if (btn) btn.disabled = false; return; }
     let cur = 0;
     const t = setInterval(() => {
-      // лёгкое дрожание как у настоящего замера
-      cur += (target - cur) * .08 + (Math.random() - .5) * 14;
-      if (cur < 0) cur = 0;
-      const shown = Math.min(cur, target);
-      num.textContent = Math.round(shown);
-      const pct = Math.min(shown / 1000, 1);
-      fill.style.strokeDashoffset = CIRC - CIRC * pct;
-      if (Math.abs(target - cur) < 4) {
-        clearInterval(t); num.textContent = target;
-        fill.style.strokeDashoffset = CIRC - CIRC * (target / 1000); busy = false;
+      cur += (mbps - cur) * .12;
+      if (cur > mbps - 0.5) {
+        clearInterval(t); num.textContent = mbps; setGauge(mbps);
+        busy = false; if (btn) btn.disabled = false; return;
       }
+      num.textContent = Math.round(cur); setGauge(cur);
     }, 40);
   }
   const io = new IntersectionObserver((es) => {

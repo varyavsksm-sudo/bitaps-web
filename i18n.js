@@ -100,25 +100,24 @@
     "Скоро в продаже.": "On sale soon.", "Телефон": "Phone", "Адрес доставки": "Delivery address", "Email (необязательно)": "Email (optional)",
     "Как тебя зовут": "Your name", "Улица, дом, квартира / ПВЗ": "Street, building, apartment / pickup",
     "Оформить заказ": "Place order", "Заказать в Telegram": "Order via Telegram",
-    "Оставь заявку — менеджер свяжется и оформит": "Leave a request — our manager will get in touch and arrange it",
+    "Скоро — сейчас оставь заявку, свяжемся первыми": "Coming soon — leave a request now and we'll reach out first",
     "Не удалось отправить заявку. Напиши нам:": "Could not send the request. Message us:",
-    "Менеджер свяжется с тобой и подтвердит заказ.": "Our manager will get in touch and confirm your order.",
-    "предзаказ": "pre-order",
+    "Свяжемся, как только карта поступит в продажу.": "We'll get in touch as soon as the card goes on sale.",
     // card.html — подробное описание
     "Что такое карта bitaps": "What the bitaps card is",
-    "Металлическая карта bitaps — статусный предмет с брендом сервиса и кошельком на токенах bitaps, который растёт за приглашённых друзей.":
-      "The bitaps metal card is a status item — branded with the service and holding a wallet in bitaps tokens that grows as you invite friends.",
-    "Настоящая карта из металла с брендом bitaps — премиальный предмет в кармане.": "A real metal card branded bitaps — a premium item in your pocket.",
-    "Пополняется криптовалютой — без привязки к банку.": "Tops up with crypto — no bank attached.",
+    "Металлическая карта bitaps — не сувенир, а настоящая банковская карта: ей реально можно платить. Внутри — кошелёк на токенах bitaps, который растёт за приглашённых друзей.":
+      "The bitaps metal card isn't a souvenir — it's a real bank card you can actually pay with. Inside is a wallet in bitaps tokens that grows as you invite friends.",
+    "Настоящая металлическая карта — платите ей где угодно, в России и за рубежом.": "A real metal card — pay with it anywhere, in Russia and abroad.",
+    "Оплата криптовалютой — пополнение и расчёты в крипте, без привязки к банку.": "Crypto payments — top up and pay in crypto, with no bank attached.",
     "Баланс — в токенах bitaps, внутренней валюте сервиса.": "The balance is in bitaps tokens, the service's internal currency.",
     "Токены капают за приглашённых друзей — чем больше рефералов, тем больше баланс.": "Tokens accrue for invited friends — the more referrals, the bigger the balance.",
-    "Токены с карты идут на продление подписки — в пару касаний.": "Card tokens go toward extending your subscription — in a couple of taps.",
+    "Быстрый вывод на карту — реферальные токены переводятся на карту в пару касаний и тратятся.": "Fast payout to the card — referral tokens move to the card in a couple of taps and are ready to spend.",
     "Два вида карты": "Two kinds of card",
-    "Металлическая карта bitaps для каждого. Кошелёк на токенах и статусный предмет — без дополнительных бонусов подписки.":
-      "A bitaps metal card for everyone. A token wallet and a status item — without extra subscription bonuses.",
-    "Заказать может любой — без условий и приглашений.": "Anyone can order it — no conditions, no invites.",
-    "Пополнение криптой, баланс в токенах, токены идут на продление подписки.": "Crypto top-ups, a token balance, and tokens that go toward extending your subscription.",
-    "Доставка по России.": "Delivery across Russia.",
+    "Настоящая металлическая карта bitaps для каждого. Кошелёк на токенах и статусный предмет — без дополнительных бонусов подписки.":
+      "A real bitaps metal card for everyone. A token wallet and a status item — without extra subscription bonuses.",
+    "Купить может любой — без условий и приглашений.": "Anyone can buy it — no conditions, no invites.",
+    "Оплата криптой, баланс в токенах, вывод реф-токенов на карту.": "Crypto payments, a token balance, and referral-token payouts to the card.",
+    "Работает в России и за рубежом.": "Works in Russia and abroad.",
     "Чёрная металлическая black card с вашим именем. Всё из обычной карты — плюс пожизненные привилегии подписки.":
       "A black metal card with your name on it. Everything from the standard card — plus lifetime subscription privileges.",
     "Всё из обычной карты, плюс:": "Everything from the standard card, plus:",
@@ -131,7 +130,7 @@
     "Заказ карты · bitaps VPN": "Order a card · bitaps VPN",
     "Заказ VIP-карты · bitaps VPN": "Order a VIP card · bitaps VPN",
     "VIP-карта — bitaps VPN": "VIP card — bitaps VPN",
-    "🩶 Обычная карта": "🩶 Standard card",
+    "🩶 Обычная карта · скоро": "🩶 Standard card · soon",
     "Заказ обычной карты": "Standard card order",
     "/ металл · доставка по РФ": "/ metal · delivery in Russia",
     "Что даёт карта": "What the card gives you",
@@ -188,8 +187,8 @@
     "Да. Архитектура построена так, что серверы физически не пишут историю подключений. Это подтвердил независимый аудит. Нечего хранить — значит, нечего у нас запросить и нечего слить.":
       "Yes. The architecture is built so servers physically don't record connection history. An independent audit confirmed it. Nothing stored means nothing to request from us and nothing to leak.",
     "VPN сильно замедлит интернет?": "Will the VPN slow my internet a lot?",
-    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера.":
-      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups».",
+    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Замер выше показывает реальную скорость твоего устройства.":
+      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups». The test above shows your device's real speed.",
     "На сколько устройств можно поставить?": "How many devices can I use?",
     "Одна подписка — до 10 устройств одновременно: телефон, ноутбук, планшет, телевизор и даже роутер. Этого с запасом хватает на всю семью.":
       "One subscription — up to 10 devices at once: phone, laptop, tablet, TV and even a router. More than enough for the whole family.",
