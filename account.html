@@ -568,7 +568,10 @@
         $('secret').textContent = data.login_secret;
         $('secretRow').hidden = false;
         $('secret').addEventListener('click', () => copy($('secret').textContent));
-        $('rotateSecret').addEventListener('click', async () => {
+        // в Mini App нет Supabase-сессии (авторизация через tg-webapp) → ротация секрета недоступна,
+        // прячем кнопку, чтобы не показывать заведомо нерабочую «Сменить код». Смена — на сайте/в вебе.
+        if (inTG) $('rotateSecret').hidden = true;
+        else $('rotateSecret').addEventListener('click', async () => {
           if (!confirm(EN() ? 'Change your login code? The old one will stop working.' : 'Сменить код входа? Старый код перестанет работать.')) return;
           const btn = $('rotateSecret'), old = btn.textContent;
           btn.disabled = true; btn.textContent = 'Меняю…'; if (window.__i18nRefresh) window.__i18nRefresh(btn);

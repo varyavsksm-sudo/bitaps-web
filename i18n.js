@@ -417,6 +417,8 @@
     "Промокоды скоро 🎫 — пока оформи по обычной цене.": "Promo codes coming soon 🎫 — order at the regular price for now.",
     "Впиши почту — на неё придёт ключ.": "Enter your email — the key will be sent there.",
     "Не удалось создать счёт, попробуй позже.": "Couldn't create the invoice, try again later.", "Введи промокод.": "Enter a promo code.",
+    "Вхожу…": "Signing in…", "С возвращением!": "Welcome back!", "Вы вошли по ключу из бота.": "You're signed in with the key from the bot.",
+    "✅ Оплачено! Ключ отправлен на почту и доступен в Личном кабинете (вход по ключу).": "✅ Paid! The key was sent to your email and is available in your Dashboard (log in with the key).",
     "Ещё разок — и будет круче!": "One more — it'll be even better!", "🔥 Это уровень сенсея! Закрепи в топе.": "🔥 Sensei level! Lock it into the leaderboard.",
     "💪 Сильный улов! Давай в топ.": "💪 Strong catch! Get on the leaderboard.",
     "Скачать для macOS": "Download for macOS", "Скачать для Windows": "Download for Windows",
@@ -527,7 +529,7 @@
     ['тариф bitaps VPN', 'plan bitaps VPN'], ['Тема: тёмная', 'Theme: dark'], ['Тема: светлая', 'Theme: light'],
     ['Ошибка: ', 'Error: '], ['Вы выбрали:', 'You selected:'], ['Похоже, у вас', 'Looks like you have'],
     ['Как установить на', 'How to install on'], ['После оплаты ключ придёт на', 'after payment the key will be sent to'],
-    ['Оплати ', 'Pay '], ['в CryptoBot.', 'in CryptoBot.'], ['осталось', 'left'],
+    ['Оплати ', 'Pay '], ['в CryptoBot.', 'in CryptoBot.'], ['осталось', 'left'], ['по СБП', 'via SBP'],
     // склонения «устройство» для динамики кабинета (порядок важен: 'устройств' — подстрока
     // остальных, потому идёт последним, иначе порежет 'устройство'/'устройства')
     [' устройства', ' devices'], [' устройство', ' device'], [' устройств', ' devices'],
@@ -576,7 +578,10 @@
       root = root || document.body;
       if (obs) obs.disconnect();
       var nodes = textNodes(root);
-      nodes.forEach(function (n) { n.__ru = null; });
+      // сбрасываем кэш __ru ТОЛЬКО у узлов, где сейчас русский текст (JS вписал новое) — их надо
+      // перекэшировать и перевести. Уже-переведённые статические узлы (латиница) НЕ трогаем, иначе
+      // их __ru затрётся английским и при обратном EN→RU русский оригинал потеряется.
+      nodes.forEach(function (n) { if (/[а-яё]/i.test(n.textContent || '')) n.__ru = null; });
       if (cur === 'en') { nodes.forEach(function (n) { tr(n, 'en'); }); trAttr('en'); }
       if (obs) obs.observe(document.body, { childList: true, subtree: true, characterData: true });
     } catch (e) {}
