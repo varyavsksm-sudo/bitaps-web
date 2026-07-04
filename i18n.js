@@ -25,9 +25,9 @@
     "Скорость без потерь": "Speed with no loss",
     "Протокол VLESS + Reality — современное шифрование и стабильное соединение. Стримь 4K и качай торренты — VPN не почувствуешь.":
       "VLESS + Reality protocol — modern encryption and a stable connection. Stream 4K and download torrents — you won't even feel the VPN.",
-    "Шифрование AES-256": "AES-256 encryption",
-    "Современное шифрование поверх VLESS + Reality — трафик надёжно защищён от перехвата в открытых сетях.":
-      "Modern encryption on top of VLESS + Reality — your traffic is well protected from interception on open networks.",
+    "Стойкое шифрование": "Strong encryption",
+    "Современное шифрование поверх VLESS + Reality (TLS 1.3) — трафик надёжно защищён от перехвата в открытых сетях.":
+      "Modern encryption on top of VLESS + Reality (TLS 1.3) — your traffic is well protected from interception on open networks.",
     "Политика No-Logs": "No-Logs policy",
     "Мы физически не храним то, что ты делаешь. Нечего хранить — нечего отдавать. Так заложено в самой архитектуре сервиса.":
       "We physically don't store what you do. Nothing to keep — nothing to hand over. It's built into the service architecture itself.",
@@ -100,24 +100,25 @@
     "Скоро в продаже.": "On sale soon.", "Телефон": "Phone", "Адрес доставки": "Delivery address", "Email (необязательно)": "Email (optional)",
     "Как тебя зовут": "Your name", "Улица, дом, квартира / ПВЗ": "Street, building, apartment / pickup",
     "Оформить заказ": "Place order", "Заказать в Telegram": "Order via Telegram",
-    "Скоро — сейчас оставь заявку, свяжемся первыми": "Coming soon — leave a request now and we'll reach out first",
+    "Оставь заявку — менеджер свяжется и оформит": "Leave a request — our manager will get in touch and arrange it",
     "Не удалось отправить заявку. Напиши нам:": "Could not send the request. Message us:",
-    "Свяжемся, как только карта поступит в продажу.": "We'll get in touch as soon as the card goes on sale.",
+    "Менеджер свяжется с тобой и подтвердит заказ.": "Our manager will get in touch and confirm your order.",
+    "предзаказ": "pre-order",
     // card.html — подробное описание
     "Что такое карта bitaps": "What the bitaps card is",
-    "Металлическая карта bitaps — не сувенир, а настоящая банковская карта: ей реально можно платить. Внутри — кошелёк на токенах bitaps, который растёт за приглашённых друзей.":
-      "The bitaps metal card isn't a souvenir — it's a real bank card you can actually pay with. Inside is a wallet in bitaps tokens that grows as you invite friends.",
-    "Настоящая металлическая карта — платите ей где угодно, в России и за рубежом.": "A real metal card — pay with it anywhere, in Russia and abroad.",
-    "Оплата криптовалютой — пополнение и расчёты в крипте, без привязки к банку.": "Crypto payments — top up and pay in crypto, with no bank attached.",
+    "Металлическая карта bitaps — статусный предмет с брендом сервиса и кошельком на токенах bitaps, который растёт за приглашённых друзей.":
+      "The bitaps metal card is a status item — branded with the service and holding a wallet in bitaps tokens that grows as you invite friends.",
+    "Настоящая карта из металла с брендом bitaps — премиальный предмет в кармане.": "A real metal card branded bitaps — a premium item in your pocket.",
+    "Пополняется криптовалютой — без привязки к банку.": "Tops up with crypto — no bank attached.",
     "Баланс — в токенах bitaps, внутренней валюте сервиса.": "The balance is in bitaps tokens, the service's internal currency.",
     "Токены капают за приглашённых друзей — чем больше рефералов, тем больше баланс.": "Tokens accrue for invited friends — the more referrals, the bigger the balance.",
-    "Быстрый вывод на карту — реферальные токены переводятся на карту в пару касаний и тратятся.": "Fast payout to the card — referral tokens move to the card in a couple of taps and are ready to spend.",
+    "Токены с карты идут на продление подписки — в пару касаний.": "Card tokens go toward extending your subscription — in a couple of taps.",
     "Два вида карты": "Two kinds of card",
-    "Настоящая металлическая карта bitaps для каждого. Кошелёк на токенах и статусный предмет — без дополнительных бонусов подписки.":
-      "A real bitaps metal card for everyone. A token wallet and a status item — without extra subscription bonuses.",
-    "Купить может любой — без условий и приглашений.": "Anyone can buy it — no conditions, no invites.",
-    "Оплата криптой, баланс в токенах, вывод реф-токенов на карту.": "Crypto payments, a token balance, and referral-token payouts to the card.",
-    "Работает в России и за рубежом.": "Works in Russia and abroad.",
+    "Металлическая карта bitaps для каждого. Кошелёк на токенах и статусный предмет — без дополнительных бонусов подписки.":
+      "A bitaps metal card for everyone. A token wallet and a status item — without extra subscription bonuses.",
+    "Заказать может любой — без условий и приглашений.": "Anyone can order it — no conditions, no invites.",
+    "Пополнение криптой, баланс в токенах, токены идут на продление подписки.": "Crypto top-ups, a token balance, and tokens that go toward extending your subscription.",
+    "Доставка по России.": "Delivery across Russia.",
     "Чёрная металлическая black card с вашим именем. Всё из обычной карты — плюс пожизненные привилегии подписки.":
       "A black metal card with your name on it. Everything from the standard card — plus lifetime subscription privileges.",
     "Всё из обычной карты, плюс:": "Everything from the standard card, plus:",
@@ -130,7 +131,7 @@
     "Заказ карты · bitaps VPN": "Order a card · bitaps VPN",
     "Заказ VIP-карты · bitaps VPN": "Order a VIP card · bitaps VPN",
     "VIP-карта — bitaps VPN": "VIP card — bitaps VPN",
-    "🩶 Обычная карта · скоро": "🩶 Standard card · soon",
+    "🩶 Обычная карта": "🩶 Standard card",
     "Заказ обычной карты": "Standard card order",
     "/ металл · доставка по РФ": "/ metal · delivery in Russia",
     "Что даёт карта": "What the card gives you",
@@ -187,8 +188,8 @@
     "Да. Архитектура построена так, что серверы физически не пишут историю подключений. Это подтвердил независимый аудит. Нечего хранить — значит, нечего у нас запросить и нечего слить.":
       "Yes. The architecture is built so servers physically don't record connection history. An independent audit confirmed it. Nothing stored means nothing to request from us and nothing to leak.",
     "VPN сильно замедлит интернет?": "Will the VPN slow my internet a lot?",
-    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Скорость — до 2 Гбит/с. На замере выше — реальная картина.":
-      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups». The speed is up to 2 Gbps. The test above shows the real picture.",
+    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера.":
+      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups».",
     "На сколько устройств можно поставить?": "How many devices can I use?",
     "Одна подписка — до 10 устройств одновременно: телефон, ноутбук, планшет, телевизор и даже роутер. Этого с запасом хватает на всю семью.":
       "One subscription — up to 10 devices at once: phone, laptop, tablet, TV and even a router. More than enough for the whole family.",
@@ -199,7 +200,7 @@
     "Картой, через известные платёжные системы или криптовалютой, если хочешь максимум анонимности. Никаких скрытых платежей и автосписаний-сюрпризов.":
       "By card via well-known payment systems, or by crypto if you want maximum anonymity. No hidden fees or surprise auto-charges.",
     "Остались вопросы?": "Still have questions?",
-    "Напишите нам — живая поддержка, обычно отвечаем в течение дня.": "Message us — live support, we usually reply within a day.",
+    "Напиши нам — живая поддержка, обычно отвечаем в течение дня.": "Message us — live support, we usually reply within a day.",
     "Обычно отвечаем в течение дня.": "We usually reply within a day.",
     "Написать нам": "Message us", "или в Telegram": "or on Telegram", "· на почту": "· by email",
     "● защищено": "● protected", "Подключено": "Connected", "12 ms · быстрый узел": "12 ms · fast node",
@@ -294,7 +295,7 @@
     "Заказ принят!": "Order received!", "Мы свяжемся с тобой, чтобы подтвердить доставку B-box.": "We'll contact you to confirm B-box delivery.",
     "Закрыть": "Close",
     // support modal
-    "Напишите нам": "Message us", "Отвечаем в среднем за": "We reply on average in", ", круглосуточно.": ", around the clock.",
+    "Напишите нам": "Message us", "Напиши нам": "Message us", "Отвечаем в среднем за": "We reply on average in", ", круглосуточно.": ", around the clock.",
     "Сообщение": "Message", "Отправить сообщение": "Send message", "или сразу в Telegram": "or message us on Telegram",
     "Заявка отправлена!": "Request sent!", "Спасибо! Мы получили твоё сообщение и свяжемся с тобой по указанной почте.": "Thank you! We got your message and will reply to the email you provided.",
     // pay choice modal
@@ -316,7 +317,7 @@
     "Оставь свой отзыв…": "Leave your review…", "оценка": "rating", "Написать в поддержку": "Contact support",
     "закрыть": "close", "Как тебя зовут": "Your name", "@username или +7…": "@username or +1…",
     "Город, улица, дом": "City, street, building", "чтобы прислать ответ": "so we can reply",
-    "Опишите вопрос — поможем": "Describe your question — we'll help", "минимум 6 символов": "at least 6 characters",
+    "Опишите вопрос — поможем": "Describe your question — we'll help", "Опиши вопрос — поможем": "Describe your question — we'll help", "минимум 6 символов": "at least 6 characters",
     "ещё раз тот же пароль": "the same password again",
     "На главную": "Home", "// оплата": "// payment",
     "Оформить": "Get a", "подписку": "subscription",
@@ -397,6 +398,8 @@
     "карп": "koi", "+очки": "+points", "золотой": "golden", "чужак": "intruder", "штраф": "penalty",
     "Закинуть удочку 🎣": "Cast the rod 🎣", "Улов готов 🎣": "Catch is in 🎣", "Неплохо! Запиши результат в топ.": "Not bad! Save your score to the leaderboard.",
     "✅ Результат сохранён в топе!": "✅ Score saved to the leaderboard!", "В топ": "Submit", "Ещё раз 🔁": "Again 🔁",
+    "🎣 В топ и за призами — играй в приложении или в Telegram-боте bitaps.": "🎣 To make the top and win prizes, play in the app or the bitaps Telegram bot.",
+    "⚠️ Результат не засчитан — сыграй ещё раз 🎣": "⚠️ Score not counted — play again 🎣",
     "🏆 Топ-5 рыбаков": "🏆 Top-5 anglers", "лучшие уловы игроков bitaps": "best catches by bitaps players", "загружаю…": "loading…",
     "🎁 Призы топ-3 — каждый месяц": "🎁 Top-3 prizes — every month", "🥇 1 место": "🥇 1st place", "30 дней bitaps VPN": "30 days bitaps VPN",
     "🥈 2 место": "🥈 2nd place", "14 дней": "14 days", "🥉 3 место": "🥉 3rd place", "7 дней": "7 days",
@@ -409,7 +412,7 @@
     "Напиши, что случилось": "Tell us what happened", "Оставь почту или Telegram/телефон для ответа": "Leave an email or Telegram/phone for a reply",
     "Укажи имя получателя": "Enter the recipient's name",
     "Укажи телефон для связи": "Enter a contact phone", "Укажи адрес: улица, дом, квартира": "Enter address: street, building, apartment",
-    "Активна": "Active", "Пробный период": "Trial period", "Продлить подписку": "Renew subscription",
+    "Активна": "Active", "Не активна": "Inactive", "Пробный период": "Trial period", "Продлить подписку": "Renew subscription",
     "Доброй ночи,": "Good night,", "Доброе утро,": "Good morning,", "Добрый день,": "Good afternoon,", "Добрый вечер,": "Good evening,",
     "Пароль обновлён ✓": "Password updated ✓", "Заявка из личного кабинета bitaps": "Request from the bitaps dashboard",
     "Твоя панель управления bitaps VPN": "Your bitaps VPN control panel", "оформи тариф, чтобы получить ключ": "choose a plan to get your key",
