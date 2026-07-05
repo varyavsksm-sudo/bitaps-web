@@ -643,6 +643,8 @@ html[data-theme="light"]{
   color-scheme:light;
 }
 html[data-theme="light"] body{background:#eef2fa;color:var(--txt)}
+/* Градиентные заголовки: в светлой теме золотая середина (--acc3 #ffae3d) нечитаема на белом (~1.7:1) → тёмный оранжево-синий градиент с контрастом ≥4.5:1 по всей длине */
+html[data-theme="light"] .grad{background:linear-gradient(110deg,#c85410,#1560c8)}
 /* ЖИВОЙ динамичный фон в светлой — частицы видимы, мэш-блики яркие (как в тёмной) */
 html[data-theme="light"] #net{opacity:.6}
 html[data-theme="light"] .bg-grid{opacity:.5}

@@ -130,6 +130,7 @@
     "Заказ карты · bitaps VPN": "Order a card · bitaps VPN",
     "Заказ VIP-карты · bitaps VPN": "Order a VIP card · bitaps VPN",
     "VIP-карта — bitaps VPN": "VIP card — bitaps VPN",
+    "VIP-карта · bitaps VPN": "VIP card · bitaps VPN",
     "🩶 Обычная карта · скоро": "🩶 Standard card · soon",
     "Заказ обычной карты": "Standard card order",
     "/ металл · доставка по РФ": "/ metal · delivery in Russia",
@@ -146,7 +147,7 @@
     "— постоянный лимит на всех подписках": "— a permanent limit on all subscriptions",
     "— постоянный лимит, который остаётся с тобой на всех подписках": "— a permanent limit that stays with you across every subscription",
     "Год подписки в подарок": "A year of subscription as a gift",
-    "— активируешь промокод с оборота карты": "— activate the promo code from the card's turnover",
+    "— активируешь промокод с оборота карты": "— activate the promo code from the back of the card",
     "Приоритетные сервера": "Priority servers",
     "— VLESS + Reality, минимум нагрузки": "— VLESS + Reality, minimal load",
     "— VLESS + Reality, минимальная нагрузка": "— VLESS + Reality, minimal load",
@@ -234,7 +235,7 @@
     "Скопируй ключ или открой в приложении Happ. Он также придёт на почту и доступен в Личном кабинете.": "Copy the key or open it in the Happ app. It will also arrive by email and is available in your Dashboard.",
     "Скопировать ключ": "Copy key", "⚙️ Открыть в Happ": "⚙️ Open in Happ", "🔐 Код входа в кабинет": "🔐 Login code for the dashboard",
     // confirmed.html — лендинг подтверждения почты
-    "Почта подтверждена!": "Email confirmed!", "Спасибо — ваш аккаунт": "Thank you — your account",
+    "Почта подтверждена!": "Email confirmed!", "Спасибо — твой аккаунт": "Thank you — your account",
     "активирован. Теперь можно пользоваться сайтом.": "is activated. You can now use the site.", "Перейти на сайт →": "Go to the site →",
     // 404.html — страница «не найдено»
     "Страница не найдена": "Page not found",
