@@ -46,5 +46,20 @@
     <a class="btn" href="/">← На главную</a>
     <div class="alt">или напиши в <a href="https://t.me/bitapssupport" target="_blank" rel="noopener">поддержку</a></div>
   </div>
-<script>(function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(mq.matches?'light':'dark');}function apply(){var m=mode(),light=m==='light';if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn)btn.textContent=m==='light'?'☀️':'🌙';}if(btn)btn.addEventListener('click',function(){var m=mode();try{localStorage.setItem(key,m==='light'?'dark':'light')}catch(e){}apply();});if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')apply();});apply();})();</script>
+<script>
+(() => {
+  const html = document.documentElement, key = 'bitaps-theme';
+  const btn = document.getElementById('themeToggle');
+  const mq = matchMedia('(prefers-color-scheme: light)');
+  const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
+  const apply = () => {
+    const light = isLight();
+    if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
+    if (btn) { btn.textContent = light ? '☀️' : '🌙'; btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная'); btn.setAttribute('aria-label', btn.title); }
+  };
+  if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
+  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
+  apply();
+})();
+</script>
 </body></html>

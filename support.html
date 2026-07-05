@@ -2,6 +2,7 @@
 <meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Поддержка bitaps VPN: помощь с подключением, оплатой и настройкой. Ответим по почте или в Telegram."><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Поддержка · bitaps VPN</title><link rel="canonical" href="https://bitapsvpn.com/support.html"><link rel="stylesheet" href="/fonts.css"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <style>
   :root{--bg:#0d1014;--card:#161b22;--card2:#1b212b;--line:#232c38;--tx:#e9eff5;--mut:#8b97a6;--acc:#ff7a1a;--acc2:#ffae3d;--ok:#3fb950;--inp:#11161d}
   html[data-theme="light"]{--bg:#f3f5fa;--card:#ffffff;--card2:#eef1f7;--line:#e3e8f0;--tx:#10141b;--mut:#5d6675;--inp:#f4f6fb}
@@ -164,17 +165,18 @@
       window.scrollTo(0,0);
     }catch(_){btn.disabled=false;btn.textContent='Отправить сообщение';showErr('Сеть недоступна, попробуй ещё раз');}
   });
-  // темы: светлая / тёмная / как на устройстве (в Telegram — следим за его темой)
-  (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
-    var mq=matchMedia('(prefers-color-scheme: light)');
-    function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}
-    function sysLight(){if(TG&&TG.colorScheme)return TG.colorScheme==='light';return mq.matches;}
-    function apply(){var m=mode(),light=m==='light'||(m==='system'&&sysLight());
-      if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
-      if(btn)btn.textContent=m==='light'?'☀️':'🌙';}
-    if(btn)btn.addEventListener('click',function(){var m=mode(),nx=(m==='light'?'dark':'light');
-      try{localStorage.setItem(key,nx)}catch(e){}apply();});
-    if(mq.addEventListener)mq.addEventListener('change',apply);
-    if(TG&&TG.onEvent)TG.onEvent('themeChanged',apply);
-    apply();})();
+  (() => {
+    const html = document.documentElement, key = 'bitaps-theme';
+    const btn = document.getElementById('themeToggle');
+    const mq = matchMedia('(prefers-color-scheme: light)');
+    const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
+    const apply = () => {
+      const light = isLight();
+      if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
+      if (btn) { btn.textContent = light ? '☀️' : '🌙'; btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная'); btn.setAttribute('aria-label', btn.title); }
+    };
+    if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
+    if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
+    apply();
+  })();
 </script></body></html>

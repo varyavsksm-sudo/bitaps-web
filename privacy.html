@@ -103,7 +103,22 @@
     <!-- TODO владелец: заменить на реальные ФИО/ИНН оператора -->
     <p data-en="The personal data operator is an individual (self-employed / sole proprietor) registered in the Russian Federation; details are available on request via <a href='https://t.me/bitapssupport' target='_blank' rel='noopener'>@bitapssupport</a>. Processing is carried out on the basis of your consent and for the purpose of performing the contract (the public offer). Part of the infrastructure and payment services may be located outside Russia — in that case cross-border data transfer is carried out to the extent necessary to provide the service (Article 12 of Federal Law No. 152-FZ “On Personal Data”).">Оператор персональных данных — физическое лицо (самозанятый / ИП), зарегистрированное в Российской Федерации; реквизиты предоставляются по запросу через <a href="https://t.me/bitapssupport" target="_blank" rel="noopener">@bitapssupport</a>. Обработка ведётся на основании вашего согласия и в целях исполнения договора (публичной оферты). Часть инфраструктуры и платёжных сервисов может находиться за пределами РФ — в этом случае осуществляется трансграничная передача данных в объёме, необходимом для оказания услуги (ст. 12 Федерального закона № 152-ФЗ «О персональных данных»).</p>
   </div>
-<script>(function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');function mode(){var s=localStorage.getItem(key);return (s==='light'||s==='dark')?s:'system';}function apply(){var m=mode();var light=m==='light'||(m==='system'&&mq.matches);if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=m==='system'?'🖥':(m==='light'?'☀️':'🌙');btn.title='Тема: '+(m==='system'?'как на устройстве':(m==='light'?'светлая':'тёмная'));}}if(btn)btn.addEventListener('click',function(){var m=mode();if(m==='system')localStorage.setItem(key,'light');else if(m==='light')localStorage.setItem(key,'dark');else localStorage.removeItem(key);apply();});if(mq.addEventListener)mq.addEventListener('change',function(){if(mode()==='system')apply();});apply();})();</script>
+<script>
+(() => {
+  const html = document.documentElement, key = 'bitaps-theme';
+  const btn = document.getElementById('themeToggle');
+  const mq = matchMedia('(prefers-color-scheme: light)');
+  const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
+  const apply = () => {
+    const light = isLight();
+    if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
+    if (btn) { btn.textContent = light ? '☀️' : '🌙'; btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная'); btn.setAttribute('aria-label', btn.title); }
+  };
+  if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
+  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
+  apply();
+})();
+</script>
 <script>(function(){var KEY='bitaps-lang',html=document.documentElement;function detect(){try{var s=localStorage.getItem(KEY);if(s==='en'||s==='ru')return s;}catch(e){}return 'ru';}var cur=detect();var base="cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);";function apply(l){document.querySelectorAll('[data-en]').forEach(function(e){if(e.__ru==null)e.__ru=e.innerHTML;var v=(l==='en')?e.getAttribute('data-en'):e.__ru;if(e.innerHTML!==v)e.innerHTML=v;});html.lang=l;var b=document.getElementById('langToggle');if(b)b.textContent=l==='en'?'RU':'EN';}function setLang(l){cur=l;try{localStorage.setItem(KEY,l);}catch(e){}apply(l);}function init(){if(!document.getElementById('langToggle')){var b=document.createElement('button');b.id='langToggle';b.type='button';b.textContent=cur==='en'?'RU':'EN';b.setAttribute('aria-label','Сменить язык / Switch language');b.style.cssText=base;b.addEventListener('click',function(){setLang(cur==='en'?'ru':'en');});var theme=document.getElementById('themeToggle');if(theme&&theme.parentNode)theme.parentNode.insertBefore(b,theme);else document.body.appendChild(b);}apply(cur);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
 </body>
 </html>

@@ -236,6 +236,21 @@
     if (e.target.closest && e.target.closest('#langToggle')) setTimeout(function () { location.reload(); }, 80);
   });
 </script>
-<script>(function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');function mode(){var s=localStorage.getItem(key);return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}function apply(){var m=mode();var light=m==='light'||(m==='system'&&mq.matches);if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=m==='light'?'☀️':'🌙';btn.title='Тема: '+(m==='light'?'светлая':'тёмная');}}if(btn)btn.addEventListener('click',function(){var m=mode();localStorage.setItem(key, m==='light'?'dark':'light');apply();});if(mq.addEventListener)mq.addEventListener('change',function(){if(mode()==='system')apply();});apply();})();</script>
+<script>
+(() => {
+  const html = document.documentElement, key = 'bitaps-theme';
+  const btn = document.getElementById('themeToggle');
+  const mq = matchMedia('(prefers-color-scheme: light)');
+  const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
+  const apply = () => {
+    const light = isLight();
+    if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
+    if (btn) { btn.textContent = light ? '☀️' : '🌙'; btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная'); btn.setAttribute('aria-label', btn.title); }
+  };
+  if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
+  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
+  apply();
+})();
+</script>
 </body>
 </html>
