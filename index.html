@@ -37,18 +37,22 @@
   ]
 }
 </script>
+<link rel="preconnect" href="https://bjkozsukvifkxriojxrz.supabase.co" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/space-grotesk.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=2" />
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <script src="/i18n.js?v=24" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="blogo" viewBox="0 0 32 32" fill="none"><g fill="currentColor"> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/> </g> <circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/> <text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family='Space Grotesk,system-ui,sans-serif' fill="currentColor">B</text></symbol></svg>
 
-<div class="cursor-glow" id="cursorGlow"></div>
-<canvas id="net"></canvas>
-<div class="bg-grid"></div>
-<div class="bg-mesh"></div>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-mesh" aria-hidden="true"></div>
 
 <!-- ░░ NAV ░░ -->
 <header class="nav" id="nav">
@@ -76,11 +80,12 @@
         <span class="acct-name" id="acctName"></span>
       </a>
     </div>
-    <button class="menu-btn" id="menuBtn" aria-label="меню"><span></span><span></span><span></span></button>
+    <button class="menu-btn" id="menuBtn" aria-label="меню" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
     <button class="theme-toggle" id="themeToggle" aria-label="тема" title="Сменить тему">☀️</button>
     <a href="app.html" class="btn btn-solid">Скачать <span class="btn-shine"></span></a>
   </div>
 </header>
+<main id="main">
 
 <!-- ░░ 1 · HERO ░░ -->
 <section class="hero">
@@ -222,7 +227,7 @@
   </div>
   <div class="map-wrap reveal">
     <div class="world" id="world">
-      <img src="world-map.svg" loading="lazy" alt="карта мира" class="world-img"/>
+      <img src="world-map.svg" loading="lazy" fetchpriority="low" alt="карта мира" class="world-img"/>
       <div class="nodes" id="nodes"></div>
       <div class="map-tip" id="mapTip"></div>
     </div>
@@ -482,6 +487,7 @@
   </div>
 </section>
 
+</main>
 <!-- ░░ FOOTER ░░ -->
 <footer class="footer">
   <div class="foot-col">
@@ -489,9 +495,9 @@
     <p class="foot-tag">Приватность — это не паранойя. Это гигиена.</p>
   </div>
   <div class="foot-links">
-    <div><h4>Продукт</h4><a href="#features">Возможности</a><a href="#" data-section="map">Серверы</a><a href="#pricing">Цены</a></div>
-    <div><h4>Платформы</h4><a href="app.html?os=windows">Windows</a><a href="app.html?os=linux">Linux</a><a href="app.html?os=macos">macOS</a><a href="app.html?os=ios">iOS</a><a href="app.html?os=android">Android</a></div>
-    <div><h4>Компания</h4><a href="#" data-support>Поддержка</a><a href="support.html">Помощь и FAQ</a><a href="terms.html">Оферта</a><a href="privacy.html">Политика</a></div>
+    <div><h3 class="foot-h">Продукт</h3><a href="#features">Возможности</a><a href="#" data-section="map">Серверы</a><a href="#pricing">Цены</a></div>
+    <div><h3 class="foot-h">Платформы</h3><a href="app.html?os=windows">Windows</a><a href="app.html?os=linux">Linux</a><a href="app.html?os=macos">macOS</a><a href="app.html?os=ios">iOS</a><a href="app.html?os=android">Android</a></div>
+    <div><h3 class="foot-h">Компания</h3><a href="#" data-support>Поддержка</a><a href="support.html">Помощь и FAQ</a><a href="terms.html">Оферта</a><a href="privacy.html">Политика</a></div>
   </div>
   <div class="foot-bottom">
     <span>© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</span>
@@ -509,12 +515,12 @@
 
 <div class="modal" id="supportModal">
   <div class="modal-bg" data-close></div>
-  <div class="modal-card" role="dialog" aria-modal="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
     <button class="modal-x" data-close aria-label="закрыть">×</button>
     <div class="modal-head">
       <div class="modal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5Z"/></svg></div>
       <div>
-        <h3>Напиши нам</h3>
+        <h3 id="supportTitle">Напиши нам</h3>
         <p>Обычно отвечаем в течение дня.</p>
       </div>
     </div>
@@ -537,12 +543,12 @@
 <!-- ░░ ВЫБОР ОПЛАТЫ (сайт / Telegram) ░░ -->
 <div class="modal" id="payChoiceModal">
   <div class="modal-bg" data-payclose></div>
-  <div class="modal-card" role="dialog" aria-modal="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="payChoiceTitle">
     <button class="modal-x" data-payclose aria-label="закрыть">×</button>
     <div class="modal-head">
       <div class="modal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg></div>
       <div>
-        <h3>Где оплатить?</h3>
+        <h3 id="payChoiceTitle">Где оплатить?</h3>
         <p>Выбери, как удобнее оформить подписку</p>
       </div>
     </div>
@@ -556,7 +562,7 @@
 <!-- ░░ AUTH MODAL ░░ -->
 <div class="modal" id="authModal">
   <div class="modal-bg" data-aclose></div>
-  <div class="modal-card" role="dialog" aria-modal="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
     <button class="modal-x" data-aclose aria-label="закрыть">×</button>
     <div class="modal-head">
       <div class="modal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></div>
@@ -701,9 +707,14 @@ window.__L = (ru, en) => document.documentElement.lang === 'en' ? en : ru;
       ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 3, 0, 7); ctx.fill();
       ctx.shadowBlur = 0;
     }
-    if (!reduceMotion) requestAnimationFrame(tick);
+    if (!reduceMotion && visible) requestAnimationFrame(tick); else running = false;
   }
-  tick();
+  // пауза тяжёлой фоновой анимации, когда canvas уехал за экран — не жжём CPU/батарею весь визит
+  let visible = true, running = false;
+  try {
+    new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible && !running && !reduceMotion) { running = true; tick(); } }).observe(cv);
+  } catch (_) {}
+  running = true; tick();
 })();
 
 /* ---------- 2. свечение курсора (плавное) + nav scroll ---------- */
@@ -903,11 +914,12 @@ window.__L = (ru, en) => document.documentElement.lang === 'en' ? en : ru;
   document.querySelectorAll('.qa').forEach(qa => {
     const q = qa.querySelector('.q');
     const a = qa.querySelector('.a');
+    q.setAttribute('aria-expanded', 'false');
     q.addEventListener('click', () => {
       const open = qa.classList.contains('open');
       // закрыть все
-      document.querySelectorAll('.qa').forEach(o => { o.classList.remove('open'); o.querySelector('.a').style.maxHeight = null; });
-      if (!open) { qa.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+      document.querySelectorAll('.qa').forEach(o => { o.classList.remove('open'); o.querySelector('.a').style.maxHeight = null; o.querySelector('.q').setAttribute('aria-expanded', 'false'); });
+      if (!open) { qa.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; q.setAttribute('aria-expanded', 'true'); }
     });
   });
 })();
@@ -1415,8 +1427,8 @@ window.__L = (ru, en) => document.documentElement.lang === 'en' ? en : ru;
   const drawer = document.getElementById('drawer');
   const btn = document.getElementById('menuBtn');
   if (!drawer || !btn) return;
-  const open = () => { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; };
-  const close = () => { drawer.classList.remove('open'); document.body.style.overflow = ''; };
+  const open = () => { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; btn.setAttribute('aria-expanded', 'true'); };
+  const close = () => { drawer.classList.remove('open'); document.body.style.overflow = ''; btn.setAttribute('aria-expanded', 'false'); };
   btn.addEventListener('click', open);
   drawer.querySelectorAll('[data-drclose]').forEach(e => e.addEventListener('click', close));
 
