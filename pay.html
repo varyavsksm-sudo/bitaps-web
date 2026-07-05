@@ -49,7 +49,7 @@
   .pcard-link:hover{text-decoration:underline}
   @media(max-width:720px){.pgrid{grid-template-columns:1fr}}
   .hide{display:none!important}
-</style><script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script><script src="/i18n.js?v=23" defer></script><meta property="og:type" content="website" />
+</style><script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script><script src="/i18n.js?v=24" defer></script><meta property="og:type" content="website" />
 <meta property="og:title" content="Оплата · bitaps VPN" />
 <meta property="og:description" content="Быстрый VPN на VLESS + Reality. Без логов, серверы в РФ и за рубежом. 3 дня бесплатно." />
 <meta property="og:image" content="https://bitapsvpn.com/og.png" />
@@ -111,7 +111,7 @@
   </div>
   </section>
 
-  <!-- ПРОМОКОД + ИСТОРИЯ -->
+  <!-- ИСТОРИЯ ПЛАТЕЖЕЙ -->
   <section class="psec">
     <div class="pgrid">
       <div class="pcard">
@@ -200,6 +200,8 @@
   var pollGen=0; /* поколение опроса: старый спящий цикл выходит, если началось новое */
   function showKey(k, secret){
     document.getElementById('waitMsg').classList.add('hide');
+    /* ключ выдан — прячем неактуальные подсказки «оплати сейчас»/«открой оплату» */
+    ['doneTxt','payAgain','payHint'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add('hide');});
     document.getElementById('keyText').textContent=k;
     document.getElementById('keyReveal').classList.remove('hide');
     if(secret){
@@ -212,10 +214,15 @@
     var cp=document.getElementById('keyCopy');
     cp.onclick=function(){try{navigator.clipboard.writeText(k);cp.textContent='Скопировано ✓';}catch(e){cp.textContent='Выдели и скопируй вручную';}};
   }
-  async function startPoll(id){
+  async function startPoll(id, resume){
     if(polling||!id)return; polling=true;
     var myGen=++pollGen; /* фиксируем поколение этого цикла */
     document.getElementById('page').classList.add('hide');
+    if(resume){
+      /* возобновление незакрытого заказа: invoice URL у нас нет — не показываем
+         заглушку «Открываем оплату…» и мёртвую кнопку, сразу ждём подтверждения */
+      ['doneTxt','payAgain','payHint'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add('hide');});
+    }
     document.getElementById('done').classList.remove('hide');
     document.getElementById('waitMsg').classList.remove('hide');
     for(var i=0;i<240;i++){
@@ -243,7 +250,7 @@
     }
   }
   /* возобновление: вернулся на страницу с незакрытым заказом → опрашиваем дальше */
-  (function(){try{var pid=localStorage.getItem('bitaps-pending-pay'); if(pid && /^[0-9a-f-]{36}$/i.test(pid)) startPoll(pid);}catch(e){}})();
+  (function(){try{var pid=localStorage.getItem('bitaps-pending-pay'); if(pid && /^[0-9a-f-]{36}$/i.test(pid)) startPoll(pid, true);}catch(e){}})();
   document.getElementById('payCrypto').addEventListener('click',async function(){
     var email=document.getElementById('email').value.trim();
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
@@ -257,6 +264,7 @@
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       if(!/^https:\/\//i.test(j.pay_url||'')){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr('Не удалось открыть оплату.');}
       document.getElementById('page').classList.add('hide');
+      ['doneTxt','payAgain','payHint'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('hide');});
       document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> в CryptoBot. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
@@ -279,6 +287,7 @@
       if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||'Не удалось создать счёт, попробуй позже.');}
       if(!/^https:\/\//i.test(j.pay_url||'')){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr('Не удалось открыть оплату.');}
       document.getElementById('page').classList.add('hide');
+      ['doneTxt','payAgain','payHint'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('hide');});
       document.getElementById('doneTxt').innerHTML='Оплати <b>'+fmt(j.amount_rub)+'</b> по СБП. После оплаты ключ придёт на <b>'+escHtml(email)+'</b>.';
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
@@ -302,12 +311,12 @@
   /* тема: система/светлая/тёмная (как на сайте) */
   (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
     var mq=matchMedia('(prefers-color-scheme: light)');
-    function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}
-    function apply(){var m=mode(),light=m==='light';
+    function isLight(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches;}
+    function apply(){var light=isLight();
       if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
-      if(btn){btn.textContent=m==='light'?'☀️':'🌙';btn.title='Тема: '+(m==='light'?'светлая':'тёмная');}}
-    if(btn)btn.addEventListener('click',function(){var m=mode();try{localStorage.setItem(key, m==='light'?'dark':'light');}catch(e){}apply();});
-    if(mq.addEventListener)mq.addEventListener('change',apply);apply();})();
+      if(btn){btn.textContent=light?'☀️':'🌙';btn.title='Тема: '+(light?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title);}}
+    if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key, isLight()?'dark':'light');}catch(e){}apply();});
+    if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')apply();});apply();})();
   paint();
 </script>
 </body></html>

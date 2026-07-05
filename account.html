@@ -247,7 +247,7 @@
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="/i18n.js?v=23" defer></script><meta property="og:type" content="website" />
+<script src="/i18n.js?v=24" defer></script><meta property="og:type" content="website" />
 <meta property="og:title" content="Личный кабинет — bitaps VPN" />
 <meta property="og:description" content="Быстрый VPN на VLESS + Reality. Без логов, серверы в РФ и за рубежом. 3 дня бесплатно." />
 <meta property="og:image" content="https://bitapsvpn.com/og.png" />
@@ -499,8 +499,14 @@
 (async () => {
   const $ = (id) => document.getElementById(id);
   const EN = () => document.documentElement.lang === 'en';
-  // правильное склонение «день/дня/дней» по числу (RU); EN даёт day/days при переводе движком
-  const daysWord = (n) => { const a = n % 100, b = n % 10; if (a > 10 && a < 20) return 'дней'; if (b === 1) return 'день'; if (b >= 2 && b <= 4) return 'дня'; return 'дней'; };
+  // правильное склонение «день/дня/дней» по числу.
+  // RU: движок мог бы перевести «день»→day, но для 21/31/… (n%10===1, n%100!==11) RU=«день»,
+  // а по-английски это «21 days» — маппинг «день»→day дал бы неверное «21 day». Поэтому EN-форму
+  // (day только для ровно 1, иначе days) считаем здесь напрямую, RU-форму — по своим правилам.
+  const daysWord = (n) => {
+    if (EN()) return n === 1 ? 'day' : 'days';
+    const a = n % 100, b = n % 10; if (a > 10 && a < 20) return 'дней'; if (b === 1) return 'день'; if (b >= 2 && b <= 4) return 'дня'; return 'дней';
+  };
   const toast = (t) => { const e = $('toast'); e.textContent = t; if (window.__i18nRefresh) window.__i18nRefresh(e); e.classList.add('show'); setTimeout(() => e.classList.remove('show'), 1400); };
   const copy = async (t) => { try { await navigator.clipboard.writeText(t); toast('Скопировано ✓'); } catch (_) { toast('Не удалось скопировать — выдели и скопируй вручную'); } };
 
@@ -549,6 +555,9 @@
       $('ringFill').style.strokeDasharray = circ;
       setTimeout(() => { $('ringFill').style.strokeDashoffset = circ * (1 - pct / 100); }, 80);
       countUp($('leftDays'), left);
+      // запоминаем число дней на самом элементе, чтобы пере-считать day/days при смене языка
+      // (daysWord теперь отдаёт готовую EN-форму — движок её не перевёл бы обратно корректно)
+      $('leftLabel').dataset.days = left;
       $('leftLabel').textContent = daysWord(left);
       $('untilDate').textContent = 'активна до ' + exp.toLocaleDateString('ru-RU');
       $('subBtn').textContent = 'Продлить подписку';
@@ -590,7 +599,7 @@
       $('planName').firstChild.textContent = 'Нет подписки';
       $('planSub').textContent = 'оформи тариф, чтобы получить ключ';
       $('subBadge').textContent = 'Не активна'; $('subBadge').className = 'badge off';
-      $('leftDays').textContent = '—'; $('leftLabel').textContent = 'дней';
+      $('leftDays').textContent = '—'; delete $('leftLabel').dataset.days; $('leftLabel').textContent = 'дней';
       $('untilDate').textContent = 'подписка не активна';
       const circ = 2 * Math.PI * 52;
       $('ringFill').style.strokeDasharray = circ; $('ringFill').style.strokeDashoffset = circ;
@@ -635,6 +644,15 @@
   bindModal('supBtn', 'supModal');
   bindModal('refBtn', 'refModal');
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach((m) => { m.classList.remove('open'); document.body.style.overflow = ''; }); });
+
+  // при смене языка пере-считываем day/days у ring-лейбла из запомненного числа дней:
+  // daysWord отдаёт готовую EN-форму, а движок i18n не перевёл бы её обратно в RU корректно.
+  // setTimeout(0) — чтобы наш пересчёт шёл ПОСЛЕ apply() движка (он вешает свой click раньше).
+  document.addEventListener('click', (e) => {
+    const t = e.target && e.target.closest && e.target.closest('#langToggle');
+    if (!t) return;
+    setTimeout(() => { const el = $('leftLabel'); if (el && el.dataset.days != null) el.textContent = daysWord(Number(el.dataset.days)); }, 0);
+  });
 
 
   // ===== режим Telegram Mini App =====
@@ -685,8 +703,15 @@
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { $('guest').hidden = false; return; }
   let user = session.user;
-  // свежие данные с сервера (имя/ник/ава могли поменяться) — не кэш сессии
-  try { const { data: { user: fresh } } = await sb.auth.getUser(); if (fresh) user = fresh; } catch (_) {}
+  // свежие данные с сервера (имя/ник/ава могли поменяться) — не кэш сессии.
+  // getUser() валидирует токен на сервере: если сессия отозвана/протухла, вернётся
+  // error/пустой user — тогда НЕ показываем залогиненный кабинет со stale-данными,
+  // а ведём на вход (иначе висел бы старый ключ/подписка после ревока токена).
+  try {
+    const { data: { user: fresh }, error: uErr } = await sb.auth.getUser();
+    if (uErr || !fresh) { try { await sb.auth.signOut(); } catch (_) {} $('guest').hidden = false; return; }
+    user = fresh;
+  } catch (_) { $('guest').hidden = false; return; }
   $('cab').hidden = false;
 
   const md = user.user_metadata || {};

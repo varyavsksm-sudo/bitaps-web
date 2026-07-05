@@ -97,7 +97,7 @@
   /* footer */
   .foot{max-width:1000px;margin:48px auto 0;padding:22px 18px;border-top:1px solid var(--line);text-align:center;color:var(--mut);font-size:13px}
   .foot a{color:var(--mut);text-decoration:none;margin:0 9px}.foot a:hover{color:var(--acc)}
-</style><script src="/i18n.js?v=23" defer></script><meta property="og:type" content="website" />
+</style><script src="/i18n.js?v=24" defer></script><meta property="og:type" content="website" />
 <meta property="og:title" content="VIP-карта · bitaps VPN" />
 <meta property="og:description" content="Металлическая VIP-карта bitaps VPN. Коллекционная за 5000 ₽ и персональная за 100 приглашённых друзей." />
 <meta property="og:image" content="https://bitapsvpn.com/og.png" />
@@ -236,28 +236,24 @@
     }
     var t = sendBtn.textContent;
     sendBtn.disabled = true; sendBtn.textContent = en() ? 'Sending…' : 'Отправляем…';
-    var ok = false, serverErr = '';
+    var ok = false;
     try {
       var r = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'card', name: name, phone: phone, city: city, postcode: postcode, address: address, comment: comment, email: email })
       });
       ok = r.ok;
-      try { var j = await r.json(); if (j && !j.ok) { ok = false; if (j.error) serverErr = String(j.error); } } catch (_) {}
+      try { var j = await r.json(); if (j && !j.ok) { ok = false; } } catch (_) {}
     } catch (_) { ok = false; }
     if (ok) {
       form.style.display = 'none'; if (actions) actions.style.display = 'none';
       okBox.classList.add('show');
     } else {
       sendBtn.disabled = false; sendBtn.textContent = t;
-      if (serverErr) {
-        errBox.textContent = serverErr;
-      } else {
-        errBox.innerHTML = (en()
-          ? 'Could not send the request. Message us: '
-          : 'Не удалось отправить заявку. Напиши нам: ')
-          + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.';
-      }
+      errBox.innerHTML = (en()
+        ? 'Could not send the request. Message us: '
+        : 'Не удалось отправить заявку. Напиши нам: ')
+        + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.';
       errBox.style.display = '';
     }
   });

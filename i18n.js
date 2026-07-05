@@ -404,6 +404,7 @@
     "Неплохо! Запиши результат.": "Not bad! Save your score.", "пока пусто — будь первым!": "empty for now — be the first!", "нормальное имя, пожалуйста 🙂": "a normal name, please 🙂",
     "Отправляем…": "Sending…", "Реферальная программа — в нашем Telegram-боте": "Referral program — in our Telegram bot", "Открыть бота": "Open the bot",
     "Выдели и скопируй вручную": "Select and copy manually", "Не удалось скопировать — выдели и скопируй вручную": "Couldn't copy — select and copy manually",
+    "Новый пароль": "New password",
     "🎁 Призы топ-3 — каждый месяц": "🎁 Top-3 prizes — every month", "🥇 1 место": "🥇 1st place", "30 дней bitaps VPN": "30 days bitaps VPN",
     "🥈 2 место": "🥈 2nd place", "14 дней": "14 days", "🥉 3 место": "🥉 3rd place", "7 дней": "7 days",
     "Топ и призы обновляются в конце месяца": "Leaderboard and prizes reset at month-end", "🎣 Играть в Telegram-боте →": "🎣 Play in the Telegram bot →",
