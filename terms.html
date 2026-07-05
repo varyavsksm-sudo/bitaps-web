@@ -25,7 +25,7 @@
   .lead{color:var(--txt);font-size:15.5px;line-height:1.7}
   @media(max-width:520px){h1{font-size:24px}.wrap{padding:30px 16px 70px}}
   .top-actions{display:flex;align-items:center;gap:10px}
-  .theme-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
+  .theme-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
   .theme-btn:hover{border-color:var(--acc)}
   html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
@@ -34,7 +34,7 @@
   html[data-theme="light"] p,html[data-theme="light"] li{color:#33415c}
   html[data-theme="light"] h1,html[data-theme="light"] h2,html[data-theme="light"] h3{color:#0f1828}
 
-:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 </style>
 <meta property="og:type" content="website" />
