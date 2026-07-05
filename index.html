@@ -931,7 +931,11 @@ window.__L = (ru, en) => document.documentElement.lang === 'en' ? en : ru;
   const COLORS = ['#ff7a1a', '#2d8bff', '#ffae3d', '#febc2e', '#4f9dff'];
   let rate = 5, expanded = false, items = [], submitting = false;
   // фильтр мата + троттлинг отправки отзыва (как в игре) — от спама и оскорблений
-  const BADWORDS = /(ху[йеёяю]|пизд|(?<![а-яё])[её]ба|бляд|сук[аиу]|пидор|пидар|мудак|гондон|залуп|(?<![а-яё])хер(?![а-яё])|fuck|shit|cunt|dick|bitch|porn|nigg)/i;
+  // lookbehind даёт SyntaxError на старых движках (iOS<16.4/старый WebView) → строим через new RegExp
+  // в try/catch, иначе литерал с (?<!) убил бы ВЕСЬ скрипт. Fallback — без lookbehind (для древних браузеров).
+  let BADWORDS;
+  try { BADWORDS = new RegExp('(ху[йеёяю]|пизд|(?<![а-яё])[её]ба|бляд|сук[аиу]|пидор|пидар|мудак|гондон|залуп|(?<![а-яё])хер(?![а-яё])|fuck|shit|cunt|dick|bitch|porn|nigg)', 'i'); }
+  catch (_) { BADWORDS = /(ху[йеёяю]|пизд|[её]ба|бляд|сук[аиу]|пидор|пидар|мудак|гондон|залуп|fuck|shit|cunt|dick|bitch|porn|nigg)/i; }
   const REVIEW_COOLDOWN_MS = 3 * 60 * 1000; // не чаще раза в 3 минуты
 
   // общая база отзывов
