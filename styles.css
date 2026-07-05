@@ -70,6 +70,8 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 /* кнопки */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;
   font-weight:600;font-size:15px;cursor:pointer;transition:.25s;border:1px solid transparent;position:relative;overflow:hidden}
+.btn:active{transform:translateY(0);filter:brightness(.95)}
+.btn:disabled,.btn[disabled]{opacity:.55;box-shadow:none;cursor:default;pointer-events:none}
 .btn-solid{background:linear-gradient(110deg,var(--acc),var(--acc2));color:#03110e;box-shadow:0 8px 30px rgba(255,122,26,.3)}
 .btn-solid:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,122,26,.5)}
 .btn-ghost{color:var(--mut)}

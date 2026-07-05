@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/fonts.css">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<script>function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function(){ac.abort();},ms||12000);return fetch(u,Object.assign({},o,{signal:ac.signal})).finally(function(){clearTimeout(t);});}</script>
 <style>
   *{margin:0;box-sizing:border-box}
   :root{--bg:#05070b;--bg2:#0a0e16;--panel:rgba(255,255,255,.04);--line:rgba(255,255,255,.10);--txt:#e8edf5;--mut:#8a96ab;--acc:#ff7a1a;--acc2:#2d8bff;--acc3:#ffae3d;--glow:0 0 40px rgba(255,122,26,.35)}
@@ -99,10 +100,11 @@
   .foot a{color:var(--mut);text-decoration:none;margin:0 9px}.foot a:hover{color:var(--acc)}
 </style><script src="/i18n.js?v=24" defer></script><meta property="og:type" content="website" />
 <meta property="og:title" content="VIP-карта · bitaps VPN" />
-<meta property="og:description" content="Металлическая VIP-карта bitaps VPN. Коллекционная за 5000 ₽ и персональная за 100 приглашённых друзей." />
+<meta property="og:description" content="Металлическая VIP-карта bitaps VPN — коллекционная карта за 5000 ₽ и персональная VIP-карта за 100 приглашённых друзей." />
+<meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
 <meta property="og:image" content="https://bitapsvpn.com/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:url" content="https://bitapsvpn.com/card.html" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta name="twitter:title" content="VIP-карта · bitaps VPN" /><meta name="twitter:description" content="Металлическая VIP-карта bitaps VPN. Коллекционная за 5000 ₽ и персональная за 100 приглашённых друзей." /></head><body>
+<meta property="og:url" content="https://bitapsvpn.com/card.html" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta name="twitter:title" content="VIP-карта · bitaps VPN" /><meta name="twitter:description" content="Металлическая VIP-карта bitaps VPN — коллекционная карта за 5000 ₽ и персональная VIP-карта за 100 приглашённых друзей." /></head><body>
 <header class="top">
   <a class="brand" href="/">
     <svg class="mk" viewBox="0 0 64 64"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk" fill="currentColor">B</text></svg>
@@ -238,7 +240,7 @@
     sendBtn.disabled = true; sendBtn.textContent = en() ? 'Sending…' : 'Отправляем…';
     var ok = false;
     try {
-      var r = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order', {
+      var r = await fetchT('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'card', name: name, phone: phone, city: city, postcode: postcode, address: address, comment: comment, email: email })
       });
