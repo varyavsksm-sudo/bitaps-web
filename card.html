@@ -236,24 +236,28 @@
     }
     var t = sendBtn.textContent;
     sendBtn.disabled = true; sendBtn.textContent = en() ? 'Sending…' : 'Отправляем…';
-    var ok = false;
+    var ok = false, serverErr = '';
     try {
       var r = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/box-order', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'card', name: name, phone: phone, city: city, postcode: postcode, address: address, comment: comment, email: email })
       });
       ok = r.ok;
-      try { var j = await r.json(); if (j && j.ok === false) ok = false; } catch (_) {}
+      try { var j = await r.json(); if (j && j.ok === false) { ok = false; if (j.error) serverErr = String(j.error); } } catch (_) {}
     } catch (_) { ok = false; }
     if (ok) {
       form.style.display = 'none'; if (actions) actions.style.display = 'none';
       okBox.classList.add('show');
     } else {
       sendBtn.disabled = false; sendBtn.textContent = t;
-      errBox.innerHTML = (en()
-        ? 'Could not send the request. Message us: '
-        : 'Не удалось отправить заявку. Напиши нам: ')
-        + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.';
+      if (serverErr) {
+        errBox.textContent = serverErr;
+      } else {
+        errBox.innerHTML = (en()
+          ? 'Could not send the request. Message us: '
+          : 'Не удалось отправить заявку. Напиши нам: ')
+          + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.';
+      }
       errBox.style.display = '';
     }
   });

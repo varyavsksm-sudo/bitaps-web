@@ -197,6 +197,7 @@
   /* on-site выдача ключа: опрашиваем статус заказа, показываем ключ прямо на странице (не зависим от письма) */
   var STATUS_API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay-status';
   var polling=false;
+  var pollGen=0; /* поколение опроса: старый спящий цикл выходит, если началось новое */
   function showKey(k, secret){
     document.getElementById('waitMsg').classList.add('hide');
     document.getElementById('keyText').textContent=k;
@@ -213,11 +214,12 @@
   }
   async function startPoll(id){
     if(polling||!id)return; polling=true;
+    var myGen=++pollGen; /* фиксируем поколение этого цикла */
     document.getElementById('page').classList.add('hide');
     document.getElementById('done').classList.remove('hide');
     document.getElementById('waitMsg').classList.remove('hide');
     for(var i=0;i<240;i++){
-      if(!polling)return; /* прервали поллинг кнопкой «назад» */
+      if(!polling||myGen!==pollGen)return; /* прервали кнопкой «назад» или стартовал новый заказ */
       try{
         var r=await fetch(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
         var j=await r.json();
@@ -301,11 +303,11 @@
   (function(){var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('themeToggle');
     var mq=matchMedia('(prefers-color-scheme: light)');
     function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}
-    function apply(){var m=mode(),light=m==='light'||(m==='system'&&mq.matches);
+    function apply(){var m=mode(),light=m==='light';
       if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
       if(btn){btn.textContent=m==='light'?'☀️':'🌙';btn.title='Тема: '+(m==='light'?'светлая':'тёмная');}}
     if(btn)btn.addEventListener('click',function(){var m=mode();try{localStorage.setItem(key, m==='light'?'dark':'light');}catch(e){}apply();});
-    if(mq.addEventListener)mq.addEventListener('change',function(){if(mode()==='system')apply();});apply();})();
+    if(mq.addEventListener)mq.addEventListener('change',apply);apply();})();
   paint();
 </script>
 </body></html>

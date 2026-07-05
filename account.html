@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств.">
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex,nofollow">
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
@@ -486,15 +486,15 @@
       </div>
       <p class="hint" style="margin-bottom:12px" data-en="Share your link — when a friend subscribes, you get bonus days and 🪙 tokens.">Поделись ссылкой — когда друг оформит подписку, тебе начислятся бонусные дни и 🪙 токены.</p>
       <div class="copybox"><code id="refLink">—</code><button id="refCopy">Копировать</button></div>
-      <p class="hint" style="margin-top:12px;margin-bottom:2px">🪙 <b id="tokBal">0</b> <span data-en="bitaps tokens">токенов bitaps</span></p>
+      <p class="hint" id="tokRow" style="margin-top:12px;margin-bottom:2px">🪙 <b id="tokBal">0</b> <span data-en="bitaps tokens">токенов bitaps</span></p>
       <p class="hint" style="margin:0" data-en="They accrue for friends, redeem for subscription days (in the Telegram bot) and will go to the bitaps card.">Капают за друзей, обмениваются на дни подписки (в Telegram-боте) и пойдут на карту bitaps.</p>
     </div>
   </div>
 
   <div class="toast" id="toast">Скопировано ✓</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.0/dist/umd/supabase.min.js" integrity="sha384-DjOvX/sJLsmbMrw4wTvf6l3kiGBjdxyOO6X2MTFwOOXGkjN/mE08BoDzrpaaIjil" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous"></script>
+<script src="/vendor/supabase.min.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
 <script>
 (async () => {
   const $ = (id) => document.getElementById(id);
@@ -679,6 +679,9 @@
   }
 
   // ===== обычный веб-режим (Supabase-сессия) =====
+  // CDN с supabase-js мог не загрузиться (блокировка/офлайн) → sb === null.
+  // Без гарда getSession() бросит, и #guest, и #cab остаются скрыты = белый экран.
+  if (!sb) { $('guest').hidden = false; return; }
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { $('guest').hidden = false; return; }
   let user = session.user;
@@ -692,6 +695,10 @@
   const avatar = md.avatar_url || md.picture || '';
   const display = prov === 'telegram' ? (md.user_name ? '@' + md.user_name : 'Telegram') : (user.email || '');
   fillProfile(name, display, avatar);
+
+  // баланс токенов ведётся по telegram_id (RPC token_balance/ledger доступны только service_role,
+  // RLS закрыта для authenticated) → из веб-сессии его не прочитать. Не показываем ложный «🪙 0».
+  { const tr = $('tokRow'); if (tr) tr.hidden = true; }
 
   if (md.telegram_id) {
     setupRef(`https://t.me/bitaps_vpn_auth_bot?start=ref${md.telegram_id}`);
@@ -742,14 +749,16 @@
   var html=document.documentElement, key='bitaps-theme', btn=document.getElementById('themeToggle');
   var mq=matchMedia('(prefers-color-scheme: light)');
   function mode(){ var s; try{s=localStorage.getItem(key)}catch(e){} return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'); }
-  function apply(){ var m=mode(); var light=m==='light'||(m==='system'&&mq.matches);
+  function apply(){ var m=mode(); var light=m==='light';
     if(light) html.setAttribute('data-theme','light'); else html.removeAttribute('data-theme');
     if(btn){ btn.textContent = m==='light'?'☀️':'🌙';
       btn.title='Тема: '+(m==='light'?'светлая':'тёмная'); } }
   if(btn) btn.addEventListener('click', function(){ var m=mode();
     try{ localStorage.setItem(key, m==='light'?'dark':'light'); }catch(e){}
     apply(); });
-  if(mq.addEventListener) mq.addEventListener('change', function(){ if(mode()==='system') apply(); });
+  // mode() отдаёт только light/dark; при отсутствии выбора он берёт системную тему,
+  // поэтому на смену OS-темы просто перечитываем и применяем.
+  if(mq.addEventListener) mq.addEventListener('change', apply);
   apply();
 })();
 </script>

@@ -172,7 +172,7 @@ const IMG={
   gold: koiImg(koiSVG('<stop offset="0" stop-color="#fff0bf"/><stop offset=".5" stop-color="#f7b13a"/><stop offset="1" stop-color="#dd8514"/>','<stop offset="0" stop-color="rgba(255,205,120,.6)"/><stop offset="1" stop-color="rgba(245,170,60,.02)"/>','<stop offset="0" stop-color="#ffd56b"/><stop offset="1" stop-color="#e08a10"/>',true)),
   enemy: koiImg(koiSVG('<stop offset="0" stop-color="#ff9a9a"/><stop offset=".5" stop-color="#e23b3b"/><stop offset="1" stop-color="#9e0d18"/>','<stop offset="0" stop-color="rgba(255,110,110,.5)"/><stop offset="1" stop-color="rgba(220,40,40,.02)"/>','<stop offset="0" stop-color="#2a0008"/><stop offset="1" stop-color="#1a0004"/>',false))
 };
-let W=cv.width, H=cv.height, DPR=1, surfGrad=null, causGrad=null;
+let W=cv.width, H=cv.height, DPR=Math.min(Math.max(1, window.devicePixelRatio||1), 2), surfGrad=null, causGrad=null;
 function resize(){ const w=cv.clientWidth; const h=Math.max(Math.round(w*0.72), 380); cv.width=Math.round(w*DPR); cv.height=Math.round(h*DPR); ctx.setTransform(DPR,0,0,DPR,0,0); W=w; H=h;
   // кэш градиентов (не пересоздаём каждый кадр)
   surfGrad=ctx.createLinearGradient(0,0,0,H*0.55); surfGrad.addColorStop(0,'rgba(255,255,255,.055)'); surfGrad.addColorStop(1,'rgba(255,255,255,0)');
@@ -327,7 +327,11 @@ function startGame(){ resize(); fish=[];floats=[];ripples=[];bubbles=[];splashes
   $('overlay').classList.add('hide'); running=true; last=performance.now(); requestAnimationFrame(loop); }
 
 function endGame(){ running=false; $('final').textContent=score; $('overlay').classList.remove('hide');
-  $('oStart').classList.add('hide'); $('oEnd').classList.remove('hide'); $('saved').classList.add('hide'); $('nameRow').classList.remove('hide');
+  $('oStart').classList.add('hide'); $('oEnd').classList.remove('hide');
+  if(TG&&TG.initData){ $('saved').classList.add('hide'); $('nameRow').classList.remove('hide'); }
+  else { /* вне Telegram очки в топ не идут → не показываем поле имени, сразу честно объясняем */
+    $('nameRow').classList.add('hide'); $('endMsg').classList.add('hide');
+    $('saved').textContent='🎣 В топ и за призами — играй в приложении или в Telegram-боте bitaps.'; $('saved').classList.remove('hide'); }
   try{ const nm=localStorage.getItem('bitaps-game-name'); if(nm)$('pname').value=nm; }catch(e){}
   const msg= score>=8000?'🔥 Это уровень сенсея! Закрепи в топе.':score>=4000?'💪 Сильный улов! Давай в топ.':score>=1500?'Неплохо! Запиши результат.':'Ещё разок — и будет круче!';
   $('endMsg').textContent=msg; loadBoard(score);
@@ -377,10 +381,10 @@ $('submitScore').onclick=async function(){
 // тема
 (function(){var html=document.documentElement,key='bitaps-theme',btn=$('themeToggle');var mq=matchMedia('(prefers-color-scheme: light)');
   function mode(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}
-  function apply(){var m=mode(),light=m==='light'||(m==='system'&&mq.matches); if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
+  function apply(){var m=mode(),light=m==='light'; if(light)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');
     btn.textContent=m==='light'?'☀️':'🌙';}
   btn.onclick=function(){var m=mode();try{localStorage.setItem(key, m==='light'?'dark':'light');}catch(e){}apply();};
-  if(mq.addEventListener)mq.addEventListener('change',()=>{if(mode()==='system')apply();}); apply();})();
+  if(mq.addEventListener)mq.addEventListener('change',apply); apply();})();
 
 resize(); loadBoard(null);
 </script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 <title>bitaps VPN — приватность без компромиссов</title>
@@ -621,9 +621,11 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.0/dist/umd/supabase.min.js" integrity="sha384-DjOvX/sJLsmbMrw4wTvf6l3kiGBjdxyOO6X2MTFwOOXGkjN/mE08BoDzrpaaIjil" crossorigin="anonymous"></script>
+<script src="/vendor/supabase.min.js"></script>
 <script>
 /* ░░░░░░░░░░ bitaps vpn · interactions ░░░░░░░░░░ */
+/* язык-хелпер для JS-генерируемых строк (статический контент переводит i18n.js) */
+window.__L = (ru, en) => document.documentElement.lang === 'en' ? en : ru;
 
 /* ---------- 1. фоновая сеть из частиц (тема-зависимая палитра + нити от курсора) ---------- */
 (() => {
@@ -929,7 +931,7 @@
   const COLORS = ['#ff7a1a', '#2d8bff', '#ffae3d', '#febc2e', '#4f9dff'];
   let rate = 5, expanded = false, items = [], submitting = false;
   // фильтр мата + троттлинг отправки отзыва (как в игре) — от спама и оскорблений
-  const BADWORDS = /(ху[йеёяю]|пизд|[её]ба|бляд|сук[аиу]|пидор|пидар|мудак|гондон|залуп|\bхер\b|fuck|shit|cunt|dick|bitch|porn|nigg)/i;
+  const BADWORDS = /(ху[йеёяю]|пизд|(?<![а-яё])[её]ба|бляд|сук[аиу]|пидор|пидар|мудак|гондон|залуп|(?<![а-яё])хер(?![а-яё])|fuck|shit|cunt|dick|bitch|porn|nigg)/i;
   const REVIEW_COOLDOWN_MS = 3 * 60 * 1000; // не чаще раза в 3 минуты
 
   // общая база отзывов
@@ -942,11 +944,14 @@
   const lsSave = arr => { try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch {} };
   const ago = iso => {
     try { const d = (Date.now() - new Date(iso).getTime()) / 1000;
-      if (d < 60) return 'только что';
-      if (d < 3600) return Math.floor(d / 60) + ' мин назад';
-      if (d < 86400) return Math.floor(d / 3600) + ' ч назад';
+      const en = document.documentElement.lang === 'en';
+      if (d < 60) return en ? 'just now' : 'только что';
+      if (d < 3600) { const n = Math.floor(d / 60); return en ? (n + (n === 1 ? ' min ago' : ' mins ago')) : (n + ' мин назад'); }
+      if (d < 86400) { const n = Math.floor(d / 3600); return en ? (n + (n === 1 ? ' hour ago' : ' hours ago')) : (n + ' ч назад'); }
       const days = Math.floor(d / 86400);
-      return days + (days === 1 ? ' день назад' : (days % 10 >= 2 && days % 10 <= 4 && (days < 10 || days > 20)) ? ' дня назад' : ' дней назад');
+      if (en) return days + (days === 1 ? ' day ago' : ' days ago');
+      const t = days % 10, h = days % 100;
+      return days + (t === 1 && h !== 11 ? ' день назад' : (t >= 2 && t <= 4 && (h < 10 || h > 20) ? ' дня назад' : ' дней назад'));
     } catch { return ''; }
   };
 
@@ -966,7 +971,7 @@
 
   function render() {
     if (!items.length) {
-      list.innerHTML = '<div class="citem-empty" style="text-align:center;color:var(--mut);padding:26px 10px">Пока нет отзывов. Оставь первый — он появится здесь сразу.</div>';
+      list.innerHTML = '<div class="citem-empty" style="text-align:center;color:var(--mut);padding:26px 10px">' + window.__L('Пока нет отзывов. Оставь первый — он появится здесь сразу.', 'No reviews yet. Be the first — it appears here instantly.') + '</div>';
       const b0 = document.getElementById('cMore'); if (b0) b0.style.display = 'none';
       return;
     }
@@ -981,7 +986,7 @@
         <div class="citem-top">
           <span class="ava" style="--c:${color}">${esc(initial)}</span>
           <div>
-            <div class="citem-name">${esc(c.n)}</div>
+            <div class="citem-name">${esc(nm)}</div>
             <div class="citem-meta"><span class="citem-stars">${stars}</span><span>·</span><span>${esc(c.ago)}</span></div>
           </div>
         </div>
@@ -997,7 +1002,7 @@
         btn.addEventListener('click', () => { expanded = !expanded; render(); });
         list.parentNode.insertBefore(btn, list.nextSibling);
       }
-      btn.textContent = expanded ? 'Свернуть' : 'Показать все комментарии (' + items.length + ')';
+      btn.textContent = expanded ? window.__L('Свернуть', 'Collapse') : window.__L('Показать все комментарии (', 'Show all comments (') + items.length + ')';
       btn.style.display = 'flex';
     } else if (btn) {
       btn.style.display = 'none';
@@ -1020,7 +1025,7 @@
     const n = (nameI.value.trim() || 'Гость').slice(0, 40);
     // фильтр мата — по тексту и имени
     if (BADWORDS.test(t) || BADWORDS.test(n)) {
-      textI.setCustomValidity('Пожалуйста, без грубых слов'); textI.reportValidity();
+      textI.setCustomValidity(window.__L('Пожалуйста, без грубых слов', 'Please, no rude words')); textI.reportValidity();
       setTimeout(() => textI.setCustomValidity(''), 2500);
       return;
     }
@@ -1028,7 +1033,7 @@
     try {
       const last = +localStorage.getItem('bitaps-review-ts') || 0;
       if (Date.now() - last < REVIEW_COOLDOWN_MS) {
-        textI.setCustomValidity('Отзыв уже отправлен — попробуйте чуть позже'); textI.reportValidity();
+        textI.setCustomValidity(window.__L('Отзыв уже отправлен — попробуйте чуть позже', 'Review already sent — try again a bit later')); textI.reportValidity();
         setTimeout(() => textI.setCustomValidity(''), 2500);
         return;
       }
@@ -1038,7 +1043,7 @@
     let ok = false;
     if (sb) { try { const { error } = await sb.from('reviews').insert({ name: n, text: t, rating: rate }); ok = !error; } catch (_) {} }
     if (ok) { await refresh(); }
-    else { const arr = lsLoad(); arr.unshift({ n, t, r: rate, ago: 'только что' }); lsSave(arr); items = arr; render(); }
+    else { const arr = lsLoad(); arr.unshift({ n, t, r: rate, ago: window.__L('только что', 'just now') }); lsSave(arr); items = arr; render(); }
     form.reset(); rate = 5;
     rateEl.querySelectorAll('span').forEach(x => x.classList.toggle('on', +x.dataset.v <= 5));
     list.firstElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1089,8 +1094,8 @@
     const email = (emailEl.value || '').trim();
     const msg = (msgField.value || '').trim();
     // проверка формата почты
-    if (!email) { emailEl.setCustomValidity('Впиши почту для ответа'); emailEl.reportValidity(); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailEl.setCustomValidity('Неправильный формат почты'); emailEl.reportValidity(); return; }
+    if (!email) { emailEl.setCustomValidity(window.__L('Впиши почту для ответа', 'Enter an email so we can reply')); emailEl.reportValidity(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailEl.setCustomValidity(window.__L('Неправильный формат почты', 'Invalid email format')); emailEl.reportValidity(); return; }
     emailEl.setCustomValidity('');
     // formsubmit/mailto убраны (приватность): только свой бэкенд. Успех показываем ТОЛЬКО если реально ушло.
     submitting = true;
@@ -1111,7 +1116,7 @@
       ok.classList.add('show');
     } else {
       // тот же стиль, что и валидация полей выше — нативная подсказка у поля
-      msgField.setCustomValidity('Не удалось отправить — напиши в Telegram @bitapssupport');
+      msgField.setCustomValidity(window.__L('Не удалось отправить — напиши в Telegram @bitapssupport', 'Could not send — message us on Telegram @bitapssupport'));
       msgField.reportValidity();
       setTimeout(() => msgField.setCustomValidity(''), 3000);
     }
@@ -1124,6 +1129,7 @@
   const SUPABASE_KEY = 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
   if (!window.supabase || !window.supabase.createClient) return;
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const L = (ru, en) => document.documentElement.lang === 'en' ? en : ru; // локальный язык-хелпер для JS-строк
 
   const modal     = document.getElementById('authModal');
   const openBtn   = document.getElementById('authOpen');
@@ -1187,13 +1193,13 @@
 
   const humanError = (err) => {
     const m = ((err && err.message) || '').toLowerCase();
-    if (m.includes('not confirmed') || m.includes('email not confirmed')) return 'Сначала подтвердите почту — мы отправили письмо со ссылкой.';
-    if (m.includes('invalid login')) return 'Неверная почта или пароль.';
-    if (m.includes('already registered') || m.includes('already been registered') || m.includes('user already')) return 'Такая почта уже зарегистрирована — войдите.';
-    if (m.includes('password')) return 'Пароль слишком короткий — минимум 6 символов.';
-    if (m.includes('email')) return 'Проверьте адрес почты.';
-    if (m.includes('rate') || m.includes('many')) return 'Слишком много попыток, подождите минуту.';
-    return (err && err.message) || 'Что-то пошло не так, попробуйте ещё раз.';
+    if (m.includes('not confirmed') || m.includes('email not confirmed')) return L('Сначала подтвердите почту — мы отправили письмо со ссылкой.', 'Confirm your email first — we sent you a link.');
+    if (m.includes('invalid login')) return L('Неверная почта или пароль.', 'Wrong email or password.');
+    if (m.includes('already registered') || m.includes('already been registered') || m.includes('user already')) return L('Такая почта уже зарегистрирована — войдите.', 'This email is already registered — sign in.');
+    if (m.includes('password')) return L('Пароль слишком короткий — минимум 6 символов.', 'Password is too short — at least 6 characters.');
+    if (m.includes('email')) return L('Проверьте адрес почты.', 'Check the email address.');
+    if (m.includes('rate') || m.includes('many')) return L('Слишком много попыток, подождите минуту.', 'Too many attempts, wait a minute.');
+    return (err && err.message) || L('Что-то пошло не так, попробуйте ещё раз.', 'Something went wrong, try again.');
   };
 
   if (googleBtn) googleBtn.addEventListener('click', async () => {
@@ -1220,23 +1226,23 @@
     const val = (document.getElementById('auKey').value || '').trim();
     const ke = document.getElementById('auKeyErr');
     ke.textContent = '';
-    if (val.length < 12) { ke.textContent = 'Вставь ключ из бота (vless://…) или «Код входа»'; return; }
+    if (val.length < 12) { ke.textContent = L('Вставь ключ из бота (vless://…) или «Код входа»', 'Paste the key from the bot (vless://…) or your «Login code»'); return; }
     // vless://… / https://… → это VPN-ключ; иначе (UUID) — «Код входа» (login_secret)
     const isKey = /^(vless:|https?:)/i.test(val);
     const payload = isKey ? { key: val } : { secret: val };
-    auKeyBtn.disabled = true; const lbl = auKeyBtn.textContent; auKeyBtn.textContent = 'Вхожу…';
+    auKeyBtn.disabled = true; const lbl = auKeyBtn.textContent; auKeyBtn.textContent = L('Вхожу…', 'Signing in…');
     try {
       const res = await fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-keylogin', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
       const data = await res.json();
-      if (!res.ok || !data.token_hash) throw new Error(data.error === 'use_login_secret' ? (data.message || 'войди по Коду входа') : (data.error === 'not found' ? 'не найдено — проверь ключ/Код входа или войди через Telegram' : (data.error || 'ошибка входа')));
+      if (!res.ok || !data.token_hash) throw new Error(data.error === 'use_login_secret' ? (data.message || L('войди по Коду входа', 'sign in with your Login code')) : (data.error === 'not found' ? L('не найдено — проверь ключ/Код входа или войди через Telegram', 'not found — check the key/Login code or sign in via Telegram') : (data.error || L('ошибка входа', 'sign-in error'))));
       const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
       if (error) throw error;
       ok.classList.add('show');
-      okTitle.textContent = 'С возвращением!'; okMsg.textContent = 'Вы вошли по ключу из бота.';
+      okTitle.textContent = L('С возвращением!', 'Welcome back!'); okMsg.textContent = L('Вы вошли по ключу из бота.', 'Signed in with your key from the bot.');
     } catch (err) {
-      ke.textContent = 'Не вышло: ' + (err.message || err);
+      ke.textContent = L('Не вышло: ', 'Failed: ') + (err.message || err);
     } finally { auKeyBtn.disabled = false; auKeyBtn.textContent = lbl; }
   });
 
@@ -1251,8 +1257,8 @@
     const ke = document.getElementById('auKeyErr'); ke.style.color = '';
     try {
       await fetch(RECOVER_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'request', email: email.trim() }) });
-      ke.textContent = 'Если аккаунт с этой почтой есть — прислали письмо со ссылкой. Проверь почту (загляни и в «Спам»).';
-    } catch (err) { ke.textContent = 'Не удалось отправить запрос, попробуй позже.'; }
+      ke.textContent = L('Если аккаунт с этой почтой есть — прислали письмо со ссылкой. Проверь почту (загляни и в «Спам»).', 'If an account with this email exists, we sent a link. Check your inbox (and the Spam folder).');
+    } catch (err) { ke.textContent = L('Не удалось отправить запрос, попробуй позже.', 'Could not send the request, try again later.'); }
   });
   // приход по ссылке из письма: ?recover=<token> → показываем «Код входа»
   (async () => {
@@ -1400,13 +1406,14 @@
   // ── окно раздела (модалка) ──
   const modal = document.getElementById('secModal');
   const body = document.getElementById('secModalBody');
-  let ph = null, openSec = null, fromDrawer = false;
+  let ph = null, openSec = null, fromDrawer = false, wasTucked = false;
   const openSection = (id) => {
     const el = document.getElementById(id);
     if (!el || !modal) return;
     ph = document.createComment('sec-' + id);          // плейсхолдер на исходное место
     el.parentNode.insertBefore(ph, el);
     body.appendChild(el);                              // переносим узел (слушатели/JS сохраняются)
+    wasTucked = el.classList.contains('tucked');       // запоминаем исходное состояние — вернём как было
     el.classList.remove('tucked');
     el.querySelectorAll('.reveal').forEach(r => r.classList.add('in')); // форс-показ содержимого
     modal.classList.add('open');
@@ -1414,10 +1421,11 @@
     document.body.style.overflow = 'hidden';
   };
   const closeSection = () => {
-    if (openSec && ph) { ph.parentNode.insertBefore(openSec, ph); ph.remove(); openSec.classList.add('tucked'); }
+    if (openSec && ph) { ph.parentNode.insertBefore(openSec, ph); ph.remove(); if (wasTucked) openSec.classList.add('tucked'); }
     openSec = null; ph = null;
     if (modal) modal.classList.remove('open');
-    if (fromDrawer) open(); // открыли из меню → вернуть меню; из кнопки на странице → просто закрыть
+    document.body.style.overflow = ''; // вернуть скролл странице (иначе после закрытия секции с кнопки страница залипала)
+    if (fromDrawer) open(); // открыли из меню → вернуть меню (снова выставит overflow:hidden); из кнопки на странице → просто закрыть
   };
   if (modal) modal.querySelectorAll('[data-smclose]').forEach(e => e.addEventListener('click', closeSection));
 
