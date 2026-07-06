@@ -1075,7 +1075,13 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
     submitting = true;
     try { localStorage.setItem('bitaps-review-ts', String(Date.now())); } catch (_) {}
     let ok = false;
-    if (sb) { try { const { error } = await sb.from('reviews').insert({ name: n, text: t, rating: rate }); ok = !error; } catch (_) {} }
+    // отзыв уходит через edge-функцию review (серверный rate-limit + валидация); anon-INSERT в reviews снят
+    try {
+      const r = await fetchT('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/review',
+        { method: 'POST', headers: { 'content-type': 'application/json', 'apikey': SB_KEY }, body: JSON.stringify({ name: n, text: t, rating: rate }) }, 12000);
+      const jr = await r.json().catch(() => ({}));
+      ok = !!(jr && jr.ok);
+    } catch (_) {}
     if (ok) { await refresh(); }
     else { const arr = lsLoad(); arr.unshift({ n, t, r: rate, ago: window.__L('только что', 'just now') }); lsSave(arr); items = arr; render(); }
     form.reset(); rate = 5;
