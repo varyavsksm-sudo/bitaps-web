@@ -413,6 +413,7 @@
     "Отправляю…": "Sending…", "Обновляю…": "Updating…", "Что-то пошло не так": "Something went wrong",
     "Сеть недоступна, попробуй ещё раз": "Network unavailable, please try again", "Сеть недоступна, попробуй ещё раз.": "Network unavailable, please try again.",
     "Неправильный формат почты": "Invalid email format", "Неправильный формат почты.": "Invalid email format.",
+    "Не удалось открыть оплату.": "Couldn't open payment.", "Выбери тариф подписки": "Choose a subscription plan", "VIP карта доступа bitaps VPN": "bitaps VPN VIP access card", "карта мира": "world map",
     "Напиши, что случилось": "Tell us what happened", "Оставь почту или Telegram/телефон для ответа": "Leave an email or Telegram/phone for a reply",
     "Укажи имя получателя": "Enter the recipient's name",
     "Укажи телефон для связи": "Enter a contact phone", "Укажи адрес: улица, дом, квартира": "Enter address: street, building, apartment",
@@ -542,7 +543,7 @@
     [' устройства', ' devices'], [' устройство', ' device'], [' устройств', ' devices'],
   ];
   function trAttr(l) {
-    ['placeholder', 'title', 'aria-label'].forEach(function (a) {
+    ['placeholder', 'title', 'aria-label', 'alt'].forEach(function (a) {
       document.querySelectorAll('[' + a + ']').forEach(function (e) {
         var st = '__ru_' + a, orig = e[st] != null ? e[st] : e.getAttribute(a);
         if (e[st] == null) e[st] = orig;
