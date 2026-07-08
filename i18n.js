@@ -111,12 +111,12 @@
     "Оплата криптовалютой — пополнение и расчёты в крипте, без привязки к банку.": "Crypto payments — top up and pay in crypto, with no bank attached.",
     "Баланс — в токенах bitaps, внутренней валюте сервиса.": "The balance is in bitaps tokens, the service's internal currency.",
     "Токены капают за приглашённых друзей — чем больше рефералов, тем больше баланс.": "Tokens accrue for invited friends — the more referrals, the bigger the balance.",
-    "Быстрый вывод на карту — реферальные токены переводятся на карту в пару касаний и тратятся.": "Fast payout to the card — referral tokens move to the card in a couple of taps and are ready to spend.",
+    "Быстрый вывод на карту (скоро) — реферальные токены переводятся на карту в пару касаний и тратятся.": "Fast payout to the card (soon) — referral tokens move to the card in a couple of taps and are ready to spend.",
     "Два вида карты": "Two kinds of card",
     "Настоящая металлическая карта bitaps для каждого. Кошелёк на токенах и статусный предмет — без дополнительных бонусов подписки.":
       "A real bitaps metal card for everyone. A token wallet and a status item — without extra subscription bonuses.",
     "Купить может любой — без условий и приглашений.": "Anyone can buy it — no conditions, no invites.",
-    "Оплата криптой, баланс в токенах, вывод реф-токенов на карту.": "Crypto payments, a token balance, and referral-token payouts to the card.",
+    "Оплата криптой, баланс в токенах, вывод реф-токенов на карту (скоро).": "Crypto payments, a token balance, and referral-token payouts to the card (soon).",
     "Работает в России и за рубежом.": "Works in Russia and abroad.",
     "Чёрная металлическая black card с вашим именем. Всё из обычной карты — плюс пожизненные привилегии подписки.":
       "A black metal card with your name on it. Everything from the standard card — plus lifetime subscription privileges.",
@@ -125,7 +125,7 @@
     "100 устройств навсегда — постоянный лимит на всех будущих подписках.": "100 devices forever — a permanent limit across all future subscriptions.",
     "Год подписки в подарок сразу.": "A year of subscription as a gift, right away.",
     "Дальше все продления — по цене тарифа на 10 устройств, лимит всё те же 100.": "After that all renewals are at the 10-device plan price, while the limit stays 100.",
-    "Приоритетные сервера (VLESS + Reality) и ускоренный вывод токенов.": "Priority servers (VLESS + Reality) and faster token payouts.",
+    "Приоритетные сервера (VLESS + Reality) и ускоренный вывод токенов (скоро).": "Priority servers (VLESS + Reality) and faster token payouts (soon).",
     // Mini App формы заказа карты (card-order / vip-card-order) + превью vip-card
     "Заказ карты · bitaps VPN": "Order a card · bitaps VPN",
     "Заказ VIP-карты · bitaps VPN": "Order a VIP card · bitaps VPN",
