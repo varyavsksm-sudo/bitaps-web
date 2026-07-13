@@ -8,6 +8,13 @@
   <url><loc>https://bitapsvpn.com/gift.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bitapsvpn.com/support.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://bitapsvpn.com/game.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/ip/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/password/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/leak/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/down/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/unshorten/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/fingerprint/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bitapsvpn.com/terms.html</loc><priority>0.3</priority></url>
   <url><loc>https://bitapsvpn.com/privacy.html</loc><priority>0.3</priority></url>
 </urlset>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<meta name="description" content="Сайт не открывается — лежит у всех или заблокирован только у вас? Пробуем открыть сайт из зарубежного облака и сравниваем с вашим доступом."><title data-en="Is this site down? — bitaps VPN">Сайт лежит или заблокирован? Проверка доступности — bitaps VPN</title><link rel="canonical" href="https://bitapsvpn.com/tools/down/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.03);--ok:#46d39a;--bad:#ff5a5a;--warn:#ffbb44}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);background:#05080f;position:relative;overflow-x:hidden}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
+  a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:740px;margin:0 auto;padding:42px 22px 40px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
+  .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
+  .form{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+  input[type=text]{flex:1;min-width:220px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:15px;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;outline:none;transition:.2s}
+  input:focus{border-color:var(--acc)}
+  .btn{background:var(--acc);color:#0b0e14;font-weight:800;border:none;padding:15px 26px;border-radius:13px;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(255,122,26,.3);transition:.2s;font-family:inherit}
+  .btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.55;cursor:default;transform:none}
+  .result{margin-top:22px;border-radius:16px;padding:24px;display:none;border:1px solid var(--line);background:var(--card)}
+  .result.show{display:block}
+  .result.up{border-color:rgba(70,211,154,.4);background:rgba(70,211,154,.07)}
+  .result.down{border-color:rgba(255,90,90,.4);background:rgba(255,90,90,.08)}
+  .result.you{border-color:rgba(255,187,68,.4);background:rgba(255,187,68,.08)}
+  .result h2{font-size:22px;margin-bottom:8px}
+  .result.up h2{color:var(--ok)}.result.down h2{color:var(--bad)}.result.you h2{color:var(--warn)}
+  .result p{color:var(--txt);font-size:14.5px;line-height:1.6}
+  .meta{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mut);display:flex;gap:16px;flex-wrap:wrap}
+  .note{margin-top:20px;padding:13px 16px;border:1px solid var(--line);background:var(--card);border-radius:12px;font-size:13px;line-height:1.55;color:var(--mut)}
+  .cta{margin-top:34px;border:1px solid var(--line);border-radius:16px;padding:22px;background:rgba(255,122,26,.05);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .cta p{color:var(--mut);font-size:14px;max-width:440px;line-height:1.55}.cta b{color:var(--txt)}
+  .cta a{flex-shrink:0;background:var(--acc);color:#0b0e14;font-weight:800;padding:12px 22px;border-radius:11px;font-size:14px;box-shadow:0 6px 20px rgba(255,122,26,.35);transition:.2s}.cta a:hover{transform:translateY(-2px);text-decoration:none}
+  .faq{margin-top:40px}.faq h2{font-size:20px;margin-bottom:14px}
+  details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
+  summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
+  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  details[open] summary::before{content:"−"}
+  details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
+  @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}}
+  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
+  html[data-theme="light"] .bg{background:none}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+  @media(prefers-reduced-motion:reduce){*,::before,::after{transition-duration:.001ms!important}}
+</style>
+<meta property="og:type" content="website" /><meta property="og:title" content="Сайт лежит или заблокирован? — bitaps VPN" /><meta property="og:description" content="Сайт не открывается — у всех или только у вас? Пробуем из зарубежного облака и сравниваем." /><meta property="og:image" content="https://bitapsvpn.com/og.png" /><meta name="twitter:card" content="summary_large_image" /><meta property="og:url" content="https://bitapsvpn.com/tools/down/" /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Проверка доступности сайта","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"},"url":"https://bitapsvpn.com/tools/down/"},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Инструменты","item":"https://bitapsvpn.com/tools/"},{"@type":"ListItem","position":2,"name":"Сайт лежит?"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Как вы понимаете, лежит сайт или нет?","acceptedAnswer":{"@type":"Answer","text":"Мы пробуем открыть сайт из зарубежного облака (не с вашего устройства). Если оттуда он открывается, а у вас нет — значит, проблема на вашей стороне: провайдер, блокировка или сеть."}},
+{"@type":"Question","name":"Сайт работает из облака, но не у меня — почему?","acceptedAnswer":{"@type":"Answer","text":"Скорее всего сайт заблокирован вашим провайдером или недоступен из вашей сети. VPN помогает обойти такие блокировки, направляя трафик через сервер, где сайт открывается."}},
+{"@type":"Question","name":"Вы проверяете любой сайт?","acceptedAnswer":{"@type":"Answer","text":"Проверяются публичные сайты по домену или адресу. Внутренние и локальные адреса недоступны из соображений безопасности."}}
+]}
+]}
+</script>
+</head>
+<body>
+  <div class="bg"></div>
+  <!--#include partials/header.html-->
+<!-- общая шапка сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточна: свои стили (префикс bt-), свой биндер темы (#btThemeBtn, гард __btThemeBound),
+     фоновая сетка .bt-bgrid; в Telegram Mini App прячет себя сама. -->
+<style>
+.bt-top{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);--bt-bg:rgba(7,10,16,.72);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 22px;position:sticky;top:0;z-index:40;
+  border-bottom:1px solid var(--bt-line);background:var(--bt-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:'Space Grotesk',system-ui,sans-serif}
+html[data-theme="light"] .bt-top{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);--bt-bg:rgba(255,255,255,.82)}
+.bt-top a{text-decoration:none;color:var(--bt-txt)}
+.bt-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.2px}
+.bt-brand svg{width:28px;height:28px;color:var(--bt-acc);transition:.4s}
+.bt-brand:hover svg{transform:rotate(120deg)}
+.bt-brand i{font-style:normal;color:var(--bt-acc)}
+.bt-nav{display:flex;align-items:center;gap:2px}
+.bt-nav a{color:var(--bt-mut);font-size:13.5px;padding:8px 10px;border-radius:9px;transition:.18s;white-space:nowrap}
+.bt-nav a:hover{color:var(--bt-acc)}
+.bt-theme{width:38px;height:38px;margin-left:6px;border:1px solid var(--bt-line);border-radius:10px;background:transparent;color:var(--bt-txt);font-size:15px;line-height:1;cursor:pointer;transition:.2s;flex-shrink:0}
+.bt-theme:hover{border-color:var(--bt-acc);transform:translateY(-1px)}
+@media(max-width:600px){.bt-hidesm{display:none}}
+.bt-bgrid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%);mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%)}
+html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,48,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.05) 1px,transparent 1px)}
+</style>
+<div class="bt-bgrid" aria-hidden="true"></div>
+<header class="bt-top" id="btTop">
+  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+    <b>bit<i>aps</i></b>
+  </a>
+  <nav class="bt-nav" aria-label="Разделы сайта">
+    <a href="/#pricing" class="bt-hidesm">Цены</a>
+    <a href="/app.html" class="bt-hidesm">Приложение</a>
+    <a href="/account.html">Кабинет</a>
+    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
+  </nav>
+</header>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btTop');if(e)e.style.display='none';}}catch(e){}})();</script>
+<script>(function(){if(window.__btThemeBound)return;window.__btThemeBound=1;
+var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('btThemeBtn'),mq=matchMedia('(prefers-color-scheme: light)');
+function isL(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches}
+function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';btn.title='Тема: '+(l?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title)}}
+if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key,isL()?'dark':'light')}catch(e){}ap()});
+if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')ap()});
+ap();})();</script>
+<!--#endinclude-->
+  <div class="wrap">
+    <nav class="crumbs"><a href="/tools/" data-en="Tools">Инструменты</a> / <span data-en="Is it down?">Сайт лежит?</span></nav>
+    <div class="kick" data-en="// down for everyone or just you">// лежит у всех или у тебя</div>
+    <h1 data-en="Is the site down — or just blocked for you?">Сайт лёг — или заблокирован у вас?</h1>
+    <p class="lead" data-en="Enter an address and we'll try to open it from a foreign cloud. If it works there but not for you — the problem is on your side: provider, block or network.">Введите адрес — мы попробуем открыть его из зарубежного облака. Если оттуда открывается, а у вас нет — проблема на вашей стороне: провайдер, блокировка или сеть.</p>
+
+    <div class="form">
+      <input type="text" id="url" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="например, example.com" data-en-ph="e.g. example.com" aria-label="Адрес сайта" />
+      <button class="btn" id="check" type="button" data-en="Check">Проверить</button>
+    </div>
+
+    <div class="result" id="result" role="status" aria-live="polite"></div>
+
+    <div class="note" data-en="ℹ️ We probe the site from a foreign cloud server — not from your device. A result of «available» means the site works there; if it still won't open for you, the block is likely local.">ℹ️ Мы пробуем сайт с сервера в зарубежном облаке — не с вашего устройства. «Доступен» означает, что там сайт работает; если у вас он всё равно не открывается — блокировка, скорее всего, локальная.</div>
+
+    <div class="cta">
+      <p data-en="Site works from abroad but not for you? <b>bitaps VPN</b> routes you through a server where it opens — the block simply disappears.">Сайт работает из-за рубежа, но не у вас? <b>bitaps VPN</b> проведёт вас через сервер, где он открывается — блокировка просто исчезает.</p>
+      <a href="/#pricing" data-en="Bypass the block →">Обойти блокировку →</a>
+    </div>
+
+    <div class="faq">
+      <h2 data-en="Questions">Вопросы</h2>
+      <details><summary data-en="How do you tell if a site is down?">Как вы понимаете, лежит сайт?</summary><p data-en="We try to open the site from a foreign cloud, not from your device. If it opens there but not for you, the problem is on your side: provider, block or network.">Мы пробуем открыть сайт из зарубежного облака, не с вашего устройства. Если оттуда открывается, а у вас нет — проблема на вашей стороне: провайдер, блокировка или сеть.</p></details>
+      <details><summary data-en="Works from the cloud but not for me — why?">Работает из облака, но не у меня — почему?</summary><p data-en="Most likely the site is blocked by your provider or unreachable from your network. A VPN bypasses such blocks by routing traffic through a server where the site opens.">Скорее всего сайт заблокирован провайдером или недоступен из вашей сети. VPN обходит такие блокировки, направляя трафик через сервер, где сайт открывается.</p></details>
+      <details><summary data-en="Do you check any site?">Вы проверяете любой сайт?</summary><p data-en="Public sites by domain or address. Internal and local addresses are unavailable for security reasons.">Публичные сайты по домену или адресу. Внутренние и локальные адреса недоступны из соображений безопасности.</p></details>
+    </div>
+  </div>
+  <!--#include partials/footer.html-->
+<!-- общий футер сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточный: свои стили (префикс btf-); в Telegram Mini App прячет себя сам. -->
+<style>
+.bt-foot{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);
+  margin-top:64px;border-top:1px solid var(--bt-line);background:rgba(0,0,0,.28);padding:48px 22px 26px;
+  font-family:'Space Grotesk',system-ui,sans-serif;color:var(--bt-txt)}
+html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);background:rgba(16,26,48,.035)}
+.btf-in{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.2fr 2fr;gap:34px}
+@media(max-width:860px){.btf-in{grid-template-columns:1fr}}
+.bt-foot a{text-decoration:none;color:var(--bt-mut);transition:.2s}
+.bt-foot a:hover{color:var(--bt-acc)}
+.btf-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;color:var(--bt-txt)}
+.btf-brand svg{width:28px;height:28px;color:var(--bt-acc)}
+.btf-brand i{font-style:normal;color:var(--bt-acc)}
+.btf-tag{color:var(--bt-mut);font-size:14px;margin-top:12px;max-width:260px;line-height:1.5}
+.btf-links{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:560px){.btf-links{grid-template-columns:1fr 1fr}}
+.btf-links h3{font-size:13.5px;margin:0 0 12px;font-weight:700;color:var(--bt-txt)}
+.btf-links a{display:block;font-size:13.5px;padding:4px 0}
+.btf-bottom{max-width:1080px;margin:26px auto 0;border-top:1px solid var(--bt-line);padding-top:20px;color:var(--bt-mut);font-size:12.5px}
+</style>
+<footer class="bt-foot" id="btFoot">
+  <div class="btf-in">
+    <div>
+      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+        <b>bit<i>aps</i></b>
+      </a>
+      <p class="btf-tag">Приватность — это не паранойя. Это гигиена.</p>
+    </div>
+    <nav class="btf-links" aria-label="Карта сайта">
+      <div>
+        <h3>Продукт</h3>
+        <a href="/">Главная</a>
+        <a href="/#pricing">Цены</a>
+        <a href="/app.html">Приложение</a>
+        <a href="/box.html">B-box</a>
+      </div>
+      <div>
+        <h3>Аккаунт</h3>
+        <a href="/account.html">Личный кабинет</a>
+        <a href="/pay.html">Оплатить подписку</a>
+        <a href="/gift.html">Подарить VPN</a>
+        <a href="/game.html">Игра «Ловля карпов»</a>
+      </div>
+      <div>
+        <h3>Помощь</h3>
+        <a href="/support.html">Поддержка</a>
+        <a href="/terms.html">Оферта</a>
+        <a href="/privacy.html">Политика</a>
+      </div>
+    </nav>
+  </div>
+  <div class="btf-bottom">© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</div>
+</footer>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btFoot');if(e)e.style.display='none';}}catch(e){}})();</script>
+<!--#endinclude-->
+<script>
+(function(){
+  var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/site-check';
+  var KEY='sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
+  function isEn(){try{return localStorage.getItem('bitaps-lang')==='en';}catch(e){return false;}}
+  function T(ru,en){return isEn()?en:ru;}
+  var inp=document.getElementById('url'),btn=document.getElementById('check'),res=document.getElementById('result');
+  function esc(s){return String(s).replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});}
+  async function run(){
+    var val=inp.value.trim();
+    if(!val){return;}
+    if(!/^https?:\/\//i.test(val))val='https://'+val;
+    btn.disabled=true;var old=btn.textContent;btn.textContent=T('Проверяю…','Checking…');
+    res.className='result show';res.innerHTML='<p>'+T('Пробуем открыть из зарубежного облака…','Trying from a foreign cloud…')+'</p>';
+    try{
+      var r=await fetch(API,{method:'POST',headers:{'apikey':KEY,'content-type':'application/json'},body:JSON.stringify({url:val})});
+      var d=await r.json();
+      if(d.error){
+        res.className='result show down';
+        var why=d.reason==='dns fail'?T('домен не находится (DNS не отвечает)','domain not found (DNS failed)'):esc(d.reason||T('адрес недоступен','address unreachable'));
+        res.innerHTML='<h2>'+T('Не удалось проверить','Could not check')+'</h2><p>'+T('Причина: ','Reason: ')+why+'. '+T('Проверьте, правильно ли введён адрес.','Check that the address is correct.')+'</p>';
+      }else if(d.up){
+        res.className='result show up';
+        res.innerHTML='<h2>'+T('✓ Сайт доступен','✓ Site is up')+'</h2><p>'+
+          T('<b>'+esc(d.host)+'</b> открывается из зарубежного облака. Если у вас он не грузится — проблема, скорее всего, локальная: провайдер, блокировка или ваша сеть.',
+            '<b>'+esc(d.host)+'</b> opens from a foreign cloud. If it won\'t load for you, the issue is likely local: provider, block or your network.')+'</p>'+
+          '<div class="meta"><span>HTTP '+esc(d.status)+'</span><span>'+esc(d.latency_ms)+' ms</span>'+(d.redirected_to?'<span>→ '+esc(d.redirected_to)+'</span>':'')+'</div>';
+      }else{
+        res.className='result show down';
+        res.innerHTML='<h2>'+T('✗ Сайт не отвечает','✗ Site is down')+'</h2><p>'+
+          T('<b>'+esc(d.host)+'</b> не открывается даже из зарубежного облака (HTTP '+esc(d.status)+'). Похоже, проблема на стороне самого сайта — он лежит у всех.',
+            '<b>'+esc(d.host)+'</b> doesn\'t open even from a foreign cloud (HTTP '+esc(d.status)+'). Looks like the site itself is down — for everyone.')+'</p>';
+      }
+    }catch(e){
+      res.className='result show down';
+      res.innerHTML='<h2>'+T('Ошибка','Error')+'</h2><p>'+T('Не удалось выполнить проверку. Попробуйте ещё раз.','Could not run the check. Try again.')+'</p>';
+    }finally{btn.disabled=false;btn.textContent=old;}
+  }
+  btn.addEventListener('click',run);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+})();
+</script>
+<script>(function(){var KEY='bitaps-lang',html=document.documentElement;function detect(){try{var s=localStorage.getItem(KEY);if(s==='en'||s==='ru')return s;}catch(e){}return 'ru';}var cur=detect();var base="cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);";function ph(l){document.querySelectorAll('[data-en-ph]').forEach(function(e){if(e.__ruph==null)e.__ruph=e.getAttribute('placeholder')||'';e.setAttribute('placeholder',(l==='en')?e.getAttribute('data-en-ph'):e.__ruph);});}function apply(l){document.querySelectorAll('[data-en]').forEach(function(e){if(e.__ru==null)e.__ru=e.innerHTML;var v=(l==='en')?e.getAttribute('data-en'):e.__ru;if(e.innerHTML!==v)e.innerHTML=v;});ph(l);html.lang=l;var b=document.getElementById('langToggle');if(b)b.textContent=l==='en'?'RU':'EN';try{localStorage.setItem(KEY,l);}catch(e){}window.dispatchEvent(new Event('storage'));}function setLang(l){cur=l;apply(l);}function init(){if(!document.getElementById('langToggle')){var b=document.createElement('button');b.id='langToggle';b.type='button';b.textContent=cur==='en'?'RU':'EN';b.setAttribute('aria-label','Сменить язык / Switch language');b.style.cssText=base;b.addEventListener('click',function(){setLang(cur==='en'?'ru':'en');});var theme=document.getElementById('btThemeBtn');if(theme&&theme.parentNode)theme.parentNode.insertBefore(b,theme);else document.body.appendChild(b);}apply(cur);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
+</body>
+</html>

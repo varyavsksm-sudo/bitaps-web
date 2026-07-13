@@ -10,7 +10,9 @@ TOK="$(cat ~/.local/gh-token)"
 #    Идемпотентно (повторный прогон = тот же результат); если partial не найден —
 #    старое содержимое остаётся, деплой не ломается (только предупреждение).
 if [ -d partials ]; then
-  for f in *.html; do
+  # обходим и корень, и подпапки (например /tools/*.html). Пути в
+  # <!--#include partials/...--> резолвятся от корня репо (cwd), не от файла.
+  while IFS= read -r f; do
     grep -q '<!--#include ' "$f" || continue
     perl -0777 -i -pe '
       s{(<!--#include[ ]([^\s>]+)-->)(.*?)(<!--#endinclude-->)}{
@@ -20,7 +22,7 @@ if [ -d partials ]; then
         else { warn "partial $p не найден — оставляю старое содержимое\n"; }
         "$m$c$e"
       }gse' "$f"
-  done
+  done < <(find . -name '*.html' -not -path './.git/*' -not -path './partials/*')
 fi
 
 git add -A

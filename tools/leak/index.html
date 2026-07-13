@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<meta name="description" content="Тест на утечку WebRTC: не выдаёт ли ваш браузер настоящий IP в обход VPN. Проверка в браузере — сверяем IP из WebRTC с вашим публичным адресом."><title data-en="WebRTC leak test — bitaps VPN">Тест на утечку WebRTC — выдаёт ли браузер ваш IP — bitaps VPN</title><link rel="canonical" href="https://bitapsvpn.com/tools/leak/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.03);--ok:#46d39a;--bad:#ff5a5a;--warn:#ffbb44}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);background:#05080f;position:relative;overflow-x:hidden}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
+  a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:760px;margin:0 auto;padding:42px 22px 40px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
+  .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
+  .verdict{margin-top:26px;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:24px}
+  .verdict h2{font-size:22px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  .verdict.ok{border-color:rgba(70,211,154,.4);background:rgba(70,211,154,.07)}.verdict.ok h2{color:var(--ok)}
+  .verdict.leak{border-color:rgba(255,90,90,.4);background:rgba(255,90,90,.08)}.verdict.leak h2{color:var(--bad)}
+  .verdict.warn{border-color:rgba(255,187,68,.4);background:rgba(255,187,68,.08)}.verdict.warn h2{color:var(--warn)}
+  .verdict p{color:var(--txt);font-size:14.5px;line-height:1.6}
+  .rows{margin-top:20px;display:grid;gap:1px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--line)}
+  .row{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;background:#080c14;align-items:center}
+  html[data-theme="light"] .row{background:#fff}
+  .row .k{color:var(--mut);font-size:14px}.row .k small{display:block;font-size:11.5px;opacity:.7;margin-top:2px}
+  .row .v{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:14px;text-align:right;word-break:break-all;max-width:60%}
+  .row .v.pending{color:var(--mut)}
+  .redo{margin-top:16px;border:1px solid var(--line);background:transparent;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:13px;padding:11px 18px;border-radius:11px;cursor:pointer;transition:.2s}
+  .redo:hover{border-color:var(--acc);color:var(--acc)}
+  .cta{margin-top:34px;border:1px solid var(--line);border-radius:16px;padding:22px;background:rgba(255,122,26,.05);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .cta p{color:var(--mut);font-size:14px;max-width:440px;line-height:1.55}.cta b{color:var(--txt)}
+  .cta a{flex-shrink:0;background:var(--acc);color:#0b0e14;font-weight:800;padding:12px 22px;border-radius:11px;font-size:14px;box-shadow:0 6px 20px rgba(255,122,26,.35);transition:.2s}.cta a:hover{transform:translateY(-2px);text-decoration:none}
+  .faq{margin-top:40px}.faq h2{font-size:20px;margin-bottom:14px}
+  details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
+  summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
+  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  details[open] summary::before{content:"−"}
+  details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
+  @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}.row .v{max-width:52%}}
+  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
+  html[data-theme="light"] .bg{background:none}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+  @media(prefers-reduced-motion:reduce){*,::before,::after{transition-duration:.001ms!important}}
+</style>
+<meta property="og:type" content="website" /><meta property="og:title" content="Тест на утечку WebRTC — bitaps VPN" /><meta property="og:description" content="Не выдаёт ли браузер ваш настоящий IP в обход VPN. Проверка в браузере." /><meta property="og:image" content="https://bitapsvpn.com/og.png" /><meta name="twitter:card" content="summary_large_image" /><meta property="og:url" content="https://bitapsvpn.com/tools/leak/" /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Тест на утечку WebRTC/DNS","applicationCategory":"SecurityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"},"url":"https://bitapsvpn.com/tools/leak/"},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Инструменты","item":"https://bitapsvpn.com/tools/"},{"@type":"ListItem","position":2,"name":"Утечка WebRTC/DNS"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Что такое утечка WebRTC?","acceptedAnswer":{"@type":"Answer","text":"WebRTC — технология для звонков и видеосвязи прямо в браузере. Чтобы соединять собеседников напрямую, она может раскрывать ваш реальный IP-адрес даже при включённом VPN. Это и называют утечкой WebRTC."}},
+{"@type":"Question","name":"Как проходит проверка?","acceptedAnswer":{"@type":"Answer","text":"Тест запускает WebRTC прямо в вашем браузере, собирает IP-адреса, которые тот раскрывает, и сравнивает их с вашим публичным IP. Если WebRTC показывает адрес, отличный от адреса VPN, — это утечка."}},
+{"@type":"Question","name":"Как защититься от утечки WebRTC?","acceptedAnswer":{"@type":"Answer","text":"Использовать VPN на уровне системы (а не только расширение в браузере), либо отключить WebRTC в настройках браузера. bitaps VPN направляет весь трафик устройства через туннель."}}
+]}
+]}
+</script>
+</head>
+<body>
+  <div class="bg"></div>
+  <!--#include partials/header.html-->
+<!-- общая шапка сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточна: свои стили (префикс bt-), свой биндер темы (#btThemeBtn, гард __btThemeBound),
+     фоновая сетка .bt-bgrid; в Telegram Mini App прячет себя сама. -->
+<style>
+.bt-top{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);--bt-bg:rgba(7,10,16,.72);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 22px;position:sticky;top:0;z-index:40;
+  border-bottom:1px solid var(--bt-line);background:var(--bt-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:'Space Grotesk',system-ui,sans-serif}
+html[data-theme="light"] .bt-top{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);--bt-bg:rgba(255,255,255,.82)}
+.bt-top a{text-decoration:none;color:var(--bt-txt)}
+.bt-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.2px}
+.bt-brand svg{width:28px;height:28px;color:var(--bt-acc);transition:.4s}
+.bt-brand:hover svg{transform:rotate(120deg)}
+.bt-brand i{font-style:normal;color:var(--bt-acc)}
+.bt-nav{display:flex;align-items:center;gap:2px}
+.bt-nav a{color:var(--bt-mut);font-size:13.5px;padding:8px 10px;border-radius:9px;transition:.18s;white-space:nowrap}
+.bt-nav a:hover{color:var(--bt-acc)}
+.bt-theme{width:38px;height:38px;margin-left:6px;border:1px solid var(--bt-line);border-radius:10px;background:transparent;color:var(--bt-txt);font-size:15px;line-height:1;cursor:pointer;transition:.2s;flex-shrink:0}
+.bt-theme:hover{border-color:var(--bt-acc);transform:translateY(-1px)}
+@media(max-width:600px){.bt-hidesm{display:none}}
+.bt-bgrid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%);mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%)}
+html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,48,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.05) 1px,transparent 1px)}
+</style>
+<div class="bt-bgrid" aria-hidden="true"></div>
+<header class="bt-top" id="btTop">
+  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+    <b>bit<i>aps</i></b>
+  </a>
+  <nav class="bt-nav" aria-label="Разделы сайта">
+    <a href="/#pricing" class="bt-hidesm">Цены</a>
+    <a href="/app.html" class="bt-hidesm">Приложение</a>
+    <a href="/account.html">Кабинет</a>
+    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
+  </nav>
+</header>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btTop');if(e)e.style.display='none';}}catch(e){}})();</script>
+<script>(function(){if(window.__btThemeBound)return;window.__btThemeBound=1;
+var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('btThemeBtn'),mq=matchMedia('(prefers-color-scheme: light)');
+function isL(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches}
+function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';btn.title='Тема: '+(l?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title)}}
+if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key,isL()?'dark':'light')}catch(e){}ap()});
+if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')ap()});
+ap();})();</script>
+<!--#endinclude-->
+  <div class="wrap">
+    <nav class="crumbs"><a href="/tools/" data-en="Tools">Инструменты</a> / <span data-en="WebRTC leak">Утечка WebRTC</span></nav>
+    <div class="kick" data-en="// webrtc & dns leak">// утечка webrtc и dns</div>
+    <h1 data-en="Is your browser leaking your IP?">Браузер выдаёт ваш IP?</h1>
+    <p class="lead" data-en="Even with a VPN on, WebRTC can quietly reveal your real IP address to any site. This test runs in your browser and compares what WebRTC exposes with your public IP.">Даже с включённым VPN технология WebRTC может втихую раскрыть ваш реальный IP любому сайту. Тест идёт в браузере и сравнивает, что показывает WebRTC, с вашим публичным адресом.</p>
+
+    <div class="verdict" id="verdict">
+      <h2 id="vh"><span data-en="Running the test…">Идёт проверка…</span></h2>
+      <p id="vp" data-en="Gathering WebRTC candidates and your public IP.">Собираем WebRTC-кандидаты и ваш публичный IP.</p>
+    </div>
+
+    <div class="rows">
+      <div class="row"><span class="k"><span data-en="Public IP (as sites see it)">Публичный IP (как видят сайты)</span></span><span class="v pending" id="pubip">…</span></div>
+      <div class="row"><span class="k"><span data-en="IP exposed by WebRTC">IP, раскрытый через WebRTC</span></span><span class="v pending" id="rtcip">…</span></div>
+      <div class="row"><span class="k"><span data-en="Local network IPs">Локальные IP сети</span><small data-en="mDNS masking hides these">маскировка mDNS их скрывает</small></span><span class="v pending" id="localip">…</span></div>
+    </div>
+    <button class="redo" id="redo" type="button" data-en="↻ Run again">↻ Проверить снова</button>
+
+    <div class="cta">
+      <p data-en="A WebRTC leak defeats the whole point of a VPN. <b>bitaps VPN</b> routes your entire device through the tunnel, not just one browser tab.">Утечка WebRTC сводит на нет весь смысл VPN. <b>bitaps VPN</b> заворачивает в туннель всё устройство, а не одну вкладку браузера.</p>
+      <a href="/#pricing" data-en="Close the leak →">Закрыть утечку →</a>
+    </div>
+
+    <div class="faq">
+      <h2 data-en="Questions">Вопросы</h2>
+      <details><summary data-en="What is a WebRTC leak?">Что такое утечка WebRTC?</summary><p data-en="WebRTC is the tech behind in-browser calls and video. To connect peers directly it can expose your real IP even with a VPN on — that's a WebRTC leak.">WebRTC — технология звонков и видеосвязи в браузере. Чтобы соединять собеседников напрямую, она может раскрыть ваш реальный IP даже с включённым VPN — это и есть утечка WebRTC.</p></details>
+      <details><summary data-en="How does the test work?">Как проходит проверка?</summary><p data-en="It starts WebRTC in your browser, collects the IPs it exposes, and compares them to your public IP. If WebRTC shows an address different from the VPN's — that's a leak.">Тест запускает WebRTC в вашем браузере, собирает раскрытые IP и сравнивает их с вашим публичным IP. Если WebRTC показывает адрес, отличный от VPN, — это утечка.</p></details>
+      <details><summary data-en="How do I stop a WebRTC leak?">Как защититься от утечки?</summary><p data-en="Use a system-level VPN (not just a browser extension), or disable WebRTC in your browser settings. bitaps VPN sends the whole device's traffic through the tunnel.">Использовать VPN на уровне системы (а не только расширение), либо отключить WebRTC в настройках браузера. bitaps VPN направляет весь трафик устройства через туннель.</p></details>
+    </div>
+  </div>
+  <!--#include partials/footer.html-->
+<!-- общий футер сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточный: свои стили (префикс btf-); в Telegram Mini App прячет себя сам. -->
+<style>
+.bt-foot{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);
+  margin-top:64px;border-top:1px solid var(--bt-line);background:rgba(0,0,0,.28);padding:48px 22px 26px;
+  font-family:'Space Grotesk',system-ui,sans-serif;color:var(--bt-txt)}
+html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);background:rgba(16,26,48,.035)}
+.btf-in{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.2fr 2fr;gap:34px}
+@media(max-width:860px){.btf-in{grid-template-columns:1fr}}
+.bt-foot a{text-decoration:none;color:var(--bt-mut);transition:.2s}
+.bt-foot a:hover{color:var(--bt-acc)}
+.btf-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;color:var(--bt-txt)}
+.btf-brand svg{width:28px;height:28px;color:var(--bt-acc)}
+.btf-brand i{font-style:normal;color:var(--bt-acc)}
+.btf-tag{color:var(--bt-mut);font-size:14px;margin-top:12px;max-width:260px;line-height:1.5}
+.btf-links{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:560px){.btf-links{grid-template-columns:1fr 1fr}}
+.btf-links h3{font-size:13.5px;margin:0 0 12px;font-weight:700;color:var(--bt-txt)}
+.btf-links a{display:block;font-size:13.5px;padding:4px 0}
+.btf-bottom{max-width:1080px;margin:26px auto 0;border-top:1px solid var(--bt-line);padding-top:20px;color:var(--bt-mut);font-size:12.5px}
+</style>
+<footer class="bt-foot" id="btFoot">
+  <div class="btf-in">
+    <div>
+      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+        <b>bit<i>aps</i></b>
+      </a>
+      <p class="btf-tag">Приватность — это не паранойя. Это гигиена.</p>
+    </div>
+    <nav class="btf-links" aria-label="Карта сайта">
+      <div>
+        <h3>Продукт</h3>
+        <a href="/">Главная</a>
+        <a href="/#pricing">Цены</a>
+        <a href="/app.html">Приложение</a>
+        <a href="/box.html">B-box</a>
+      </div>
+      <div>
+        <h3>Аккаунт</h3>
+        <a href="/account.html">Личный кабинет</a>
+        <a href="/pay.html">Оплатить подписку</a>
+        <a href="/gift.html">Подарить VPN</a>
+        <a href="/game.html">Игра «Ловля карпов»</a>
+      </div>
+      <div>
+        <h3>Помощь</h3>
+        <a href="/support.html">Поддержка</a>
+        <a href="/terms.html">Оферта</a>
+        <a href="/privacy.html">Политика</a>
+      </div>
+    </nav>
+  </div>
+  <div class="btf-bottom">© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</div>
+</footer>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btFoot');if(e)e.style.display='none';}}catch(e){}})();</script>
+<!--#endinclude-->
+<script>
+(function(){
+  var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/whoami';
+  var KEY='sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
+  function isEn(){try{return localStorage.getItem('bitaps-lang')==='en';}catch(e){return false;}}
+  function T(ru,en){return isEn()?en:ru;}
+  var pubEl=document.getElementById('pubip'),rtcEl=document.getElementById('rtcip'),localEl=document.getElementById('localip');
+  var verdict=document.getElementById('verdict'),vh=document.getElementById('vh'),vp=document.getElementById('vp');
+  var IPRE=/((?:\d{1,3}\.){3}\d{1,3})|([a-f0-9]{1,4}:(?:[a-f0-9]{0,4}:){2,6}[a-f0-9]{1,4})/gi;
+  function isPrivate(ip){return /^(10\.|127\.|0\.|169\.254\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(ip)||/^(f[cd]|fe80)/i.test(ip);}
+  function setV(cls,head,body){verdict.className='verdict '+cls;vh.innerHTML='<span>'+head+'</span>';vp.textContent=body;}
+  function run(){
+    pubEl.textContent='…';pubEl.className='v pending';
+    rtcEl.textContent='…';rtcEl.className='v pending';
+    localEl.textContent='…';localEl.className='v pending';
+    verdict.className='verdict';vh.innerHTML='<span>'+T('Идёт проверка…','Running the test…')+'</span>';vp.textContent=T('Собираем WebRTC-кандидаты и ваш публичный IP.','Gathering WebRTC candidates and your public IP.');
+    var pubIP=null,rtcPublic=[],locals=[],mdns=false;
+    var pubDone=false,rtcDone=false;
+    // public IP via edge
+    fetch(API,{headers:{'apikey':KEY}}).then(function(r){return r.json();}).then(function(d){
+      pubIP=d.ip||null;pubEl.textContent=pubIP||T('не определён','unknown');pubEl.className='v';pubDone=true;maybeFinish();
+    }).catch(function(){pubEl.textContent=T('ошибка','error');pubEl.className='v';pubDone=true;maybeFinish();});
+    // WebRTC
+    var RTC=window.RTCPeerConnection||window.webkitRTCPeerConnection||window.mozRTCPeerConnection;
+    if(!RTC){rtcEl.textContent=T('WebRTC недоступен','WebRTC unavailable');rtcEl.className='v';localEl.textContent='—';localEl.className='v';rtcDone=true;maybeFinish();return;}
+    var pc;
+    try{pc=new RTC({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});}catch(e){
+      rtcEl.textContent=T('WebRTC заблокирован','WebRTC blocked');rtcEl.className='v';localEl.textContent='—';localEl.className='v';rtcDone=true;maybeFinish();return;
+    }
+    pc.createDataChannel('x');
+    pc.onicecandidate=function(e){
+      if(!e.candidate){finishRtc();return;}
+      var c=e.candidate.candidate||'';
+      if(/\.local/i.test(c))mdns=true;
+      var m=c.match(IPRE);
+      if(m)m.forEach(function(ip){
+        if(isPrivate(ip)){if(locals.indexOf(ip)<0)locals.push(ip);}
+        else{if(rtcPublic.indexOf(ip)<0)rtcPublic.push(ip);}
+      });
+    };
+    var to=setTimeout(finishRtc,4000);
+    pc.createOffer().then(function(o){return pc.setLocalDescription(o);}).catch(function(){finishRtc();});
+    function finishRtc(){
+      if(rtcDone)return;rtcDone=true;clearTimeout(to);
+      try{pc.close();}catch(e){}
+      rtcEl.className='v';localEl.className='v';
+      rtcEl.textContent=rtcPublic.length?rtcPublic.join(', '):T('не раскрыт ✓','none exposed ✓');
+      if(locals.length)localEl.textContent=locals.join(', ');
+      else localEl.textContent=mdns?T('скрыты (mDNS) ✓','hidden (mDNS) ✓'):T('не раскрыты ✓','none exposed ✓');
+      maybeFinish();
+    }
+    function maybeFinish(){
+      if(!pubDone||!rtcDone)return;
+      if(rtcPublic.length===0){
+        setV('ok',T('✓ Утечки WebRTC нет','✓ No WebRTC leak'),T('Ваш браузер не раскрывает публичный IP через WebRTC. Это хорошо.','Your browser does not expose a public IP via WebRTC. Good.'));
+      }else if(!pubIP){
+        setV('warn',T('⚠ WebRTC раскрывает IP','⚠ WebRTC exposes an IP'),T('WebRTC раскрывает публичный IP ('+rtcPublic.join(', ')+'). Ваш публичный адрес определить не удалось, поэтому сравнить не с чем. Если вы под VPN — убедитесь, что показанный адрес принадлежит VPN, а не вашему провайдеру.','WebRTC exposes a public IP ('+rtcPublic.join(', ')+'). We couldn\'t determine your public address, so there\'s nothing to compare against. On a VPN, make sure the shown address belongs to the VPN and not your provider.'));
+      }else if(pubIP&&rtcPublic.indexOf(pubIP)>=0&&rtcPublic.length===1){
+        setV('warn',T('⚠ WebRTC виден, но совпадает','⚠ WebRTC visible, but matches'),T('WebRTC раскрывает IP, но он совпадает с вашим публичным адресом. Если сейчас включён VPN — вкладка выдаёт именно адрес VPN, отдельной утечки реального IP нет. Без VPN это просто ваш адрес.','WebRTC exposes an IP, but it matches your public address. With a VPN on, this is the VPN\'s address — no separate real-IP leak. Without a VPN it\'s just your address.'));
+      }else{
+        setV('leak',T('⚠ Обнаружена утечка WebRTC','⚠ WebRTC leak detected'),T('WebRTC раскрывает IP-адрес, отличный от вашего публичного. Если вы под VPN — это ваш реальный адрес, утёкший в обход туннеля.','WebRTC exposes an IP different from your public address. If you\'re on a VPN, this is your real address leaking past the tunnel.'));
+      }
+    }
+  }
+  document.getElementById('redo').addEventListener('click',run);
+  run();
+})();
+</script>
+<script>(function(){var KEY='bitaps-lang',html=document.documentElement;function detect(){try{var s=localStorage.getItem(KEY);if(s==='en'||s==='ru')return s;}catch(e){}return 'ru';}var cur=detect();var base="cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);";function apply(l){document.querySelectorAll('[data-en]').forEach(function(e){if(e.__ru==null)e.__ru=e.innerHTML;var v=(l==='en')?e.getAttribute('data-en'):e.__ru;if(e.innerHTML!==v)e.innerHTML=v;});html.lang=l;var b=document.getElementById('langToggle');if(b)b.textContent=l==='en'?'RU':'EN';try{localStorage.setItem(KEY,l);}catch(e){}window.dispatchEvent(new Event('storage'));}function setLang(l){cur=l;apply(l);}function init(){if(!document.getElementById('langToggle')){var b=document.createElement('button');b.id='langToggle';b.type='button';b.textContent=cur==='en'?'RU':'EN';b.setAttribute('aria-label','Сменить язык / Switch language');b.style.cssText=base;b.addEventListener('click',function(){setLang(cur==='en'?'ru':'en');});var theme=document.getElementById('btThemeBtn');if(theme&&theme.parentNode)theme.parentNode.insertBefore(b,theme);else document.body.appendChild(b);}apply(cur);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
+</body>
+</html>

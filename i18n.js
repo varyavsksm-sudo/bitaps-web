@@ -324,6 +324,8 @@
     // footer
     "Приватность — это не паранойя. Это гигиена.": "Privacy isn't paranoia. It's hygiene.",
     "Продукт": "Product", "Серверы": "Servers", "Платформы": "Platforms", "Компания": "Company",
+    "Бесплатные инструменты": "Free tools", "Все инструменты": "All tools", "Мой IP": "My IP",
+    "Пароль в утечке?": "Password leaked?", "Утечка WebRTC": "WebRTC leak", "Сайт лежит?": "Is it down?",
     "Оферта": "Terms", "Политика": "Privacy", "Помощь и FAQ": "Help & FAQ",
     "© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.":
       "© 2026 bitaps VPN. Made for those with something to hide — that is, everyone.",
