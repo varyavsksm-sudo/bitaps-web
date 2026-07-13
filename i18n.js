@@ -648,7 +648,7 @@
     // ЕДИНЫЙ бренд-оранжевый тумблер-пилюля — идентичный на всех страницах (цвет захардкожен,
     // чтобы не зависеть от акцента страницы: напр. на золотой vip-card кнопка всё равно оранжевая)
     var base = 'cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:\'JetBrains Mono\',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);';
-    var theme = document.getElementById('themeToggle');
+    var theme = document.getElementById('themeToggle') || document.getElementById('btThemeBtn'); // btThemeBtn — тумблер общей шапки сабстраниц (partials/header.html)
     if (theme) {
       var tcs = getComputedStyle(theme);
       if (tcs.position === 'fixed') {
