@@ -17,4 +17,47 @@
   <url><loc>https://bitapsvpn.com/tools/fingerprint/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bitapsvpn.com/terms.html</loc><priority>0.3</priority></url>
   <url><loc>https://bitapsvpn.com/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://bitapsvpn.com/tools/blocked/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bitapsvpn.com/status.html</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/instagram.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/facebook.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/twitter.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/x.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/linkedin.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/tiktok.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/discord.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/telegram.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/signal.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/whatsapp.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/rutracker.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/thepiratebay.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/nnmclub.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/notion.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/medium.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/patreon.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/soundcloud.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/spotify.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/youtube.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/twitch.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/pornhub.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/coinbase.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/binance.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/bybit.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/chatgpt.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/openai.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/claude.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/github.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/proton.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/protonmail.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/tutanota.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/reddit.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/pinterest.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/tumblr.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/bbc.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/dw.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/currenttime.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/meduza.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/torproject.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/blocked/grindr.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
 </urlset>
