@@ -98,6 +98,26 @@
   .faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";color:var(--acc);font-weight:700}.faq details[open] summary::after{content:"−"}
   .faq p{padding:0 14px 13px;color:var(--mut);font-size:13px;line-height:1.5}
   .center{text-align:center;padding:70px 20px}.center p{color:var(--mut);margin:14px 0 22px}
+  /* ░░ гостевой экран: полноэкранный центрированный вход ░░ */
+  body.guest .ph{display:none}
+  .glogin{min-height:calc(100vh - 210px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 0 40px;animation:rise .5s ease both}
+  .glogin .glogo{width:76px;height:76px;color:var(--acc);margin-bottom:16px;filter:drop-shadow(0 0 22px rgba(255,122,26,.45));animation:float 3.4s ease-in-out infinite}
+  .glogin h2{font-size:clamp(26px,4.5vw,34px);letter-spacing:-.5px}
+  .glogin h2 .gname{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .glogin .gsub{color:var(--mut);font-size:14.5px;margin:8px 0 24px;max-width:420px;line-height:1.55}
+  .gbtns{display:flex;flex-direction:column;gap:11px;width:100%;max-width:360px}
+  .gbtns .btn{padding:15px;font-size:15px}
+  .gtg{display:flex;justify-content:center;min-height:44px}
+  .gform{width:100%;max-width:360px;margin-top:12px;display:flex;flex-direction:column;gap:9px;animation:fadeUp .3s ease}
+  .gform input{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--txt);font:inherit;font-size:14px}
+  .gform input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.12)}
+  html[data-theme="light"] .gform input{background:#f4f6fb}
+  .gerr{color:#ff6b6b;font-size:13px;min-height:1em}
+  .gfeat{list-style:none;display:flex;flex-direction:column;gap:9px;margin:28px 0 0;text-align:left}
+  .gfeat li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mut)}
+  .gfeat li .fi{width:30px;height:30px;border-radius:9px;flex-shrink:0;display:grid;place-items:center;font-size:15px;background:rgba(255,122,26,.13)}
+  .gtrial{display:inline-block;margin-top:26px;color:var(--acc);font-size:14px;font-weight:600;border-bottom:1px dashed rgba(255,122,26,.5);padding-bottom:2px;transition:.2s}
+  .gtrial:hover{filter:brightness(1.2)}
   [hidden]{display:none!important}
   /* модалка box */
   .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
@@ -248,7 +268,7 @@
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="/i18n.js?v=26" defer></script><meta property="og:type" content="website" />
+<script src="/i18n.js?v=27" defer></script><meta property="og:type" content="website" />
 <meta property="og:title" content="Личный кабинет — bitaps VPN" />
 <meta property="og:description" content="Личный кабинет bitaps VPN: ключ подключения, статус подписки, продление тарифа и настройка устройств." />
 <meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
@@ -271,9 +291,30 @@
   <div class="wrap">
     <div class="ph"><h1 id="phTitle">Личный кабинет</h1><p id="phSub">Управление подпиской, ключом и аккаунтом</p></div>
 
-    <div id="guest" class="card center" hidden>
-      <p>Вы не вошли в аккаунт.</p>
-      <a class="btn btn-solid" href="/?login=1" style="max-width:240px;margin:0 auto">Войти</a>
+    <div id="guest" hidden>
+      <div class="glogin">
+        <span class="glogo"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><use href="#blogo"/></svg></span>
+        <h2>Кабинет <span class="gname">bitaps</span></h2>
+        <p class="gsub">Подписка, VPN-ключ и устройства — в одном месте. Войди удобным способом:</p>
+        <div class="gbtns">
+          <div class="gtg" id="gTg">
+            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="bitaps_vpn_auth_bot" data-size="large" data-radius="12" data-auth-url="https://bitapsvpn.com/" data-request-access="write"></script>
+          </div>
+          <button type="button" class="btn btn-line" id="gKeyBtn">🔑 Вставить VPN-ключ</button>
+          <button type="button" class="btn btn-line" id="gCodeBtn">🔐 Войти по коду входа</button>
+        </div>
+        <form class="gform" id="gForm" hidden>
+          <input id="gVal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="vless://…" aria-label="Ключ или код входа" />
+          <button type="submit" class="btn btn-solid" id="gGo">Войти</button>
+          <div class="gerr" id="gErr"></div>
+        </form>
+        <ul class="gfeat">
+          <li><span class="fi">💎</span> <span>Статус подписки и продление</span></li>
+          <li><span class="fi">🔑</span> <span>VPN-ключ с QR для приложений</span></li>
+          <li><span class="fi">📱</span> <span>Управление устройствами</span></li>
+        </ul>
+        <a class="gtrial" href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener">Нет аккаунта? Забери 3 дня бесплатно в боте →</a>
+      </div>
     </div>
 
     <div id="cab" hidden>
@@ -645,6 +686,37 @@
   bindModal('boxBtn', 'boxModal');
   bindModal('supBtn', 'supModal');
   bindModal('refBtn', 'refModal');
+
+  // ── гостевой экран: полноэкранный вход (переиспользует флоу auth-модалки главной:
+  //    Telegram-виджет → redirect на / (обработчик index) → account.html;
+  //    ключ/код → web-keylogin → verifyOtp, как в auth-модалке) ──
+  let guestReady = false;
+  const showGuest = () => {
+    $('guest').hidden = false;
+    document.body.classList.add('guest');
+    if (guestReady) return; guestReady = true;
+    if (inTG) { const t = $('gTg'); if (t) t.style.display = 'none'; } // в Mini App виджет-редирект не работает
+    const form = $('gForm'), val = $('gVal'), err = $('gErr'), go = $('gGo');
+    const reveal = (ph) => { form.hidden = false; val.placeholder = ph; err.textContent = ''; try { val.focus(); } catch (_) {} };
+    $('gKeyBtn').addEventListener('click', () => reveal(EN() ? 'vless://… — key from the bot' : 'vless://… — ключ из бота'));
+    $('gCodeBtn').addEventListener('click', () => reveal(EN() ? 'Login code from the bot or app' : 'Код входа из бота или приложения'));
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const v = (val.value || '').trim(); err.textContent = '';
+      if (v.length < 12) { err.textContent = EN() ? 'Paste the key (vless://…) or your «Login code»' : 'Вставь ключ (vless://…) или «Код входа»'; return; }
+      if (!sb) { err.textContent = EN() ? 'Network unavailable — reload the page' : 'Сеть недоступна — обнови страницу'; return; }
+      const isKey = /^(vless:|https?:)/i.test(v);
+      go.disabled = true; const old = go.textContent; go.textContent = EN() ? 'Signing in…' : 'Вхожу…';
+      try {
+        const res = await fetchT('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-keylogin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(isKey ? { key: v } : { secret: v }) });
+        const data = await res.json();
+        if (!res.ok || !data.token_hash) throw new Error(data.error === 'use_login_secret' ? (data.message || (EN() ? 'sign in with your Login code' : 'войди по Коду входа')) : (data.error === 'not found' ? (EN() ? 'not found — check the key/Login code or sign in via Telegram' : 'не найдено — проверь ключ/Код входа или войди через Telegram') : (data.error || (EN() ? 'sign-in error' : 'ошибка входа'))));
+        const { error } = await sb.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
+        if (error) throw error;
+        location.reload();
+      } catch (e2) { err.textContent = (EN() ? 'Failed: ' : 'Не вышло: ') + ((e2 && e2.message) || e2); go.disabled = false; go.textContent = old; }
+    });
+  };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach((m) => { m.classList.remove('open'); document.body.style.overflow = ''; }); });
 
   // при смене языка пере-считываем day/days у ring-лейбла из запомненного числа дней:
@@ -676,7 +748,7 @@
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ initData: TG.initData }),
       });
       const j = await r.json();
-      if (!j || !j.ok) { $('guest').hidden = false; return; }
+      if (!j || !j.ok) { showGuest(); return; }
       $('cab').hidden = false;
       const u = j.user || {};
       const name = u.name || (u.username ? '@' + u.username : 'Аккаунт');
@@ -687,16 +759,16 @@
       fillSub(j.sub);
       setupSupport(name, '');
       if (window.__i18nRefresh) window.__i18nRefresh(document.body);
-    } catch (_) { $('guest').hidden = false; }
+    } catch (_) { showGuest(); }
     return;
   }
 
   // ===== обычный веб-режим (Supabase-сессия) =====
   // CDN с supabase-js мог не загрузиться (блокировка/офлайн) → sb === null.
   // Без гарда getSession() бросит, и #guest, и #cab остаются скрыты = белый экран.
-  if (!sb) { $('guest').hidden = false; return; }
+  if (!sb) { showGuest(); return; }
   const { data: { session } } = await sb.auth.getSession();
-  if (!session) { $('guest').hidden = false; return; }
+  if (!session) { showGuest(); return; }
   let user = session.user;
   // свежие данные с сервера (имя/ник/ава могли поменяться) — не кэш сессии.
   // getUser() валидирует токен на сервере: если сессия отозвана/протухла, вернётся
@@ -704,9 +776,9 @@
   // а ведём на вход (иначе висел бы старый ключ/подписка после ревока токена).
   try {
     const { data: { user: fresh }, error: uErr } = await sb.auth.getUser();
-    if (uErr || !fresh) { try { await sb.auth.signOut(); } catch (_) {} $('guest').hidden = false; return; }
+    if (uErr || !fresh) { try { await sb.auth.signOut(); } catch (_) {} showGuest(); return; }
     user = fresh;
-  } catch (_) { $('guest').hidden = false; return; }
+  } catch (_) { showGuest(); return; }
   $('cab').hidden = false;
 
   const md = user.user_metadata || {};

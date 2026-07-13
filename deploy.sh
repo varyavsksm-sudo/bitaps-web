@@ -4,6 +4,25 @@ set -euo pipefail
 cd "$(dirname "$0")"
 MSG="${1:-site update}"
 TOK="$(cat ~/.local/gh-token)"
+
+# ── build-time include: обновляем содержимое между маркерами
+#    <!--#include partials/<файл>--> … <!--#endinclude--> из файла partials/.
+#    Идемпотентно (повторный прогон = тот же результат); если partial не найден —
+#    старое содержимое остаётся, деплой не ломается (только предупреждение).
+if [ -d partials ]; then
+  for f in *.html; do
+    grep -q '<!--#include ' "$f" || continue
+    perl -0777 -i -pe '
+      s{(<!--#include[ ]([^\s>]+)-->)(.*?)(<!--#endinclude-->)}{
+        my ($m,$p,$old,$e) = ($1,$2,$3,$4);
+        my $c = $old;
+        if (open my $h, "<", $p) { local $/; $c = <$h>; close $h; $c =~ s/\s+\z//; $c = "\n$c\n"; }
+        else { warn "partial $p не найден — оставляю старое содержимое\n"; }
+        "$m$c$e"
+      }gse' "$f"
+  done
+fi
+
 git add -A
 if git diff --cached --quiet; then echo "нечего коммитить"; exit 0; fi
 git -c user.name="varyavsksm-sudo" -c user.email="varya.vsk.sm@gmail.com" \

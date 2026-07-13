@@ -610,6 +610,15 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 @media(max-width:1080px){.plans-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.plans-4{grid-template-columns:1fr}}
 
+/* пресет «Семейный»: широкая карточка под сеткой тарифов (вне .plans-4 — селектор устройств её не пересчитывает) */
+.plan-family{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:18px 30px;flex-wrap:wrap;padding:24px 30px}
+.plan-family .pf-name{font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px}
+.plan-family .pf-sub{color:var(--mut);font-size:14px;margin-top:6px;line-height:1.5}
+.plan-family .pf-price{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;white-space:nowrap}
+.plan-family .pf-price small{font-size:14px;color:var(--mut);font-weight:400}
+.plan-family .btn{width:auto;min-width:170px;justify-content:center}
+@media(max-width:720px){.plan-family{flex-direction:column;text-align:center}.plan-family .btn{width:100%}}
+
 /* mobile: крупнее тап-таргеты переключателя устройств */
 @media(max-width:640px){
   .dev-btn{width:42px;height:42px;font-size:22px}
