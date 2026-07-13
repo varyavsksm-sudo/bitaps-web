@@ -1,0 +1,18 @@
+{
+  "entries": [
+    {
+      "build": 92,
+      "date": "2026-07-13",
+      "ru": [
+        "QR-перенос ключа/кода входа",
+        "автозапуск при входе + глобальный хоткей",
+        "самодиагностика доступа"
+      ],
+      "en": [
+        "QR transfer of key/login code",
+        "launch at login + global hotkey",
+        "access self-diagnostics"
+      ]
+    }
+  ]
+}
