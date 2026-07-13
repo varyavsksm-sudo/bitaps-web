@@ -522,7 +522,28 @@
     "Оставь свой отзыв — он появится здесь сразу.": "Leave your review — it'll appear here right away.",
     "Пока нет отзывов. Оставь первый — он появится здесь сразу.": "No reviews yet. Be the first — it'll appear here right away.",
     "Да. Архитектура построена так, что серверы физически не пишут историю подключений — это заложено by design. Нечего хранить — значит, нечего у нас запросить и нечего слить.": "Yes. The architecture is built so that servers physically don't record connection history — it's by design. Nothing to store means nothing to request from us and nothing to leak.",
-    "«Ключ доступа» (Access key)": "«Access key»"
+    "«Ключ доступа» (Access key)": "«Access key»",
+    // ── этап САЙТ-3: терминал, man-страница, changelog, реф-QR ──
+    ">_ терминал": ">_ terminal",
+    "Открыть терминал (~)": "Open terminal (~)",
+    "Открыть терминал": "Open terminal",
+    "Справка": "Manual", "Что нового": "What's new", "man bitaps": "man bitaps",
+    "Поддержка": "Support", "Помощь и FAQ": "Help & FAQ", "Оферта": "Terms", "Политика": "Privacy",
+    "СПРАВОЧНОЕ РУКОВОДСТВО bitaps": "bitaps MANUAL",
+    "НАЗВАНИЕ": "NAME", "ОБЗОР": "SYNOPSIS", "ОПИСАНИЕ": "DESCRIPTION",
+    "ТАРИФЫ": "PRICING", "УСТРОЙСТВА": "DEVICES", "ТЕМЫ": "THEMES", "СМ. ТАКЖЕ": "SEE ALSO", "АВТОР": "AUTHOR",
+    "bitaps — приватность как гигиена, а не как паранойя.": "bitaps — privacy as hygiene, not paranoia.",
+    "Что нового в bitaps": "What's new in bitaps",
+    "Свежие обновления приложения, бота и сайта.": "Latest updates to the app, bot and site.",
+    "← на главную": "← home", "← домой": "← home",
+    "QR реферальной ссылки": "Referral link QR",
+    "Наведи камеру телефона — откроется твоя реферальная ссылка.": "Point a phone camera — your referral link opens.",
+    "Ничего не найдено": "Nothing found",
+    "Такой страницы нет. Но раз уж ты здесь — попробуй набрать команду.": "No such page. But since you're here — try typing a command.",
+    "404 · страница не найдена": "404 · page not found",
+    "Такой страницы нет": "No such page",
+    "Пакет ушёл в никуда. Но раз уж ты здесь — попробуй набрать команду. Начни с": "The packet went nowhere. But since you're here — try typing a command. Start with",
+    "или напиши в": "or message"
   };
 
   function detect() {

@@ -43,9 +43,9 @@
 <link rel="preload" as="font" type="font/woff2" href="/fonts/space-grotesk.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
-<link rel="stylesheet" href="styles.css?v=4" />
-<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
-<script src="/i18n.js?v=29" defer></script>
+<link rel="stylesheet" href="styles.css?v=5" />
+<script>try{var t=localStorage.getItem('bitaps-theme');var pu=localStorage.getItem('phosphor_unlocked')==='1';if(t==='phosphor'&&pu)document.documentElement.setAttribute('data-theme','phosphor');else if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<script src="/i18n.js?v=30" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="blogo" viewBox="0 0 32 32" fill="none"><g fill="currentColor"> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/> </g> <circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/> <text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family='Space Grotesk,system-ui,sans-serif' fill="currentColor">B</text></symbol></svg>
@@ -509,12 +509,30 @@
     <div><h3 class="foot-h">Продукт</h3><a href="#features">Возможности</a><a href="#" data-section="map">Серверы</a><a href="#pricing">Цены</a><a href="gift.html">Подарить VPN</a></div>
     <div><h3 class="foot-h">Платформы</h3><a href="app.html?os=windows">Windows</a><a href="app.html?os=linux">Linux</a><a href="app.html?os=macos">macOS</a><a href="app.html?os=ios">iOS</a><a href="app.html?os=android">Android</a></div>
     <div><h3 class="foot-h">Бесплатные инструменты</h3><a href="/tools/">Все инструменты</a><a href="/tools/ip/">Мой IP</a><a href="/tools/password/">Пароль в утечке?</a><a href="/tools/leak/">Утечка WebRTC</a><a href="/tools/down/">Сайт лежит?</a></div>
-    <div><h3 class="foot-h">Компания</h3><a href="#" data-support>Поддержка</a><a href="support.html">Помощь и FAQ</a><a href="terms.html">Оферта</a><a href="privacy.html">Политика</a></div>
+    <div><h3 class="foot-h">Компания</h3><a href="#" data-support>Поддержка</a><a href="support.html">Помощь и FAQ</a><a href="changelog.html">Что нового</a><a href="man.html">man bitaps</a><a href="terms.html">Оферта</a><a href="privacy.html">Политика</a></div>
   </div>
   <div class="foot-bottom">
     <span>© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</span>
+    <button type="button" class="sh-open" id="shOpen" title="Открыть терминал (~)" aria-label="Открыть терминал">&gt;_ терминал</button>
   </div>
 </footer>
+
+<!-- ░░ СКРЫТЫЙ bitaps-shell ░░ -->
+<div id="btShell" role="dialog" aria-modal="true" aria-label="bitaps shell" aria-hidden="true">
+  <div class="sh-win">
+    <div class="sh-bar">
+      <span class="sh-dot r"></span><span class="sh-dot y"></span><span class="sh-dot g"></span>
+      <span class="sh-title">guest@bitaps: ~ — bitaps shell</span>
+      <button type="button" data-shclose style="margin-left:auto;background:none;border:0;color:#3faf78;cursor:pointer;font-family:inherit;font-size:16px" aria-label="Закрыть">×</button>
+    </div>
+    <div class="sh-body" id="shBody"></div>
+    <div class="sh-prompt">
+      <span class="sh-ps1">guest@bitaps:~$</span>
+      <input id="shInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="команда" />
+    </div>
+  </div>
+</div>
+<canvas id="btMatrix" aria-hidden="true"></canvas>
 
 <!-- ░░ SUPPORT FAB + MODAL ░░ -->
 <button class="support-fab" id="supportFab" aria-label="Написать в поддержку">
@@ -1544,26 +1562,37 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
 
 /* (17) B-box: осиротевшая модалка удалена — заказ идёт через box.html */
 
-/* ---------- 18. theme: тёмная / светлая (по умолчанию — как на устройстве) ---------- */
+/* ---------- 18. theme: тёмная / светлая / фосфор (по умолчанию — как на устройстве) ---------- */
 (() => {
   const html = document.documentElement, key = 'bitaps-theme';
   const btn = document.getElementById('themeToggle');
   const mq = matchMedia('(prefers-color-scheme: light)');
-  const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
+  const phosOn = () => { try { return localStorage.getItem('phosphor_unlocked') === '1'; } catch (e) { return false; } };
+  // текущая тема как строка: dark | light | phosphor
+  const cur = () => {
+    let s; try { s = localStorage.getItem(key); } catch (e) {}
+    if (s === 'phosphor') return phosOn() ? 'phosphor' : 'dark'; // забыли разблок → откат в dark
+    if (s === 'light' || s === 'dark') return s;
+    return mq.matches ? 'light' : 'dark';
+  };
   const apply = () => {
-    const light = isLight();
-    if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
+    const t = cur();
+    if (t === 'dark') html.removeAttribute('data-theme'); else html.setAttribute('data-theme', t);
     if (btn) {
-      btn.textContent = light ? '☀️' : '🌙';
-      btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная');
-      btn.setAttribute('aria-label', btn.title);
+      const ic = t === 'light' ? '☀️' : t === 'phosphor' ? '🟢' : '🌙';
+      const nm = t === 'light' ? 'светлая' : t === 'phosphor' ? 'фосфор' : 'тёмная';
+      btn.textContent = ic; btn.title = 'Тема: ' + nm; btn.setAttribute('aria-label', btn.title);
     }
   };
+  // цикл: dark → light → (phosphor если разблокирован) → dark
+  window.__btThemeApply = apply;
   if (btn) btn.addEventListener('click', () => {
-    try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {}
+    const t = cur();
+    let nx = t === 'dark' ? 'light' : (t === 'light' ? (phosOn() ? 'phosphor' : 'dark') : 'dark');
+    try { localStorage.setItem(key, nx); } catch (e) {}
     apply();
   });
-  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
+  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark' && s !== 'phosphor') apply(); });
   apply();
 })();
 
@@ -1649,6 +1678,267 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   var mo = new MutationObserver(scan);
   document.querySelectorAll(CONTAINERS).forEach(function (m) { mo.observe(m, { attributes: true, attributeFilter: ['class'] }); });
   scan();
+})();
+</script>
+
+<!-- ░░ bitaps-shell + пасхалки + сатоши-тумблер ░░ -->
+<script>
+(() => {
+  const EN = () => document.documentElement.lang === 'en';
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── сатоши-тумблер ₽/sats в #pricing ── */
+  (() => {
+    const price = document.getElementById('pricing');
+    if (!price) return;
+    const toggle = document.createElement('div');
+    toggle.className = 'dev-pick reveal in';
+    toggle.style.cssText = 'margin-top:-6px';
+    toggle.innerHTML = '<span class="dev-label">₿ Цены в:</span>' +
+      '<button class="dev-btn" id="curRub" style="width:auto;padding:0 14px" aria-pressed="true">₽ рубли</button>' +
+      '<button class="dev-btn" id="curSat" style="width:auto;padding:0 14px" aria-pressed="false">sats</button>' +
+      '<span class="dev-hint" id="satHint"></span>';
+    const devPick = price.querySelector('.dev-pick');
+    if (devPick && devPick.parentNode) devPick.parentNode.insertBefore(toggle, devPick.nextSibling);
+    else price.insertBefore(toggle, price.querySelector('.plans'));
+
+    let satsPerRub = 0, mode = 'rub';
+    // сохраняем оригинальный ₽-текст всех ценников один раз
+    const priceEls = () => price.querySelectorAll('.pm, .tot, .pf-price, .plan-price small, .plan-price em');
+    const snapshot = () => { price.querySelectorAll('.pm,.tot,.pf-price').forEach(e => { if (e.__rub == null) e.__rub = e.textContent; }); };
+    const rubToSats = (txt) => {
+      // берём все цифры из строки (убираем пробелы-разделители тысяч)
+      const n = parseInt((txt || '').replace(/[^\d]/g, ''), 10);
+      if (!n || !satsPerRub) return txt;
+      const sats = n * satsPerRub;
+      return sats.toLocaleString('ru-RU');
+    };
+    const render = () => {
+      snapshot();
+      const sat = mode === 'sat';
+      // .pm (число за месяц) и .tot (итого) и .pf-price (семейный)
+      price.querySelectorAll('.pm').forEach(e => { e.textContent = sat ? rubToSats(e.__rub) : e.__rub; });
+      price.querySelectorAll('.tot').forEach(e => {
+        const raw = e.__rub;
+        if (sat) { const digits = raw.replace(/[^\d]/g, ''); e.textContent = rubToSats(digits) + ' sats'; }
+        else e.textContent = raw;
+      });
+      price.querySelectorAll('.pf-price').forEach(e => {
+        if (sat) { const m = e.__rub.match(/[\d\s]+/); if (m) e.textContent = e.__rub.replace(m[0].trim(), rubToSats(m[0]) + ' sats'); }
+        else e.textContent = e.__rub;
+      });
+      // подписи /₽ /мес рядом с числом .pm — прячем «₽» в sats-режиме
+      price.querySelectorAll('.plan-price small').forEach(e => { e.style.opacity = sat ? '0' : ''; });
+      const rb = document.getElementById('curRub'), sb = document.getElementById('curSat');
+      if (rb && sb) {
+        rb.classList.toggle('on', !sat); sb.classList.toggle('on', sat);
+        rb.setAttribute('aria-pressed', String(!sat)); sb.setAttribute('aria-pressed', String(sat));
+      }
+      const hint = document.getElementById('satHint');
+      if (hint) hint.textContent = sat ? (EN() ? 'live rate · CoinGecko' : 'курс в реальном времени · CoinGecko') : (EN() ? 'switch to satoshis' : 'переключить в сатоши');
+    };
+    document.getElementById('curRub').addEventListener('click', () => { mode = 'rub'; render(); });
+    document.getElementById('curSat').addEventListener('click', () => {
+      if (!satsPerRub) { const h = document.getElementById('satHint'); if (h) h.textContent = EN() ? 'loading rate…' : 'загружаю курс…'; }
+      mode = 'sat'; render();
+    });
+    // тянем курс (кэш 5 мин на бэке); не критично если упал — тумблер просто останется в ₽
+    fetch('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/btc-rate', { headers: { apikey: 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' } })
+      .then(r => r.json()).then(d => { satsPerRub = Number(d && d.sats_per_rub) || 0; if (mode === 'sat') render(); })
+      .catch(() => {});
+    render();
+  })();
+
+  /* ── matrix-дождь (canvas) ── */
+  let matrixRAF = 0;
+  const matrix = (on) => {
+    const cv = document.getElementById('btMatrix');
+    if (!cv) return;
+    if (!on || reduceMotion) { cv.classList.remove('on'); if (matrixRAF) cancelAnimationFrame(matrixRAF), matrixRAF = 0; return; }
+    cv.classList.add('on');
+    const ctx = cv.getContext('2d');
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.scale(dpr, dpr);
+    const chars = 'アイウエオカキクケコ01ビタプスBITAPS₿';
+    const fs = 16, cols = Math.floor(innerWidth / fs);
+    const drops = Array(cols).fill(0).map(() => Math.random() * -50);
+    const draw = () => {
+      ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(0, 0, innerWidth, innerHeight);
+      ctx.font = fs + "px 'JetBrains Mono',monospace";
+      for (let i = 0; i < cols; i++) {
+        const c = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fs, y = drops[i] * fs;
+        ctx.fillStyle = Math.random() > .975 ? '#c8ffe0' : '#00ff8c';
+        ctx.fillText(c, x, y);
+        if (y > innerHeight && Math.random() > .975) drops[i] = 0;
+        drops[i] += .5;
+      }
+      matrixRAF = requestAnimationFrame(draw);
+    };
+    draw();
+  };
+
+  /* ── phosphor unlock ── */
+  const unlockPhosphor = (silent) => {
+    let was = false; try { was = localStorage.getItem('phosphor_unlocked') === '1'; } catch (e) {}
+    try { localStorage.setItem('phosphor_unlocked', '1'); localStorage.setItem('bitaps-theme', 'phosphor'); } catch (e) {}
+    if (window.__btThemeApply) window.__btThemeApply();
+    return !was;
+  };
+
+  /* ── shell ── */
+  const shell = document.getElementById('btShell');
+  const body = document.getElementById('shBody');
+  const input = document.getElementById('shInput');
+  const PS1 = 'guest@bitaps:~$';
+  let history = [], hIdx = -1;
+
+  const out = (html, cls) => {
+    const d = document.createElement('div');
+    d.className = 'sh-line' + (cls ? ' ' + cls : '');
+    d.innerHTML = html; body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  };
+  const echo = (cmd) => out('<span class="sh-ok">' + PS1 + '</span> ' + cmd.replace(/</g, '&lt;'));
+
+  const fortunes = () => EN() ? [
+    'Privacy is not paranoia. It\'s hygiene.',
+    'The best time to hide your IP was yesterday. The second best is now.',
+    'They can\'t log what was never written.',
+    'A VPN a day keeps the ISP away.',
+    'rm -rf /surveillance # permission granted'
+  ] : [
+    'Приватность — это не паранойя. Это гигиена.',
+    'Лучшее время спрятать IP было вчера. Второе лучшее — сейчас.',
+    'Нельзя слить то, что никогда не записывали.',
+    'VPN в день — и провайдер слепнет.',
+    'rm -rf /слежка # разрешено'
+  ];
+
+  const help = () => EN() ?
+`available commands:
+  help              this list
+  whoami            who you are on the wire
+  prices            bitaps plans (canon)
+  fortune           a thought
+  ping              ping the network
+  theme phosphor    unlock the CRT theme
+  --matrix          it's raining code (Esc to stop)
+  sudo make coffee  ☕
+  clear             clear the screen
+  exit              close the shell`
+:
+`доступные команды:
+  help              этот список
+  whoami            кто ты на проводе
+  prices            тарифы bitaps (канон)
+  fortune           мысль
+  ping              пинг сети
+  theme phosphor    разблокировать CRT-тему
+  --matrix          код идёт дождём (Esc — стоп)
+  sudo make coffee  ☕
+  clear             очистить экран
+  exit              закрыть терминал`;
+
+  const run = (raw) => {
+    const cmd = raw.trim();
+    if (!cmd) { echo(''); return; }
+    echo(cmd);
+    const parts = cmd.split(/\s+/);
+    const c = parts[0].toLowerCase();
+    const arg = (parts[1] || '').toLowerCase();
+
+    if (c === 'help' || c === 'man') out('<span class="sh-dim">' + help() + '</span>');
+    else if (c === 'whoami') out(EN()
+      ? 'guest — behind bitaps your ISP sees only encrypted traffic. Your real IP stays yours.'
+      : 'guest — за bitaps провайдер видит только шифр. Твой реальный IP остаётся твоим.');
+    else if (c === 'prices') out('<span class="sh-ok">' + (EN()
+      ? '1 mo — 399 ₽ · 3 mo — 999 ₽ · 6 mo — 1790 ₽ · 12 mo — 2990 ₽\nup to 10 devices · +50 ₽/mo each extra · 3 days free'
+      : '1 мес — 399 ₽ · 3 мес — 999 ₽ · 6 мес — 1790 ₽ · 12 мес — 2990 ₽\nдо 10 устройств · +50 ₽/мес за доп. · 3 дня бесплатно') + '</span>');
+    else if (c === 'fortune') { const F = fortunes(); out('🥠 ' + F[Math.floor(Math.random() * F.length)]); }
+    else if (c === 'ping') {
+      const host = parts[1] || 'bitapsvpn.com';
+      out('PING ' + host.replace(/</g, '&lt;') + ' ...');
+      let i = 0; const t = setInterval(() => {
+        const ms = (12 + Math.random() * 18).toFixed(1);
+        out('<span class="sh-dim">64 bytes from ' + host.replace(/</g, '&lt;') + ': icmp_seq=' + (i + 1) + ' time=' + ms + ' ms</span>');
+        if (++i >= 3) { clearInterval(t); out('<span class="sh-ok">— ' + (EN() ? 'the network is awake' : 'сеть на связи') + ' —</span>'); }
+      }, 260);
+    }
+    else if (c === 'theme' && (arg === 'phosphor' || arg === 'green')) {
+      const fresh = unlockPhosphor();
+      out('<span class="sh-ok">' + (fresh
+        ? (EN() ? '✓ phosphor theme unlocked. The theme toggle now cycles through it.' : '✓ тема «фосфор» разблокирована. Тумблер темы теперь её листает.')
+        : (EN() ? '✓ phosphor is on.' : '✓ фосфор включён.')) + '</span>');
+    }
+    else if (c === '--matrix' || cmd === 'bitaps --matrix' || c === 'matrix') {
+      if (reduceMotion) out('<span class="sh-warn">' + (EN() ? 'reduced-motion is on — no rain for you.' : 'включён режим «меньше движения» — дождя не будет.') + '</span>');
+      else { out('<span class="sh-dim">' + (EN() ? 'wake up… (Esc to stop)' : 'проснись… (Esc — стоп)') + '</span>'); matrix(true); }
+    }
+    else if (c === 'sudo') {
+      if (parts.slice(1).join(' ').toLowerCase() === 'make coffee')
+        out('<span class="sh-err">' + (EN() ? 'permission denied: you are not root on my network. ☕ denied.' : 'permission denied: ты не root в моей сети. ☕ отказано.') + '</span>');
+      else out('<span class="sh-err">' + (EN() ? 'guest is not in the sudoers file. This incident will be reported. (it won\'t — no logs)' : 'guest не в списке sudoers. Инцидент будет запротоколирован. (нет — мы без логов)') + '</span>');
+    }
+    else if (c === 'clear') body.innerHTML = '';
+    else if (c === 'exit' || c === 'quit') closeShell();
+    else if (c === 'ls') out('<span class="sh-dim">index.html  pricing/  tools/  no-logs/  secrets/ (empty)</span>');
+    else if (c === 'cat' && arg === 'secrets/') out('<span class="sh-dim">' + (EN() ? 'nothing here. we don\'t keep secrets — or logs.' : 'тут пусто. мы не храним ни секретов, ни логов.') + '</span>');
+    else out('<span class="sh-err">' + (EN() ? 'command not found: ' : 'команда не найдена: ') + c.replace(/</g, '&lt;') + '</span><span class="sh-dim"> — ' + (EN() ? 'try «help»' : 'попробуй «help»') + '</span>');
+  };
+
+  const openShell = () => {
+    shell.classList.add('open'); shell.setAttribute('aria-hidden', 'false');
+    if (!body.dataset.greeted) {
+      out('<span class="sh-ok">bitaps shell</span> <span class="sh-dim">v1.0 — ' + (EN() ? 'type «help» to begin' : 'набери «help» для начала') + '</span>');
+      body.dataset.greeted = '1';
+    }
+    setTimeout(() => input.focus(), 40);
+  };
+  const closeShell = () => { shell.classList.remove('open'); shell.setAttribute('aria-hidden', 'true'); matrix(false); };
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const v = input.value; if (v.trim()) { history.push(v); hIdx = history.length; }
+      input.value = ''; run(v);
+    } else if (e.key === 'ArrowUp') { if (hIdx > 0) { hIdx--; input.value = history[hIdx] || ''; e.preventDefault(); } }
+    else if (e.key === 'ArrowDown') { if (hIdx < history.length - 1) { hIdx++; input.value = history[hIdx] || ''; } else { hIdx = history.length; input.value = ''; } }
+  });
+
+  const shOpen = document.getElementById('shOpen');
+  if (shOpen) shOpen.addEventListener('click', openShell);
+  shell.querySelectorAll('[data-shclose]').forEach(el => el.addEventListener('click', closeShell));
+  shell.addEventListener('click', (e) => { if (e.target === shell) closeShell(); });
+
+  // глобальные горячие клавиши: ~ открыть шелл, Esc закрыть/остановить matrix
+  document.addEventListener('keydown', (e) => {
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || '') || (e.target && e.target.isContentEditable);
+    if ((e.key === '~' || e.key === '`') && !typing && !shell.classList.contains('open')) { e.preventDefault(); openShell(); }
+    else if (e.key === 'Escape') {
+      const mx = document.getElementById('btMatrix');
+      if (mx && mx.classList.contains('on')) { matrix(false); }
+      else if (shell.classList.contains('open')) closeShell();
+    }
+  });
+
+  // konami: ↑↑↓↓←→←→ B A → открывает шелл и намекает про фосфор
+  const KON = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kp = 0;
+  document.addEventListener('keydown', (e) => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    kp = (k === KON[kp]) ? kp + 1 : (k === KON[0] ? 1 : 0);
+    if (kp === KON.length) {
+      kp = 0; openShell();
+      out('<span class="sh-ok">↑↑↓↓←→←→BA</span> <span class="sh-dim">— ' + (EN() ? 'nice. try «theme phosphor».' : 'красиво. попробуй «theme phosphor».') + '</span>');
+    }
+  });
+
+  // пауза matrix при уходе со вкладки — не жжём CPU в фоне
+  document.addEventListener('visibilitychange', () => {
+    const mx = document.getElementById('btMatrix');
+    if (document.hidden && mx && mx.classList.contains('on')) { if (matrixRAF) cancelAnimationFrame(matrixRAF), matrixRAF = 0; }
+    else if (!document.hidden && mx && mx.classList.contains('on')) matrix(true);
+  });
 })();
 </script>
 </body>

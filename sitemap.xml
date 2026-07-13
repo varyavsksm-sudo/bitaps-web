@@ -7,6 +7,8 @@
   <url><loc>https://bitapsvpn.com/vip-card.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bitapsvpn.com/gift.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bitapsvpn.com/support.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/changelog.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/man.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://bitapsvpn.com/game.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://bitapsvpn.com/tools/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://bitapsvpn.com/tools/ip/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>

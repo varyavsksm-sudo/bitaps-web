@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');var pu=localStorage.getItem('phosphor_unlocked')==='1';if(t==='phosphor'&&pu)document.documentElement.setAttribute('data-theme','phosphor');else if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<meta name="description" content="man bitaps — справочное руководство bitaps VPN как unix man-страница: тарифы, устройства, темы. Канонические цифры, без маркетинга."><title data-en="man bitaps — manual">man bitaps — справочное руководство</title><link rel="canonical" href="https://bitapsvpn.com/man.html"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.03)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);background:#05080f;position:relative;overflow-x:hidden}
+  .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.12),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.08),transparent 55%),#05080f}
+  a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:760px;margin:0 auto;padding:40px 22px 48px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px;font-family:'JetBrains Mono',ui-monospace,monospace}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
+  .man{border:1px solid var(--line);background:var(--card);border-radius:16px;overflow:hidden;font-family:'JetBrains Mono',ui-monospace,monospace}
+  .man-bar{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
+  .man-bar i{width:11px;height:11px;border-radius:50%;background:#333;display:inline-block}
+  .man-bar i.r{background:#ff5f56}.man-bar i.y{background:#ffbd2e}.man-bar i.g{background:#27c93f}
+  .man-bar span{margin-left:6px;font-size:12px;color:var(--mut)}
+  .man-body{padding:26px 26px 30px;font-size:13.5px;line-height:1.75;color:var(--txt)}
+  .man-head{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;letter-spacing:1px;padding-bottom:18px;border-bottom:1px dashed var(--line);margin-bottom:18px}
+  .man h2{color:var(--acc);font-size:13px;letter-spacing:1.5px;margin:22px 0 8px;font-weight:800}
+  .man h2:first-of-type{margin-top:0}
+  .man p{color:var(--mut);margin:0 0 6px;padding-left:14px}
+  .man .row{color:var(--txt);padding-left:14px;margin:2px 0}
+  .man b{color:var(--acc2);font-weight:600}
+  .man .dim{color:var(--mut)}
+  .home{display:inline-flex;align-items:center;gap:8px;margin-top:26px;padding:12px 22px;border-radius:11px;font-weight:700;font-size:14px;
+    color:#0b0e14;background:var(--acc);box-shadow:0 8px 22px rgba(255,122,26,.3);transition:.2s}
+  .home:hover{transform:translateY(-2px);text-decoration:none}
+  @media(max-width:520px){.man-body{padding:20px 16px 24px}.wrap{padding:28px 14px 36px}}
+  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.08),transparent 55%),#f3f6fc}
+  html[data-theme="light"] .bg{background:none}
+  html[data-theme="phosphor"]{--txt:#7dffb0;--mut:#3faf78;--line:rgba(0,255,140,.16);--acc:#00ff8c;--acc2:#00e0ff;--card:rgba(0,255,140,.03)}
+  html[data-theme="phosphor"] body{background:#020604}
+  html[data-theme="phosphor"] .bg{background:none}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+  @media(prefers-reduced-motion:reduce){*,::before,::after{transition-duration:.001ms!important}}
+</style>
+<meta property="og:type" content="website" /><meta property="og:title" content="man bitaps — справочное руководство" /><meta property="og:description" content="bitaps VPN как unix man-страница: тарифы, устройства, темы." /><meta property="og:image" content="https://bitapsvpn.com/og.png" /><meta name="twitter:card" content="summary_large_image" /><meta property="og:url" content="https://bitapsvpn.com/man.html" /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
+</head>
+<body>
+  <div class="bg"></div>
+  <!--#include partials/header.html-->
+<!-- общая шапка сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточна: свои стили (префикс bt-), свой биндер темы (#btThemeBtn, гард __btThemeBound),
+     фоновая сетка .bt-bgrid; в Telegram Mini App прячет себя сама. -->
+<style>
+.bt-top{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);--bt-bg:rgba(7,10,16,.72);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 22px;position:sticky;top:0;z-index:40;
+  border-bottom:1px solid var(--bt-line);background:var(--bt-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:'Space Grotesk',system-ui,sans-serif}
+html[data-theme="light"] .bt-top{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);--bt-bg:rgba(255,255,255,.82)}
+.bt-top a{text-decoration:none;color:var(--bt-txt)}
+.bt-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.2px}
+.bt-brand svg{width:28px;height:28px;color:var(--bt-acc);transition:.4s}
+.bt-brand:hover svg{transform:rotate(120deg)}
+.bt-brand i{font-style:normal;color:var(--bt-acc)}
+.bt-nav{display:flex;align-items:center;gap:2px}
+.bt-nav a{color:var(--bt-mut);font-size:13.5px;padding:8px 10px;border-radius:9px;transition:.18s;white-space:nowrap}
+.bt-nav a:hover{color:var(--bt-acc)}
+.bt-theme{width:38px;height:38px;margin-left:6px;border:1px solid var(--bt-line);border-radius:10px;background:transparent;color:var(--bt-txt);font-size:15px;line-height:1;cursor:pointer;transition:.2s;flex-shrink:0}
+.bt-theme:hover{border-color:var(--bt-acc);transform:translateY(-1px)}
+@media(max-width:600px){.bt-hidesm{display:none}}
+.bt-bgrid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%);mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%)}
+html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,48,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.05) 1px,transparent 1px)}
+</style>
+<div class="bt-bgrid" aria-hidden="true"></div>
+<header class="bt-top" id="btTop">
+  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+    <b>bit<i>aps</i></b>
+  </a>
+  <nav class="bt-nav" aria-label="Разделы сайта">
+    <a href="/#pricing" class="bt-hidesm">Цены</a>
+    <a href="/app.html" class="bt-hidesm">Приложение</a>
+    <a href="/account.html">Кабинет</a>
+    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
+  </nav>
+</header>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btTop');if(e)e.style.display='none';}}catch(e){}})();</script>
+<script>(function(){if(window.__btThemeBound)return;window.__btThemeBound=1;
+var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('btThemeBtn'),mq=matchMedia('(prefers-color-scheme: light)');
+function isL(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches}
+function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';btn.title='Тема: '+(l?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title)}}
+if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key,isL()?'dark':'light')}catch(e){}ap()});
+if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')ap()});
+ap();})();</script>
+<!--#endinclude-->
+  <main class="wrap">
+    <nav class="crumbs"><a href="/">~</a> / <a href="/man.html">man</a> / bitaps</nav>
+    <div class="man">
+      <div class="man-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>man bitaps(1)</span></div>
+      <div class="man-body">
+        <div class="man-head"><span>BITAPS(1)</span><span data-en="bitaps MANUAL">СПРАВОЧНОЕ РУКОВОДСТВО bitaps</span><span>BITAPS(1)</span></div>
+
+        <h2 data-en="NAME">НАЗВАНИЕ</h2>
+        <p><b>bitaps</b> — <span data-en="privacy as hygiene, not paranoia.">приватность как гигиена, а не как паранойя.</span></p>
+
+        <h2 data-en="SYNOPSIS">ОБЗОР</h2>
+        <div class="row">bitaps <span class="dim">[--connect]</span> <span class="dim">[--devices N]</span> <span class="dim">[--plan 1|3|6|12]</span></div>
+
+        <h2 data-en="DESCRIPTION">ОПИСАНИЕ</h2>
+        <p data-en="bitaps VPN hides your traffic behind modern encryption and routes it through fast servers. Install the app, press one button — that's it.">bitaps VPN прячет твой трафик за современным шифрованием и гонит его через быстрые серверы. Ставишь приложение, жмёшь одну кнопку — и всё.</p>
+
+        <h2 data-en="PRICING">ТАРИФЫ</h2>
+        <div class="row">1 <span class="dim" data-en="mo">мес</span> ......... <b>399 ₽</b></div>
+        <div class="row">3 <span class="dim" data-en="mo">мес</span> ......... <b>999 ₽</b> <span class="dim" data-en="(333 ₽/mo)">(333 ₽/мес)</span></div>
+        <div class="row">6 <span class="dim" data-en="mo">мес</span> ......... <b>1790 ₽</b> <span class="dim" data-en="(298 ₽/mo)">(298 ₽/мес)</span></div>
+        <div class="row">12 <span class="dim" data-en="mo">мес</span> ........ <b>2990 ₽</b> <span class="dim" data-en="(249 ₽/mo) — best value">(249 ₽/мес) — лучшая цена</span></div>
+        <p data-en="First 3 days free. No hidden fees.">Первые 3 дня — бесплатно. Без скрытых платежей.</p>
+
+        <h2 data-en="DEVICES">УСТРОЙСТВА</h2>
+        <p data-en="Up to 10 devices per account. +50 ₽/mo for each extra device beyond the first.">До 10 устройств на аккаунт. +50 ₽/мес за каждое доп. устройство сверх первого.</p>
+
+        <h2 data-en="THEMES">ТЕМЫ</h2>
+        <p data-en="dark, light — and a secret «phosphor» (CRT-green). Find it in the site terminal: press ~ then type «theme phosphor».">тёмная, светлая — и секретная «фосфор» (CRT-зелёная). Ищи её в терминале сайта: нажми ~ и набери «theme phosphor».</p>
+
+        <h2 data-en="SEE ALSO">СМ. ТАКЖЕ</h2>
+        <div class="row"><a href="/#pricing" data-en="pricing">цены</a> · <a href="/app.html" data-en="app">приложение</a> · <a href="/changelog.html" data-en="changelog">что нового</a> · <a href="/tools/" data-en="tools">инструменты</a> · <a href="/status.html">status</a></div>
+
+        <h2 data-en="AUTHOR">АВТОР</h2>
+        <p>bitaps VPN · <a href="https://t.me/bitapssupport" target="_blank" rel="noopener">@bitapssupport</a></p>
+      </div>
+    </div>
+    <a class="home" href="/" data-en="← home">← домой</a>
+  </main>
+  <!--#include partials/footer.html-->
+<!-- общий футер сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточный: свои стили (префикс btf-); в Telegram Mini App прячет себя сам. -->
+<style>
+.bt-foot{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);
+  margin-top:64px;border-top:1px solid var(--bt-line);background:rgba(0,0,0,.28);padding:48px 22px 26px;
+  font-family:'Space Grotesk',system-ui,sans-serif;color:var(--bt-txt)}
+html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);background:rgba(16,26,48,.035)}
+.btf-in{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.2fr 2fr;gap:34px}
+@media(max-width:860px){.btf-in{grid-template-columns:1fr}}
+.bt-foot a{text-decoration:none;color:var(--bt-mut);transition:.2s}
+.bt-foot a:hover{color:var(--bt-acc)}
+.btf-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;color:var(--bt-txt)}
+.btf-brand svg{width:28px;height:28px;color:var(--bt-acc)}
+.btf-brand i{font-style:normal;color:var(--bt-acc)}
+.btf-tag{color:var(--bt-mut);font-size:14px;margin-top:12px;max-width:260px;line-height:1.5}
+.btf-links{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:560px){.btf-links{grid-template-columns:1fr 1fr}}
+.btf-links h3{font-size:13.5px;margin:0 0 12px;font-weight:700;color:var(--bt-txt)}
+.btf-links a{display:block;font-size:13.5px;padding:4px 0}
+.btf-bottom{max-width:1080px;margin:26px auto 0;border-top:1px solid var(--bt-line);padding-top:20px;color:var(--bt-mut);font-size:12.5px}
+</style>
+<footer class="bt-foot" id="btFoot">
+  <div class="btf-in">
+    <div>
+      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+        <b>bit<i>aps</i></b>
+      </a>
+      <p class="btf-tag">Приватность — это не паранойя. Это гигиена.</p>
+    </div>
+    <nav class="btf-links" aria-label="Карта сайта">
+      <div>
+        <h3>Продукт</h3>
+        <a href="/">Главная</a>
+        <a href="/#pricing">Цены</a>
+        <a href="/app.html">Приложение</a>
+        <a href="/box.html">B-box</a>
+      </div>
+      <div>
+        <h3>Аккаунт</h3>
+        <a href="/account.html">Личный кабинет</a>
+        <a href="/pay.html">Оплатить подписку</a>
+        <a href="/gift.html">Подарить VPN</a>
+        <a href="/game.html">Игра «Ловля карпов»</a>
+      </div>
+      <div>
+        <h3>Помощь</h3>
+        <a href="/support.html">Поддержка</a>
+        <a href="/tools/">Инструменты</a>
+        <a href="/blocked/">Заблокированные сайты</a>
+        <a href="/status.html">Статус сервиса</a>
+        <a href="/terms.html">Оферта</a>
+        <a href="/privacy.html">Политика</a>
+      </div>
+    </nav>
+  </div>
+  <div class="btf-bottom">© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</div>
+</footer>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btFoot');if(e)e.style.display='none';}}catch(e){}})();</script>
+<!--#endinclude-->
+<script src="/i18n.js?v=30" defer></script>
+</body>
+</html>

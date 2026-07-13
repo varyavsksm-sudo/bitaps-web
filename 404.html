@@ -25,6 +25,19 @@
   .alt{margin-top:16px;font-size:13.5px;color:var(--mut)}
   .alt a{color:var(--acc);text-decoration:none}
   .tt{position:fixed;top:10px;right:12px;z-index:50;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;line-height:1;cursor:pointer}
+  /* терминал-игрушка */
+  .term{max-width:620px;width:100%;margin:22px auto 0;text-align:left;background:#050c08;border:1px solid rgba(0,255,140,.22);
+    border-radius:12px;overflow:hidden;box-shadow:0 26px 70px rgba(0,0,0,.5),0 0 50px rgba(0,255,140,.10);font-family:'JetBrains Mono',ui-monospace,monospace}
+  .term-bar{display:flex;align-items:center;gap:7px;padding:9px 12px;border-bottom:1px solid rgba(0,255,140,.14);background:rgba(0,255,140,.04)}
+  .term-bar i{width:11px;height:11px;border-radius:50%;background:#1e5c3c;display:inline-block}
+  .term-bar i.r{background:#ff5f56}.term-bar i.y{background:#ffbd2e}.term-bar i.g{background:#27c93f}
+  .term-bar span{margin-left:6px;font-size:12px;color:#3faf78}
+  .term-body{padding:14px 14px 4px;min-height:150px;max-height:46vh;overflow:auto;font-size:13px;line-height:1.6;color:#7dffb0}
+  .term-body .ok{color:#00ff8c}.term-body .dim{color:#3faf78}.term-body .err{color:#ff6b6b}
+  .term-line{white-space:pre-wrap;word-break:break-word}
+  .term-in{display:flex;align-items:center;gap:8px;padding:8px 14px 14px;border-top:1px solid rgba(0,255,140,.1)}
+  .term-in b{color:#00ff8c;white-space:nowrap;font-weight:400}
+  .term-in input{flex:1;background:transparent;border:0;outline:0;color:#7dffb0;font-family:inherit;font-size:13px;caret-color:#00ff8c}
 
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
@@ -34,7 +47,7 @@
 <meta property="og:description" content="Страница не найдена. Вернись на главную bitaps VPN или напиши в поддержку — поможем найти нужное." />
 <meta property="og:image" content="https://bitapsvpn.com/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:url" content="https://bitapsvpn.com/404.html" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta name="twitter:title" content="Страница не найдена — bitaps VPN" /><meta name="twitter:description" content="Страница не найдена. Вернись на главную bitaps VPN или напиши в поддержку — поможем найти нужное." /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" /><script src="/i18n.js?v=29" defer></script></head><body>
+<meta property="og:url" content="https://bitapsvpn.com/404.html" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta name="twitter:title" content="Страница не найдена — bitaps VPN" /><meta name="twitter:description" content="Страница не найдена. Вернись на главную bitaps VPN или напиши в поддержку — поможем найти нужное." /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" /><script src="/i18n.js?v=30" defer></script></head><body>
   <button class="tt" id="themeToggle" type="button" title="Тема"></button>
   <div class="box">
     <div class="logo">
@@ -42,9 +55,14 @@
       <b>bit<i>aps</i> VPN</b>
     </div>
     <div class="code">404</div>
-    <h1>Страница не найдена</h1>
-    <p>Похоже, такой страницы нет или она переехала. Вернись на главную — там всё работает.</p>
-    <a class="btn" href="/">← На главную</a>
+    <h1>Такой страницы нет</h1>
+    <p>Пакет ушёл в никуда. Но раз уж ты здесь — попробуй набрать команду. Начни с <code>help</code>.</p>
+    <div class="term" id="term">
+      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>guest@bitaps: /404</span></div>
+      <div class="term-body" id="tBody"></div>
+      <div class="term-in"><b>guest@bitaps:/404$</b><input id="tIn" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="команда"></div>
+    </div>
+    <a class="btn" href="/" style="margin-top:22px">← домой</a>
     <div class="alt">или напиши в <a href="https://t.me/bitapssupport" target="_blank" rel="noopener">поддержку</a></div>
   </div>
 <script>
@@ -61,6 +79,49 @@
   if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
   if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
   apply();
+})();
+
+/* ── 404 терминал-игрушка ── */
+(() => {
+  const EN = () => document.documentElement.lang === 'en';
+  const bodyEl = document.getElementById('tBody'), input = document.getElementById('tIn');
+  if (!bodyEl || !input) return;
+  const out = (h, c) => { const d = document.createElement('div'); d.className = 'term-line' + (c ? ' ' + c : ''); d.innerHTML = h; bodyEl.appendChild(d); bodyEl.scrollTop = bodyEl.scrollHeight; };
+  const help = () => EN()
+    ? 'commands: traceroute · ping · whoami · sudo find-page · home · clear · help'
+    : 'команды: traceroute · ping · whoami · sudo find-page · home · clear · help';
+  // приветствие рисуем после того, как i18n (defer) выставит язык
+  setTimeout(() => out('<span class="dim">' + (EN() ? 'lost? type «help». or just go home.' : 'потерялся? набери «help». или просто домой.') + '</span>'), 60);
+  const hops = () => EN() ? [
+    '1  your-router (192.168.0.1)  1.2 ms',
+    '2  isp-gateway  8.4 ms',
+    '3  the-internet  14.0 ms',
+    '4  * * *  (this page never existed)',
+    '5  !H  destination unreachable — try / instead'
+  ] : [
+    '1  твой-роутер (192.168.0.1)  1.2 ms',
+    '2  шлюз-провайдера  8.4 ms',
+    '3  интернет  14.0 ms',
+    '4  * * *  (этой страницы никогда не было)',
+    '5  !H  узел недостижим — попробуй / вместо неё'
+  ];
+  const run = (raw) => {
+    const cmd = raw.trim(); out('<span class="ok">guest@bitaps:/404$</span> ' + cmd.replace(/</g, '&lt;'));
+    const c = cmd.split(/\s+/)[0].toLowerCase();
+    if (!cmd) return;
+    if (c === 'help') out('<span class="dim">' + help() + '</span>');
+    else if (c === 'traceroute' || c === 'tracert') {
+      out('<span class="dim">traceroute to 404 (0.0.0.0), 5 hops max</span>');
+      const H = hops(); let i = 0; const t = setInterval(() => { out('<span class="dim">' + H[i] + '</span>'); if (++i >= H.length) clearInterval(t); }, 320);
+    }
+    else if (c === 'ping') { out('<span class="dim">PING 404 — ' + (EN() ? 'no reply. it\'s gone. 100% packet loss.' : 'нет ответа. её нет. 100% потерь пакетов.') + '</span>'); }
+    else if (c === 'whoami') out(EN() ? 'a wanderer who took a wrong turn.' : 'странник, свернувший не туда.');
+    else if (c === 'sudo' || cmd.toLowerCase() === 'sudo find-page') out('<span class="err">' + (EN() ? 'permission denied: even root can\'t find a page that isn\'t there.' : 'permission denied: даже root не найдёт страницу, которой нет.') + '</span>');
+    else if (c === 'home' || c === 'cd') { out('<span class="ok">' + (EN() ? 'taking you home…' : 'веду домой…') + '</span>'); setTimeout(() => location.href = '/', 500); }
+    else if (c === 'clear') bodyEl.innerHTML = '';
+    else out('<span class="err">' + (EN() ? 'command not found: ' : 'команда не найдена: ') + c.replace(/</g, '&lt;') + '</span> <span class="dim">— help</span>');
+  };
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { const v = input.value; input.value = ''; run(v); } });
 })();
 </script>
 </body></html>
