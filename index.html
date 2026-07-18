@@ -109,6 +109,11 @@
     <div class="hero-trust reveal">
       <span>3 дня бесплатно · без скрытых платежей · отмена в один клик</span>
     </div>
+    <!-- живой аптайм из status-feed; если фид не ответил — бейдж не показываем вообще -->
+    <a class="badge" id="upBadge" href="/status.html" style="display:none;margin-top:14px;text-decoration:none;font-size:13px">
+      <span class="dot-live"></span>
+      <span id="upState"></span><span id="upNum"></span>
+    </a>
   </div>
 
   <div class="hero-panel reveal">
@@ -1822,6 +1827,7 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   prices            bitaps plans (canon)
   fortune           a thought
   ping              ping the network
+  share             a card to save and share
   theme phosphor    unlock the CRT theme
   --matrix          it's raining code (Esc to stop)
   sudo make coffee  ☕
@@ -1834,11 +1840,135 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   prices            тарифы bitaps (канон)
   fortune           мысль
   ping              пинг сети
+  share             карточка, которую можно сохранить
   theme phosphor    разблокировать CRT-тему
   --matrix          код идёт дождём (Esc — стоп)
   sudo make coffee  ☕
   clear             очистить экран
   exit              закрыть терминал`;
+
+  /* ── share: карточка «проскочил стену» — всё рисуем canvas'ом, без сети и картинок ── */
+  const NEON = '#00ff8c', DIM = '#3faf78', PALE = '#c8ffe0';
+
+  // логотип-шестерёнка с «B» — тот же канон, что и #blogo (viewBox 32×32), но вектором на canvas
+  const drawLogo = (g, x, y, size) => {
+    const k = size / 32;
+    g.save(); g.translate(x, y); g.scale(k, k); g.translate(16, 16);
+    g.fillStyle = NEON; g.strokeStyle = NEON;
+    for (let i = 0; i < 8; i++) {
+      g.save(); g.rotate(i * Math.PI / 4); g.beginPath();
+      if (g.roundRect) g.roundRect(-1.4, -15, 2.8, 4.6, 1); else g.rect(-1.4, -15, 2.8, 4.6);
+      g.fill(); g.restore();
+    }
+    g.lineWidth = 2.4; g.beginPath(); g.arc(0, 0, 10.3, 0, Math.PI * 2); g.stroke();
+    g.font = "800 13.5px 'Space Grotesk',system-ui,sans-serif";
+    g.textAlign = 'center'; g.fillText('B', 0, 4.6);
+    g.restore();
+  };
+
+  // глобус вектором — конец маршрута
+  const drawGlobe = (g, cx, cy, r) => {
+    g.save(); g.strokeStyle = PALE; g.lineWidth = 1.6;
+    g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.stroke();
+    g.beginPath(); g.moveTo(cx - r, cy); g.lineTo(cx + r, cy); g.stroke();
+    g.beginPath(); g.ellipse(cx, cy, r * .45, r, 0, 0, Math.PI * 2); g.stroke();
+    g.restore();
+  };
+
+  const makeCard = () => {
+    const W = 1000, H = 560, S = 2, en = EN();
+    const cv = document.createElement('canvas');
+    cv.width = W * S; cv.height = H * S;
+    const g = cv.getContext('2d'); g.scale(S, S);
+    const MONO = "'JetBrains Mono',ui-monospace,monospace";
+
+    // фон + свечение ЭЛТ
+    g.fillStyle = '#020a06'; g.fillRect(0, 0, W, H);
+    const rg = g.createRadialGradient(W / 2, H * .4, 30, W / 2, H * .4, W * .75);
+    rg.addColorStop(0, 'rgba(0,255,140,.14)'); rg.addColorStop(1, 'rgba(0,255,140,0)');
+    g.fillStyle = rg; g.fillRect(0, 0, W, H);
+    g.strokeStyle = 'rgba(0,255,140,.32)'; g.lineWidth = 2; g.strokeRect(16, 16, W - 32, H - 32);
+
+    // шапка
+    drawLogo(g, 44, 42, 46);
+    g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+    g.fillStyle = PALE; g.font = "700 26px 'Space Grotesk',system-ui,sans-serif";
+    g.fillText('bitaps', 106, 76);
+    g.fillStyle = DIM; g.font = '15px ' + MONO;
+    g.textAlign = 'right';
+    g.fillText('bitaps shell — ' + new Date().toLocaleDateString(en ? 'en-GB' : 'ru-RU'), W - 46, 74);
+
+    // заголовок
+    g.textAlign = 'left';
+    g.shadowColor = 'rgba(0,255,140,.55)'; g.shadowBlur = 18;
+    g.fillStyle = NEON; g.font = "800 54px 'Space Grotesk',system-ui,sans-serif";
+    g.fillText(en ? 'slipped past the wall' : 'проскочил стену', 46, 172);
+    g.shadowBlur = 0;
+    g.fillStyle = DIM; g.font = '17px ' + MONO;
+    g.fillText(PS1 + ' ' + (en ? 'traceroute --free' : 'traceroute --свобода'), 48, 206);
+
+    // линия маршрута: RU → узлы → 🌍
+    const y = 274;
+    g.strokeStyle = 'rgba(0,255,140,.45)'; g.lineWidth = 2;
+    g.setLineDash([7, 7]); g.beginPath(); g.moveTo(112, y); g.lineTo(892, y); g.stroke();
+    g.setLineDash([]);
+    g.fillStyle = PALE; g.font = "700 22px " + MONO; g.textAlign = 'left';
+    g.fillText('RU', 46, y + 8);
+    [200, 380, 560, 740].forEach((x, i) => {
+      g.fillStyle = i === 0 ? '#ff6b6b' : NEON;
+      g.shadowColor = i === 0 ? 'rgba(255,107,107,.8)' : 'rgba(0,255,140,.8)'; g.shadowBlur = 12;
+      g.beginPath(); g.arc(x, y, 7, 0, Math.PI * 2); g.fill(); g.shadowBlur = 0;
+    });
+    drawGlobe(g, 928, y, 24);
+
+    // хопы (без цифр — это стилизация, а не замер)
+    const hops = en
+      ? [['01', 'local-isp', '×  wall'], ['02', 'bitaps-entry', '✓  tunnel'],
+         ['03', 'bitaps-relay', '✓  encrypted'], ['04', 'open-internet', '✓  open']]
+      : [['01', 'local-isp', '×  стена'], ['02', 'bitaps-entry', '✓  туннель'],
+         ['03', 'bitaps-relay', '✓  шифр'], ['04', 'open-internet', '✓  свободно']];
+    g.font = '19px ' + MONO;
+    hops.forEach((h, i) => {
+      const ly = 348 + i * 32;
+      g.fillStyle = DIM; g.fillText(h[0], 48, ly);
+      g.fillStyle = PALE; g.fillText(h[1], 100, ly);
+      g.fillStyle = i === 0 ? '#ff6b6b' : NEON; g.fillText(h[2], 360, ly);
+    });
+
+    // подвал
+    g.fillStyle = DIM; g.font = '17px ' + MONO;
+    g.fillText(PS1.replace(':~$', ''), 48, H - 46);
+    g.textAlign = 'right'; g.fillStyle = NEON; g.font = "700 20px " + MONO;
+    g.fillText('bitapsvpn.com', W - 46, H - 46);
+
+    // скан-линии поверх всего
+    g.fillStyle = 'rgba(0,0,0,.22)';
+    for (let sy = 0; sy < H; sy += 3) g.fillRect(0, sy, W, 1.2);
+    return cv;
+  };
+
+  const shareCard = () => {
+    let cv;
+    try { cv = makeCard(); } catch (e) { cv = null; }
+    if (!cv) { out('<span class="sh-err">' + (EN() ? 'canvas is unavailable in this browser.' : 'canvas недоступен в этом браузере.') + '</span>'); return; }
+    const wrap = document.createElement('div');
+    wrap.className = 'sh-line';
+    cv.style.cssText = 'display:block;width:100%;max-width:520px;margin:8px 0;border-radius:10px;border:1px solid rgba(0,255,140,.28)';
+    cv.setAttribute('role', 'img');
+    cv.setAttribute('aria-label', EN() ? 'bitaps card: slipped past the wall' : 'карточка bitaps: проскочил стену');
+    wrap.appendChild(cv);
+    const a = document.createElement('a');
+    a.download = 'bitaps-card.png';
+    a.style.cssText = 'display:inline-block;margin-bottom:4px';
+    // data-en + __ru на текст-узле — чтобы переключатель языка не сломал подпись
+    a.textContent = EN() ? '↓ download PNG' : '↓ скачать PNG';
+    a.firstChild.__ru = '↓ скачать PNG';
+    a.setAttribute('data-en', '↓ download PNG');
+    try { a.href = cv.toDataURL('image/png'); } catch (e) { a.removeAttribute('href'); }
+    wrap.appendChild(a);
+    body.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
+  };
 
   const run = (raw) => {
     const cmd = raw.trim();
@@ -1856,6 +1986,10 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
       ? '1 mo — 399 ₽ · 3 mo — 999 ₽ · 6 mo — 1790 ₽ · 12 mo — 2990 ₽\nup to 10 devices · +50 ₽/mo each extra · 3 days free'
       : '1 мес — 399 ₽ · 3 мес — 999 ₽ · 6 мес — 1790 ₽ · 12 мес — 2990 ₽\nдо 10 устройств · +50 ₽/мес за доп. · 3 дня бесплатно') + '</span>');
     else if (c === 'fortune') { const F = fortunes(); out('🥠 ' + F[Math.floor(Math.random() * F.length)]); }
+    else if (c === 'share' || c === 'card') {
+      out('<span class="sh-dim">' + (EN() ? 'rendering card…' : 'рисую карточку…') + '</span>');
+      shareCard();
+    }
     else if (c === 'ping') {
       const host = parts[1] || 'bitapsvpn.com';
       out('PING ' + host.replace(/</g, '&lt;') + ' ...');
@@ -1939,6 +2073,47 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
     if (document.hidden && mx && mx.classList.contains('on')) { if (matrixRAF) cancelAnimationFrame(matrixRAF), matrixRAF = 0; }
     else if (!document.hidden && mx && mx.classList.contains('on')) matrix(true);
   });
+})();
+</script>
+
+<!-- ░░ живой бейдж аптайма (status-feed) ░░ -->
+<script>
+(function () {
+  var API = 'https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/status-feed';
+  var KEY = 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
+  var badge = document.getElementById('upBadge'),
+      stEl = document.getElementById('upState'),
+      numEl = document.getElementById('upNum');
+  if (!badge || !stEl || !numEl) return;
+  var EN = function () { return document.documentElement.lang === 'en'; };
+  // ставим и текст, и data-en; __ru кладём на ТЕКСТ-узел — именно там i18n.js держит оригинал,
+  // иначе при заходе в EN русский вариант потеряется и обратно уже не вернётся
+  function bi(el, ru, en) {
+    el.textContent = EN() ? en : ru;
+    if (el.firstChild) el.firstChild.__ru = ru;
+    el.setAttribute('data-en', en);
+  }
+
+  fetchT(API, { headers: { apikey: KEY } }, 12000)
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d) return;
+      var o = d.overall;
+      // показываем только то, что фид реально отдал; иначе молчим
+      if (o !== 'operational' && o !== 'degraded' && o !== 'down') return;
+      bi(stEl,
+        o === 'operational' ? 'Все системы в норме' : (o === 'down' ? 'Есть сбой' : 'Частичные сбои'),
+        o === 'operational' ? 'All systems operational' : (o === 'down' ? 'Major outage' : 'Partial degradation'));
+      var u = Number(d.uptime_90d);
+      if (d.uptime_90d != null && isFinite(u)) {
+        var v = u.toFixed(1);
+        bi(numEl, '· аптайм за 90 дней ' + v + '%', '· 90-day uptime ' + v + '%');
+      } else {
+        bi(numEl, '', '');
+      }
+      badge.style.display = 'inline-flex';
+    })
+    .catch(function () { /* фид молчит — бейджа просто нет */ });
 })();
 </script>
 </body>

@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Заказ карты · bitaps VPN</title><meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/favicon.svg">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -107,13 +107,13 @@
     <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
     <label>Комментарий к доставке (необязательно)</label>
     <textarea id="comment" placeholder="Удобное время, подъезд, домофон…"></textarea>
-    <div id="err" class="err hide"></div>
+    <div id="err" class="err hide" role="alert"></div>
   </div>
 
   <p class="mut" style="text-align:center;margin:16px 0 0;font-size:13px"><span>Вопросы? Напиши</span> <a href="https://t.me/bitapssupport" target="_blank" rel="noopener noreferrer">@bitapssupport</a></p>
 </div></div>
 
-<div id="done" class="done hide">
+<div id="done" class="done hide" role="status" aria-live="polite">
   <div class="big">💳</div>
   <h1>Заказ принят!</h1>
   <p class="mut">Менеджер свяжется, подтвердит доставку и пришлёт металлическую карту.</p>

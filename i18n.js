@@ -245,6 +245,8 @@
     "Кабинет": "Dashboard", "Главная": "Home", "Помощь": "Help",
     "Карта сайта": "Site map", "Разделы сайта": "Site sections", "bitaps VPN — на главную": "bitaps VPN — home",
     "Подарить VPN": "Gift VPN", "Игра «Ловля карпов»": "Koi fishing game",
+    "Аккаунт": "Account", "Личный кабинет": "Dashboard",
+    "Инструменты": "Tools", "Заблокированные сайты": "Blocked sites", "Статус сервиса": "Service status",
     // гостевой кабинет (account.html, полноэкранный вход)
     "Подписка, VPN-ключ и устройства — в одном месте. Войди удобным способом:": "Subscription, VPN key and devices — all in one place. Sign in the way you like:",
     "🔑 Вставить VPN-ключ": "🔑 Paste VPN key", "🔐 Войти по коду входа": "🔐 Sign in with login code",

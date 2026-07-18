@@ -78,9 +78,9 @@ html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,4
     <b>bit<i>aps</i></b>
   </a>
   <nav class="bt-nav" aria-label="Разделы сайта">
-    <a href="/#pricing" class="bt-hidesm">Цены</a>
-    <a href="/app.html" class="bt-hidesm">Приложение</a>
-    <a href="/account.html">Кабинет</a>
+    <a href="/#pricing" class="bt-hidesm" data-en="Pricing">Цены</a>
+    <a href="/app.html" class="bt-hidesm" data-en="App">Приложение</a>
+    <a href="/account.html" data-en="Dashboard">Кабинет</a>
     <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
   </nav>
 </header>
@@ -130,35 +130,35 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
         <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
         <b>bit<i>aps</i></b>
       </a>
-      <p class="btf-tag">Приватность — это не паранойя. Это гигиена.</p>
+      <p class="btf-tag" data-en="Privacy isn't paranoia. It's hygiene.">Приватность — это не паранойя. Это гигиена.</p>
     </div>
     <nav class="btf-links" aria-label="Карта сайта">
       <div>
-        <h3>Продукт</h3>
-        <a href="/">Главная</a>
-        <a href="/#pricing">Цены</a>
-        <a href="/app.html">Приложение</a>
+        <h3 data-en="Product">Продукт</h3>
+        <a href="/" data-en="Home">Главная</a>
+        <a href="/#pricing" data-en="Pricing">Цены</a>
+        <a href="/app.html" data-en="App">Приложение</a>
         <a href="/box.html">B-box</a>
       </div>
       <div>
-        <h3>Аккаунт</h3>
-        <a href="/account.html">Личный кабинет</a>
-        <a href="/pay.html">Оплатить подписку</a>
-        <a href="/gift.html">Подарить VPN</a>
-        <a href="/game.html">Игра «Ловля карпов»</a>
+        <h3 data-en="Account">Аккаунт</h3>
+        <a href="/account.html" data-en="Dashboard">Личный кабинет</a>
+        <a href="/pay.html" data-en="Pay for subscription">Оплатить подписку</a>
+        <a href="/gift.html" data-en="Gift VPN">Подарить VPN</a>
+        <a href="/game.html" data-en="Koi fishing game">Игра «Ловля карпов»</a>
       </div>
       <div>
-        <h3>Помощь</h3>
-        <a href="/support.html">Поддержка</a>
-        <a href="/tools/">Инструменты</a>
-        <a href="/blocked/">Заблокированные сайты</a>
-        <a href="/status.html">Статус сервиса</a>
-        <a href="/terms.html">Оферта</a>
-        <a href="/privacy.html">Политика</a>
+        <h3 data-en="Help">Помощь</h3>
+        <a href="/support.html" data-en="Support">Поддержка</a>
+        <a href="/tools/" data-en="Tools">Инструменты</a>
+        <a href="/blocked/" data-en="Blocked sites">Заблокированные сайты</a>
+        <a href="/status.html" data-en="Service status">Статус сервиса</a>
+        <a href="/terms.html" data-en="Terms">Оферта</a>
+        <a href="/privacy.html" data-en="Privacy">Политика</a>
       </div>
     </nav>
   </div>
-  <div class="btf-bottom">© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</div>
+  <div class="btf-bottom" data-en="© 2026 bitaps VPN. Made for those with something to hide — that is, everyone.">© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</div>
 </footer>
 <script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btFoot');if(e)e.style.display='none';}}catch(e){}})();</script>
 <!--#endinclude-->
