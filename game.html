@@ -153,6 +153,7 @@ ap();})();</script>
         <div class="chip"><small>СЧЁТ</small><span class="v" id="score">0</span></div>
         <div class="chip" id="combo"><small>КОМБО</small><span class="v" id="comboV">×1</span></div>
         <div class="chip"><small>ВРЕМЯ</small><span class="v" id="time">60</span></div>
+        <div class="chip hide" id="oppChip" style="border-color:rgba(255,122,26,.5)"><small>⚔️ СОПЕРНИК</small><span class="v" id="oppScore">0</span></div>
       </div>
       <div class="overlay" id="overlay">
         <div class="o-card" id="oStart">
@@ -176,7 +177,29 @@ ap();})();</script>
           </div>
           <button class="btn ghost" id="againBtn">Ещё раз 🔁</button>
         </div>
+
+        <!-- ⚔️ ДУЭЛЬ: лобби ожидания соперника + обратный отсчёт -->
+        <div class="o-card hide" id="oDuel">
+          <h2>⚔️ Дуэль</h2>
+          <p id="duelMsg">Отправь другу ссылку и жди — начнём одновременно.</p>
+          <div id="duelWait">
+            <div style="width:40px;height:40px;margin:14px auto;border:3px solid rgba(255,255,255,.14);border-top-color:var(--acc);border-radius:50%;animation:dspin .8s linear infinite"></div>
+            <p style="font-size:14px;opacity:.8" id="duelHint">подключается соперник…</p>
+          </div>
+          <div id="duelCount" class="hide" style="font-size:62px;font-weight:800;line-height:1.1;margin:10px 0" >3</div>
+          <p class="hide" id="duelErr" style="color:#ff6b6b"></p>
+        </div>
+
+        <!-- ⚔️ ДУЭЛЬ: результат -->
+        <div class="o-card hide" id="oDuelEnd">
+          <h2 id="duelResTitle">Дуэль окончена</h2>
+          <div class="final" id="duelResScore">0</div>
+          <p id="duelResSub" style="margin-bottom:10px">Ждём, пока соперник доиграет…</p>
+          <div class="saved hide" id="duelReward">🪙 Обоим начислено по 25 токенов!</div>
+          <button class="btn ghost" id="duelAgain">В меню бота 🤖</button>
+        </div>
       </div>
+      <style>@keyframes dspin{to{transform:rotate(360deg)}}</style>
     </div>
 
     <aside class="board">
@@ -338,6 +361,7 @@ function loop(ts){
   const dt=Math.min(0.05,(ts-last)/1000||0); last=ts; elapsed+=dt; timeLeft-=dt;
   if(timeLeft<=0){ timeLeft=0; endGame(); return; }
   $('time').textContent=Math.ceil(timeLeft);
+  duelPush(); // ⚔️ в дуэли — пуш своего счёта раз в ~1с (внутри сам троттлит)
   // спавн
   spawnT-=dt; const interval=Math.max(0.35,0.95-elapsed/80);
   if(spawnT<=0){ spawnT=interval; if(fish.length<26){ fish.push(makeFish()); if(Math.random()<0.3+elapsed/120 && fish.length<26) fish.push(makeFish()); } }
@@ -436,7 +460,10 @@ function startGame(){ resize(); fish=[];floats=[];ripples=[];bubbles=[];splashes
   })(3); }
   $('overlay').classList.add('hide'); running=true; last=performance.now(); requestAnimationFrame(loop); }
 
-function endGame(){ running=false; $('final').textContent=score; $('overlay').classList.remove('hide');
+function endGame(){ running=false;
+  // ⚔️ в дуэли — свой финал (результат против соперника), обычный экран топа не показываем
+  if (DUEL.on) { duelFinish(); return; }
+  $('final').textContent=score; $('overlay').classList.remove('hide');
   $('oStart').classList.add('hide'); $('oEnd').classList.remove('hide');
   if(TG&&TG.initData){ $('saved').classList.add('hide'); $('nameRow').classList.remove('hide'); }
   else { /* вне Telegram очки в топ не идут → не показываем поле имени, сразу честно объясняем */
@@ -449,6 +476,114 @@ function endGame(){ running=false; $('final').textContent=score; $('overlay').cl
 }
 $('startBtn').onclick=startGame;
 $('againBtn').onclick=()=>{ $('oEnd').classList.add('hide'); $('oStart').classList.remove('hide'); $('overlay').classList.add('hide'); startGame(); };
+
+/* ══════════════ ⚔️ РЕАЛТАЙМ-ДУЭЛЬ ══════════════
+   Оба игрока в одной комнате: сервер назначает общий момент старта (starts_in, мс по часам сервера —
+   часы клиента не участвуют, рассинхрона нет). Во время матча каждый пушит свой счёт раз в секунду
+   и видит счёт соперника сверху. Когда оба закончили — обоим по 25🪙 (начисляет RPC, идемпотентно). */
+const DUEL = { on:false, room:0, started:false, poll:null, pushT:0, finished:false, oppDone:false, oppScore:0 };
+
+function duelApi(action, extra){
+  if(!(TG && TG.initData)) return Promise.resolve(null);
+  return fetch(SB+'/functions/v1/tg-webapp',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
+    body:JSON.stringify(Object.assign({action:action, initData:TG.initData, room:DUEL.room}, extra||{}))})
+    .then(r=>r.json()).catch(()=>null);
+}
+function duelShowLobby(){
+  $('overlay').classList.remove('hide');
+  $('oStart').classList.add('hide'); $('oEnd').classList.add('hide'); $('oDuelEnd').classList.add('hide');
+  $('oDuel').classList.remove('hide');
+}
+function duelErr(msg){
+  duelShowLobby(); $('duelWait').classList.add('hide'); $('duelCount').classList.add('hide');
+  $('duelErr').classList.remove('hide'); $('duelErr').textContent = msg;
+  $('duelMsg').textContent = 'Не получилось начать дуэль.';
+  if(DUEL.poll){ clearInterval(DUEL.poll); DUEL.poll=null; }
+}
+// обратный отсчёт до общего старта: ms приходит от СЕРВЕРА, поэтому у обоих ноль наступает одновременно
+function duelCountdown(ms){
+  if(DUEL.started) return; DUEL.started = true;
+  $('duelWait').classList.add('hide'); $('duelCount').classList.remove('hide');
+  $('duelMsg').textContent = 'Соперник в игре! Начинаем…';
+  const t0 = performance.now(), total = Math.max(0, ms);
+  (function tick(){
+    const left = total - (performance.now() - t0);
+    if(left <= 0){
+      $('duelCount').textContent='🎣';
+      setTimeout(()=>{ $('oDuel').classList.add('hide'); $('oppChip').classList.remove('hide'); startGame(); }, 320);
+      return;
+    }
+    $('duelCount').textContent = String(Math.ceil(left/1000));
+    requestAnimationFrame(tick);
+  })();
+}
+function duelFinish(){
+  DUEL.finished = true;
+  duelApi('duel_score', { score:score, done:true });
+  $('overlay').classList.remove('hide');
+  $('oStart').classList.add('hide'); $('oEnd').classList.add('hide'); $('oDuel').classList.add('hide');
+  $('oDuelEnd').classList.remove('hide');
+  $('duelResScore').textContent = score;
+  duelRender();
+}
+function duelRender(){
+  if(!DUEL.finished) return;
+  const my = score, opp = DUEL.oppScore;
+  if(!DUEL.oppDone){
+    $('duelResTitle').textContent = 'Твой улов готов 🎣';
+    $('duelResSub').textContent = 'Соперник ещё ловит… у него сейчас ' + opp;
+    return;
+  }
+  const win = my > opp, draw = my === opp;
+  $('duelResTitle').textContent = draw ? '🤝 Ничья!' : (win ? '🏆 Ты выиграл!' : '🎣 В этот раз соперник сильнее');
+  $('duelResSub').textContent = 'Ты ' + my + ' · соперник ' + opp;
+  $('duelReward').classList.remove('hide');
+}
+function duelTick(){
+  duelApi('duel_state').then(j=>{
+    if(!j || !j.ok || !j.state) return;
+    const s = j.state;
+    DUEL.oppScore = Number(s.opp_score)||0;
+    DUEL.oppDone  = s.opp_done === true;
+    $('oppScore').textContent = DUEL.oppScore;
+    if(DUEL.finished){ duelRender(); if(DUEL.oppDone && DUEL.poll){ clearInterval(DUEL.poll); DUEL.poll=null; } return; }
+    if(!DUEL.started){
+      if(s.opp_joined && s.starts_in !== null && s.starts_in !== undefined) duelCountdown(Number(s.starts_in)||0);
+      else $('duelHint').textContent = s.is_host ? 'подключается соперник…' : 'ждём хозяина комнаты…';
+    }
+  });
+}
+function duelStart(room){
+  DUEL.on = true; DUEL.room = room;
+  duelShowLobby();
+  if(!(TG && TG.initData)){ duelErr('Дуэль работает только в Telegram — открой игру из бота.'); return; }
+  duelApi('duel_join').then(j=>{
+    if(!j || (!j.ok && j.result !== 'host')){
+      const m = j && j.result;
+      duelErr(m==='full' ? 'В этой дуэли уже двое игроков.' : m==='expired' ? 'Ссылка на дуэль устарела — попроси новую.' : 'Комната не найдена.');
+      return;
+    }
+    duelTick();
+    DUEL.poll = setInterval(duelTick, 900);
+  });
+}
+// во время матча пушим свой счёт раз в ~1с (вызывается из игрового цикла)
+function duelPush(){
+  if(!DUEL.on || !running || DUEL.finished) return;
+  const now = performance.now();
+  if(now - DUEL.pushT < 1000) return;
+  DUEL.pushT = now;
+  duelApi('duel_score', { score:score, done:false });
+}
+$('duelAgain').onclick=()=>{ try{ if(TG&&TG.close) TG.close(); }catch(e){} };
+
+// вход в дуэль по параметру ?duel=<id>
+(function(){
+  try{
+    const m = (location.search||'').match(/[?&]duel=(\d+)/);
+    if(m) duelStart(parseInt(m[1],10));
+  }catch(e){}
+})();
 
 async function loadBoard(myScore,myName){
   let data=[];
