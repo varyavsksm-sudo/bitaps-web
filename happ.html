@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; base-uri 'self'"><meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<title>Авто-настройка Happ — bitaps VPN</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(15,21,33,.72);--green:#46d39a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);background:#05080f;display:flex;align-items:center;justify-content:center;padding:22px}
+  .bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.16),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.13),transparent 55%),#05080f}
+  .card{width:100%;max-width:440px;padding:30px 26px;border:1px solid var(--line);border-radius:22px;background:var(--card);backdrop-filter:blur(8px);text-align:center}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--acc)}
+  h1{font-size:24px;margin:10px 0 8px;line-height:1.2}
+  .sub{color:var(--mut);font-size:14.5px;line-height:1.5}
+  .ic{font-size:44px;margin:6px 0 10px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px 22px;margin-top:14px;border-radius:14px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;border:none;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2));box-shadow:0 12px 30px rgba(255,122,26,.3);transition:.18s;text-decoration:none}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.sec{background:transparent;color:var(--mut);border:1px solid var(--line);box-shadow:none;font-weight:600}
+  .btn.sec:hover{border-color:var(--acc);color:var(--txt)}
+  .keybox{margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.28);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mut);word-break:break-all;max-height:78px;overflow:auto;text-align:left}
+  .ok{color:var(--green);font-size:13.5px;margin-top:12px;min-height:18px}
+  .step{display:flex;gap:10px;text-align:left;margin-top:12px;font-size:14px;color:var(--mut)}
+  .step b{color:var(--txt);font-weight:600}
+  .n{flex:0 0 22px;height:22px;border-radius:50%;background:rgba(255,122,26,.15);color:var(--acc);font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .hide{display:none}
+  .spin{width:34px;height:34px;margin:6px auto 0;border:3px solid rgba(255,255,255,.12);border-top-color:var(--acc);border-radius:50%;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="card">
+  <!-- ЭТАП 1: пробуем открыть Happ -->
+  <div id="tryS">
+    <div class="kicker">₿ITAPS VPN</div>
+    <div class="ic">⚡</div>
+    <h1>Настраиваем Happ…</h1>
+    <p class="sub">Открываем приложение и передаём твой ключ.</p>
+    <div class="spin"></div>
+    <div class="ok" id="copied"></div>
+  </div>
+
+  <!-- ЭТАП 2: Happ не открылся → наше приложение -->
+  <div id="failS" class="hide">
+    <div class="kicker">₿ITAPS VPN</div>
+    <div class="ic">📲</div>
+    <h1>Happ не найден</h1>
+    <p class="sub">Похоже, приложение не установлено. Скачай <b>наше приложение bitaps</b> — там ключ подставится сам, ничего настраивать не нужно.</p>
+    <a class="btn" href="/app.html">Скачать приложение bitaps</a>
+    <a class="btn sec" id="retry" href="#">У меня есть Happ — открыть его</a>
+    <div class="ok" id="copied2"></div>
+    <div style="margin-top:18px">
+      <div class="step"><span class="n">1</span><span>Ключ уже <b>скопирован</b> в буфер обмена</span></div>
+      <div class="step"><span class="n">2</span><span>Открой <b>Happ</b> → он сам предложит добавить конфиг из буфера</span></div>
+      <div class="step"><span class="n">3</span><span>Или вставь ключ вручную кнопкой «+»</span></div>
+    </div>
+    <div class="keybox" id="keyBox"></div>
+    <button class="btn sec" id="copyBtn" style="margin-top:10px">📋 Скопировать ключ ещё раз</button>
+  </div>
+
+  <!-- ЭТАП 0: ключа нет -->
+  <div id="noKey" class="hide">
+    <div class="kicker">₿ITAPS VPN</div>
+    <div class="ic">🔑</div>
+    <h1>Нет ключа в ссылке</h1>
+    <p class="sub">Открой эту страницу кнопкой «⚡ Авто-настроить Happ» из бота — она подставит твой ключ.</p>
+    <a class="btn" href="https://t.me/bitaps_vpn_auth_bot">Открыть бота</a>
+    <a class="btn sec" href="/app.html">Скачать приложение bitaps</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  // ключ приходит во ФРАГМЕНТЕ (#...) — фрагмент НЕ уходит на сервер, ключ не светится в логах/реферере
+  var key = '';
+  try { key = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim(); } catch(e) { key = (location.hash||'').replace(/^#/,''); }
+
+  if (!key || key.indexOf('vless://') !== 0) {
+    $('tryS').classList.add('hide'); $('noKey').classList.remove('hide'); return;
+  }
+  $('keyBox').textContent = key;
+
+  // копируем ключ в буфер: Happ умеет подхватывать конфиг из буфера обмена — это наш надёжный путь,
+  // даже если deep-link-схема не сработает
+  function copyKey(cb){
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key).then(function(){ cb(true); }, function(){ cb(false); });
+        return;
+      }
+    } catch(e){}
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = key; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      cb(true);
+    } catch(e){ cb(false); }
+  }
+
+  var opened = false;
+  // если приложение открылось — вкладка уходит в фон
+  function markOpened(){ if (document.hidden) opened = true; }
+  document.addEventListener('visibilitychange', markOpened);
+  window.addEventListener('blur', markOpened);
+  window.addEventListener('pagehide', function(){ opened = true; });
+
+  function tryOpenHapp(){
+    // happ://import/<vless-ссылка> — схема импорта конфига в Happ
+    var deep = 'happ://import/' + key;
+    try { window.location.href = deep; } catch(e){}
+  }
+
+  function showFail(){
+    if (opened) return;              // приложение всё-таки открылось — не мешаем
+    $('tryS').classList.add('hide');
+    $('failS').classList.remove('hide');
+  }
+
+  // основной сценарий: копируем ключ → пробуем открыть Happ → если через 2с мы всё ещё здесь,
+  // значит Happ не установлен → предлагаем СВОЁ приложение
+  copyKey(function(ok){
+    $('copied').textContent = ok ? '🔑 ключ скопирован' : '';
+    $('copied2').textContent = ok ? '🔑 ключ скопирован в буфер' : '';
+    setTimeout(tryOpenHapp, 250);
+    setTimeout(showFail, 2200);
+  });
+
+  $('retry').addEventListener('click', function(e){ e.preventDefault(); opened=false; tryOpenHapp(); });
+  $('copyBtn').addEventListener('click', function(){
+    copyKey(function(ok){ $('copied2').textContent = ok ? '🔑 скопировано!' : 'не вышло — выдели ключ вручную'; });
+  });
+})();
+</script>
+</body>
+</html>
