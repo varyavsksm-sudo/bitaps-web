@@ -136,6 +136,20 @@
         <div class="ip-arrow">→</div>
         <div class="ip-box ip-safe"><span>bitaps выдаёт</span><b id="fakeIp">—</b></div>
       </div>
+      <style>
+        .tgproxy-cta{margin-top:16px}
+        .btn-tgproxy{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 18px;border-radius:12px;
+          background:linear-gradient(135deg,#ff9a2b,#ff6a00);color:#170c00;font-weight:800;font-size:15px;letter-spacing:.01em;
+          border:none;text-decoration:none;cursor:pointer;transition:transform .15s,filter .15s;
+          box-shadow:0 0 18px rgba(255,120,0,.6),0 0 46px rgba(255,120,0,.34);animation:tgProxyGlow 1.8s ease-in-out infinite}
+        .btn-tgproxy:hover{filter:brightness(1.07);transform:translateY(-1px)}
+        @keyframes tgProxyGlow{0%,100%{box-shadow:0 0 16px rgba(255,120,0,.5),0 0 36px rgba(255,120,0,.26)}
+          50%{box-shadow:0 0 30px rgba(255,150,0,.95),0 0 66px rgba(255,120,0,.55)}}
+        @media(prefers-reduced-motion:reduce){.btn-tgproxy{animation:none}}
+      </style>
+      <div class="tgproxy-cta">
+        <a href="https://t.me/proxy?server=185.146.234.208&amp;port=8443&amp;secret=9881d6f0de1d8fb31ca2c67374996c64" target="_blank" rel="noopener" class="btn-tgproxy" aria-label="Бесплатный Telegram-прокси для Telegram">⚡ TG-proxy: free</a>
+      </div>
     </div>
   </div>
 
