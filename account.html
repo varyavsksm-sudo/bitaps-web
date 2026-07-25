@@ -616,9 +616,12 @@
         if (window.QRCode) { try { const _qb = document.createElement('div'); new QRCode(_qb, { text: data.vpn_key, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.M }); const _qc = _qb.querySelector('canvas'); if (_qc) { $('qr').src = _qc.toDataURL('image/png'); } else { const _qi = _qb.querySelector('img'); if (_qi) $('qr').src = _qi.src; } } catch (e) {} }
         $('keyCard').hidden = false;
         $('key').addEventListener('click', () => copy(data.vpn_key));
-        // автонастройка: deep-link импорта ключа в приложение Happ
-        try { $('autoSetup').setAttribute('href', 'happ://add/' + btoa(unescape(encodeURIComponent(data.vpn_key)))); }
-        catch (e) { $('autoSetup').setAttribute('href', data.vpn_key); }
+        // Автонастройка ведёт на open.html: там человек выбирает Happ или наше приложение и,
+        // если приложение не установлено, получает ссылку на скачивание. Раньше кнопка вела
+        // прямо в happ:// — без Happ она молча не срабатывала.
+        // Ключ передаём во ФРАГМЕНТЕ (#key=…): фрагмент не уходит на сервер — ни в логи, ни в Referer.
+        try { $('autoSetup').setAttribute('href', 'open.html#key=' + encodeURIComponent(data.vpn_key)); }
+        catch (e) { $('autoSetup').setAttribute('href', 'app.html'); }
       }
       if (data.login_secret) {
         $('secret').textContent = data.login_secret;

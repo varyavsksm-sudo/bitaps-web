@@ -310,6 +310,11 @@
     "Лови карпов, набивай комбо и попади в топ-3. Золотой карп — джекпот, красный чужак — мимо (за него штраф).": "Catch koi, build combos and make the top-3. The golden koi is a jackpot, the red intruder is a miss (penalty for it).",
     "Твой логин в Личный кабинет и приложение (по нему входишь вместо ключа). Сохрани — не вводи в VPN-клиенты и никому не показывай.": "Your login for the Dashboard and app (use it instead of the key). Save it — don't enter it into VPN clients and don't share it.",
     "Скопировать код входа": "Copy login code",
+    // open.html — автонастройка. Сама разметка переведена через data-en прямо на странице;
+    // сюда попало то, что data-en не покрывает: <title> вкладки и строки, вписанные из JS.
+    "Автонастройка — bitaps VPN": "Auto-setup — bitaps VPN",
+    "Ключ скопирован": "Key copied",
+    "Не вышло — выдели ключ и скопируй вручную": "Didn't work — select the key and copy it by hand",
     // account.html — кабинет: код входа, разделы, FAQ
     "⚙️ Автонастройка": "⚙️ Auto-setup", "📲 Скачать приложение": "📲 Download app", "Код входа": "Login code",
     "Для входа в приложение и кабинет. В отличие от ключа доступа —": "For logging into the app and dashboard. Unlike the access key —",

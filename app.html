@@ -50,6 +50,13 @@
   .steps li{counter-increment:s;position:relative;padding-left:36px;font-size:14px;line-height:1.5;color:var(--txt)}
   .steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2))}
   .steps a{color:var(--acc2)}
+  /* блок сборки из исходников (Linux) */
+  .cmd{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.34);
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.75;color:var(--txt);white-space:pre;overflow-x:auto}
+  .gtxt{color:var(--mut);font-size:13.5px;line-height:1.6}
+  .gtxt b{color:var(--txt)}
+  .gtxt code{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--acc2)}
+  #gitNote{margin-top:12px}
   @media(max-width:520px){h1{font-size:27px}.wrap{padding:28px 16px 70px}}
   .top-actions{display:flex;align-items:center;gap:10px}
   .theme-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
@@ -114,6 +121,16 @@
       <h3 id="howTitle">Как подключиться</h3>
       <ol id="howSteps"></ol>
     </div>
+
+    <!-- Linux: сборка из исходников — ДОПОЛНИТЕЛЬНЫЙ путь рядом с готовым tar.gz.
+         Блок живёт в разметке всегда, показывается только когда выбран Linux. -->
+    <div class="steps" id="gitBox" hidden>
+      <h3 id="gitTitle"></h3>
+      <p class="gtxt" id="gitWhy"></p>
+      <pre class="cmd" id="gitCmd"></pre>
+      <button class="btn btn-2" type="button" id="gitCopy" style="margin-top:12px"></button>
+      <p class="gtxt" id="gitNote"></p>
+    </div>
   </div>
 
 <script>
@@ -131,6 +148,12 @@
       windows:['Download <b>bitaps-setup.exe</b> (button above) and run it — it installs and opens automatically (if Windows warns: «More info» → «Run anyway»).','@KEY@','In the app, paste the key into the <b>«Ключ доступа» (Access key)</b> field.','Press the power button to connect. Done!'],
       macos:['Download <b>bitaps-macos.dmg</b> (button above), open it and drag <b>bitaps VPN</b> to Applications.','@KEY@','First launch: <b>right-click the app → Open → Open</b> (it is not Apple-signed yet).','In the app, paste the key into the <b>«Ключ доступа» (Access key)</b> field, then press the power button. Done!'],
       linux:['Download <b>bitaps-linux-x64.tar.gz</b> (button above), extract it (<code>tar -xzf bitaps-linux-x64.tar.gz</code>) and run <code>./bitaps_vpn</code>.','@KEY@','In the app, paste your key into the <b>«Ключ доступа» (Access key)</b> field.','Press the power button to connect. Done!'],
+    },
+    git:{
+      title:'Linux: build from source (git clone)',
+      why:'For those who would rather not trust a prebuilt binary — you compile the app yourself from the public sources. You need <b>Flutter (stable channel)</b> and the usual Linux desktop build deps (<code>clang</code>, <code>cmake</code>, <code>ninja-build</code>, <code>libgtk-3-dev</code>).',
+      note:'The build lands in <code>build/linux/x64/release/bundle</code> — run <code>bitaps_vpn</code> from there and paste your key into the <b>«Ключ доступа» (Access key)</b> field. The ready-made tar.gz from the button above still works — git clone is just an extra route.',
+      copy:'📋 Copy commands', copied:'✓ Copied',
     }
   } : {
     soon:'Happ', later:'Happ',
@@ -144,8 +167,22 @@
       windows:['Скачайте <b>bitaps-setup.exe</b> (кнопка выше) и запустите — установится и откроется само (если Windows предупредит: «Подробнее» → «Выполнить в любом случае»).','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
       macos:['Скачайте <b>bitaps-macos.dmg</b> (кнопка выше), откройте и перетащите <b>bitaps VPN</b> в Applications.','@KEY@','Первый запуск: <b>правой кнопкой по приложению → «Открыть» → «Открыть»</b> (оно пока без подписи Apple).','В приложении вставьте ключ в поле <b>«Ключ доступа»</b> и нажмите кнопку питания. Готово!'],
       linux:['Скачайте <b>bitaps-linux-x64.tar.gz</b> (кнопка выше), распакуйте (<code>tar -xzf bitaps-linux-x64.tar.gz</code>) и запустите <code>./bitaps_vpn</code>.','@KEY@','В приложении вставьте ключ в поле <b>«Ключ доступа»</b>.','Нажмите кнопку питания — подключение. Готово!'],
+    },
+    git:{
+      title:'Linux: сборка из исходников (git clone)',
+      why:'Для тех, кто не хочет доверять готовому бинарю — соберите приложение сами из открытых исходников. Понадобится <b>Flutter (канал stable)</b> и обычные зависимости Linux-сборки (<code>clang</code>, <code>cmake</code>, <code>ninja-build</code>, <code>libgtk-3-dev</code>).',
+      note:'Готовая сборка окажется в <code>build/linux/x64/release/bundle</code> — запустите оттуда <code>bitaps_vpn</code> и вставьте ключ в поле <b>«Ключ доступа»</b>. Готовый tar.gz по кнопке выше никуда не делся — git clone это просто ещё один способ.',
+      copy:'📋 Скопировать команды', copied:'✓ Скопировано',
     }
   };
+  // команды одинаковы для обоих языков — держим их одной константой, чтобы не разъезжались
+  const GIT_CMD = [
+    'git clone https://github.com/varyavsksm-sudo/bitaps-desktop.git',
+    'cd bitaps-desktop',
+    'flutter pub get',
+    'flutter build linux --release',
+    './build/linux/x64/release/bundle/bitaps_vpn',
+  ].join('\n');
   const PLATS = {
     macos:   { name: 'macOS',         ic: '🍏', foot: T.foot.macos,   btn: T.btn.macos,   badge: 'bitaps' },
     ios:     { name: 'iPhone / iPad', ic: '🍎', foot: T.foot.ios,     btn: T.btn.ios,     badge: T.soon },
@@ -217,6 +254,24 @@
   }
   heroBtn2.addEventListener('click', (e) => { e.preventDefault(); if (PLAY_ANDROID) window.open(PLAY_ANDROID, '_blank', 'noopener'); });
   syncSecond(os);
+
+  // git-clone — второй способ установки под Linux (рядом с готовым архивом, не вместо него)
+  const gitBox = document.getElementById('gitBox'), gitCopy = document.getElementById('gitCopy');
+  document.getElementById('gitTitle').textContent = T.git.title;
+  document.getElementById('gitWhy').innerHTML = T.git.why;
+  document.getElementById('gitCmd').textContent = GIT_CMD;   // textContent: команды — текст, не разметка
+  document.getElementById('gitNote').innerHTML = T.git.note;
+  gitCopy.textContent = T.git.copy;
+  gitCopy.addEventListener('click', () => {
+    const done = () => { gitCopy.textContent = T.git.copied; setTimeout(() => { gitCopy.textContent = T.git.copy; }, 1600); };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(GIT_CMD).then(done, () => {}); return; } } catch (e) {}
+    // запасной путь для webview без Clipboard API
+    try { const ta = document.createElement('textarea'); ta.value = GIT_CMD; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); } catch (e) {}
+  });
+  function syncGit(k) { gitBox.hidden = (k !== 'linux'); }
+  syncGit(os);
+
   function showOS(k) {
     curOS = k;
     const pl = PLATS[k];
@@ -229,6 +284,7 @@
     document.getElementById('howSteps').innerHTML = (STEPS[k] || STEPS.windows).map((s) => '<li>' + s + '</li>').join('');
     wrap.querySelectorAll('.plat').forEach((el) => el.classList.toggle('active', el.dataset.os === k));
     syncSecond(k);
+    syncGit(k);
   }
   // клик по платформе — показываем её прямо на странице (без перехода в Telegram)
   wrap.querySelectorAll('.plat').forEach((el) => el.addEventListener('click', (e) => {
