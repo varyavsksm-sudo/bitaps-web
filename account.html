@@ -620,7 +620,10 @@
         // если приложение не установлено, получает ссылку на скачивание. Раньше кнопка вела
         // прямо в happ:// — без Happ она молча не срабатывала.
         // Ключ передаём во ФРАГМЕНТЕ (#key=…): фрагмент не уходит на сервер — ни в логи, ни в Referer.
-        try { $('autoSetup').setAttribute('href', 'open.html#key=' + encodeURIComponent(data.vpn_key)); }
+        // ?v= — метка версии страницы. Pages отдаёт open.html с кэшем на 10 минут, и после
+        // правки логики человек ещё долго открывал бы старую копию из браузера; новый адрес
+        // заставляет браузер скачать страницу заново.
+        try { $('autoSetup').setAttribute('href', 'open.html?v=2#key=' + encodeURIComponent(data.vpn_key)); }
         catch (e) { $('autoSetup').setAttribute('href', 'app.html'); }
       }
       if (data.login_secret) {
