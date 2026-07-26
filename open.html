@@ -172,8 +172,10 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
   var APPS = {
     happ: {
       name: 'Happ',
-      // ровно тот же вид deep-link, что кабинет отдавал раньше: happ://add/<base64 от UTF-8>
-      link: function (k) { return 'happ://add/' + btoa(unescape(encodeURIComponent(k))); }
+      // happ://add/<АДРЕС ПОДПИСКИ КАК ЕСТЬ>. Именно так, без base64: Happ читает всё после
+      // add/ как готовый адрес. Мы раньше слали base64 — и приложение честно отвечало
+      // «ссылка подписки не валидна», потому что видело набор символов вместо URL.
+      link: function (k) { return 'happ://add/' + k; }
     },
     bitaps: {
       name: 'bitaps VPN',

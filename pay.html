@@ -266,7 +266,8 @@
       var sc=document.getElementById('secretCopy');
       sc.onclick=function(){try{navigator.clipboard.writeText(secret);sc.textContent='Скопировано ✓';}catch(e){sc.textContent='Выдели и скопируй вручную';}};
     }
-    try{document.getElementById('keyHapp').setAttribute('href','happ://add/'+btoa(unescape(encodeURIComponent(k))));}catch(e){document.getElementById('keyHapp').setAttribute('href',k);}
+    // happ://add/<адрес подписки как есть> — без base64, иначе Happ ругается «ссылка не валидна»
+    try{document.getElementById('keyHapp').setAttribute('href','happ://add/'+k);}catch(e){document.getElementById('keyHapp').setAttribute('href',k);}
     var cp=document.getElementById('keyCopy');
     cp.onclick=function(){try{navigator.clipboard.writeText(k);cp.textContent='Скопировано ✓';}catch(e){cp.textContent='Выдели и скопируй вручную';}};
   }

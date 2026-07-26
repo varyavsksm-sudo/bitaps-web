@@ -110,8 +110,9 @@
   window.addEventListener('pagehide', function(){ opened = true; });
 
   function tryOpenHapp(){
-    // happ://import/<vless-ссылка> — схема импорта конфига в Happ
-    var deep = 'happ://import/' + key;
+    // happ://add/<ключ или адрес подписки как есть> — рабочая схема импорта в Happ.
+    // Схемы happ://import/ у приложения нет: такой deep-link оно просто игнорирует.
+    var deep = 'happ://add/' + key;
     try { window.location.href = deep; } catch(e){}
   }
 
