@@ -550,7 +550,38 @@
     "404 · страница не найдена": "404 · page not found",
     "Такой страницы нет": "No such page",
     "Пакет ушёл в никуда. Но раз уж ты здесь — попробуй набрать команду. Начни с": "The packet went nowhere. But since you're here — try typing a command. Start with",
-    "или напиши в": "or message"
+    "или напиши в": "or message",
+    // ── страница автонастройки Happ (happ.html) ──
+    // Она была переведена всего на две строки из двадцати: в EN менялась только кнопка
+    // «Скачать», всё остальное оставалось русским.
+    "Авто-настройка Happ — bitaps VPN": "Happ auto-setup — bitaps VPN",
+    "Настраиваем Happ…": "Setting up Happ…",
+    "Открываем приложение и передаём твой ключ.": "Opening the app and handing over your key.",
+    "Happ не найден": "Happ not found",
+    "Похоже, приложение не установлено. Скачай": "Looks like the app isn't installed. Get",
+    "У меня есть Happ — открыть его": "I have Happ — open it",
+    "→ он сам предложит добавить конфиг из буфера": "→ it will offer to add the config from the clipboard",
+    "Или вставь ключ вручную кнопкой «+»": "Or add the key manually with the «+» button",
+    "📋 Скопировать ключ ещё раз": "📋 Copy the key again",
+    "Ключ уже": "The key is", "скопирован": "copied", "в буфер обмена": "to the clipboard",
+    "Нет ключа в ссылке": "No key in the link",
+    "Открой эту страницу кнопкой «⚡ Авто-настроить Happ» из бота — она подставит твой ключ.":
+      "Open this page with the «⚡ Auto-setup Happ» button in the bot — it fills in your key.",
+    "Открой": "Open", "наше приложение bitaps": "our bitaps app",
+    "Скачать приложение bitaps": "Download the bitaps app",
+    "— там ключ подставится сам, ничего настраивать не нужно.":
+      "— the key is filled in for you there, nothing to set up.",
+    // ── дуэль в мини-игре (game.html) ──
+    "⚔️ Дуэль": "⚔️ Duel", "⚔️ СОПЕРНИК": "⚔️ OPPONENT",
+    "Отправь другу ссылку и жди — начнём одновременно.": "Send a friend the link and wait — we start together.",
+    "подключается соперник…": "opponent is joining…",
+    "Ждём, пока соперник доиграет…": "Waiting for the opponent to finish…",
+    "Дуэль окончена": "Duel over",
+    "🪙 Обоим начислено по 25 токенов!": "🪙 25 tokens credited to both!",
+    "В меню бота 🤖": "To the bot menu 🤖",
+    // ── прочее ──
+    "Перейти к содержимому": "Skip to content",
+    "₿ Цены в:": "₿ Prices in:", "₽ рубли": "₽ rubles", "переключить в сатоши": "switch to satoshi"
   };
 
   function detect() {
@@ -609,6 +640,8 @@
     ['Ошибка: ', 'Error: '], ['Вы выбрали:', 'You selected:'], ['Похоже, у вас', 'Looks like you have'],
     ['Как установить на', 'How to install on'], ['После оплаты ключ придёт на', 'after payment the key will be sent to'],
     ['Оплати ', 'Pay '], ['в CryptoBot.', 'in CryptoBot.'], ['осталось', 'left'], ['по СБП', 'via SBP'],
+    // цены собираются в рантайме («4 790 ₽ за год»), поэтому переводим подстрокой, а не ключом
+    [' ₽ за год', ' ₽ per year'], [' ₽ за мес', ' ₽ per month'], [' ₽/мес', ' ₽/mo'],
     // склонения «устройство» для динамики кабинета (порядок важен: 'устройств' — подстрока
     // остальных, потому идёт последним, иначе порежет 'устройство'/'устройства')
     [' устройства', ' devices'], [' устройство', ' device'], [' устройств', ' devices'],
