@@ -14,11 +14,11 @@
   .bg-grid{position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 0,#000,transparent 80%)}
   a{color:inherit;text-decoration:none}
   .top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,8,15,.6);backdrop-filter:blur(12px);z-index:10}
-  .brand-mark{width:40px;height:40px;color:var(--acc);transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
+  .brand-mark{width:40px;height:40px;color:var(--acc-ink,var(--acc));transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
   .top-home{font-size:13.5px;color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:10px;transition:.2s}
-  .top-home:hover{color:var(--txt);border-color:var(--acc)}
+  .top-home:hover{color:var(--txt);border-color:var(--acc-ink,var(--acc))}
   .wrap{max-width:840px;margin:0 auto;padding:40px 20px 80px}
-  .kicker{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:1px;color:var(--acc)}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:1px;color:var(--acc-ink,var(--acc))}
   h1{font-size:34px;margin:10px 0 8px;line-height:1.1}.grad{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
   .sub{color:var(--mut);font-size:15px;max-width:560px}
   .notice{display:flex;gap:12px;align-items:flex-start;margin:22px 0;padding:14px 16px;border:1px solid rgba(255,122,26,.3);background:rgba(255,122,26,.07);border-radius:14px;font-size:13.5px;color:var(--txt)}
@@ -32,14 +32,14 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 26px;border-radius:14px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;border:none;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2));box-shadow:0 12px 30px rgba(255,122,26,.32);transition:.18s}
   .btn:hover{transform:translateY(-2px)}
   .btn.btn-2{background:transparent;color:var(--mut);border:1px solid var(--line);box-shadow:none;font-weight:600}
-  .btn.btn-2:hover{border-color:var(--acc);color:var(--txt)}
+  .btn.btn-2:hover{border-color:var(--acc-ink,var(--acc));color:var(--txt)}
   .soon{display:inline-block;margin-top:12px;font-size:12px;color:var(--mut)}
   /* все платформы */
   .h2{font-size:15px;font-weight:600;color:var(--mut);margin:38px 0 14px;text-transform:uppercase;letter-spacing:1px}
   .plats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
   .plat{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:20px 14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);transition:.18s;cursor:pointer}
-  .plat:hover{border-color:var(--acc);transform:translateY(-3px);background:rgba(255,122,26,.06)}
-  .plat.active{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset,0 0 30px rgba(255,122,26,.18)}
+  .plat:hover{border-color:var(--acc-ink,var(--acc));transform:translateY(-3px);background:rgba(255,122,26,.06)}
+  .plat.active{border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 1px var(--acc) inset,0 0 30px rgba(255,122,26,.18)}
   .plat .pi{font-size:30px;line-height:1}
   .plat .pn{font-weight:600;font-size:15px}
   .plat .pf{font-size:12px;color:var(--mut)}
@@ -60,15 +60,15 @@
   @media(max-width:520px){h1{font-size:27px}.wrap{padding:28px 16px 70px}}
   .top-actions{display:flex;align-items:center;gap:10px}
   .theme-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
-  .theme-btn:hover{border-color:var(--acc)}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--card:#ffffff;--acc2:#f59e0b}
+  .theme-btn:hover{border-color:var(--acc-ink,var(--acc))}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--card:#ffffff;--acc2:#f59e0b}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.10),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.09),transparent 52%),radial-gradient(1200px 800px at 50% 120%,rgba(255,174,61,.08),transparent 55%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   html[data-theme="light"] .bg-grid{background-image:linear-gradient(rgba(16,26,48,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.04) 1px,transparent 1px)}
   html[data-theme="light"] .top{background:rgba(255,255,255,.78);box-shadow:0 6px 26px rgba(16,26,48,.06)}
   html[data-theme="light"] .hero-dl,html[data-theme="light"] .steps{background:#fff;border-color:rgba(16,26,48,.08);box-shadow:0 1px 2px rgba(16,24,40,.04),0 16px 38px rgba(16,24,40,.07)}
   html[data-theme="light"] .plat{background:#fff;border-color:rgba(16,26,48,.08);box-shadow:0 6px 16px rgba(16,24,40,.06)}
-  html[data-theme="light"] .plat:hover{background:#fff;border-color:var(--acc);box-shadow:0 14px 32px rgba(255,122,26,.16)}
+  html[data-theme="light"] .plat:hover{background:#fff;border-color:var(--acc-ink,var(--acc));box-shadow:0 14px 32px rgba(255,122,26,.16)}
   html[data-theme="light"] .plat.active{box-shadow:0 0 0 1px var(--acc) inset,0 14px 32px rgba(255,122,26,.18)}
   html[data-theme="light"] .notice{background:rgba(255,122,26,.08)}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -327,6 +327,14 @@
   if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
   apply();
 })();
+</script>
+
+<script>
+/* Тексты этой страницы собираются скриптом ОДИН раз при загрузке (const T = EN ? {…} : {…}),
+   поэтому переключатель языка их не менял: заголовок становился английским, а вся инструкция
+   оставалась русской. Перерисовать их нельзя, не переписав полстраницы, — перечитываем страницу.
+   Это статическая страница без введённых данных, терять нечего. */
+window.addEventListener('bitaps-lang-changed', function () { location.reload(); });
 </script>
 </body>
 </html>

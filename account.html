@@ -16,9 +16,9 @@
   .bg-grid{position:fixed;inset:0;z-index:-1;opacity:.4;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 0,#000,transparent 80%)}
   a{color:inherit;text-decoration:none}
   .top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,8,15,.6);backdrop-filter:blur(12px);z-index:10}
-  .brand-mark{width:40px;height:40px;color:var(--acc);transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
+  .brand-mark{width:40px;height:40px;color:var(--acc-ink,var(--acc));transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
   .top-home{font-size:13.5px;color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:10px;transition:.2s}
-  .top-home:hover{color:var(--txt);border-color:var(--acc)}
+  .top-home:hover{color:var(--txt);border-color:var(--acc-ink,var(--acc))}
   .wrap{max-width:980px;margin:0 auto;padding:30px 20px 70px}
   .ph{margin-bottom:24px}.ph h1{font-size:27px}.ph p{color:var(--mut);font-size:14.5px;margin-top:4px}
   .grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
@@ -33,7 +33,7 @@
   .prof h2{font-size:20px;word-break:break-word}.prof .em{color:var(--mut);font-size:13.5px;margin-top:3px;word-break:break-all}
   .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:12px;font:inherit;font-size:14.5px;font-weight:600;cursor:pointer;border:none;transition:.18s}
   .btn-solid{color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2));box-shadow:0 10px 26px rgba(255,122,26,.3)}.btn-solid:hover{transform:translateY(-2px)}
-  .btn-line{background:transparent;border:1px solid var(--line);color:var(--txt)}.btn-line:hover{border-color:var(--acc)}
+  .btn-line{background:transparent;border:1px solid var(--line);color:var(--txt)}.btn-line:hover{border-color:var(--acc-ink,var(--acc))}
   .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--mut)}.btn-ghost:hover{color:var(--txt)}
   .ct{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;margin-bottom:16px}
   .ct .i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,122,26,.13);color:var(--acc2);font-size:15px;flex-shrink:0}
@@ -42,12 +42,12 @@
   .boxcard{cursor:pointer;position:relative;overflow:hidden}
   .boxcard::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,122,26,.08),transparent);transform:translateX(-100%);transition:.5s}
   .boxcard:hover::after{transform:translateX(100%)}
-  .boxcard:hover{border-color:var(--acc);transform:translateY(-2px)}
+  .boxcard:hover{border-color:var(--acc-ink,var(--acc));transform:translateY(-2px)}
   .box-row{display:flex;align-items:center;gap:14px}
   .box-ic{width:54px;height:54px;border-radius:14px;flex-shrink:0;display:grid;place-items:center;font-size:26px;background:linear-gradient(135deg,rgba(255,122,26,.2),rgba(45,139,255,.15));border:1px solid var(--line)}
   .box-row h3{font-size:16px;display:flex;align-items:center;gap:7px}.box-row p{color:var(--mut);font-size:12.5px;margin-top:3px}
   .new{font-size:10px;font-weight:700;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2));padding:2px 7px;border-radius:6px}
-  .arrowi{margin-left:auto;color:var(--mut);transition:.2s}.boxcard:hover .arrowi{color:var(--acc);transform:translateX(3px)}
+  .arrowi{margin-left:auto;color:var(--mut);transition:.2s}.boxcard:hover .arrowi{color:var(--acc-ink,var(--acc));transform:translateX(3px)}
   /* server/ping widget */
   .ping-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
   .ping-city{display:flex;align-items:center;gap:9px;font-weight:600}
@@ -68,7 +68,7 @@
   /* приложение */
   .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
   .app{display:flex;flex-direction:column;align-items:center;gap:4px;padding:13px 6px;border:1px solid var(--line);border-radius:13px;background:rgba(0,0,0,.2);font-size:12px;color:var(--txt);transition:.18s;text-align:center}
-  .app:hover{border-color:var(--acc);transform:translateY(-3px);background:rgba(255,122,26,.06)}.app .e{font-size:21px}
+  .app:hover{border-color:var(--acc-ink,var(--acc));transform:translateY(-3px);background:rgba(255,122,26,.06)}.app .e{font-size:21px}
   .steps{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:10px}
   .steps li{counter-increment:s;position:relative;padding-left:34px;font-size:13.5px;line-height:1.5}
   .steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#05080f;background:linear-gradient(120deg,var(--acc),var(--acc2))}
@@ -77,7 +77,7 @@
   .qr{width:128px;height:128px;border-radius:14px;flex-shrink:0;background:#fff;padding:8px}.qr img{width:100%;height:100%;display:block}
   .key-box{flex:1;min-width:0}
   .key-val{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--acc2);word-break:break-all;cursor:pointer;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:11px;padding:11px;line-height:1.55;transition:.15s;max-height:96px;overflow:auto}
-  .key-val:hover{border-color:var(--acc)}
+  .key-val:hover{border-color:var(--acc-ink,var(--acc))}
   /* табы */
   .tabs{display:flex;gap:6px;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:13px;padding:5px;margin-bottom:18px;flex-wrap:wrap}
   .tab{flex:1;min-width:90px;padding:9px 8px;border:none;background:none;color:var(--mut);font:inherit;font-size:13px;font-weight:600;border-radius:9px;cursor:pointer;transition:.2s}
@@ -87,7 +87,7 @@
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .sf{display:flex;flex-direction:column;gap:10px}
   .sf input,.sf textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:11px;padding:12px 13px;color:var(--txt);font:inherit;font-size:14px;resize:vertical}
-  .sf input:focus,.sf textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.12)}
+  .sf input:focus,.sf textarea:focus{outline:none;border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.12)}
   .sup-ok{text-align:center;padding:14px 8px}.sup-ok .c{width:48px;height:48px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;font-size:23px;color:#03110e;background:linear-gradient(120deg,var(--acc),var(--acc2))}
   .sup-ok b{display:block;margin-bottom:3px}.sup-ok span{color:var(--mut);font-size:13px}
   .copybox{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-top:8px}
@@ -95,13 +95,13 @@
   .copybox button{flex-shrink:0;background:var(--acc);color:#05080f;border:none;border-radius:8px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
   .faq details{border:1px solid var(--line);border-radius:11px;margin-bottom:8px;background:rgba(0,0,0,.2);overflow:hidden}
   .faq summary{cursor:pointer;padding:12px 14px;font-size:13.5px;font-weight:600;list-style:none;display:flex;justify-content:space-between}
-  .faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";color:var(--acc);font-weight:700}.faq details[open] summary::after{content:"−"}
+  .faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";color:var(--acc-ink,var(--acc));font-weight:700}.faq details[open] summary::after{content:"−"}
   .faq p{padding:0 14px 13px;color:var(--mut);font-size:13px;line-height:1.5}
   .center{text-align:center;padding:70px 20px}.center p{color:var(--mut);margin:14px 0 22px}
   /* ░░ гостевой экран: полноэкранный центрированный вход ░░ */
   body.guest .ph{display:none}
   .glogin{min-height:calc(100vh - 210px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 0 40px;animation:rise .5s ease both}
-  .glogin .glogo{width:76px;height:76px;color:var(--acc);margin-bottom:16px;filter:drop-shadow(0 0 22px rgba(255,122,26,.45));animation:float 3.4s ease-in-out infinite}
+  .glogin .glogo{width:76px;height:76px;color:var(--acc-ink,var(--acc));margin-bottom:16px;filter:drop-shadow(0 0 22px rgba(255,122,26,.45));animation:float 3.4s ease-in-out infinite}
   .glogin h2{font-size:clamp(26px,4.5vw,34px);letter-spacing:-.5px}
   .glogin h2 .gname{background:linear-gradient(120deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
   .glogin .gsub{color:var(--mut);font-size:14.5px;margin:8px 0 24px;max-width:420px;line-height:1.55}
@@ -110,13 +110,13 @@
   .gtg{display:flex;justify-content:center;min-height:44px}
   .gform{width:100%;max-width:360px;margin-top:12px;display:flex;flex-direction:column;gap:9px;animation:fadeUp .3s ease}
   .gform input{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--txt);font:inherit;font-size:14px}
-  .gform input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.12)}
+  .gform input:focus{outline:none;border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.12)}
   html[data-theme="light"] .gform input{background:#f4f6fb}
   .gerr{color:#ff6b6b;font-size:13px;min-height:1em}
   .gfeat{list-style:none;display:flex;flex-direction:column;gap:9px;margin:28px 0 0;text-align:left}
   .gfeat li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mut)}
   .gfeat li .fi{width:30px;height:30px;border-radius:9px;flex-shrink:0;display:grid;place-items:center;font-size:15px;background:rgba(255,122,26,.13)}
-  .gtrial{display:inline-block;margin-top:26px;color:var(--acc);font-size:14px;font-weight:600;border-bottom:1px dashed rgba(255,122,26,.5);padding-bottom:2px;transition:.2s}
+  .gtrial{display:inline-block;margin-top:26px;color:var(--acc-ink,var(--acc));font-size:14px;font-weight:600;border-bottom:1px dashed rgba(255,122,26,.5);padding-bottom:2px;transition:.2s}
   .gtrial:hover{filter:brightness(1.2)}
   [hidden]{display:none!important}
   /* модалка box */
@@ -239,9 +239,9 @@
   /* кнопка темы */
   .top-actions{display:flex;align-items:center;gap:10px}
   .theme-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
-  .theme-btn:hover{border-color:var(--acc);transform:translateY(-1px)}
+  .theme-btn:hover{border-color:var(--acc-ink,var(--acc));transform:translateY(-1px)}
   /* ░░ СВЕТЛАЯ ТЕМА ░░ */
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--card:#ffffff;--acc2:#f59e0b;--green:#16a34a;--blue:#2563eb}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--card:#ffffff;--acc2:#f59e0b;--green:#16a34a;--blue:#2563eb}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.10),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.09),transparent 52%),radial-gradient(1200px 800px at 50% 120%,rgba(255,174,61,.08),transparent 55%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   html[data-theme="light"] .bg-grid{background-image:linear-gradient(rgba(16,26,48,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.04) 1px,transparent 1px)}
@@ -352,7 +352,7 @@
       <div class="dash">
         <div class="card keycard acc" id="keyCard" hidden>
           <div class="ct"><span class="i">🔑</span> Ключ доступа</div>
-          <p class="hint" style="margin:2px 0 13px;line-height:1.55">Один ключ для приложений <b style="color:var(--acc)">Happ</b> и <b style="color:var(--acc)">bitaps&nbsp;VPN</b>. Отсканируй QR в приложении или скопируй ключ — и подключайся.</p>
+          <p class="hint" style="margin:2px 0 13px;line-height:1.55">Один ключ для приложений <b style="color:var(--acc-ink,var(--acc))">Happ</b> и <b style="color:var(--acc-ink,var(--acc))">bitaps&nbsp;VPN</b>. Отсканируй QR в приложении или скопируй ключ — и подключайся.</p>
           <div class="key-row">
             <div class="qr"><img id="qr" alt="QR ключа" /></div>
             <div class="key-box">
@@ -362,7 +362,7 @@
           </div>
           <div class="key-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px">
             <a id="autoSetup" href="#" style="flex:1 1 150px;text-align:center;background:linear-gradient(180deg,#ffb74d,var(--acc));color:#1a1205;font-weight:700;padding:13px 12px;border-radius:12px;text-decoration:none">⚙️ Автонастройка</a>
-            <a id="dlApp" href="https://bitapsvpn.com/app.html" target="_blank" rel="noopener" style="flex:1 1 150px;text-align:center;background:rgba(245,165,36,.12);color:var(--acc);border:1px solid var(--acc);font-weight:500;padding:12px;border-radius:12px;text-decoration:none">📲 Скачать приложение</a>
+            <a id="dlApp" href="https://bitapsvpn.com/app.html" target="_blank" rel="noopener" style="flex:1 1 150px;text-align:center;background:rgba(245,165,36,.12);color:var(--acc-ink,var(--acc));border:1px solid var(--acc);font-weight:500;padding:12px;border-radius:12px;text-decoration:none">📲 Скачать приложение</a>
           </div>
           <div id="secretRow" hidden style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08)">
             <div class="ct" style="margin-bottom:6px"><span class="i">🔐</span> Код входа</div>
@@ -374,9 +374,9 @@
 
         <div class="card boxcard" id="boxBtn">
           <div class="box-row">
-            <div class="box-ic" style="color:var(--acc)"><svg viewBox="0 0 32 32" fill="none" width="30" height="30" aria-hidden="true"><use href="#blogo"/></svg></div>
+            <div class="box-ic" style="color:var(--acc-ink,var(--acc))"><svg viewBox="0 0 32 32" fill="none" width="30" height="30" aria-hidden="true"><use href="#blogo"/></svg></div>
             <div>
-              <h3><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span> <span class="new">Новинка</span></h3>
+              <h3><span style="color:var(--acc-ink,var(--acc))">B</span><span style="color:var(--txt)">-box</span> <span class="new">Новинка</span></h3>
               <p>VPN для всего дома сразу</p>
             </div>
             <span class="arrowi">→</span>
@@ -424,13 +424,13 @@
         <div class="card" id="payHistCard" hidden>
           <div class="ct"><span class="i">📖</span> История платежей</div>
           <div id="payHist" style="margin-top:10px"></div>
-          <p class="hint" style="margin-top:12px">Оплаты с сайта — картой, СБП и криптой. <a href="tokens.html" style="color:var(--acc)" data-en="Token balance and movements →">Баланс токенов и движения →</a></p>
+          <p class="hint" style="margin-top:12px">Оплаты с сайта — картой, СБП и криптой. <a href="tokens.html" style="color:var(--acc-ink,var(--acc))" data-en="Token balance and movements →">Баланс токенов и движения →</a></p>
         </div>
 
         <div class="card faqcard" id="faqCard">
           <div class="ct"><span class="i">❓</span> Вопросы</div>
           <div class="faq">
-            <details><summary>Сколько устройств можно подключить?</summary><p>По умолчанию 1 устройство. Нужно больше — выбери их при оплате на <a href="pay.html" style="color:var(--acc)">странице тарифов</a> (+50 ₽/мес за каждое) либо добавь к уже активной подписке за токены на <a href="tokens.html" style="color:var(--acc)">странице баланса</a>. То же самое умеет бот.</p></details>
+            <details><summary>Сколько устройств можно подключить?</summary><p>По умолчанию 1 устройство. Нужно больше — выбери их при оплате на <a href="pay.html" style="color:var(--acc-ink,var(--acc))">странице тарифов</a> (+50 ₽/мес за каждое) либо добавь к уже активной подписке за токены на <a href="tokens.html" style="color:var(--acc-ink,var(--acc))">странице баланса</a>. То же самое умеет бот.</p></details>
             <details><summary>Вы ведёте логи?</summary><p>Нет. Мы не храним историю и трафик — приватность по умолчанию.</p></details>
             <details><summary>Как продлить подписку?</summary><p>Кнопка «Продлить» выше → оплата на сайте (карта, СБП или крипта), срок продлится автоматически. Можно оплатить и в Telegram-боте.</p></details>
             <details><summary>VPN не подключается?</summary><p>Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.</p></details>
@@ -505,10 +505,10 @@
     <div class="modal-card" role="dialog" aria-modal="true" aria-label="B-box">
       <button class="modal-x" data-bxclose aria-label="Закрыть">×</button>
       <div class="modal-hero">
-        <div class="bi" style="color:var(--acc)"><svg viewBox="0 0 32 32" fill="none" width="38" height="38" aria-hidden="true"><use href="#blogo"/></svg></div>
-        <div><h3><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span> <span class="new">Новинка</span></h3><p style="margin:2px 0 0;color:var(--mut);font-size:13px">Умная коробочка для роутера</p></div>
+        <div class="bi" style="color:var(--acc-ink,var(--acc))"><svg viewBox="0 0 32 32" fill="none" width="38" height="38" aria-hidden="true"><use href="#blogo"/></svg></div>
+        <div><h3><span style="color:var(--acc-ink,var(--acc))">B</span><span style="color:var(--txt)">-box</span> <span class="new">Новинка</span></h3><p style="margin:2px 0 0;color:var(--mut);font-size:13px">Умная коробочка для роутера</p></div>
       </div>
-      <p><b><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span></b> — маленькое устройство, которое подключается к твоему роутеру и раздаёт VPN сразу на <b>весь дом</b>. Телевизор, телефоны, ноутбуки, приставки — всё работает через защищённое соединение, без настройки на каждом устройстве.</p>
+      <p><b><span style="color:var(--acc-ink,var(--acc))">B</span><span style="color:var(--txt)">-box</span></b> — маленькое устройство, которое подключается к твоему роутеру и раздаёт VPN сразу на <b>весь дом</b>. Телевизор, телефоны, ноутбуки, приставки — всё работает через защищённое соединение, без настройки на каждом устройстве.</p>
       <ul class="blist">
         <li><b>Просто работает</b> — включил в розетку и в роутер, и всё.</li>
         <li><b>Защищает все устройства</b> в сети сразу, даже те, где нельзя поставить приложение.</li>
@@ -534,7 +534,7 @@
         <textarea id="sMsg" rows="3" placeholder="Твой вопрос" aria-label="Твой вопрос" required></textarea>
         <button class="btn btn-solid" type="submit">Отправить сообщение</button>
       </form>
-      <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:10px">или сразу в Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a></div>
+      <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:10px">или сразу в Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc-ink,var(--acc))">@bitapssupport</a></div>
       <div id="supOk" class="sup-ok" hidden><div class="c">✓</div><b>Сообщение отправлено!</b><span>Мы свяжемся с тобой по почте.</span></div>
     </div>
   </div>
@@ -555,7 +555,7 @@
         <p class="hint" style="margin:8px 0 0" data-en="Point a phone camera — your referral link opens.">Наведи камеру телефона — откроется твоя реферальная ссылка.</p>
       </div>
       <p class="hint" id="tokRow" style="margin-top:12px;margin-bottom:2px">🪙 <b id="tokBal">0</b> <span data-en="bitaps tokens">токенов bitaps</span></p>
-      <p class="hint" style="margin:0" data-en="They accrue for friends and as cashback, pay for a subscription or an extra device — on the site and in the bot — and will go to the bitaps card."><a href="tokens.html" style="color:var(--acc)">Капают</a> за друзей и кэшбэком, оплачивают подписку и доп. устройства — и на сайте, и в боте — и пойдут на карту bitaps.</p>
+      <p class="hint" style="margin:0" data-en="They accrue for friends and as cashback, pay for a subscription or an extra device — on the site and in the bot — and will go to the bitaps card."><a href="tokens.html" style="color:var(--acc-ink,var(--acc))">Капают</a> за друзей и кэшбэком, оплачивают подписку и доп. устройства — и на сайте, и в боте — и пойдут на карту bitaps.</p>
     </div>
   </div>
 
@@ -629,7 +629,12 @@
       $('leftLabel').textContent = daysWord(left);
       $('untilDate').textContent = 'активна до ' + exp.toLocaleDateString('ru-RU');
       $('subBtn').textContent = 'Продлить подписку';
-      { const _pl = /^[a-z0-9]+$/i.test(data.plan || '') ? data.plan : ''; const _dv = data.device_limit || 1;
+      // dev в ссылке ЗАЖИМАЕМ в 1..10 — ровно тот диапазон, который принимает pay.html.
+      // У VIP device_limit = 100, и pay.html молча отбрасывал такое значение, откатываясь на
+      // 1 устройство: VIP-владелец видел цену тарифа на одно устройство, хотя сервер считает
+      // ему тариф на 10 (effPriceDev в _shared/plans.ts). Теперь преселект совпадает с ценой.
+      { const _pl = /^[a-z0-9]+$/i.test(data.plan || '') ? data.plan : '';
+        const _dv = Math.min(10, Math.max(1, Number(data.device_limit) || 1));
         $('subBtn').setAttribute('href', 'pay.html' + (_pl ? '?plan=' + _pl + '&dev=' + _dv : '')); }
       if (data.vpn_key) {
         $('key').textContent = data.vpn_key;

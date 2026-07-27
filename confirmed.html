@@ -28,8 +28,13 @@
     background:linear-gradient(120deg,var(--acc),var(--acc2));border:none;cursor:pointer;
     box-shadow:0 10px 30px rgba(255,122,26,.35);transition:.2s}
   .btn:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(255,122,26,.5)}
+  .btn2{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:12px 22px;border-radius:13px;
+    font:inherit;font-weight:600;font-size:14.5px;text-decoration:none;color:#9fb0c9;
+    border:1px solid rgba(255,255,255,.14);transition:.2s}
+  .btn2:hover{color:#eaf0fb;border-color:var(--acc-ink,var(--acc))}
+  html[data-theme="light"] .btn2{color:#5a6781;border-color:rgba(16,26,48,.14)}
   .brand{margin-top:30px;font-size:13px;color:#5d6b82;letter-spacing:.04em}
-  .brand b{color:var(--acc)}
+  .brand b{color:var(--acc-ink,var(--acc))}
   .err h1{color:#ff8a8a}
   html[data-theme="light"] body{color:#0f1828;background:radial-gradient(1200px 800px at 50% -10%,#e9f0fb,#f3f6fc 60%)}
   html[data-theme="light"] .card{background:#fff;border-color:rgba(16,26,48,.10);box-shadow:0 30px 80px rgba(16,26,48,.12)}
@@ -51,6 +56,9 @@
     <h1>Почта подтверждена!</h1>
     <p id="msg">Спасибо — твой аккаунт <span class="em" id="email">bitaps</span> активирован. Теперь можно пользоваться сайтом.</p>
     <a class="btn" href="/">Перейти на сайт →</a>
+    <!-- Дальше человеку нужен ключ, а он в кабинете. Страница обещает это даже в своём описании,
+         но единственная ссылка вела на главную — вход приходилось искать самому. -->
+    <div><a class="btn2" href="/account.html">Личный кабинет</a></div>
     <div class="brand">bit<b>aps</b> · приватность без компромиссов</div>
   </div>
 

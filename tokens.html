@@ -15,13 +15,13 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
 <style>
   *{margin:0;box-sizing:border-box}
   :root{--bg:#0b1220;--txt:#fff;--mut:#aab3c5;--acc:#ff7a1a;--acc2:#ffae3d;--blue:#2d8bff;--line:rgba(255,255,255,.12);--card:rgba(255,255,255,.04);--inp:rgba(255,255,255,.05)}
-  html[data-theme="light"]{--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff;--inp:#fff}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff;--inp:#fff}
   body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
     background:radial-gradient(900px 520px at 16% -10%,rgba(255,122,26,.16),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(45,139,255,.12),transparent 60%),var(--bg)}
   .wrap{max-width:760px;margin:0 auto;padding:44px 20px 40px}
-  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--acc);text-transform:uppercase}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--acc-ink,var(--acc));text-transform:uppercase}
   h1{font-size:clamp(30px,5vw,44px);line-height:1.07;letter-spacing:-1px;margin:10px 0 12px;font-weight:800}
-  h1 i{color:var(--acc);font-style:normal}
+  h1 i{color:var(--acc-ink,var(--acc));font-style:normal}
   .sub{color:var(--mut);font-size:15.5px;line-height:1.55;max-width:560px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:26px}
   html[data-theme="light"] .card{box-shadow:0 10px 34px rgba(16,26,48,.07)}
@@ -32,23 +32,23 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
   @media(max-width:400px){.gplans{grid-template-columns:1fr}}
   .gplan{position:relative;border:1px solid var(--line);border-radius:14px;padding:16px 14px;background:var(--inp);cursor:pointer;text-align:center;transition:.18s}
   .gplan:hover{border-color:rgba(255,122,26,.5)}
-  .gplan.sel{border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.15)}
+  .gplan.sel{border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.15)}
   .gplan .nm{font-weight:700;font-size:15px}
   .gplan .pr{font-size:22px;font-weight:800;margin-top:6px}
   .gplan .pr small{font-size:12px;color:var(--mut);font-weight:400}
   .gplan .fl{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:99px;white-space:nowrap}
   .note{color:var(--mut);font-size:13px;margin-top:12px;line-height:1.5}
   input{width:100%;background:var(--inp);border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--txt);font:inherit;font-size:14px}
-  input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.12)}
+  input:focus{outline:none;border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.12)}
   /* способы оплаты */
   .gpays{display:grid;gap:10px;margin-top:6px}
   .gpay{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:13px;padding:14px 16px;background:var(--inp);color:var(--txt);font:inherit;font-size:15px;font-weight:600;cursor:pointer;text-align:left;transition:.18s}
-  .gpay:hover{border-color:var(--acc)}
+  .gpay:hover{border-color:var(--acc-ink,var(--acc))}
   .gpay .d{display:block;font-size:12.5px;color:var(--mut);font-weight:400;margin-top:2px}
   .gpay .ar{margin-left:auto;color:var(--mut)}
   .gerr{color:#ff6b6b;font-size:13.5px;margin-top:10px;display:none}
   .pnote{color:var(--mut);font-size:12.5px;line-height:1.55;margin-top:14px}
-  .pnote a{color:var(--acc)}
+  .pnote a{color:var(--acc-ink,var(--acc))}
   /* шаги */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
   @media(max-width:620px){.steps{grid-template-columns:1fr}}
@@ -65,7 +65,7 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
   .btn-solid{background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;border:none}
   .btn-solid:hover{filter:brightness(1.08)}
   .btn-line{background:transparent;color:var(--txt)}
-  .btn-line:hover{border-color:var(--acc);color:var(--acc)}
+  .btn-line:hover{border-color:var(--acc-ink,var(--acc));color:var(--acc-ink,var(--acc))}
   .gcode{font-family:'JetBrains Mono',monospace;font-size:clamp(22px,6vw,34px);letter-spacing:6px;font-weight:800;background:var(--card);border:1px dashed var(--acc);border-radius:14px;padding:18px 10px;margin:18px auto 12px;max-width:440px;word-break:break-all}
   .hide{display:none!important}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -78,7 +78,7 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
   @media(max-width:420px){.tpacks{grid-template-columns:1fr}}
   .tpack{position:relative;border:1px solid var(--line);border-radius:14px;padding:16px 14px;background:var(--inp);cursor:pointer;text-align:center;transition:.18s}
   .tpack:hover{border-color:rgba(255,122,26,.5)}
-  .tpack.sel{border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.15)}
+  .tpack.sel{border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.15)}
   .tpack .nm{font-weight:800;font-size:19px}
   .tpack .pr{color:var(--mut);font-size:13.5px;margin-top:5px}
   .tpack .fl{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:99px;white-space:nowrap}
@@ -89,6 +89,7 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
   .tlog .row b{white-space:nowrap}
   .tlog .plus{color:#4ade80}.tlog .minus{color:var(--mut)}
   .tmuted{color:var(--mut);font-size:13.5px}
+  .gerr.ok{color:#4ade80} /* тот же слот сообщений, но для удачного результата — не красным */
 </style>
 <script src="/i18n.js?v=32" defer></script>
 <meta property="og:type" content="website" />
@@ -157,7 +158,7 @@ ap();})();</script>
   <div class="card" id="loginCard">
     <p class="lbl">Код входа</p>
     <input id="tsecret" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="код входа из письма об оплате или из бота" aria-label="Код входа">
-    <p class="note" style="margin-top:8px">Он приходит в письме об оплате, лежит в личном кабинете и в боте («Мой ключ»). Забыл — <a href="/#recover" style="color:var(--acc)">восстанови по почте</a>.</p>
+    <p class="note" style="margin-top:8px">Он приходит в письме об оплате, лежит в личном кабинете и в боте («Мой ключ»). Забыл — <a href="/#recover" style="color:var(--acc-ink,var(--acc))">восстанови по почте</a>.</p>
     <button class="gpay" id="tlogin" type="button" style="margin-top:14px;justify-content:center;font-weight:700">🔐 <span>Показать баланс</span></button>
     <div class="gerr" id="lerr" role="alert"></div>
     <p class="pnote">Ещё нет аккаунта? Пакет токенов можно купить и без входа — просто <a href="#buy">выбери пакет ниже</a>, аккаунт заведётся на указанную почту.</p>
@@ -172,6 +173,10 @@ ap();})();</script>
       <button class="btn btn-line hide" id="addDev" type="button">➕ Доп. устройство</button>
     </div>
     <p class="pnote" id="addDevNote"></p>
+    <!-- Свой слот для ответов «Доп. устройства». Раньше эти сообщения писались в #lerr, а он лежит
+         внутри #loginCard, который после входа скрыт: и «не хватает токенов», и «уже максимум»
+         уходили в невидимый блок — кнопка выглядела нерабочей, деньги при этом не списывались. -->
+    <div class="gerr" id="derr" role="alert"></div>
     <p class="lbl" style="margin-top:20px">Движения</p>
     <div class="tlog" id="tlog"></div>
   </div>
@@ -194,7 +199,9 @@ ap();})();</script>
     </div>
     <p class="note">Бонус — единственная скидка на этом рельсе: оплата токенами идёт по полной цене тарифа и кэшбэк с неё не капает.</p>
     <p class="lbl" style="margin-top:18px">Почта аккаунта</p>
-    <input id="temail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Почта аккаунта">
+    <!-- maxlength=254 — потолок сервера (web-pay режет почту slice(0,254)): иначе очень длинный
+         адрес молча обрежется на бэкенде и 🪙 зачислятся на аккаунт ДРУГОЙ почты -->
+    <input id="temail" type="email" inputmode="email" maxlength="254" autocomplete="email" placeholder="you@example.com" aria-label="Почта аккаунта">
     <p class="note" style="margin-top:8px">Токены зачисляются на аккаунт этой почты — укажи ту же, что и при покупке подписки.</p>
     <p class="lbl" style="margin-top:18px">Способ оплаты</p>
     <div class="gpays">
@@ -216,7 +223,7 @@ ap();})();</script>
     <div class="gcode" id="okTokens"></div>
     <p class="sec-p" id="okTxt"></p>
     <div class="hide" id="secretReveal" style="margin:18px 0 0;text-align:left">
-      <h3 style="color:var(--acc);margin:0 0 6px;font-size:19px">🔐 Код входа в кабинет</h3>
+      <h3 style="color:var(--acc-ink,var(--acc));margin:0 0 6px;font-size:19px">🔐 Код входа в кабинет</h3>
       <p class="sec-p" style="margin:0 0 10px;text-align:left">Им ты входишь в личный кабинет и приложение. Сохрани — не вводи его в VPN-клиенты и никому не показывай.</p>
       <pre id="secretText" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
       <button class="btn btn-line" id="secretCopy" type="button">Скопировать код входа</button>
@@ -307,7 +314,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   function fmtRub(n){return nf(n)+' ₽';}
   function escHtml(s){return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
   function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
-  function err(id,t){var e=document.getElementById(id);e.textContent=t;e.style.display='block';if(window.__i18nRefresh)window.__i18nRefresh(e);}
+  function err(id,t){var e=document.getElementById(id);e.textContent=t;e.classList.remove('ok');e.style.display='block';if(window.__i18nRefresh)window.__i18nRefresh(e);}
+  /* удачный ответ в тот же слот — иначе после «Доп. устройства» на экране не менялось ничего,
+     кроме баланса, и человек жал кнопку ещё раз, не понимая, прошло списание или нет */
+  function okMsg(id,t){var e=document.getElementById(id);e.textContent=t;e.classList.add('ok');e.style.display='block';if(window.__i18nRefresh)window.__i18nRefresh(e);}
   function dt(s){try{return new Date(s).toLocaleDateString(isEN()?'en-GB':'ru-RU');}catch(e){return '';}}
 
   /* Секрет держим в sessionStorage, а не в localStorage: вкладку закрыли — кредо больше нет на
@@ -386,12 +396,18 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   });
   document.getElementById('addDev').addEventListener('click',async function(){
     if(busy)return;busy=true;var b=this;b.disabled=true;b.style.opacity=.6;
+    document.getElementById('derr').style.display='none';
     try{
       var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'adddev',secret:secret})});
       var j=await r.json();
-      if(!j||!j.ok){err('lerr',(j&&j.error)||(isEN()?'Could not add a device.':'Не удалось добавить устройство.'));}
-      else{btTrack('adddev_ok');await loadAccount(true);}
-    }catch(_){err('lerr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
+      /* ответы сервера («не хватает: нужно N 🪙», «уже максимум — 10 устройств») кладём в видимый
+         слот рядом с кнопкой, а не в #lerr под скрытой формой входа */
+      if(!j||!j.ok){err('derr',(j&&j.error)||(isEN()?'Could not add a device.':'Не удалось добавить устройство.'));}
+      else{btTrack('adddev_ok');
+        okMsg('derr',(isEN()?'Done — device limit is now ':'Готово — лимит устройств теперь ')+nf(j.device_limit)
+          +(Number(j.spent)>0?(isEN()?', spent ':', списано ')+nf(j.spent)+' 🪙':''));
+        await loadAccount(true);}
+    }catch(_){err('derr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
     busy=false;b.disabled=false;b.style.opacity=1;
   });
 
@@ -432,7 +448,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
         var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
         var j=await r.json();
         if(j&&j.paid&&j.topup){showCredited(Number(j.tokens)||0,Number(j.balance)||0,j.login_secret||null);
-          try{localStorage.removeItem('bitaps-pending-topup');}catch(e){}polling=false;return;}
+          dropPending();polling=false;return;}
       }catch(e){}
       await new Promise(function(res){setTimeout(res,5000);});
     }
@@ -440,21 +456,33 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     var wm=document.getElementById('waitMsg');
     wm.innerHTML=(isEN()?'Payment isn\'t confirmed yet. If you\'ve already paid, the tokens will still be credited — open this page again or write to '
                         :'Оплата пока не подтвердилась. Если ты уже оплатил — токены всё равно зачислятся, открой страницу заново или напиши в ')
-      +'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc)">bitapssupport@gmail.com</a>.';
+      +'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc-ink,var(--acc))">bitapssupport@gmail.com</a>.';
     wm.classList.remove('hide');
   }
   /* Возобновление: вернулся с кассы на страницу с незакрытым заказом → опрашиваем дальше.
      Сперва wid из адреса (его подставляет касса при возврате — работает даже там, где
      localStorage пуст: другой браузер, инкогнито, очищённое хранилище), потом — своё хранилище.
-     Адрес чистим сразу: id заказа не должен оседать в истории браузера и в логах. */
+     Адрес чистим сразу: id заказа не должен оседать в истории браузера и в логах.
+     Метка теперь со временем создания. Раньше id брошенного заказа лежал в хранилище ВЕЧНО:
+     тот, кто передумал платить, при каждом заходе на tokens.html вместо баланса и пакетов сразу
+     проваливался в экран «ждём подтверждения оплаты» по счёту, которого уже нет (invoice живёт
+     час). Из адреса (wid) резюмируем всегда — касса только что вернула человека, заказ свежий
+     по построению; из хранилища — только если заказу меньше 2 ч. */
+  function savePending(id){try{if(!id){dropPending();return;}
+    localStorage.setItem('bitaps-pending-topup',id);localStorage.setItem('bitaps-pending-topup-at',String(Date.now()));}catch(_){}}
+  function dropPending(){try{localStorage.removeItem('bitaps-pending-topup');localStorage.removeItem('bitaps-pending-topup-at');}catch(e){}}
   (function(){
-    var pid='';
     try{
       var q=new URLSearchParams(location.search).get('wid')||'';
-      if(/^[0-9a-f-]{36}$/i.test(q)){pid=q;history.replaceState(null,'',location.pathname);}
+      if(/^[0-9a-f-]{36}$/i.test(q)){history.replaceState(null,'',location.pathname);savePending(q);startPoll(q,true);return;}
     }catch(e){}
-    try{if(!pid)pid=localStorage.getItem('bitaps-pending-topup')||'';}catch(e){}
-    if(pid&&/^[0-9a-f-]{36}$/i.test(pid)){try{localStorage.setItem('bitaps-pending-topup',pid);}catch(e){}startPoll(pid,true);}
+    try{
+      var pid=localStorage.getItem('bitaps-pending-topup')||'';
+      if(!/^[0-9a-f-]{36}$/i.test(pid))return;
+      var at=parseInt(localStorage.getItem('bitaps-pending-topup-at')||'0',10);
+      if(!(at>0)||Date.now()-at>72e5){dropPending();return;}
+      startPoll(pid,true);
+    }catch(e){}
   })();
 
   async function buy(method,btn){
@@ -477,7 +505,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').style.display='block';
       document.getElementById('waitMsg').classList.remove('hide');
-      try{localStorage.setItem('bitaps-pending-topup',j.id||'');}catch(_){}
+      savePending(j.id);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id)startPoll(j.id);
     }catch(_){btn.disabled=false;btn.style.opacity=1;busy=false;err('berr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
@@ -485,7 +513,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   document.getElementById('tSbp').addEventListener('click',function(){buy('sbp',this);});
   document.getElementById('tCrypto').addEventListener('click',function(){buy('crypto',this);});
   document.getElementById('payBack').addEventListener('click',function(){
-    polling=false;try{localStorage.removeItem('bitaps-pending-topup');}catch(e){}
+    polling=false;dropPending();
     document.getElementById('done').style.display='none';
     document.getElementById('page').classList.remove('hide');
     busy=false;

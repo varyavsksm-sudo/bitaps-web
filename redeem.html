@@ -15,13 +15,13 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
 <style>
   *{margin:0;box-sizing:border-box}
   :root{--bg:#0b1220;--txt:#fff;--mut:#aab3c5;--acc:#ff7a1a;--acc2:#ffae3d;--blue:#2d8bff;--line:rgba(255,255,255,.12);--card:rgba(255,255,255,.04);--inp:rgba(255,255,255,.05)}
-  html[data-theme="light"]{--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff;--inp:#fff}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff;--inp:#fff}
   body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
     background:radial-gradient(900px 520px at 16% -10%,rgba(255,122,26,.16),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(45,139,255,.12),transparent 60%),var(--bg)}
   .wrap{max-width:760px;margin:0 auto;padding:44px 20px 40px}
-  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--acc);text-transform:uppercase}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--acc-ink,var(--acc));text-transform:uppercase}
   h1{font-size:clamp(30px,5vw,44px);line-height:1.07;letter-spacing:-1px;margin:10px 0 12px;font-weight:800}
-  h1 i{color:var(--acc);font-style:normal}
+  h1 i{color:var(--acc-ink,var(--acc));font-style:normal}
   .sub{color:var(--mut);font-size:15.5px;line-height:1.55;max-width:560px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:26px}
   html[data-theme="light"] .card{box-shadow:0 10px 34px rgba(16,26,48,.07)}
@@ -32,23 +32,23 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
   @media(max-width:400px){.gplans{grid-template-columns:1fr}}
   .gplan{position:relative;border:1px solid var(--line);border-radius:14px;padding:16px 14px;background:var(--inp);cursor:pointer;text-align:center;transition:.18s}
   .gplan:hover{border-color:rgba(255,122,26,.5)}
-  .gplan.sel{border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.15)}
+  .gplan.sel{border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.15)}
   .gplan .nm{font-weight:700;font-size:15px}
   .gplan .pr{font-size:22px;font-weight:800;margin-top:6px}
   .gplan .pr small{font-size:12px;color:var(--mut);font-weight:400}
   .gplan .fl{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:99px;white-space:nowrap}
   .note{color:var(--mut);font-size:13px;margin-top:12px;line-height:1.5}
   input{width:100%;background:var(--inp);border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--txt);font:inherit;font-size:14px}
-  input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.12)}
+  input:focus{outline:none;border-color:var(--acc-ink,var(--acc));box-shadow:0 0 0 3px rgba(255,122,26,.12)}
   /* способы оплаты */
   .gpays{display:grid;gap:10px;margin-top:6px}
   .gpay{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:13px;padding:14px 16px;background:var(--inp);color:var(--txt);font:inherit;font-size:15px;font-weight:600;cursor:pointer;text-align:left;transition:.18s}
-  .gpay:hover{border-color:var(--acc)}
+  .gpay:hover{border-color:var(--acc-ink,var(--acc))}
   .gpay .d{display:block;font-size:12.5px;color:var(--mut);font-weight:400;margin-top:2px}
   .gpay .ar{margin-left:auto;color:var(--mut)}
   .gerr{color:#ff6b6b;font-size:13.5px;margin-top:10px;display:none}
   .pnote{color:var(--mut);font-size:12.5px;line-height:1.55;margin-top:14px}
-  .pnote a{color:var(--acc)}
+  .pnote a{color:var(--acc-ink,var(--acc))}
   /* шаги */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
   @media(max-width:620px){.steps{grid-template-columns:1fr}}
@@ -65,7 +65,7 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
   .btn-solid{background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;border:none}
   .btn-solid:hover{filter:brightness(1.08)}
   .btn-line{background:transparent;color:var(--txt)}
-  .btn-line:hover{border-color:var(--acc);color:var(--acc)}
+  .btn-line:hover{border-color:var(--acc-ink,var(--acc));color:var(--acc-ink,var(--acc))}
   .gcode{font-family:'JetBrains Mono',monospace;font-size:clamp(22px,6vw,34px);letter-spacing:6px;font-weight:800;background:var(--card);border:1px dashed var(--acc);border-radius:14px;padding:18px 10px;margin:18px auto 12px;max-width:440px;word-break:break-all}
   .hide{display:none!important}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -139,7 +139,9 @@ ap();})();</script>
     <input id="rcode" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="8 символов из письма или VIP-код с карты" aria-label="Подарочный или VIP-код">
     <p class="note">Подарочный код — 8 символов (буквы и цифры). VIP-код напечатан на обороте металлической карты и начинается с VIP-.</p>
     <p class="lbl" style="margin-top:18px">Почта — на неё придёт ключ</p>
-    <input id="remail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Почта — на неё придёт ключ">
+    <!-- maxlength=254 — потолок сервера (web-pay режет почту slice(0,254)): иначе очень длинный
+         адрес молча обрежется на бэкенде и ключ уйдёт на ДРУГУЮ почту -->
+    <input id="remail" type="email" inputmode="email" maxlength="254" autocomplete="email" placeholder="you@example.com" aria-label="Почта — на неё придёт ключ">
     <p class="note" style="margin-top:8px">На эту почту заводится аккаунт: по ней потом восстанавливается «Код входа» в личный кабинет.</p>
     <button class="gpay" id="rgo" type="button" style="margin-top:16px;justify-content:center;font-weight:700">🎁 <span>Активировать код</span></button>
     <div class="gerr" id="rerr" role="alert"></div>
@@ -158,7 +160,7 @@ ap();})();</script>
   <h2 id="doneH">Подписка активирована</h2>
   <p class="sec-p" id="doneTxt"></p>
   <div class="hide" id="keyReveal" style="max-width:520px;margin:22px auto 0;text-align:left">
-    <h3 style="color:var(--acc);margin:0 0 6px;font-size:19px">🔑 Твой ключ доступа</h3>
+    <h3 style="color:var(--acc-ink,var(--acc));margin:0 0 6px;font-size:19px">🔑 Твой ключ доступа</h3>
     <p class="sec-p" style="margin:0 0 10px;text-align:left">Скопируй ключ или открой в приложении Happ. Он также ушёл на почту и доступен в личном кабинете.</p>
     <pre id="keyText" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -166,7 +168,7 @@ ap();})();</script>
       <a class="btn btn-line" id="keyHapp" href="#">⚙️ Открыть в Happ</a>
     </div>
     <div class="hide" id="secretReveal" style="margin:16px 0 0">
-      <h3 style="color:var(--acc);margin:0 0 6px;font-size:19px">🔐 Код входа в кабинет</h3>
+      <h3 style="color:var(--acc-ink,var(--acc));margin:0 0 6px;font-size:19px">🔐 Код входа в кабинет</h3>
       <p class="sec-p" style="margin:0 0 10px;text-align:left">Твой логин в личный кабинет и приложение. Сохрани — не вводи его в VPN-клиенты и никому не показывай.</p>
       <pre id="secretText" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
       <button class="btn btn-line" id="secretCopy" type="button">Скопировать код входа</button>
@@ -256,6 +258,12 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   function escHtml(s){return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
   function showErr(t){var e=document.getElementById('rerr');e.textContent=t;e.style.display='block';if(window.__i18nRefresh)window.__i18nRefresh(e);}
   function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+  /* Нормализация кода: верхний регистр (и подарочный алфавит, и VIP-код хранятся заглавными) плюс
+     вычистка пробелов. Код часто копируют из письма или переписки вместе с переносом строки и
+     хвостовым пробелом, а иногда набирают «по четыре» — сервер такой код не признаёт вовсе
+     («Код не похож на подарочный или VIP»), и человек с оплаченным подарком упирался в стену.
+     Дефис не трогаем — он часть VIP-кода (VIP-…). */
+  var clean=function(v){return String(v||'').replace(/\s+/g,'').toUpperCase();};
   /* Код из ссылки: /redeem.html?code=XXXXXXXX (её кладём в письмо/переписку другу) или из
      фрагмента #code=XXXXXXXX (фрагмент на сервер не уходит вовсе).
      Подарочный код — предъявительский документ на подписку до 12 месяцев или на VIP: в строке
@@ -266,17 +274,17 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     var h=(location.hash||'').replace(/^#/,'');
     var f=new URLSearchParams(h).get('code');
     var c=q||f;
-    if(c){document.getElementById('rcode').value=String(c).trim().toUpperCase().slice(0,64);
+    if(c){document.getElementById('rcode').value=clean(c).slice(0,64);
       history.replaceState(null,'',location.pathname);}
   }catch(e){}})();
-  /* код всегда в верхнем регистре: и подарочный алфавит, и VIP-код хранятся заглавными */
   document.getElementById('rcode').addEventListener('input',function(){
-    var p=this.selectionStart;this.value=this.value.toUpperCase();try{this.setSelectionRange(p,p);}catch(e){}});
+    var p=this.selectionStart,before=this.value;this.value=clean(before);
+    try{this.setSelectionRange(p-(before.length-this.value.length),p-(before.length-this.value.length));}catch(e){}});
 
   var busy=false;
   function copyBtn(btn,text){btn.onclick=function(){try{navigator.clipboard.writeText(text);btn.textContent=isEN()?'Copied ✓':'Скопировано ✓';}catch(e){btn.textContent=isEN()?'Select and copy manually':'Выдели и скопируй вручную';}};}
   document.getElementById('rgo').addEventListener('click',async function(){
-    var code=(document.getElementById('rcode').value||'').trim().toUpperCase();
+    var code=clean(document.getElementById('rcode').value); /* и на отправке тоже: значение могли вставить программно */
     var email=(document.getElementById('remail').value||'').trim();
     if(code.length<8)return showErr(isEN()?'Enter the code from the email or the card.':'Впиши код из письма или с карты.');
     if(!validEmail(email))return showErr(isEN()?'Enter a valid email — the key goes there.':'Впиши корректную почту — на неё придёт ключ.');

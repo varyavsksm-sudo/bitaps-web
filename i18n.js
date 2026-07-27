@@ -7,6 +7,15 @@
   var KEY = 'bitaps-lang';
   // ── словарь: русский (схлопнутые пробелы) → english ──
   var DICT = {
+    // блок замера скорости: выдуманное сравнение убрано, остался честный замер.
+    // Ключи намеренно НЕ односложные: «Скорость» уже занята в словаре другим смыслом, и второе
+    // объявление того же ключа молча побеждало первое — в английском выходило «Speed speed right now».
+    "Скорость соединения": "Connection speed", "прямо сейчас": "right now",
+    "Замер идёт прямо сейчас, с твоего устройства. Это потолок, от которого стоит отталкиваться: на VLESS + Reality потеря почти незаметна.":
+      "Measured right now, from your device. This is the ceiling to judge by: on VLESS + Reality the loss is barely noticeable.",
+    "твой канал": "your connection",
+    "Замер до нашего сервера, без VPN — так видно потолок соединения.":
+      "Measured to our server without a VPN — that is your connection ceiling.",
     // Лендинг обещал «10 устройств сразу», хотя в подписке ОДНО, а остальные докупаются.
     // Человек покупал, упирался в лимит и шёл в поддержку — правим текст, а не ожидания.
     "Сколько нужно устройств": "As many devices as you need",
@@ -216,8 +225,8 @@
     "Да. Архитектура построена так, что серверы физически не пишут историю подключений. Это подтвердил независимый аудит. Нечего хранить — значит, нечего у нас запросить и нечего слить.":
       "Yes. The architecture is built so servers physically don't record connection history. An independent audit confirmed it. Nothing stored means nothing to request from us and nothing to leak.",
     "VPN сильно замедлит интернет?": "Will the VPN slow my internet a lot?",
-    "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Замер выше показывает реальную скорость твоего устройства.":
-      "On the VLESS + Reality protocol the speed loss is barely noticeable, and bitaps often even speeds things up: smart routing picks the fastest path and smooths out ISP «hiccups». The test above shows your device's real speed.",
+    "На протоколе VLESS + Reality потеря скорости почти незаметна: шифрование стоит несколько процентов, и на обычных задачах разницы не видно. Замер выше показывает скорость твоего канала до нашего сервера — от неё и стоит отталкиваться.":
+      "On the VLESS + Reality protocol the speed loss is barely noticeable: encryption costs a few percent, and in everyday use you won't see a difference. The test above shows your connection speed to our server — that is the number to judge by.",
     "На сколько устройств можно поставить?": "How many devices can I use?",
     "Одна подписка — до 10 устройств одновременно: телефон, ноутбук, планшет, телевизор и даже роутер. Этого с запасом хватает на всю семью.":
       "One subscription — up to 10 devices at once: phone, laptop, tablet, TV and even a router. More than enough for the whole family.",
@@ -595,6 +604,33 @@
     "Нет ключа в ссылке": "No key in the link",
     "Открой эту страницу кнопкой «⚡ Авто-настроить Happ» из бота — она подставит твой ключ.":
       "Open this page with the «⚡ Auto-setup Happ» button in the bot — it fills in your key.",
+    // экран «ключа нет» — сюда приходят по кнопке «Установить Happ» с /open.html
+    "Установить Happ (App Store)": "Install Happ (App Store)",
+    "Happ для iPhone и iPad — в App Store. На Android и компьютере проще взять наше приложение: ключ подставится сам.":
+      "Happ for iPhone and iPad is on the App Store. On Android and desktop it's easier to take our own app — the key fills itself in.",
+    // сообщения о копировании ключа: их вписывает скрипт, в словаре их не было — в EN оставались русскими
+    "🔑 ключ скопирован": "🔑 key copied",
+    "🔑 ключ скопирован в буфер": "🔑 key copied to the clipboard",
+    "🔑 скопировано!": "🔑 copied!",
+    "не вышло — выдели ключ вручную": "didn't work — select the key manually",
+    // ── дуэль в «Ловле карпов» (game.html): весь разбор полётов рисуется скриптом ──
+    "Играть обычную игру": "Play the normal game",
+    "Дуэль сейчас не работает — сыграй обычную игру, результат так же идёт в топ.":
+      "Duels aren't working right now — play the normal game, your score still counts for the leaderboard.",
+    "🤝 Ничья!": "🤝 Draw!",
+    "🏆 Ты выиграл!": "🏆 You win!",
+    "🎣 В этот раз соперник сильнее": "🎣 Your opponent was stronger this time",
+    "ждём хозяина комнаты…": "waiting for the room host…",
+    "Дуэль работает только в Telegram — открой игру из бота.": "Duels only work inside Telegram — open the game from the bot.",
+    "В этой дуэли уже двое игроков.": "This duel already has two players.",
+    "Ссылка на дуэль устарела — попроси новую.": "The duel link has expired — ask for a new one.",
+    "Комната не найдена.": "Room not found.",
+    // ── форма поддержки: проверки и ответы сервера ──
+    "Проверь Telegram (@ник) или телефон (+7…)": "Check your Telegram (@nickname) or phone (+7…)",
+    "Слишком много обращений подряд — подожди минуту и отправь ещё раз":
+      "Too many requests in a row — wait a minute and send it again",
+    "Не получилось отправить — напиши нам в Telegram @bitapssupport":
+      "Couldn't send — message us on Telegram @bitapssupport",
     "Открой": "Open", "наше приложение bitaps": "our bitaps app",
     "Скачать приложение bitaps": "Download the bitaps app",
     "— там ключ подставится сам, ничего настраивать не нужно.":
@@ -796,7 +832,15 @@
       console.warn('[i18n] нет перевода EN для ' + keys.length + ' строк:', keys);
     }
   }
-  function setLang(l) { cur = l; try { localStorage.setItem(KEY, l); } catch (e) {} apply(l); }
+  function setLang(l) {
+    cur = l;
+    try { localStorage.setItem(KEY, l); } catch (e) {}
+    apply(l);
+    // Событие именно о СМЕНЕ (не о первичном применении): страницы, которые собирают свой текст
+    // скриптом один раз при загрузке, иначе остаются на старом языке — переключатель для них
+    // «не работает». Первичный apply событие НЕ шлёт, иначе подписчик с перезагрузкой зациклился бы.
+    try { window.dispatchEvent(new CustomEvent('bitaps-lang-changed', { detail: l })); } catch (e) {}
+  }
 
   // Сбросить кэш __ru на узлах внутри root и перевести заново. Нужен после того, как
   // JS перезаписал текст (кабинет, тосты, статусы кнопок): движок кэширует исходный RU

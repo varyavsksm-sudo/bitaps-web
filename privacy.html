@@ -13,9 +13,9 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(5,8,15,.6);backdrop-filter:blur(12px);z-index:10}
-  .brand-mark{width:38px;height:38px;color:var(--acc);transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
+  .brand-mark{width:38px;height:38px;color:var(--acc-ink,var(--acc));transition:.4s;display:block}.brand:hover .brand-mark{transform:rotate(120deg)}
   .top-home{font-size:13.5px;color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:10px;transition:.2s}
-  .top-home:hover{color:var(--txt);border-color:var(--acc)}
+  .top-home:hover{color:var(--txt);border-color:var(--acc-ink,var(--acc))}
   .wrap{max-width:760px;margin:0 auto;padding:42px 22px 90px}
   h1{font-size:30px;margin-bottom:6px}
   .upd{color:var(--mut);font-size:13px;margin-bottom:28px}
@@ -27,8 +27,8 @@
   @media(max-width:520px){h1{font-size:24px}.wrap{padding:30px 16px 70px}}
   .top-actions{display:flex;align-items:center;gap:10px}
   .theme-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;line-height:1;cursor:pointer;transition:.2s;display:grid;place-items:center}
-  .theme-btn:hover{border-color:var(--acc)}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309}
+  .theme-btn:hover{border-color:var(--acc-ink,var(--acc))}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   html[data-theme="light"] .top{background:rgba(255,255,255,.78);box-shadow:0 6px 26px rgba(16,26,48,.06)}

@@ -13,8 +13,8 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:780px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
   h1{font-size:31px;line-height:1.18;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:620px}
   .verdict{margin-top:26px;border-radius:18px;padding:24px;border:1px solid var(--line);background:var(--card)}
@@ -32,20 +32,20 @@
   .how{margin-top:40px}.how h2{font-size:20px;margin-bottom:14px}
   .steps{display:grid;gap:12px}
   .step{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);background:var(--card);border-radius:13px;padding:16px 18px}
-  .step .n{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:rgba(255,122,26,.12);color:var(--acc);font-family:'JetBrains Mono',monospace;font-weight:800;font-size:14px;display:grid;place-items:center}
+  .step .n{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:rgba(255,122,26,.12);color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;font-weight:800;font-size:14px;display:grid;place-items:center}
   .step .t{font-size:14.5px;line-height:1.55;color:var(--txt)}.step .t b{color:var(--txt)}
   .related{margin-top:40px}.related h2{font-size:17px;margin-bottom:12px}
   .rellist{display:flex;flex-wrap:wrap;gap:8px}
   .rellist a{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px;color:var(--mut);border:1px solid var(--line);border-radius:9px;padding:7px 12px;background:var(--card);transition:.18s}
-  .rellist a:hover{border-color:var(--acc);color:var(--acc);text-decoration:none}
+  .rellist a:hover{border-color:var(--acc-ink,var(--acc));color:var(--acc-ink,var(--acc));text-decoration:none}
   .faq{margin-top:44px}.faq h2{font-size:20px;margin-bottom:14px}
   details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
   summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
-  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  summary::before{content:"+";color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
   details[open] summary::before{content:"−"}
   details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}details p a{color:var(--acc2)}
   @media(max-width:520px){h1{font-size:24px}.wrap{padding:30px 16px 30px}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02);--bad:#dc2626;--ok:#16a34a}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02);--bad:#dc2626;--ok:#16a34a}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -243,6 +243,12 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   var SHARD='https://raw.githubusercontent.com/varyavsksm-sudo/bitaps-data/data/rkn/';
   var META=SHARD+'_meta.json';
   var DOM="x.com";
+  // Обе версии абзаца держим в скрипте: live-статус может разойтись со статикой,
+  // и тогда переписать надо не только заголовок, но и объяснение под ним.
+  var B_RU="Домен <b>x.com</b> есть в официальном дампе реестра запрещённых сайтов. Это значит, что провайдеры в России обязаны ограничивать к нему доступ — <b>X</b> обычно не открывается без VPN. Чтобы вернуть доступ, достаточно направить трафик через сервер вне блокировки.",
+      B_EN="The domain <b>x.com</b> is in the official block-registry dump. Russian ISPs are required to restrict access, so <b>X</b> usually won't open without a VPN. Routing traffic through a server outside the block restores access.",
+      F_RU="На момент нашего среза реестра домен <b>x.com</b> в списке запрещённых <b>не найден</b>. Это не гарантия доступности: блокировать могут по IP или по родительскому домену, а ситуация меняется. Если <b>X</b> у вас не открывается — VPN решает это сразу.",
+      F_EN="As of our registry snapshot, <b>x.com</b> is <b>not</b> on the banned list. That's no guarantee of access — blocks can hit by IP or a parent domain, and this changes over time. If <b>X</b> won't load for you, a VPN fixes it instantly.";
   function isEn(){try{return localStorage.getItem('bitaps-lang')==='en';}catch(e){return false;}}
   function T(ru,en){return isEn()?en:ru;}
   function fmtDate(iso){try{var d=new Date(iso.replace(' ','T').replace(' +0000','Z'));if(isNaN(d))return iso;return d.toLocaleDateString(isEn()?'en-GB':'ru-RU',{year:'numeric',month:'long',day:'numeric'});}catch(e){return iso;}}
@@ -251,24 +257,45 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
 
   var vmeta=document.getElementById('vmeta');
   var vword=document.getElementById('vword'),vbody=document.getElementById('vbody'),vdot=document.getElementById('vdot'),vcard=document.getElementById('verdict');
-  // live re-check: подтверждаем/корректируем статически вшитый статус
+  var STATIC_BLOCKED=false;      // статус, с которым страница ушла в сборку
+  var live=null,metaData=null; // ответ реестра: true/false; null — ответа ещё нет
+
+  // Здесь было две беды. Первая: при расхождении live-статуса со статикой скрипт менял только
+  // заголовок, точку и цвет карточки, а абзац под ними оставался прежним — страница спорила
+  // сама с собой («Да — в реестре запрещённых», а ниже «в списке запрещённых не найден»).
+  // Вторая: строка #vmeta рисуется скриптом, data-en у неё нет, и после переключения языка
+  // она оставалась на прежнем — половина карточки на другом языке. Поэтому теперь весь
+  // вердикт перерисовывается из состояния, в том числе на смену языка.
+  function paint(){
+    if(metaData){
+      vmeta.textContent=T('Проверено по реестру от ','Checked against registry of ')+fmtDate(metaData.dump_updated)+' · '+(isEn()?'live':'вживую');
+    }
+    if(live===null||live===STATIC_BLOCKED)return; // статика верна — её переводит общий движок
+    if(live){
+      vcard.className='verdict blocked';vdot.textContent='🔴';
+      vword.textContent=T('Да — в реестре запрещённых','Yes — in the block registry');
+      vword.setAttribute('data-en','Yes — in the block registry');
+      vbody.innerHTML=T(B_RU,B_EN);vbody.setAttribute('data-en',B_EN);
+    }else{
+      vcard.className='verdict free';vdot.textContent='⚪';
+      vword.textContent=T('Нет — не в реестре','No — not in the registry');
+      vword.setAttribute('data-en','No — not in the registry');
+      vbody.innerHTML=T(F_RU,F_EN);vbody.setAttribute('data-en',F_EN);
+    }
+  }
+  // движок перевода в конце своей работы шлёт 'storage' — дорисовываемся уже после него
+  window.addEventListener('storage',paint);
+
+  // live re-check: подтверждаем или исправляем статически вшитый статус
   var shard=md5(DOM).slice(0,2);
   Promise.all([
     fetch(SHARD+shard+'.json').then(function(r){if(!r.ok)throw 0;return r.json();}),
     fetch(META).then(function(r){return r.json();}).catch(function(){return null;})
   ]).then(function(a){
-    var list=a[0],meta=a[1];
-    var found=false;for(var i=0;i<list.length;i++){if(list[i].domain===DOM){found=true;break;}}
-    if(meta){
-      vmeta.textContent=T('Проверено по реестру от ','Checked against registry of ')+fmtDate(meta.dump_updated)+' · '+(isEn()?'live':'вживую');
-    }
-    // если live-статус разошёлся со статикой — доверяем live (данные могли обновиться)
-    var wasBlocked=vcard.classList.contains('blocked');
-    if(found!==wasBlocked){
-      if(found){vcard.className='verdict blocked';vdot.textContent='🔴';vword.textContent=T('Да — в реестре запрещённых','Yes — in the block registry');vword.setAttribute('data-en','Yes — in the block registry');}
-      else{vcard.className='verdict free';vdot.textContent='⚪';vword.textContent=T('Нет — не в реестре','No — not in the registry');vword.setAttribute('data-en','No — not in the registry');}
-    }
-  }).catch(function(){/* статический статус остаётся */});
+    var list=a[0];metaData=a[1];
+    live=false;for(var i=0;i<list.length;i++){if(list[i].domain===DOM){live=true;break;}}
+    paint();
+  }).catch(function(){/* реестр не ответил — остаётся статический статус */});
 })();
 </script>
 <script src="/i18n-lite.js?v=1" defer></script>

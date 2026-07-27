@@ -13,24 +13,27 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:740px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
   h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
   .form{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
   input[type=text]{flex:1;min-width:220px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:15px;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;outline:none;transition:.2s}
-  input:focus{border-color:var(--acc)}
+  input:focus{border-color:var(--acc-ink,var(--acc))}
   .btn{background:var(--acc);color:#0b0e14;font-weight:800;border:none;padding:15px 26px;border-radius:13px;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(255,122,26,.3);transition:.2s;font-family:inherit}
   .btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.55;cursor:default;transform:none}
   .result{margin-top:22px;border-radius:16px;padding:24px;display:none;border:1px solid var(--line);background:var(--card)}
   .result.show{display:block}
   .result.up{border-color:rgba(70,211,154,.4);background:rgba(70,211,154,.07)}
   .result.down{border-color:rgba(255,90,90,.4);background:rgba(255,90,90,.08)}
-  .result.you{border-color:rgba(255,187,68,.4);background:rgba(255,187,68,.08)}
+  .result.you,.result.err{border-color:rgba(255,187,68,.4);background:rgba(255,187,68,.08)}
   .result h2{font-size:22px;margin-bottom:8px}
-  .result.up h2{color:var(--ok)}.result.down h2{color:var(--bad)}.result.you h2{color:var(--warn)}
-  .result p{color:var(--txt);font-size:14.5px;line-height:1.6}
+  .result.up h2{color:var(--ok)}.result.down h2{color:var(--bad)}.result.you h2,.result.err h2{color:var(--warn)}
+  /* В результат подставляется то, что ввёл пользователь: длинный домен и адрес редиректа
+     разъезжались за экран, а body{overflow-x:hidden} их просто обрезал. */
+  .result p{color:var(--txt);font-size:14.5px;line-height:1.6;overflow-wrap:anywhere}
   .meta{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mut);display:flex;gap:16px;flex-wrap:wrap}
+  .meta span{min-width:0;word-break:break-all}   /* «→ адрес редиректа» бывает длиннее экрана */
   .note{margin-top:20px;padding:13px 16px;border:1px solid var(--line);background:var(--card);border-radius:12px;font-size:13px;line-height:1.55;color:var(--mut)}
   .cta{margin-top:34px;border:1px solid var(--line);border-radius:16px;padding:22px;background:rgba(255,122,26,.05);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
   .cta p{color:var(--mut);font-size:14px;max-width:440px;line-height:1.55}.cta b{color:var(--txt)}
@@ -38,11 +41,11 @@
   .faq{margin-top:40px}.faq h2{font-size:20px;margin-bottom:14px}
   details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
   summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
-  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  summary::before{content:"+";color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
   details[open] summary::before{content:"−"}
   details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
   @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -230,38 +233,89 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   function T(ru,en){return isEn()?en:ru;}
   var inp=document.getElementById('url'),btn=document.getElementById('check'),res=document.getElementById('result');
   function esc(s){return String(s).replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});}
+
+  // Коды отказа приходят с бэкенда служебными английскими строками (ssrf-гард, лимитер).
+  // Раньше они падали в текст как есть — русский пользователь видел «Причина: blocked ip».
+  function reasonText(code){
+    var M={
+      'dns fail':['домен не находится — DNS не отвечает','domain not found — DNS failed'],
+      'bad url':['адрес не удалось разобрать','could not parse the address'],
+      'only http/https':['проверяем только http и https','only http and https can be checked'],
+      'port not allowed':['такой порт проверять нельзя','that port is not allowed'],
+      'blocked ip':['это внутренний адрес, а не публичный сайт','that is an internal address, not a public site'],
+      'blocked host':['это внутренний адрес, а не публичный сайт','that is an internal address, not a public site'],
+      'resolves to private ip':['домен ведёт во внутреннюю сеть','the domain resolves to a private network'],
+      'guard':['адрес не прошёл проверку','the address failed validation']
+    };
+    var m=M[code];
+    return m?T(m[0],m[1]):esc(code||T('адрес недоступен','address unreachable'));
+  }
+
+  // Последний ответ держим, чтобы перерисовать результат при смене языка: он собран из
+  // T(...) на лету, у его узлов нет data-en, и без этого он навсегда застывал в старом языке.
+  var last=null;
+  function paint(){
+    if(!last)return;
+    if(last.kind==='neterr'){
+      res.className='result show down';
+      res.innerHTML='<h2>'+T('Ошибка','Error')+'</h2><p>'+T('Не удалось выполнить проверку. Попробуйте ещё раз.','Could not run the check. Try again.')+'</p>';
+      return;
+    }
+    if(last.kind==='empty'){
+      res.className='result show err';
+      res.innerHTML='<p>'+T('Введите адрес сайта, например example.com','Enter a site address, e.g. example.com')+'</p>';
+      return;
+    }
+    var d=last.d;
+    // Порядок веток важен. Когда сайт не отвечает вообще (таймаут, отказ соединения),
+    // site-check отдаёт СРАЗУ up:false и error:"unreachable". Проверка d.error шла первой,
+    // и главный случай, ради которого страница существует, показывался как
+    // «Не удалось проверить · проверьте, правильно ли введён адрес» — вместо «лежит у всех».
+    if(d.up===false){
+      res.className='result show down';
+      var code=d.status!=null?' (HTTP '+esc(d.status)+')':'';
+      res.innerHTML='<h2>'+T('✗ Сайт не отвечает','✗ Site is down')+'</h2><p>'+
+        T('<b>'+esc(d.host)+'</b> не открывается даже из зарубежного облака'+code+'. Похоже, проблема на стороне самого сайта — он лежит у всех.',
+          '<b>'+esc(d.host)+'</b> doesn\'t open even from a foreign cloud'+code+'. Looks like the site itself is down — for everyone.')+'</p>';
+      return;
+    }
+    if(d.error==='rate_limited'){
+      res.className='result show err';
+      res.innerHTML='<h2>'+T('Слишком часто','Too many checks')+'</h2><p>'+
+        T('Вы проверяете чаще, чем разрешено. Подождите минуту и попробуйте снова.','You are checking more often than allowed. Wait a minute and try again.')+'</p>';
+      return;
+    }
+    if(d.error){
+      res.className='result show err';
+      res.innerHTML='<h2>'+T('Не удалось проверить','Could not check')+'</h2><p>'+T('Причина: ','Reason: ')+reasonText(d.reason)+'. '+T('Проверьте, правильно ли введён адрес.','Check that the address is correct.')+'</p>';
+      return;
+    }
+    res.className='result show up';
+    res.innerHTML='<h2>'+T('✓ Сайт доступен','✓ Site is up')+'</h2><p>'+
+      T('<b>'+esc(d.host)+'</b> открывается из зарубежного облака. Если у вас он не грузится — проблема, скорее всего, локальная: провайдер, блокировка или ваша сеть.',
+        '<b>'+esc(d.host)+'</b> opens from a foreign cloud. If it won\'t load for you, the issue is likely local: provider, block or your network.')+'</p>'+
+      '<div class="meta"><span>HTTP '+esc(d.status)+'</span><span>'+esc(d.latency_ms)+' ms</span>'+(d.redirected_to?'<span>→ '+esc(d.redirected_to)+'</span>':'')+'</div>';
+  }
+
   async function run(){
     var val=inp.value.trim();
-    if(!val){return;}
+    // Пустое поле раньше просто выходило из функции: кнопка нажималась, и НИЧЕГО не происходило.
+    if(!val){last={kind:'empty'};paint();inp.focus();return;}
     if(!/^https?:\/\//i.test(val))val='https://'+val;
     btn.disabled=true;var old=btn.textContent;btn.textContent=T('Проверяю…','Checking…');
+    last=null;
     res.className='result show';res.innerHTML='<p>'+T('Пробуем открыть из зарубежного облака…','Trying from a foreign cloud…')+'</p>';
     try{
       var r=await fetch(API,{method:'POST',headers:{'apikey':KEY,'content-type':'application/json'},body:JSON.stringify({url:val})});
-      var d=await r.json();
-      if(d.error){
-        res.className='result show down';
-        var why=d.reason==='dns fail'?T('домен не находится (DNS не отвечает)','domain not found (DNS failed)'):esc(d.reason||T('адрес недоступен','address unreachable'));
-        res.innerHTML='<h2>'+T('Не удалось проверить','Could not check')+'</h2><p>'+T('Причина: ','Reason: ')+why+'. '+T('Проверьте, правильно ли введён адрес.','Check that the address is correct.')+'</p>';
-      }else if(d.up){
-        res.className='result show up';
-        res.innerHTML='<h2>'+T('✓ Сайт доступен','✓ Site is up')+'</h2><p>'+
-          T('<b>'+esc(d.host)+'</b> открывается из зарубежного облака. Если у вас он не грузится — проблема, скорее всего, локальная: провайдер, блокировка или ваша сеть.',
-            '<b>'+esc(d.host)+'</b> opens from a foreign cloud. If it won\'t load for you, the issue is likely local: provider, block or your network.')+'</p>'+
-          '<div class="meta"><span>HTTP '+esc(d.status)+'</span><span>'+esc(d.latency_ms)+' ms</span>'+(d.redirected_to?'<span>→ '+esc(d.redirected_to)+'</span>':'')+'</div>';
-      }else{
-        res.className='result show down';
-        res.innerHTML='<h2>'+T('✗ Сайт не отвечает','✗ Site is down')+'</h2><p>'+
-          T('<b>'+esc(d.host)+'</b> не открывается даже из зарубежного облака (HTTP '+esc(d.status)+'). Похоже, проблема на стороне самого сайта — он лежит у всех.',
-            '<b>'+esc(d.host)+'</b> doesn\'t open even from a foreign cloud (HTTP '+esc(d.status)+'). Looks like the site itself is down — for everyone.')+'</p>';
-      }
+      last={kind:'ok',d:await r.json()};
     }catch(e){
-      res.className='result show down';
-      res.innerHTML='<h2>'+T('Ошибка','Error')+'</h2><p>'+T('Не удалось выполнить проверку. Попробуйте ещё раз.','Could not run the check. Try again.')+'</p>';
+      last={kind:'neterr'};
     }finally{btn.disabled=false;btn.textContent=old;}
+    paint();
   }
   btn.addEventListener('click',run);
   inp.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+  window.addEventListener('storage',paint);
 })();
 </script>
 <script src="/i18n-lite.js?v=1" defer></script>

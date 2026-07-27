@@ -13,8 +13,8 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:760px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
   h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
   .verdict{margin-top:26px;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:24px}
@@ -30,18 +30,18 @@
   .row .v{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:14px;text-align:right;word-break:break-all;max-width:60%}
   .row .v.pending{color:var(--mut)}
   .redo{margin-top:16px;border:1px solid var(--line);background:transparent;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:13px;padding:11px 18px;border-radius:11px;cursor:pointer;transition:.2s}
-  .redo:hover{border-color:var(--acc);color:var(--acc)}
+  .redo:hover{border-color:var(--acc-ink,var(--acc));color:var(--acc-ink,var(--acc))}
   .cta{margin-top:34px;border:1px solid var(--line);border-radius:16px;padding:22px;background:rgba(255,122,26,.05);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
   .cta p{color:var(--mut);font-size:14px;max-width:440px;line-height:1.55}.cta b{color:var(--txt)}
   .cta a{flex-shrink:0;background:var(--acc);color:#0b0e14;font-weight:800;padding:12px 22px;border-radius:11px;font-size:14px;box-shadow:0 6px 20px rgba(255,122,26,.35);transition:.2s}.cta a:hover{transform:translateY(-2px);text-decoration:none}
   .faq{margin-top:40px}.faq h2{font-size:20px;margin-bottom:14px}
   details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
   summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
-  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  summary::before{content:"+";color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
   details[open] summary::before{content:"−"}
   details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
   @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}.row .v{max-width:52%}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -235,23 +235,64 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   var IPRE=/((?:\d{1,3}\.){3}\d{1,3})|([a-f0-9]{1,4}:(?:[a-f0-9]{0,4}:){2,6}[a-f0-9]{1,4})/gi;
   function isPrivate(ip){return /^(10\.|127\.|0\.|169\.254\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(ip)||/^(f[cd]|fe80)/i.test(ip);}
   function setV(cls,head,body){verdict.className='verdict '+cls;vh.innerHTML='<span>'+head+'</span>';vp.textContent=body;}
+
+  // У #vp в разметке есть data-en с фразой «идёт проверка». Скрипт писал туда готовый вердикт,
+  // но атрибут оставался — и первое же переключение языка возвращало «Собираем WebRTC-кандидаты…»
+  // поверх результата: заголовок рядом говорил «утечки нет», а абзац — что проверка ещё идёт.
+  // Теперь узлом владеет скрипт: data-en снимаем, а весь экран перерисовываем из состояния S.
+  vp.removeAttribute('data-en');
+  var S=null;
+  function paint(){
+    if(!S)return;
+    // строки рисуем по мере готовности: смена языка на середине проверки не должна
+    // откатывать уже определённый публичный IP обратно в «…»
+    if(!S.pubDone){pubEl.textContent='…';pubEl.className='v pending';}
+    else{pubEl.className='v';pubEl.textContent=S.pubErr?T('ошибка','error'):(S.pubIP||T('не определён','unknown'));}
+    if(!S.rtcDone){rtcEl.textContent='…';rtcEl.className='v pending';localEl.textContent='…';localEl.className='v pending';}
+    else{
+      rtcEl.className='v';localEl.className='v';
+      if(S.rtcMode==='unavailable'){rtcEl.textContent=T('WebRTC недоступен','WebRTC unavailable');localEl.textContent='—';}
+      else if(S.rtcMode==='blocked'){rtcEl.textContent=T('WebRTC заблокирован','WebRTC blocked');localEl.textContent='—';}
+      else{
+        rtcEl.textContent=S.rtcPublic.length?S.rtcPublic.join(', '):T('не раскрыт ✓','none exposed ✓');
+        localEl.textContent=S.locals.length?S.locals.join(', ')
+          :(S.mdns?T('скрыты (mDNS) ✓','hidden (mDNS) ✓'):T('не раскрыты ✓','none exposed ✓'));
+      }
+    }
+    if(!S.done){
+      verdict.className='verdict';
+      vh.innerHTML='<span>'+T('Идёт проверка…','Running the test…')+'</span>';
+      vp.textContent=T('Собираем WebRTC-кандидаты и ваш публичный IP.','Gathering WebRTC candidates and your public IP.');
+      return;
+    }
+    var list=S.rtcPublic.join(', ');
+    if(S.rtcPublic.length===0){
+      setV('ok',T('✓ Утечки WebRTC нет','✓ No WebRTC leak'),T('Ваш браузер не раскрывает публичный IP через WebRTC. Это хорошо.','Your browser does not expose a public IP via WebRTC. Good.'));
+    }else if(!S.pubIP){
+      setV('warn',T('⚠ WebRTC раскрывает IP','⚠ WebRTC exposes an IP'),T('WebRTC раскрывает публичный IP ('+list+'). Ваш публичный адрес определить не удалось, поэтому сравнить не с чем. Если вы под VPN — убедитесь, что показанный адрес принадлежит VPN, а не вашему провайдеру.','WebRTC exposes a public IP ('+list+'). We couldn\'t determine your public address, so there\'s nothing to compare against. On a VPN, make sure the shown address belongs to the VPN and not your provider.'));
+    }else if(S.rtcPublic.indexOf(S.pubIP)>=0&&S.rtcPublic.length===1){
+      setV('warn',T('⚠ WebRTC виден, но совпадает','⚠ WebRTC visible, but matches'),T('WebRTC раскрывает IP, но он совпадает с вашим публичным адресом. Если сейчас включён VPN — вкладка выдаёт именно адрес VPN, отдельной утечки реального IP нет. Без VPN это просто ваш адрес.','WebRTC exposes an IP, but it matches your public address. With a VPN on, this is the VPN\'s address — no separate real-IP leak. Without a VPN it\'s just your address.'));
+    }else{
+      setV('leak',T('⚠ Обнаружена утечка WebRTC','⚠ WebRTC leak detected'),T('WebRTC раскрывает IP-адрес, отличный от вашего публичного. Если вы под VPN — это ваш реальный адрес, утёкший в обход туннеля.','WebRTC exposes an IP different from your public address. If you\'re on a VPN, this is your real address leaking past the tunnel.'));
+    }
+  }
+  window.addEventListener('storage',paint);
+
   function run(){
-    pubEl.textContent='…';pubEl.className='v pending';
-    rtcEl.textContent='…';rtcEl.className='v pending';
-    localEl.textContent='…';localEl.className='v pending';
-    verdict.className='verdict';vh.innerHTML='<span>'+T('Идёт проверка…','Running the test…')+'</span>';vp.textContent=T('Собираем WebRTC-кандидаты и ваш публичный IP.','Gathering WebRTC candidates and your public IP.');
+    S={done:false,pubDone:false,rtcDone:false,pubIP:null,pubErr:false,rtcMode:'ok',rtcPublic:[],locals:[],mdns:false};
+    paint();
     var pubIP=null,rtcPublic=[],locals=[],mdns=false;
     var pubDone=false,rtcDone=false;
     // public IP via edge
     fetch(API,{headers:{'apikey':KEY}}).then(function(r){return r.json();}).then(function(d){
-      pubIP=d.ip||null;pubEl.textContent=pubIP||T('не определён','unknown');pubEl.className='v';pubDone=true;maybeFinish();
-    }).catch(function(){pubEl.textContent=T('ошибка','error');pubEl.className='v';pubDone=true;maybeFinish();});
+      pubIP=d.ip||null;S.pubIP=pubIP;S.pubDone=true;pubEl.textContent=pubIP||T('не определён','unknown');pubEl.className='v';pubDone=true;maybeFinish();
+    }).catch(function(){S.pubErr=true;S.pubDone=true;pubEl.textContent=T('ошибка','error');pubEl.className='v';pubDone=true;maybeFinish();});
     // WebRTC
     var RTC=window.RTCPeerConnection||window.webkitRTCPeerConnection||window.mozRTCPeerConnection;
-    if(!RTC){rtcEl.textContent=T('WebRTC недоступен','WebRTC unavailable');rtcEl.className='v';localEl.textContent='—';localEl.className='v';rtcDone=true;maybeFinish();return;}
+    if(!RTC){S.rtcMode='unavailable';S.rtcDone=true;rtcEl.textContent=T('WebRTC недоступен','WebRTC unavailable');rtcEl.className='v';localEl.textContent='—';localEl.className='v';rtcDone=true;maybeFinish();return;}
     var pc;
     try{pc=new RTC({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});}catch(e){
-      rtcEl.textContent=T('WebRTC заблокирован','WebRTC blocked');rtcEl.className='v';localEl.textContent='—';localEl.className='v';rtcDone=true;maybeFinish();return;
+      S.rtcMode='blocked';S.rtcDone=true;rtcEl.textContent=T('WebRTC заблокирован','WebRTC blocked');rtcEl.className='v';localEl.textContent='—';localEl.className='v';rtcDone=true;maybeFinish();return;
     }
     pc.createDataChannel('x');
     pc.onicecandidate=function(e){
@@ -277,15 +318,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     }
     function maybeFinish(){
       if(!pubDone||!rtcDone)return;
-      if(rtcPublic.length===0){
-        setV('ok',T('✓ Утечки WebRTC нет','✓ No WebRTC leak'),T('Ваш браузер не раскрывает публичный IP через WebRTC. Это хорошо.','Your browser does not expose a public IP via WebRTC. Good.'));
-      }else if(!pubIP){
-        setV('warn',T('⚠ WebRTC раскрывает IP','⚠ WebRTC exposes an IP'),T('WebRTC раскрывает публичный IP ('+rtcPublic.join(', ')+'). Ваш публичный адрес определить не удалось, поэтому сравнить не с чем. Если вы под VPN — убедитесь, что показанный адрес принадлежит VPN, а не вашему провайдеру.','WebRTC exposes a public IP ('+rtcPublic.join(', ')+'). We couldn\'t determine your public address, so there\'s nothing to compare against. On a VPN, make sure the shown address belongs to the VPN and not your provider.'));
-      }else if(pubIP&&rtcPublic.indexOf(pubIP)>=0&&rtcPublic.length===1){
-        setV('warn',T('⚠ WebRTC виден, но совпадает','⚠ WebRTC visible, but matches'),T('WebRTC раскрывает IP, но он совпадает с вашим публичным адресом. Если сейчас включён VPN — вкладка выдаёт именно адрес VPN, отдельной утечки реального IP нет. Без VPN это просто ваш адрес.','WebRTC exposes an IP, but it matches your public address. With a VPN on, this is the VPN\'s address — no separate real-IP leak. Without a VPN it\'s just your address.'));
-      }else{
-        setV('leak',T('⚠ Обнаружена утечка WebRTC','⚠ WebRTC leak detected'),T('WebRTC раскрывает IP-адрес, отличный от вашего публичного. Если вы под VPN — это ваш реальный адрес, утёкший в обход туннеля.','WebRTC exposes an IP different from your public address. If you\'re on a VPN, this is your real address leaking past the tunnel.'));
-      }
+      // складываем факты в S и рисуем из него — тогда та же картинка воспроизводится
+      // при каждом переключении языка, без пересдачи самой проверки
+      S.rtcPublic=rtcPublic;S.locals=locals;S.mdns=mdns;S.pubDone=true;S.rtcDone=true;S.done=true;
+      paint();
     }
   }
   document.getElementById('redo').addEventListener('click',run);

@@ -15,7 +15,7 @@
   .paytop .back{color:var(--mut);font-size:14px;white-space:nowrap}
   .plan{cursor:pointer;transition:.18s}
   .plan.sel{border-color:rgba(255,122,26,.6);background:linear-gradient(170deg,rgba(255,122,26,.10),rgba(45,139,255,.045));box-shadow:var(--glow)}
-  .plan.sel .plan-name{color:var(--acc)}
+  .plan.sel .plan-name{color:var(--acc-ink,var(--acc))}
   .checkout{max-width:560px;margin:30px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
   .checkout .lbl{font-size:13px;color:var(--mut);margin:0 0 9px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
   .sform input{width:100%}
@@ -45,7 +45,7 @@
   .pcard h4{font-size:18px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:9px}
   .pcard .desc{color:var(--mut);font-size:14px;line-height:1.55;margin-bottom:16px}
   .hist-empty{border:1px dashed var(--line);border-radius:12px;padding:28px 16px;text-align:center;color:var(--mut);font-size:14px}
-  .pcard-link{display:inline-block;margin-top:14px;color:var(--acc);text-decoration:none;font-size:14px;font-weight:600}
+  .pcard-link{display:inline-block;margin-top:14px;color:var(--acc-ink,var(--acc));text-decoration:none;font-size:14px;font-weight:600}
   .pcard-link:hover{text-decoration:underline}
   @media(max-width:720px){.pgrid{grid-template-columns:1fr}}
   .hide{display:none!important}
@@ -105,7 +105,9 @@
       <div id="discTimer" style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mut);margin-top:4px"></div>
     </div>
     <div class="lbl" style="margin-top:6px">Почта — на неё придёт ключ</div>
-    <div class="sform"><input id="email" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email" aria-label="Почта — на неё придёт ключ"></div>
+    <!-- maxlength=254 — тот же потолок, что у сервера (web-pay режет почту slice(0,254)): без него
+         очень длинный адрес молча обрезался бы на бэкенде и счёт ушёл бы на ДРУГУЮ почту -->
+    <div class="sform"><input id="email" type="email" inputmode="email" maxlength="254" placeholder="you@example.com" autocomplete="email" aria-label="Почта — на неё придёт ключ"></div>
     <div class="lbl" style="margin-top:18px">Способ оплаты</div>
     <div class="pays">
       <button class="paybtn primary" id="paySbp" type="button"><span class="ic">🏦</span><span>Карта / СБП<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
@@ -117,13 +119,13 @@
     <div id="tokBox" class="hide" style="margin-top:14px;padding:15px;border:1px dashed var(--line);border-radius:13px">
       <div class="lbl" style="margin-top:0">Код входа — подтверди аккаунт</div>
       <div class="sform"><input id="tokSecret" type="text" inputmode="text" placeholder="код входа из письма об оплате или из бота" autocomplete="off" aria-label="Код входа"></div>
-      <p class="pnote" id="tokInfo" style="text-align:left;margin-top:9px">Токены капают за приведённых друзей, кэшбэком с оплат и в игре. Их можно и купить — <a href="tokens.html" style="color:var(--acc)">пополнить баланс</a>.</p>
+      <p class="pnote" id="tokInfo" style="text-align:left;margin-top:9px">Токены капают за приведённых друзей, кэшбэком с оплат и в игре. Их можно и купить — <a href="tokens.html" style="color:var(--acc-ink,var(--acc))">пополнить баланс</a>.</p>
       <button class="btn btn-solid" id="tokGo" type="button" style="margin-top:4px;width:100%;justify-content:center">Оплатить токенами</button>
     </div>
     <div id="perr" class="perr hide"></div>
-    <p class="pnote" style="margin-top:14px">🎁 Хочешь подарить подписку другу? <a href="gift.html" style="color:var(--acc)">Подарочный код — здесь</a></p>
-    <p class="pnote" style="margin-top:10px">Оплачивая, ты принимаешь <a href="terms.html" style="color:var(--acc)">оферту</a> и <a href="privacy.html" style="color:var(--acc)">политику конфиденциальности</a>.</p>
-    <p class="pnote">Оплата по СБП (карта/кошелёк) или криптой проходит на сайте. После оплаты ключ автоматически придёт на указанную почту. Вопросы — <a href="mailto:bitapssupport@gmail.com" style="color:var(--acc)">bitapssupport@gmail.com</a></p>
+    <p class="pnote" style="margin-top:14px">🎁 Хочешь подарить подписку другу? <a href="gift.html" style="color:var(--acc-ink,var(--acc))">Подарочный код — здесь</a></p>
+    <p class="pnote" style="margin-top:10px">Оплачивая, ты принимаешь <a href="terms.html" style="color:var(--acc-ink,var(--acc))">оферту</a> и <a href="privacy.html" style="color:var(--acc-ink,var(--acc))">политику конфиденциальности</a>.</p>
+    <p class="pnote">Оплата по СБП (карта/кошелёк) или криптой проходит на сайте. После оплаты ключ автоматически придёт на указанную почту. Вопросы — <a href="mailto:bitapssupport@gmail.com" style="color:var(--acc-ink,var(--acc))">bitapssupport@gmail.com</a></p>
   </div>
   </section>
 
@@ -156,7 +158,7 @@
   <p class="sec-p hide" id="waitMsg" style="margin-top:16px">⏳ Ждём подтверждения оплаты… ключ появится здесь автоматически (можно не закрывать страницу).</p>
   <div style="margin-top:18px"><button type="button" id="payBack" class="btn btn-line">← Другой способ оплаты</button></div>
   <div class="hide" id="keyReveal" style="margin:22px auto 0;max-width:520px;text-align:left">
-    <h3 style="color:var(--acc);margin:0 0 6px">🔑 Готово! Твой ключ</h3>
+    <h3 style="color:var(--acc-ink,var(--acc));margin:0 0 6px">🔑 Готово! Твой ключ</h3>
     <p class="sec-p" style="margin:0 0 10px">Скопируй ключ или открой в приложении Happ. Он также придёт на почту и доступен в Личном кабинете.</p>
     <pre id="keyText" style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -164,7 +166,7 @@
       <a class="btn btn-line" id="keyHapp" href="#">⚙️ Открыть в Happ</a>
     </div>
     <div class="hide" id="secretReveal" style="margin:16px 0 0">
-      <h3 style="color:var(--acc);margin:0 0 6px">🔐 Код входа в кабинет</h3>
+      <h3 style="color:var(--acc-ink,var(--acc));margin:0 0 6px">🔐 Код входа в кабинет</h3>
       <p class="sec-p" style="margin:0 0 10px">Твой логин в Личный кабинет и приложение (по нему входишь вместо ключа). Сохрани — не вводи в VPN-клиенты и никому не показывай.</p>
       <pre id="secretText" style="background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
       <button class="btn btn-line" id="secretCopy" type="button">Скопировать код входа</button>
@@ -213,9 +215,13 @@
     var st=document.getElementById('payStars');
     if(st) st.setAttribute('href', BOT_START+'subscribe_'+code+'_'+dev);
     var tg=document.getElementById('tokGo');
-    if(tg) tg.textContent=(isEN()?'Pay ':'Оплатить ')+nf(base+(dev-1)*EXTRA*mo)+' 🪙';
+    if(tg) tg.textContent=(isEN()?'Pay ':'Оплатить ')+nf(tokPrice())+' 🪙';
     renderDisc(); /* превью скидки пересчитывается при смене тарифа/устройств (hoisted-функция ниже) */
   }
+  /* Кнопка оплаты токенами собирается скриптом («Оплатить 1 790 🪙»), в словаре её нет — числа
+     меняются. При переключении языка она оставалась русской. Перерисовываем её тем же paint(),
+     а не перезагружаем страницу: тут человек мог уже выбрать тариф и вписать почту. */
+  window.addEventListener('bitaps-lang-changed', function(){ try{ paint(); }catch(e){} });
   function selectPlan(el){if(!el)return;code=el.dataset.code;paint();el.focus();btTrack('plan_select',{plan:code});}
   document.getElementById('plans').addEventListener('click',function(e){selectPlan(e.target.closest('.plan'));});
   document.getElementById('plans').addEventListener('keydown',function(e){
@@ -275,8 +281,8 @@
   document.getElementById('email').addEventListener('blur',probeDisc);
   function discDoneNote(j){ /* пометка применённой скидки на экране счёта (сервер уже посчитал amount_rub) */
     if(!(j&&j.discount&&j.discount.percent>0))return '';
-    return isEN()?' <span style="color:var(--acc)">(−'+j.discount.percent+'% discount applied)</span>'
-                 :' <span style="color:var(--acc)">(скидка −'+j.discount.percent+'% применена)</span>';
+    return isEN()?' <span style="color:var(--acc-ink,var(--acc))">(−'+j.discount.percent+'% discount applied)</span>'
+                 :' <span style="color:var(--acc-ink,var(--acc))">(скидка −'+j.discount.percent+'% применена)</span>';
   }
   /* on-site выдача ключа: опрашиваем статус заказа, показываем ключ прямо на странице (не зависим от письма) */
   var STATUS_API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay-status';
@@ -315,10 +321,10 @@
       try{
         var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
         var j=await r.json();
-        if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key, j.login_secret); try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
+        if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key, j.login_secret); dropPending(); polling=false; return; }
         if(j&&j.paid&&j.by_email){ /* повторная покупка под существующим email: ключ не раскрываем тут */
           document.getElementById('waitMsg').textContent='✅ Оплачено! Ключ отправлен на почту и доступен в Личном кабинете (вход по ключу).';
-          try{localStorage.removeItem('bitaps-pending-pay');}catch(e){} polling=false; return; }
+          dropPending(); polling=false; return; }
       }catch(e){}
       await new Promise(function(res){setTimeout(res,5000);});
     }
@@ -329,13 +335,27 @@
       wm.innerHTML=(document.documentElement.lang==='en'
         ? 'Payment isn\'t confirmed yet. If you\'ve already paid, the key will still arrive by email — or write to '
         : 'Оплата пока не подтвердилась. Если ты уже оплатил — ключ всё равно придёт на почту, либо напиши в ')
-        +'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc)">bitapssupport@gmail.com</a>.';
+        +'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc-ink,var(--acc))">bitapssupport@gmail.com</a>.';
       wm.classList.remove('hide');
       if(window.__i18nRefresh) window.__i18nRefresh(wm);
     }
   }
-  /* возобновление: вернулся на страницу с незакрытым заказом → опрашиваем дальше */
-  (function(){try{var pid=localStorage.getItem('bitaps-pending-pay'); if(pid && /^[0-9a-f-]{36}$/i.test(pid)) startPoll(pid, true);}catch(e){}})();
+  /* Возобновление: вернулся на страницу с незакрытым заказом → опрашиваем дальше.
+     Метка теперь со временем создания. Раньше id брошенного счёта лежал в хранилище ВЕЧНО:
+     человек, который передумал платить, при каждом следующем заходе на pay.html вместо тарифов
+     сразу проваливался в экран «ждём подтверждения оплаты» по счёту, который уже не существует
+     (invoice живёт час), — витрина становилась недоступна, покупка не совершалась.
+     Резюмируем только свежий заказ (2 ч с запасом на возврат из кассы), протухший забываем. */
+  function savePending(id){try{if(!id){dropPending();return;} /* новый заказ без id — старую метку не оставляем */
+    localStorage.setItem('bitaps-pending-pay',id);localStorage.setItem('bitaps-pending-pay-at',String(Date.now()));}catch(_){}}
+  function dropPending(){try{localStorage.removeItem('bitaps-pending-pay');localStorage.removeItem('bitaps-pending-pay-at');}catch(e){}}
+  (function(){try{
+    var pid=localStorage.getItem('bitaps-pending-pay')||'';
+    if(!/^[0-9a-f-]{36}$/i.test(pid))return;
+    var at=parseInt(localStorage.getItem('bitaps-pending-pay-at')||'0',10);
+    if(!(at>0)||Date.now()-at>72e5){dropPending();return;}
+    startPoll(pid,true);
+  }catch(e){}})();
   document.getElementById('payCrypto').addEventListener('click',async function(){
     var email=document.getElementById('email').value.trim();
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');
@@ -354,7 +374,7 @@
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       document.getElementById('waitMsg').classList.remove('hide');
-      try{localStorage.setItem('bitaps-pending-pay',j.id||'');}catch(_){}
+      savePending(j.id);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
@@ -377,7 +397,7 @@
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       document.getElementById('waitMsg').classList.remove('hide');
-      try{localStorage.setItem('bitaps-pending-pay',j.id||'');}catch(_){}
+      savePending(j.id);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
@@ -386,7 +406,17 @@
      Списание идёт с внутреннего баланса, поэтому владельца аккаунта подтверждаем «Кодом входа»
      ДО операции: по одной лишь почте здесь нельзя — это чужой кошелёк. Двойной клик гасит сервер
      (дебаунс + дедуп внутри RPC), но кнопку всё равно блокируем. */
-  var tokOpen=false, tokBusy=false, tokT=null, tokProbed='';
+  var tokOpen=false, tokBusy=false, tokT=null, tokProbed='', tokVip=false;
+  /* Цена ТОКЕНАМИ, а не цена на витрине. У VIP сервер считает тариф по 10 устройствам независимо
+     от выбранного числа (effPriceDev в _shared/plans.ts, лимит у VIP и так 100), поэтому кнопка
+     и проверка баланса раньше врали: показывали 1 790 🪙 за полгода, а списывалось 4 490 🪙.
+     Флаг vip приходит с probe баланса (action:"account" → sub.vip); до входа он false, и цена
+     совпадает с витринной — как и было. */
+  function tokPrice(){
+    var sel=document.querySelector('.plan[data-code="'+code+'"]'); if(!sel)return 0;
+    var d=tokVip?10:dev;
+    return (+sel.dataset.base)+(d-1)*EXTRA*(+sel.dataset.mo);
+  }
   function tokSec(){return (document.getElementById('tokSecret').value||'').trim();}
   function tokNote(html){var el=document.getElementById('tokInfo');el.innerHTML=html;if(window.__i18nRefresh)window.__i18nRefresh(el);}
   document.getElementById('payTokens').addEventListener('click',function(){
@@ -399,12 +429,16 @@
     fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'account',secret:s})},8000)
       .then(function(r){return r.json();})
       .then(function(j){
-        if(!j||!j.ok){tokNote(isEN()?'Login code not recognised — check it in the payment email or in the bot.':'Код входа не распознан — проверь его в письме об оплате или в боте.');return;}
-        var need=baseTotal();
+        if(!j||!j.ok){tokVip=false;paint();tokNote(isEN()?'Login code not recognised — check it in the payment email or in the bot.':'Код входа не распознан — проверь его в письме об оплате или в боте.');return;}
+        tokVip=!!(j.sub&&j.sub.vip); paint(); /* узнали про VIP — пересчитываем ценник на кнопке */
+        var need=tokPrice();
         tokNote((isEN()?'Balance: ':'Баланс: ')+'<b>'+nf(j.balance)+' 🪙</b>'
           +(j.balance<need
-            ?(isEN()?' — not enough. <a href="tokens.html" style="color:var(--acc)">Top up the balance</a>':' — не хватает. <a href="tokens.html" style="color:var(--acc)">Пополнить баланс</a>')
-            :(isEN()?' — enough for this plan ✓':' — хватает на этот тариф ✓')));
+            ?(isEN()?' — not enough. <a href="tokens.html" style="color:var(--acc-ink,var(--acc))">Top up the balance</a>':' — не хватает. <a href="tokens.html" style="color:var(--acc-ink,var(--acc))">Пополнить баланс</a>')
+            :(isEN()?' — enough for this plan ✓':' — хватает на этот тариф ✓'))
+          /* честно называем причину, иначе VIP видит цену выше витринной и думает, что его обсчитали */
+          +(tokVip?(isEN()?'<br>VIP is billed at the 10-device rate — the device limit stays 100.'
+                          :'<br>У VIP тариф считается по цене на 10 устройств, лимит при этом остаётся 100.'):''));
       }).catch(function(){});
   }
   document.getElementById('tokSecret').addEventListener('input',function(){clearTimeout(tokT);tokT=setTimeout(tokBalance,700);});
@@ -441,7 +475,7 @@
   /* возврат к выбору способа оплаты со страницы ожидания */
   document.getElementById('payBack').addEventListener('click',function(){
     polling=false; /* остановит поллинг на следующей итерации */
-    try{localStorage.removeItem('bitaps-pending-pay');}catch(e){}
+    dropPending();
     document.getElementById('done').classList.add('hide');
     document.getElementById('page').classList.remove('hide');
     document.getElementById('perr').classList.add('hide');

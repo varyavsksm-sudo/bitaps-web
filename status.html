@@ -13,8 +13,8 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:820px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
   h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
   .overall{margin-top:26px;border-radius:18px;padding:24px 26px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;gap:18px}
@@ -22,6 +22,8 @@
   .overall.op .obig{background:var(--ok);box-shadow:0 0 0 5px rgba(70,211,154,.16)}
   .overall.deg .obig{background:var(--warn);box-shadow:0 0 0 5px rgba(255,187,68,.16)}
   .overall.down .obig{background:var(--bad);box-shadow:0 0 0 5px rgba(255,93,93,.16)}
+  /* «нет данных» — серый: не зелёный (не врём, что всё хорошо) и не жёлтый (не выдумываем сбой) */
+  .overall.unk .obig{background:var(--mut);box-shadow:0 0 0 5px rgba(159,176,201,.14)}
   .overall .ot{font-size:19px;font-weight:800;line-height:1.25}
   .overall .os{color:var(--mut);font-size:13px;margin-top:3px;font-family:'JetBrains Mono',ui-monospace,monospace}
   .comps{margin-top:20px;display:grid;gap:12px}
@@ -49,7 +51,7 @@
   .cta a{flex-shrink:0;background:var(--acc);color:#0b0e14;font-weight:800;padding:12px 22px;border-radius:11px;font-size:14px;box-shadow:0 6px 20px rgba(255,122,26,.35);transition:.2s}.cta a:hover{transform:translateY(-2px);text-decoration:none}
   .loading{color:var(--mut);font-size:14px;padding:20px 0;font-family:'JetBrains Mono',ui-monospace,monospace}
   @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}.bars{height:28px}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02);--bad:#dc2626;--ok:#16a34a}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02);--bad:#dc2626;--ok:#16a34a}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -219,7 +221,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   var compsEl=document.getElementById('comps'),loadEl=document.getElementById('loading'),
       overallEl=document.getElementById('overall'),owordEl=document.getElementById('oword'),
       osubEl=document.getElementById('osub'),genEl=document.getElementById('gen');
-  var lastData=null;
+  var lastData=null,failed=false;
 
   function fmtTime(iso){try{var d=new Date(iso);return d.toLocaleString(isEn()?'en-GB':'ru-RU',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'});}catch(e){return '';}}
 
@@ -237,16 +239,39 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     return cells.join('');
   }
 
+  // Ошибка загрузки: держим её сами. Раньше текст просто клали в #loading, а у этого узла есть
+  // data-en — при первом же переключении языка переводчик возвращал туда «загружаю статус…»,
+  // и страница врала, что ещё грузится, хотя запрос давно провалился.
+  function showLoadError(){
+    lastData=null; failed=true;
+    loadEl.removeAttribute('data-en');
+    loadEl.style.display='';
+    overallEl.style.display='none';
+    compsEl.innerHTML=''; genEl.textContent='';
+    loadEl.textContent=T('Не удалось загрузить статус. Попробуйте обновить страницу.','Could not load status. Try refreshing.');
+  }
+
   function render(d){
-    lastData=d;
+    // status-feed на своей аварии отвечает {error:"unavailable"} (HTTP 503). JSON парсится,
+    // и страница уходила в ветку по умолчанию — рисовала зелёное «Все системы в норме»
+    // при пустом списке компонентов. Статус-страница, врущая «всё хорошо», хуже её отсутствия.
+    if(!d || d.error || !d.overall){ showLoadError(); return; }
+    lastData=d; failed=false;
     loadEl.style.display='none';
     overallEl.style.display='flex';
-    var overall=d.overall||'operational';
-    overallEl.className='overall '+(overall==='operational'?'op':(overall==='down'?'down':'deg'));
-    owordEl.textContent=overall==='operational'?T('Все системы в норме','All systems operational')
-      :(overall==='down'?T('Есть сбой','Major outage'):T('Частичные сбои','Partial degradation'));
-    owordEl.setAttribute('data-en',overall==='operational'?'All systems operational':(overall==='down'?'Major outage':'Partial degradation'));
-    osubEl.textContent=T('Аптайм за 90 дней: ','90-day uptime: ')+(d.uptime_90d!=null?d.uptime_90d+'%':'—');
+    var overall=d.overall;
+    // 'unknown' (замеров нет вовсе) раньше попадал в ту же ветку, что и 'degraded',
+    // и объявлял «Частичные сбои» — тоже выдумка: мы про сбои ничего не знаем.
+    var cls=overall==='operational'?'op':(overall==='down'?'down':(overall==='degraded'?'deg':'unk'));
+    overallEl.className='overall '+cls;
+    var word=overall==='operational'?['Все системы в норме','All systems operational']
+      :(overall==='down'?['Есть сбой','Major outage']
+      :(overall==='degraded'?['Частичные сбои','Partial degradation']
+      :['Нет данных о состоянии','No status data']));
+    owordEl.textContent=T(word[0],word[1]);
+    owordEl.setAttribute('data-en',word[1]);
+    osubEl.textContent=overall==='unknown'?T('Замеров за последние 90 дней нет','No measurements in the last 90 days')
+      :T('Аптайм за 90 дней: ','90-day uptime: ')+(d.uptime_90d!=null?d.uptime_90d+'%':'—');
 
     var cur=d.current||{}, up90=d.component_uptime_90d||{}, days=d.days||[];
     var html='';
@@ -273,11 +298,13 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     // перерисовать data-en при смене языка
   }
 
-  fetch(API,{headers:{'apikey':KEY}}).then(function(r){return r.json();}).then(render).catch(function(){
-    loadEl.textContent=T('Не удалось загрузить статус. Попробуйте обновить страницу.','Could not load status. Try refreshing.');
+  fetch(API,{headers:{'apikey':KEY}}).then(function(r){return r.json();}).then(render).catch(showLoadError);
+  // при смене языка — перерисовать (значения зависят от isEn()). Сообщение об ошибке
+  // тоже перерисовываем: переводчик к этому моменту уже успел затереть его своим data-en.
+  window.addEventListener('storage',function(){
+    if(failed){showLoadError();return;}
+    if(lastData)render(lastData);
   });
-  // при смене языка — перерисовать (значения зависят от isEn())
-  window.addEventListener('storage',function(){if(lastData)render(lastData);});
 })();
 </script>
 <script src="/i18n-lite.js?v=1" defer></script>

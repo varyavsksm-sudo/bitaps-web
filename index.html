@@ -31,9 +31,9 @@
     { "@type": "WebSite", "name": "bitaps VPN", "url": "https://bitapsvpn.com/" },
     { "@type": "FAQPage", "mainEntity": [
       { "@type": "Question", "name": "Вы правда не храните логи?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Серверы физически не пишут историю подключений — это заложено в самой архитектуре сервиса (by design). Нечего хранить — значит, нечего запросить и нечего слить." } },
-      { "@type": "Question", "name": "VPN сильно замедлит интернет?", "acceptedAnswer": { "@type": "Answer", "text": "На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Скорость остаётся высокой." } },
+      { "@type": "Question", "name": "VPN сильно замедлит интернет?", "acceptedAnswer": { "@type": "Answer", "text": "На протоколе VLESS + Reality потеря скорости почти незаметна: шифрование стоит несколько процентов, и на обычных задачах разницы не видно." } },
       { "@type": "Question", "name": "На сколько устройств можно поставить?", "acceptedAnswer": { "@type": "Answer", "text": "В подписку входит одно устройство. Дополнительные докупаются по +50 ₽/мес за каждое, максимум десять." } },
-      { "@type": "Question", "name": "Можно сначала попробовать бесплатно?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Первые 3 дня — бесплатный пробный период со всеми возможностями. Не зашло — просто не продлеваешь, ничего не спишется." } },
+      { "@type": "Question", "name": "Можно сначала попробовать бесплатно?", "acceptedAnswer": { "@type": "Answer", "text": "Да. Первые 3 дня — бесплатный пробный период со всеми возможностями. Забрать его можно в Telegram-боте @bitaps_vpn_auth_bot. Не зашло — просто не продлеваешь, ничего не спишется." } },
       { "@type": "Question", "name": "Как оплатить?", "acceptedAnswer": { "@type": "Answer", "text": "Картой через известные платёжные системы или криптовалютой. Без скрытых платежей и автосписаний-сюрпризов." } }
     ] }
   ]
@@ -69,7 +69,7 @@
   <nav class="nav-links">
     <a href="#features">Возможности</a>
     <a href="#how">Как работает</a>
-    <a href="#box" class="nav-new"><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span></a>
+    <a href="#box" class="nav-new"><span style="color:var(--acc-ink,var(--acc))">B</span><span style="color:var(--txt)">-box</span></a>
     <a href="#pricing">Цены</a>
     <a href="#reviews">Отзывы</a>
     <a href="#download">Приложение</a>
@@ -268,8 +268,8 @@
 <section class="section section-speed" id="speed">
   <div class="sec-head reveal">
     <span class="kicker">// замер в реале</span>
-    <h2>С bitaps быстрее, <span class="grad">чем без него</span></h2>
-    <p class="sec-p">Да, такое бывает. Умная маршрутизация выбирает самый быстрый маршрут.</p>
+    <h2>Скорость соединения <span class="grad">прямо сейчас</span></h2>
+    <p class="sec-p">Замер идёт прямо сейчас, с твоего устройства. Это потолок, от которого стоит отталкиваться: на VLESS + Reality потеря почти незаметна.</p>
   </div>
   <div class="speed-wrap reveal">
     <div class="gauge">
@@ -283,9 +283,13 @@
       </div>
     </div>
     <div class="speed-info">
-      <div class="si-row"><span>Без VPN</span><div class="si-bar"><i class="si-slow" style="width:46%"></i></div><b>462</b></div>
-      <div class="si-row"><span>Другой VPN</span><div class="si-bar"><i class="si-mid" style="width:38%"></i></div><b>384</b></div>
-      <div class="si-row si-best"><span>bitaps</span><div class="si-bar"><i class="si-fast" id="siFast" style="width:94%"></i></div><b id="siNum">940</b></div>
+      <!-- Здесь стояли две выдуманные строки — «Без VPN 462» и «Другой VPN 384». Числа были
+           захардкожены и не менялись никогда, а рядом рисовался НАСТОЯЩИЙ замер посетителя.
+           У человека с каналом на 70 Мбит/с картина выходила издевательская: «bitaps» оказывался
+           втрое ниже выдуманных соседей, то есть блок доказывал ровно обратное тому, ради чего
+           стоял. Оставляем один настоящий замер и честно говорим, что именно измерено. -->
+      <div class="si-row si-best"><span>твой канал</span><div class="si-bar"><i class="si-fast" id="siFast" style="width:6%"></i></div><b id="siNum">—</b></div>
+      <p class="si-note"><b id="siMb">—</b> <span>Замер до нашего сервера, без VPN — так видно потолок соединения.</span></p>
       <button class="btn btn-line" id="reSpeed" style="margin-top:14px">↻ Замерить ещё раз</button>
     </div>
   </div>
@@ -314,7 +318,7 @@
     <div class="box-text">
       <span class="box-badge">✦ Новинка</span>
       <span class="kicker">// устройство bitaps</span>
-      <h2><span style="color:var(--acc)">B</span><span style="color:var(--txt)">-box</span><br/>VPN для всего дома</h2>
+      <h2><span style="color:var(--acc-ink,var(--acc))">B</span><span style="color:var(--txt)">-box</span><br/>VPN для всего дома</h2>
       <p class="sec-p">Маленькая умная коробочка. Втыкаешь в роутер — и под защитой сразу весь домашний Wi-Fi: телефоны, ноуты, телевизор, приставка, умные колонки. Даже то, на что VPN обычно не поставишь. Настроил один раз — вставил ключ из подписки bitaps, дальше работает само.</p>
       <ul class="box-list">
         <li>Подключил один раз — и забыл: работает само</li>
@@ -336,7 +340,7 @@
         <div class="box-chip">
           <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><use href="#blogo"/></svg>
         </div>
-        <div class="box-brand"><span style="color:var(--acc)">B</span><b style="color:var(--txt)">-box</b></div>
+        <div class="box-brand"><span style="color:var(--acc-ink,var(--acc))">B</span><b style="color:var(--txt)">-box</b></div>
         <span class="box-ports"><i></i><i></i></span>
       </div>
       <div class="box-router">подключается к роутеру</div>
@@ -440,7 +444,7 @@
     </div>
     <div class="qa">
       <button class="q">VPN сильно замедлит интернет?<span class="q-ic">+</span></button>
-      <div class="a"><p>На протоколе VLESS + Reality потеря скорости почти незаметна, а часто bitaps даже ускоряет: умная маршрутизация выбирает самый быстрый маршрут и сглаживает «затыки» провайдера. Замер выше показывает реальную скорость твоего устройства.</p></div>
+      <div class="a"><p>На протоколе VLESS + Reality потеря скорости почти незаметна: шифрование стоит несколько процентов, и на обычных задачах разницы не видно. Замер выше показывает скорость твоего канала до нашего сервера — от неё и стоит отталкиваться.</p></div>
     </div>
     <div class="qa">
       <button class="q">На сколько устройств можно поставить?<span class="q-ic">+</span></button>
@@ -448,7 +452,16 @@
     </div>
     <div class="qa">
       <button class="q">Можно сначала попробовать бесплатно?<span class="q-ic">+</span></button>
-      <div class="a"><p>Да. Первые 3 дня — бесплатный пробный период со всеми возможностями. Попробуй без оплаты: не зашло — просто не продлеваешь, ничего не спишется. Риска ноль.</p></div>
+      <div class="a"><p>Да. Первые 3 дня — бесплатный пробный период со всеми возможностями. Попробуй без оплаты: не зашло — просто не продлеваешь, ничего не спишется. Риска ноль.</p>
+      <!-- Куда идти за пробным периодом, на сайте не было сказано НИГДЕ: страницы оплаты сразу
+           выставляют счёт, а бесплатные 3 дня выдаёт только бот (кнопка «Попробовать 3 дня
+           бесплатно» в telegram-bot). Обещание без единого пути к нему — это ловушка: человек
+           шёл «пробовать» и попадал на кассу.
+           Ссылка БЕЗ deep-link-payload: обработчика «/start trial» у бота нет, а кнопка
+           «🎁 Попробовать 3 дня бесплатно» и так стоит в меню у аккаунта без оплат (так же
+           сделано на account.html). Текст отдельным <span>, чтобы data-en остался на элементе
+           с одним текст-узлом — иначе общий движок перевода его не применит. -->
+      <p><span data-en="You take the trial in our Telegram bot:">Забрать пробный период можно в нашем Telegram-боте:</span> <a href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener">@bitaps_vpn_auth_bot</a></p></div>
     </div>
     <div class="qa">
       <button class="q">Как оплатить?<span class="q-ic">+</span></button>
@@ -579,7 +592,7 @@
       <label>Сообщение<textarea id="sMsg" required rows="4" placeholder="Опиши вопрос — поможем"></textarea></label>
       <button type="submit" class="btn btn-solid" style="width:100%;justify-content:center">Отправить сообщение <span class="btn-shine"></span></button>
     </form>
-    <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:12px">или сразу в Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a></div>
+    <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:12px">или сразу в Telegram <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc-ink,var(--acc))">@bitapssupport</a></div>
     <div class="sform-ok" id="sOk">
       <div class="ok-circle">✓</div>
       <h3>Заявка отправлена!</h3>
@@ -661,7 +674,7 @@
     <div class="drawer-group">Подписка</div>
     <a class="dr-item" href="pay.html"><span class="e">💳</span> Оплатить подписку</a>
     <div class="drawer-group">Развлечение</div>
-    <a class="dr-item" href="game.html"><span class="e">🎣</span> Ловля карпов <span style="margin-left:auto;font-size:11px;color:var(--acc);font-weight:700">топ-3</span></a>
+    <a class="dr-item" href="game.html"><span class="e">🎣</span> Ловля карпов <span style="margin-left:auto;font-size:11px;color:var(--acc-ink,var(--acc));font-weight:700">топ-3</span></a>
     <div class="drawer-group">Аккаунт</div>
     <a class="dr-item" href="account.html"><span class="e">👤</span> Личный кабинет</a>
   </aside>
@@ -893,15 +906,26 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   const siNum = document.getElementById('siNum');
   const siFast = document.getElementById('siFast');
   const CIRC = 578;
-  const GMAX = 1000; // потолок шкалы, Mbit/s
+  // Потолок шкалы подстраивается под замер. Раньше он был жёстко 1000 Мбит/с, и типичные
+  // 70–100 Мбит/с рисовались почти пустым кольцом — выглядело как «интернет не работает».
+  let gmax = 100;
   const ASSET = 'tg-gift.png'; // ~1.39 МБ, тот же домен (CSP connect-src 'self')
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let busy = false;
   function setGauge(v) {
-    const pct = Math.min(v / GMAX, 1);
+    const pct = Math.min(v / gmax, 1);
     fill.style.strokeDashoffset = CIRC - CIRC * pct;
     if (siNum) siNum.textContent = v;
     if (siFast) siFast.style.width = Math.max(6, pct * 100) + '%';
+  }
+  // Мбит/с ↔ МБ/с путают постоянно: 72 Мбит/с это те самые «9 мегабайт в секунду» из окна
+  // загрузки браузера. Показываем обе величины.
+  // Скриптом пишем ТОЛЬКО число с латинской единицей — сама фраза лежит в разметке и переводится
+  // словарём. Если собрать строку целиком в скрипте, в словарь её не положить (число меняется),
+  // и в английском режиме она навсегда останется русской.
+  function setNote(v) {
+    const mb = document.getElementById('siMb');
+    if (mb) mb.textContent = '≈ ' + (Math.round(v / 8 * 10) / 10) + ' MB/s ·';
   }
   // Реальный замер: качаем файл несколько раз без кэша, считаем биты/сек по факту.
   async function measure() {
@@ -927,6 +951,9 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
     let mbps = null;
     try { mbps = await measure(); } catch (e) { mbps = null; }
     if (mbps == null) { num.textContent = '—'; busy = false; if (btn) btn.disabled = false; return; }
+    // шкала под конкретный канал: медленному не рисуем пустое кольцо, быстрому — упор в потолок
+    gmax = Math.max(50, Math.ceil(mbps * 1.25 / 50) * 50);
+    setNote(mbps);
     if (reduceMotion) { num.textContent = mbps; setGauge(mbps); busy = false; if (btn) btn.disabled = false; return; }
     let cur = 0;
     const t = setInterval(() => {

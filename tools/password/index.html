@@ -13,8 +13,8 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:720px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
   h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
   .privacy{margin-top:18px;display:inline-flex;align-items:center;gap:9px;padding:9px 14px;border:1px solid rgba(70,211,154,.32);background:rgba(70,211,154,.07);border-radius:11px;font-size:13px;color:var(--txt)}
@@ -22,9 +22,9 @@
   .form{margin-top:24px}
   .field{position:relative}
   input[type=password],input[type=text]{width:100%;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:16px;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 100px 16px 16px;outline:none;transition:.2s}
-  input:focus{border-color:var(--acc)}
+  input:focus{border-color:var(--acc-ink,var(--acc))}
   .eye{position:absolute;right:8px;top:8px;bottom:8px;border:1px solid var(--line);background:transparent;color:var(--mut);border-radius:9px;padding:0 12px;cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace}
-  .eye:hover{color:var(--acc);border-color:var(--acc)}
+  .eye:hover{color:var(--acc-ink,var(--acc));border-color:var(--acc-ink,var(--acc))}
   .btn{margin-top:14px;width:100%;background:var(--acc);color:#0b0e14;font-weight:800;border:none;padding:15px;border-radius:13px;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(255,122,26,.3);transition:.2s;font-family:inherit}
   .btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.55;cursor:default;transform:none}
   .result{margin-top:22px;border-radius:16px;padding:22px;display:none;border:1px solid var(--line);background:var(--card)}
@@ -41,11 +41,11 @@
   .faq{margin-top:40px}.faq h2{font-size:20px;margin-bottom:14px}
   details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
   summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
-  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  summary::before{content:"+";color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
   details[open] summary::before{content:"−"}
   details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
   @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   html[data-theme="light"] .privacy{background:rgba(22,163,74,.07);border-color:rgba(22,163,74,.3)}
@@ -233,7 +233,11 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
 (function(){
   function isEn(){try{return localStorage.getItem('bitaps-lang')==='en';}catch(e){return false;}}
   var pw=document.getElementById('pw'),eye=document.getElementById('eye'),btn=document.getElementById('check'),res=document.getElementById('result');
-  eye.addEventListener('click',function(){var t=pw.type==='password';pw.type=t?'text':'password';eye.textContent=isEn()?(t?'hide':'show'):(t?'скрыть':'показать');eye.setAttribute('data-en',t?'hide':'show');pw.focus();});
+  // Подпись кнопки-глаза рисуем из НАСТОЯЩЕГО состояния поля. Раньше её ставили один раз при
+  // клике; переводчик же при возврате на русский восстанавливал текст, запомненный при загрузке,
+  // — и над открытым паролем висело «показать».
+  function paintEye(){var shown=pw.type!=='password';eye.textContent=isEn()?(shown?'hide':'show'):(shown?'скрыть':'показать');eye.setAttribute('data-en',shown?'hide':'show');}
+  eye.addEventListener('click',function(){pw.type=pw.type==='password'?'text':'password';paintEye();pw.focus();});
   function T(ru,en){return isEn()?en:ru;}
   async function sha1Hex(str){
     var enc=new TextEncoder().encode(str);
@@ -242,10 +246,41 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     return arr.map(function(b){return b.toString(16).padStart(2,'0');}).join('').toUpperCase();
   }
   function fmt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+  // Результат собран из T(...) на лету, data-en у его узлов нет — без перерисовки он
+  // навсегда застывал в том языке, который был на момент проверки.
+  var last=null;
+  function paint(){
+    if(!last)return;
+    if(last.kind==='empty'){
+      res.className='result show';
+      res.innerHTML='<p>'+T('Введите пароль, который хотите проверить.','Enter the password you want to check.')+'</p>';
+      return;
+    }
+    if(last.kind==='err'){
+      res.className='result show';
+      res.innerHTML='<p>'+T('Не удалось выполнить проверку. Попробуйте ещё раз позже.','Could not run the check. Please try again later.')+'</p>';
+      return;
+    }
+    var count=last.count;
+    if(count>0){
+      res.className='result show pwned';
+      res.innerHTML='<h2>'+T('⚠ Пароль найден в утечках','⚠ Password found in breaches')+'</h2><p>'+
+        T('Этот пароль встречается в утечках <span class="count">'+fmt(count)+'</span> раз. Его точно знают злоумышленники — смените его везде, где использовали, и включите двухфакторную аутентификацию.',
+          'This password appears in breaches <span class="count">'+fmt(count)+'</span> times. Attackers already have it — change it everywhere you used it and enable two-factor authentication.')+'</p>';
+    }else{
+      res.className='result show safe';
+      res.innerHTML='<h2>'+T('✓ В известных утечках не найден','✓ Not found in known breaches')+'</h2><p>'+
+        T('Этого пароля нет в публичных базах утечек. Это хорошо, но не гарантия: не используйте его на нескольких сайтах и включайте 2FA.',
+          'This password isn\'t in public breach databases. Good — but not a guarantee: don\'t reuse it across sites and enable 2FA.')+'</p>';
+    }
+  }
+
   async function run(){
     var val=pw.value;
-    if(!val){res.className='result';res.classList.remove('show');return;}
+    // Пустое поле раньше просто гасило результат: нажатие кнопки выглядело как «ничего не делает».
+    if(!val){last={kind:'empty'};paint();pw.focus();return;}
     btn.disabled=true;var oldTxt=btn.textContent;btn.textContent=T('Проверяю…','Checking…');
+    last=null;
     res.className='result show';res.innerHTML='<p>'+T('Считаю хеш и сверяю…','Hashing and comparing…')+'</p>';
     try{
       var hash=await sha1Hex(val);
@@ -257,24 +292,15 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
         var parts=line.trim().split(':');
         if(parts[0]===suffix)count=parseInt(parts[1],10)||0;
       });
-      if(count>0){
-        res.className='result show pwned';
-        res.innerHTML='<h2>'+T('⚠ Пароль найден в утечках','⚠ Password found in breaches')+'</h2><p>'+
-          T('Этот пароль встречается в утечках <span class="count">'+fmt(count)+'</span> раз. Его точно знают злоумышленники — смените его везде, где использовали, и включите двухфакторную аутентификацию.',
-            'This password appears in breaches <span class="count">'+fmt(count)+'</span> times. Attackers already have it — change it everywhere you used it and enable two-factor authentication.')+'</p>';
-      }else{
-        res.className='result show safe';
-        res.innerHTML='<h2>'+T('✓ В известных утечках не найден','✓ Not found in known breaches')+'</h2><p>'+
-          T('Этого пароля нет в публичных базах утечек. Это хорошо, но не гарантия: не используйте его на нескольких сайтах и включайте 2FA.',
-            'This password isn\'t in public breach databases. Good — but not a guarantee: don\'t reuse it across sites and enable 2FA.')+'</p>';
-      }
+      last={kind:'ok',count:count};
     }catch(e){
-      res.className='result show';
-      res.innerHTML='<p>'+T('Не удалось выполнить проверку. Попробуйте ещё раз позже.','Could not run the check. Please try again later.')+'</p>';
+      last={kind:'err'};
     }finally{btn.disabled=false;btn.textContent=oldTxt;}
+    paint();
   }
   btn.addEventListener('click',run);
   pw.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+  window.addEventListener('storage',function(){paintEye();paint();});
 })();
 </script>
 <script src="/i18n-lite.js?v=1" defer></script>

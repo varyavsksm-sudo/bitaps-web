@@ -11,23 +11,23 @@
 <style>
   *{margin:0;box-sizing:border-box}
   :root{--bg:#05070b;--bg2:#0a0e16;--panel:rgba(255,255,255,.04);--line:rgba(255,255,255,.10);--txt:#e8edf5;--mut:#8a96ab;--acc:#ff7a1a;--acc2:#2d8bff;--acc3:#ffae3d;--glow:0 0 40px rgba(255,122,26,.35)}
-  html[data-theme="light"]{--bg:#eef3fb;--bg2:#fff;--panel:#fff;--line:rgba(16,26,48,.12);--txt:#0f1828;--mut:#5a6781;--glow:0 18px 44px rgba(20,32,64,.10)}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--bg:#eef3fb;--bg2:#fff;--panel:#fff;--line:rgba(16,26,48,.12);--txt:#0f1828;--mut:#5a6781;--glow:0 18px 44px rgba(20,32,64,.10)}
   body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
     background:radial-gradient(900px 520px at 14% -10%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(45,139,255,.12),transparent 60%),var(--bg)}
   .top{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;position:sticky;top:0;z-index:20;
     backdrop-filter:blur(12px);border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 72%,transparent)}
   .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--txt)}
-  .brand .mk{width:34px;height:34px;color:var(--acc);filter:drop-shadow(0 0 10px rgba(255,122,26,.4))}
-  .brand b{font-weight:800;font-size:19px;letter-spacing:-.3px}.brand b i{color:var(--acc);font-style:normal}.brand b s{color:var(--mut);text-decoration:none;font-weight:600;font-size:12px;vertical-align:super}
+  .brand .mk{width:34px;height:34px;color:var(--acc-ink,var(--acc));filter:drop-shadow(0 0 10px rgba(255,122,26,.4))}
+  .brand b{font-weight:800;font-size:19px;letter-spacing:-.3px}.brand b i{color:var(--acc-ink,var(--acc));font-style:normal}.brand b s{color:var(--mut);text-decoration:none;font-weight:600;font-size:12px;vertical-align:super}
   .top-r{display:flex;align-items:center;gap:12px}
-  .home{color:var(--mut);text-decoration:none;font-size:14px;border:1px solid var(--line);padding:8px 14px;border-radius:10px;display:inline-flex}.home:hover{color:var(--acc);border-color:var(--acc)}
+  .home{color:var(--mut);text-decoration:none;font-size:14px;border:1px solid var(--line);padding:8px 14px;border-radius:10px;display:inline-flex}.home:hover{color:var(--acc-ink,var(--acc));border-color:var(--acc-ink,var(--acc))}
   .tbtn{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;cursor:pointer;display:grid;place-items:center}
-  .tbtn:hover{border-color:var(--acc)}
+  .tbtn:hover{border-color:var(--acc-ink,var(--acc))}
   .wrap{max-width:1000px;margin:0 auto;padding:32px 18px 70px}
-  a{color:var(--acc)}
+  a{color:var(--acc-ink,var(--acc))}
   .grad{background:linear-gradient(110deg,var(--acc),var(--acc3) 42%,var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .head{text-align:center;margin-bottom:8px}
-  .kick{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--acc);text-transform:uppercase}
+  .kick{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--acc-ink,var(--acc));text-transform:uppercase}
   h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1px;margin:8px 0 8px}
   .sub{color:var(--mut);font-size:15px;max-width:600px;margin:0 auto;line-height:1.55}
   /* кнопки */
@@ -36,7 +36,7 @@
   .btn-solid{background:linear-gradient(110deg,var(--acc),var(--acc2));color:#03110e;box-shadow:0 8px 30px rgba(255,122,26,.3)}
   .btn-solid:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,122,26,.5)}
   .btn-line{border:1px solid var(--line);background:var(--panel);color:var(--txt)}
-  .btn-line:hover{border-color:var(--acc);box-shadow:var(--glow);transform:translateY(-2px)}
+  .btn-line:hover{border-color:var(--acc-ink,var(--acc));box-shadow:var(--glow);transform:translateY(-2px)}
   /* витрина + тиры */
   .vc-wrap{max-width:1000px;margin:26px auto 0}
   .vc-hero{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:38px;align-items:center;margin-top:6px}
@@ -75,7 +75,7 @@
   .vc-feats .fi{flex:0 0 auto;font-size:17px;line-height:1.35}
   .vc-tfeats{list-style:none;padding:0;margin:2px 0 0;display:flex;flex-direction:column;gap:7px}
   .vc-tfeats li{position:relative;padding-left:18px;font-size:13.5px;color:var(--mut);line-height:1.45}
-  .vc-tfeats li::before{content:"→";position:absolute;left:0;color:var(--acc)}
+  .vc-tfeats li::before{content:"→";position:absolute;left:0;color:var(--acc-ink,var(--acc))}
   .vc-tier.vip .vc-tfeats li::before{color:#e0a63a}
   .vc-plus{font-size:13px;font-weight:700;color:var(--txt);margin-top:2px}
   .vc-form-wrap{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
@@ -86,7 +86,7 @@
   #cardForm label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
   #cardForm .full{grid-column:1/-1}
   #cardForm input,#cardForm textarea{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:11px;padding:12px;font-size:15px;font-family:inherit}
-  #cardForm input:focus,#cardForm textarea:focus{outline:none;border-color:var(--acc)}
+  #cardForm input:focus,#cardForm textarea:focus{outline:none;border-color:var(--acc-ink,var(--acc))}
   #cardForm textarea{min-height:64px;resize:vertical}
   @media(max-width:560px){#cardForm{grid-template-columns:1fr}}
   .vc-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
@@ -97,7 +97,7 @@
   .vc-ok h3{margin:8px 0 4px;font-size:19px}
   /* footer */
   .foot{max-width:1000px;margin:48px auto 0;padding:22px 18px;border-top:1px solid var(--line);text-align:center;color:var(--mut);font-size:13px}
-  .foot a{color:var(--mut);text-decoration:none;margin:0 9px}.foot a:hover{color:var(--acc)}
+  .foot a{color:var(--mut);text-decoration:none;margin:0 9px}.foot a:hover{color:var(--acc-ink,var(--acc))}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
   @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style><script src="/i18n.js?v=32" defer></script><meta property="og:type" content="website" />
@@ -235,7 +235,7 @@ ap();})();</script>
         <a class="btn btn-line" href="https://t.me/bitapssupport" target="_blank" rel="noopener">Заказать в Telegram</a>
         <span class="vc-note">Скоро — сейчас оставь заявку, свяжемся первыми</span>
       </div>
-      <div class="vc-err" id="cardErr">Не удалось отправить заявку. Напиши нам: <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.</div>
+      <div class="vc-err" id="cardErr">Не удалось отправить заявку. Напиши нам: <a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc-ink,var(--acc))">@bitapssupport</a>.</div>
       <div class="vc-ok" id="cardOk">
         <div class="c">🖤</div>
         <h3>Заявка принята!</h3>
@@ -337,6 +337,13 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       errBox.textContent = en() ? 'Enter your name and phone' : 'Укажи имя и телефон';
       errBox.style.display = ''; return;
     }
+    // Город и адрес приёмник заявок требует так же жёстко, как имя с телефоном. Мы их не
+    // проверяли — заявка уходила, сервер отвечал 400, а человек видел общее «не удалось
+    // отправить» и, ничего не поняв, жал кнопку по кругу. Спрашиваем прямо, чего не хватает.
+    if (city.length < 2 || address.length < 3) {
+      errBox.textContent = en() ? 'Enter the city and delivery address' : 'Укажи город и адрес доставки';
+      errBox.style.display = ''; return;
+    }
     var t = sendBtn.textContent;
     sendBtn.disabled = true; sendBtn.textContent = en() ? 'Sending…' : 'Отправляем…';
     var ok = false;
@@ -356,7 +363,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       errBox.innerHTML = (en()
         ? 'Could not send the request. Message us: '
         : 'Не удалось отправить заявку. Напиши нам: ')
-        + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc)">@bitapssupport</a>.';
+        + '<a href="https://t.me/bitapssupport" target="_blank" rel="noopener" style="color:var(--acc-ink,var(--acc))">@bitapssupport</a>.';
       errBox.style.display = '';
     }
   });

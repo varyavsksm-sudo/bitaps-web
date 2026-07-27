@@ -6,17 +6,17 @@
 <script>function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function(){ac.abort();},ms||12000);return fetch(u,Object.assign({},o,{signal:ac.signal})).finally(function(){clearTimeout(t);});}</script>
 <style>
   :root{--bg:#0d1014;--card:#161b22;--card2:#1b212b;--line:#232c38;--tx:#e9eff5;--mut:#8b97a6;--acc:#ff7a1a;--acc2:#ffae3d;--ok:#3fb950;--inp:#11161d}
-  html[data-theme="light"]{--bg:#f3f5fa;--card:#ffffff;--card2:#eef1f7;--line:#e3e8f0;--tx:#10141b;--mut:#5d6675;--inp:#f4f6fb}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--bg:#f3f5fa;--card:#ffffff;--card2:#eef1f7;--line:#e3e8f0;--tx:#10141b;--mut:#5d6675;--inp:#f4f6fb}
   .tt{position:fixed;top:10px;right:12px;z-index:9;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--tx);font-size:16px;line-height:1;cursor:pointer}
-  .tt:hover{border-color:var(--acc)}
+  .tt:hover{border-color:var(--acc-ink,var(--acc))}
   .tt:active{transform:translateY(1px)}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font:15px/1.55 'Space Grotesk',-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding:0 0 110px;overflow-x:hidden}
   .wrap{max-width:520px;margin:0 auto;padding:18px 16px}
   h1{font-size:23px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
   h2{font-size:16px;margin:24px 0 12px}
-  .mut{color:var(--mut)}.acc{color:var(--acc)}.b{font-weight:800}
-  a{color:var(--acc);text-decoration:none}
+  .mut{color:var(--mut)}.acc{color:var(--acc-ink,var(--acc))}.b{font-weight:800}
+  a{color:var(--acc-ink,var(--acc));text-decoration:none}
 
   .hero{background:radial-gradient(120% 90% at 50% 0%,rgba(245,165,36,.14),transparent 60%);border:1px solid var(--line);border-radius:18px;padding:22px 18px;text-align:center}
   .hero .em{font-size:40px}
@@ -33,14 +33,14 @@
   /* темы */
   .topics{display:flex;flex-wrap:wrap;gap:8px}
   .topics button{background:var(--inp);border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:9px 14px;font-size:13.5px;cursor:pointer}
-  .topics button.on{border-color:var(--acc);background:rgba(245,165,36,.13);color:var(--acc);font-weight:700}
+  .topics button.on{border-color:var(--acc-ink,var(--acc));background:rgba(245,165,36,.13);color:var(--acc-ink,var(--acc));font-weight:700}
 
   /* faq */
   .faq{display:flex;flex-direction:column;gap:8px}
   .faq details{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:0 14px}
   .faq summary{list-style:none;cursor:pointer;padding:13px 0;font-weight:600;font-size:14px;display:flex;justify-content:space-between;gap:10px;align-items:center}
   .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{content:'+';color:var(--acc);font-size:20px;font-weight:700}
+  .faq summary::after{content:'+';color:var(--acc-ink,var(--acc));font-size:20px;font-weight:700}
   .faq details[open] summary::after{content:'−'}
   .faq .a{font-size:13.5px;color:var(--mut);padding:0 0 13px}
 
@@ -48,7 +48,7 @@
   label{display:block;font-size:13px;color:var(--mut);margin:0 0 6px}
   input,textarea{width:100%;background:var(--inp);border:1px solid var(--line);color:var(--tx);border-radius:11px;padding:13px;font-size:16px;margin-bottom:14px;font-family:inherit}
   textarea{min-height:110px;resize:vertical;margin-bottom:4px}
-  input:focus,textarea:focus{outline:none;border-color:var(--acc)}
+  input:focus,textarea:focus{outline:none;border-color:var(--acc-ink,var(--acc))}
   .err{color:#ff6b6b;font-size:13px;margin:2px 0 12px}.hide{display:none}
 
   .bar{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(13,16,20,0),var(--bg) 28%);padding:14px 16px calc(16px + env(safe-area-inset-bottom));z-index:5}
@@ -259,7 +259,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     [].forEach.call(this.children,function(x){x.classList.remove('on')});b.classList.add('on');topic=b.dataset.t;
     var m=document.getElementById('message');if(m)m.focus();});
   function showErr(t){var e=document.getElementById('err');e.textContent=t;e.classList.remove('hide');}
-  document.getElementById('close').addEventListener('click',function(){if(TG)TG.close();else history.back();});
+  // вне Telegram history.back() с прямого захода (по ссылке из письма/поиска) не ведёт никуда —
+  // кнопка «Готово» молча ничего не делала. Тогда уводим на главную.
+  document.getElementById('close').addEventListener('click',function(){if(TG){TG.close();return;}
+    if(history.length>1)history.back();else location.href='/';});
   document.getElementById('send').addEventListener('click',async function(){
     var name=document.getElementById('name').value.trim();
     var email=document.getElementById('email').value.trim();
@@ -271,13 +274,21 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     if(contact.length>0&&!((contact[0]==='@'&&contact.length>=3)||contact.replace(/\D/g,'').length>=7))return showErr('Проверь Telegram (@ник) или телефон (+7…)');
     var btn=this;btn.disabled=true;btn.textContent='Отправляю…';
     try{
-      // единый контракт с notify: type=support + поля name/email/message/source.
-      // у notify нет отдельного поля contact — вшиваем @ник/телефон в текст, чтобы не потерять его.
+      // единый контракт с notify: type=support + поля name/email/contact/message/source.
+      // @ник/телефон дублируем и в текст: в Telegram-уведомление уходят только имя, почта и
+      // сообщение — без этого дубля поддержка не увидела бы, куда отвечать.
       var fullMsg='['+topic+'] '+message+(contact?'\nКонтакт для ответа: '+contact:'');
       var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json','apikey':'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z'},
-        body:JSON.stringify({type:'support',name:name,email:email,message:fullMsg,source:'поддержка'})});
-      var j=await r.json();
-      if(!j.ok){btn.disabled=false;btn.textContent='Отправить сообщение';return showErr(j.error||'Что-то пошло не так');}
+        body:JSON.stringify({type:'support',name:name,email:email,contact:contact,message:fullMsg,source:'поддержка'})});
+      var j=await r.json().catch(function(){return null;});
+      if(!r.ok||!j||!j.ok){
+        btn.disabled=false;btn.textContent='Отправить сообщение';
+        // бэкенд отвечает техническими англоязычными кодами («too many requests») — раньше мы
+        // показывали их человеку как есть, посреди русской страницы. Говорим по-человечески.
+        return showErr(r.status===429
+          ? 'Слишком много обращений подряд — подожди минуту и отправь ещё раз'
+          : 'Не получилось отправить — напиши нам в Telegram @bitapssupport');
+      }
       document.getElementById('page').classList.add('hide');document.getElementById('bar').classList.add('hide');
       document.getElementById('done').classList.remove('hide');
       if(TG&&TG.HapticFeedback)TG.HapticFeedback.notificationOccurred('success');

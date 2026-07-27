@@ -13,13 +13,13 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:740px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
   h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:600px}
   .form{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
   input[type=text]{flex:1;min-width:220px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:15px;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;outline:none;transition:.2s}
-  input:focus{border-color:var(--acc)}
+  input:focus{border-color:var(--acc-ink,var(--acc))}
   .btn{background:var(--acc);color:#0b0e14;font-weight:800;border:none;padding:15px 26px;border-radius:13px;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(255,122,26,.3);transition:.2s;font-family:inherit}
   .btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.55;cursor:default;transform:none}
   .result{margin-top:22px;border-radius:16px;padding:24px;display:none;border:1px solid var(--line);background:var(--card)}
@@ -34,7 +34,7 @@
   .chain h3{font-size:12.5px;font-family:'JetBrains Mono',monospace;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
   .hop{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line);font-size:13px}
   .hop:first-child{border-top:none}
-  .hop .n{font-family:'JetBrains Mono',monospace;color:var(--acc);flex-shrink:0;width:22px}
+  .hop .n{font-family:'JetBrains Mono',monospace;color:var(--acc-ink,var(--acc));flex-shrink:0;width:22px}
   .hop .hu{font-family:'JetBrains Mono',monospace;word-break:break-all;color:var(--txt);flex:1;line-height:1.45}
   .hop .hs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut);flex-shrink:0}
   .puny{color:var(--bad);font-weight:700}
@@ -45,11 +45,11 @@
   .faq{margin-top:40px}.faq h2{font-size:20px;margin-bottom:14px}
   details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
   summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
-  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  summary::before{content:"+";color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
   details[open] summary::before{content:"−"}
   details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
   @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02)}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
@@ -237,42 +237,86 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   function T(ru,en){return isEn()?en:ru;}
   var inp=document.getElementById('url'),btn=document.getElementById('check'),res=document.getElementById('result');
   function esc(s){return String(s).replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});}
+
+  // Бэкенд отдаёт причину служебным английским кодом (ssrf-гард, лимитер). Раньше код печатался
+  // как есть, и пользователь читал «Не удалось развернуть: resolves to private ip».
+  function reasonText(d){
+    var code=d.reason||d.error;
+    var M={
+      'rate_limited':['слишком часто — подождите минуту','too many requests — wait a minute'],
+      'dns fail':['домен не находится — DNS не отвечает','domain not found — DNS failed'],
+      'bad url':['адрес не удалось разобрать','could not parse the address'],
+      'only http/https':['разворачиваем только http и https','only http and https can be unshortened'],
+      'port not allowed':['такой порт разворачивать нельзя','that port is not allowed'],
+      'blocked ip':['это внутренний адрес, а не публичная ссылка','that is an internal address, not a public link'],
+      'blocked host':['это внутренний адрес, а не публичная ссылка','that is an internal address, not a public link'],
+      'resolves to private ip':['ссылка ведёт во внутреннюю сеть','the link resolves to a private network'],
+      'guard':['адрес не прошёл проверку','the address failed validation'],
+      'no url':['адрес не передан','no address was sent']
+    };
+    var m=M[code];
+    return m?T(m[0],m[1]):esc(code||T('неизвестная ошибка','unknown error'));
+  }
+
+  // Последний ответ держим, чтобы перерисовать результат при смене языка: он собирается из
+  // T(...) на лету, у его узлов нет data-en, и иначе он навсегда застывал в старом языке.
+  var last=null;
+  function paint(){
+    if(!last)return;
+    if(last.kind==='empty'){
+      res.className='result show';
+      res.innerHTML='<p style="color:var(--mut)">'+T('Вставьте короткую ссылку, например vk.cc/abc123','Paste a short link, e.g. vk.cc/abc123')+'</p>';
+      return;
+    }
+    if(last.kind==='neterr'){
+      res.className='result show';
+      res.innerHTML='<p style="color:var(--bad)">'+T('Ошибка. Попробуйте ещё раз.','Error. Try again.')+'</p>';
+      return;
+    }
+    var d=last.d;
+    res.className='result show';
+    if(d.error){
+      res.innerHTML='<p style="color:var(--bad)">'+T('Не удалось развернуть: ','Could not unshorten: ')+reasonText(d)+'</p>';
+      return;
+    }
+    var html='';
+    html+='<div class="finalbox"><div class="finallabel">'+T('итоговый адрес','final destination')+'</div><div class="finalurl">'+esc(d.final_url)+'</div></div>';
+    if(d.punycode){
+      html+='<div class="warnbox show"><b>'+T('⚠ Внимание: punycode-домен','⚠ Warning: punycode domain')+'</b><br>'+
+        T('Финальный адрес использует символы, которыми часто маскируют настоящий домен под чужой. Не вводите на нём пароли и данные карт, пока не убедитесь, что это тот сайт.',
+          'The final address uses characters often used to disguise one domain as another. Don\'t enter passwords or card data there until you\'re sure it\'s the real site.')+'</div>';
+    }
+    var chain=d.chain||[];
+    if(chain.length){
+      html+='<div class="chain"><h3>'+T('цепочка редиректов','redirect chain')+' ('+d.hops+')</h3>';
+      chain.forEach(function(h,i){
+        html+='<div class="hop"><span class="n">'+(i+1)+'</span><span class="hu">'+esc(h.url)+(h.punycode?' <span class="puny">'+T('[punycode]','[punycode]')+'</span>':'')+'</span><span class="hs">'+(h.status?esc(h.status):'')+'</span></div>';
+      });
+      if(d.truncated)html+='<div class="hop"><span class="n">…</span><span class="hu" style="color:var(--mut)">'+T('цепочка длиннее — показаны первые шаги','chain is longer — first hops shown')+'</span></div>';
+      html+='</div>';
+    }
+    res.innerHTML=html;
+  }
+
   async function run(){
     var val=inp.value.trim();
-    if(!val){return;}
+    // Пустое поле раньше просто выходило из функции: кнопка нажималась, и НИЧЕГО не происходило.
+    if(!val){last={kind:'empty'};paint();inp.focus();return;}
     if(!/^https?:\/\//i.test(val))val='https://'+val;
     btn.disabled=true;var old=btn.textContent;btn.textContent=T('Разворачиваю…','Unshortening…');
+    last=null;
     res.className='result show';res.innerHTML='<p style="color:var(--mut)">'+T('Иду по цепочке редиректов…','Following the redirect chain…')+'</p>';
     try{
       var r=await fetch(API,{method:'POST',headers:{'apikey':KEY,'content-type':'application/json'},body:JSON.stringify({url:val})});
-      var d=await r.json();
-      if(d.error){
-        res.innerHTML='<p style="color:var(--bad)">'+T('Не удалось развернуть: ','Could not unshorten: ')+esc(d.reason||d.error)+'</p>';
-        return;
-      }
-      var html='';
-      html+='<div class="finalbox"><div class="finallabel">'+T('итоговый адрес','final destination')+'</div><div class="finalurl">'+esc(d.final_url)+'</div></div>';
-      if(d.punycode){
-        html+='<div class="warnbox show"><b>'+T('⚠ Внимание: punycode-домен','⚠ Warning: punycode domain')+'</b><br>'+
-          T('Финальный адрес использует символы, которыми часто маскируют настоящий домен под чужой. Не вводите на нём пароли и данные карт, пока не убедитесь, что это тот сайт.',
-            'The final address uses characters often used to disguise one domain as another. Don\'t enter passwords or card data there until you\'re sure it\'s the real site.')+'</div>';
-      }
-      var chain=d.chain||[];
-      if(chain.length){
-        html+='<div class="chain"><h3>'+T('цепочка редиректов','redirect chain')+' ('+d.hops+')</h3>';
-        chain.forEach(function(h,i){
-          html+='<div class="hop"><span class="n">'+(i+1)+'</span><span class="hu">'+esc(h.url)+(h.punycode?' <span class="puny">'+T('[punycode]','[punycode]')+'</span>':'')+'</span><span class="hs">'+(h.status?esc(h.status):'')+'</span></div>';
-        });
-        if(d.truncated)html+='<div class="hop"><span class="n">…</span><span class="hu" style="color:var(--mut)">'+T('цепочка длиннее — показаны первые шаги','chain is longer — first hops shown')+'</span></div>';
-        html+='</div>';
-      }
-      res.innerHTML=html;
+      last={kind:'ok',d:await r.json()};
     }catch(e){
-      res.innerHTML='<p style="color:var(--bad)">'+T('Ошибка. Попробуйте ещё раз.','Error. Try again.')+'</p>';
+      last={kind:'neterr'};
     }finally{btn.disabled=false;btn.textContent=old;}
+    paint();
   }
   btn.addEventListener('click',run);
   inp.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+  window.addEventListener('storage',paint);
 })();
 </script>
 <script src="/i18n-lite.js?v=1" defer></script>

@@ -8,13 +8,17 @@
 <style>
   *{margin:0;box-sizing:border-box}
   :root{--bg:#0b1220;--txt:#fff;--mut:#aab3c5;--acc:#ff7a1a;--line:rgba(255,255,255,.12);--card:rgba(255,255,255,.04)}
-  html[data-theme="light"]{--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff}
   body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
     background:radial-gradient(900px 500px at 18% -10%,rgba(255,122,26,.18),transparent 60%),radial-gradient(900px 500px at 100% 110%,rgba(45,139,255,.14),transparent 60%),var(--bg)}
-  .box{text-align:center;max-width:460px}
+  /* min-width:0 обязателен: .box — флекс-элемент, у него min-width:auto, и он не может стать
+   уже своего min-content. Минимум задаёт input внутри .term-in, поэтому на экране 360 px
+   блок раздувался до 380 и страница ездила вбок. */
+  .box{text-align:center;max-width:460px;min-width:0}
+  .term-in input{min-width:0}
   .logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px}
   .logo svg{width:40px;height:40px}
-  .logo b{font-size:22px;font-weight:800}.logo b i{color:var(--acc);font-style:normal}
+  .logo b{font-size:22px;font-weight:800}.logo b i{color:var(--acc-ink,var(--acc));font-style:normal}
   .code{font-family:'JetBrains Mono',monospace;font-size:84px;font-weight:800;line-height:1;
     background:linear-gradient(120deg,var(--acc),#ffae3d);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   h1{font-size:26px;font-weight:700;margin:14px 0 8px}
@@ -23,7 +27,7 @@
     text-decoration:none;color:#0b0e14;background:linear-gradient(120deg,var(--acc),#ff9a3d);box-shadow:0 12px 30px rgba(255,122,26,.3);transition:.2s}
   .btn:hover{transform:translateY(-2px)}
   .alt{margin-top:16px;font-size:13.5px;color:var(--mut)}
-  .alt a{color:var(--acc);text-decoration:none}
+  .alt a{color:var(--acc-ink,var(--acc));text-decoration:none}
   .tt{position:fixed;top:10px;right:12px;z-index:50;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;line-height:1;cursor:pointer}
   /* терминал-игрушка */
   .term{max-width:620px;width:100%;margin:22px auto 0;text-align:left;background:#050c08;border:1px solid rgba(0,255,140,.22);
@@ -123,5 +127,13 @@
   };
   input.addEventListener('keydown', e => { if (e.key === 'Enter') { const v = input.value; input.value = ''; run(v); } });
 })();
+</script>
+
+<script>
+/* Тексты этой страницы собираются скриптом ОДИН раз при загрузке (const T = EN ? {…} : {…}),
+   поэтому переключатель языка их не менял: заголовок становился английским, а вся инструкция
+   оставалась русской. Перерисовать их нельзя, не переписав полстраницы, — перечитываем страницу.
+   Это статическая страница без введённых данных, терять нечего. */
+window.addEventListener('bitaps-lang-changed', function () { location.reload(); });
 </script>
 </body></html>

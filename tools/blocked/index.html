@@ -4,7 +4,7 @@
 <meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://raw.githubusercontent.com; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
-<meta name="description" content="Проверьте, внесён ли домен в реестр запрещённых сайтов Роскомнадзора. Проверка по официальному дампе реестра, прямо в браузере, без регистрации."><title data-en="Is a site in Russia's block registry — bitaps VPN">В реестре РКН? Проверка блокировки сайта — bitaps VPN</title><link rel="canonical" href="https://bitapsvpn.com/tools/blocked/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Проверьте, внесён ли домен в реестр запрещённых сайтов Роскомнадзора. Проверка по официальному дампу реестра, прямо в браузере, без регистрации."><title data-en="Is a site in Russia's block registry — bitaps VPN">В реестре РКН? Проверка блокировки сайта — bitaps VPN</title><link rel="canonical" href="https://bitapsvpn.com/tools/blocked/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/fonts.css">
 <style>
   :root{--acc:#ff7a1a;--acc2:#ffae3d;--txt:#eaf0fb;--mut:#9fb0c9;--line:rgba(255,255,255,.1);--card:rgba(255,255,255,.03);--ok:#46d39a;--bad:#ff5d5d;--warn:#ffbb44}
@@ -13,13 +13,13 @@
   .bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 700px at 100% 8%,rgba(45,139,255,.1),transparent 55%),#05080f}
   a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:780px;margin:0 auto;padding:42px 22px 40px}
-  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc)}
-  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}.crumbs a{color:var(--mut)}.crumbs a:hover{color:var(--acc-ink,var(--acc))}
+  .kick{font-family:'JetBrains Mono',ui-monospace,monospace;color:var(--acc-ink,var(--acc));font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
   h1{font-size:31px;line-height:1.15;margin-bottom:10px;letter-spacing:-.4px}
   .lead{color:var(--mut);font-size:15.5px;line-height:1.65;max-width:620px}
   .form{margin-top:28px;display:flex;gap:10px;flex-wrap:wrap}
   .form input{flex:1;min-width:220px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:16px;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 18px;outline:none;transition:.2s}
-  .form input:focus{border-color:var(--acc)}
+  .form input:focus{border-color:var(--acc-ink,var(--acc))}
   .form button{flex-shrink:0;background:var(--acc);color:#0b0e14;font-weight:800;padding:0 26px;border:none;border-radius:13px;font-size:15px;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:.2s}
   .form button:hover{transform:translateY(-2px)}
   .form button:disabled{opacity:.5;cursor:default;transform:none}
@@ -43,15 +43,15 @@
   .pop h2{font-size:17px;margin-bottom:12px}
   .poplist{display:flex;flex-wrap:wrap;gap:8px}
   .poplist a{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px;color:var(--mut);border:1px solid var(--line);border-radius:9px;padding:7px 12px;background:var(--card);transition:.18s}
-  .poplist a:hover{border-color:var(--acc);color:var(--acc);text-decoration:none}
+  .poplist a:hover{border-color:var(--acc-ink,var(--acc));color:var(--acc-ink,var(--acc));text-decoration:none}
   .faq{margin-top:44px}.faq h2{font-size:20px;margin-bottom:14px}
   details{border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin-bottom:10px;background:var(--card)}
   summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}summary::-webkit-details-marker{display:none}
-  summary::before{content:"+";color:var(--acc);font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
+  summary::before{content:"+";color:var(--acc-ink,var(--acc));font-family:'JetBrains Mono',monospace;margin-right:10px;font-weight:800}
   details[open] summary::before{content:"−"}
   details p{color:var(--mut);font-size:14px;line-height:1.6;padding:0 0 14px 24px}
   @media(max-width:520px){h1{font-size:25px}.wrap{padding:30px 16px 30px}}
-  html[data-theme="light"]{--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02);--bad:#dc2626;--ok:#16a34a}
+  html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.10);--acc2:#b45309;--card:rgba(16,26,48,.02);--bad:#dc2626;--ok:#16a34a}
   html[data-theme="light"] body{background:radial-gradient(1100px 700px at 12% -8%,rgba(255,122,26,.09),transparent 55%),radial-gradient(1000px 700px at 100% 4%,rgba(45,139,255,.08),transparent 52%),#f3f6fc}
   html[data-theme="light"] .bg{background:none}
   :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
