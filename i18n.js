@@ -7,6 +7,27 @@
   var KEY = 'bitaps-lang';
   // ── словарь: русский (схлопнутые пробелы) → english ──
   var DICT = {
+    // строки, которые страницы рисуют скриптом (их ловит наблюдатель за DOM)
+    "Ссылка недействительна": "This link is not valid",
+    "Возможно, почта уже подтверждена или ссылка устарела. Попробуйте войти на сайте.":
+      "The email may already be confirmed, or the link has expired. Try signing in on the site.",
+    "Не получилось начать дуэль.": "Couldn't start the duel.",
+    "Соперник в игре! Начинаем…": "Your opponent is in! Starting…",
+    "Твой улов готов 🎣": "Your catch is ready 🎣",
+    "впиши имя для топа 🙂": "enter a name for the leaderboard 🙂",
+    // ── добито после сквозной проверки: строки, на которых движок раньше срывался в полуперевод
+    //    («➕ Доп. device», «Pay подписку») либо которых просто не было в словаре ──
+    "команда": "team",
+    "Бесплатный Telegram-прокси для Telegram": "Free Telegram proxy for Telegram",
+    "➕ Доп. устройство": "➕ Extra device",
+    "По умолчанию 1 устройство. Нужно больше — выбери их при оплате на":
+      "One device by default. Need more — pick them at checkout on",
+    "(+50 ₽/мес за каждое) либо добавь к уже активной подписке за токены на":
+      "(+50 ₽/mo each) or add them to an active subscription with tokens on",
+    "за друзей и кэшбэком, оплачивают подписку и доп. устройства — и на сайте, и в боте — и пойдут на карту bitaps.":
+      "for friends and as cashback, pay for the subscription and extra devices — both on the site and in the bot — and will go towards the bitaps card.",
+    "Оплати подписку — получишь подарочный код письмом и прямо на этой странице. Друг активирует код на сайте или в Telegram-боте и сразу получит свой VPN-ключ.":
+      "Pay for a subscription — you get a gift code by email and right here on this page. Your friend redeems it on the site or in the Telegram bot and gets their own VPN key straight away.",
     // nav / hero
     "Возможности": "Features", "Как работает": "How it works", "Цены": "Pricing",
     "Приложение": "App", "Войти": "Log in", "Скачать": "Download",
@@ -704,16 +725,26 @@
         }
       }
       if (DICT[col]) { var v = raw.replace(trimmed, DICT[col]); if (node.textContent !== v) node.textContent = v; return; }
-      // подстрочный перевод динамики (даты/имена/суммы)
+      // Подстрочный перевод динамики (даты/имена/суммы). Замены слепые, поэтому есть жёсткое
+      // условие: показываем результат ТОЛЬКО если после них кириллицы не осталось.
+      // Без него SUB срабатывал на обычных предложениях, которых просто нет в словаре, и рождал
+      // уродов вида «➕ Доп. device», «По умолчанию 1 device. Нужно больше — выбери их при оплате»,
+      // «Pay подписку — получишь подарочный код письмом». Полуперевод хуже честного русского:
+      // он выглядит как поломка сайта, и его никто не замечает в отчётах — строка ведь «переведена».
+      // Такая строка остаётся русской и попадает в репортер пропусков, то есть чинится словарём.
       var out = trimmed, hit = false;
       for (var i = 0; i < SUB.length; i++) { if (out.indexOf(SUB[i][0]) >= 0) { out = out.split(SUB[i][0]).join(SUB[i][1]); hit = true; } }
-      if (hit) { var w = raw.replace(trimmed, out); if (node.textContent !== w) node.textContent = w; return; }
+      if (hit && !/[а-яё]/i.test(out)) { var w = raw.replace(trimmed, out); if (node.textContent !== w) node.textContent = w; return; }
       // не нашли перевод и в тексте есть кириллица → это пропуск, фиксируем
       if (/[а-яё]/i.test(col)) MISS[col] = (MISS[col] || 0) + 1;
     }
     if (node.textContent !== node.__ru) node.textContent = node.__ru;
   }
   var SUB = [
+    // итог дуэли склеивается из чисел: «Ты 12 · соперник 9»
+    ['Ты ', 'You '], [' · соперник ', ' · opponent '],
+    // счёт соперника дописывается числом, поэтому ключом строку не поймать
+    ['Соперник ещё ловит… у него сейчас', 'Opponent is still fishing… they now have'],
     ['подписка не активна', 'subscription inactive'], ['активна до', 'active until'], ['не активна', 'inactive'],
     ['тариф bitaps VPN', 'plan bitaps VPN'], ['Тема: тёмная', 'Theme: dark'], ['Тема: светлая', 'Theme: light'],
     ['Ошибка: ', 'Error: '], ['Вы выбрали:', 'You selected:'], ['Похоже, у вас', 'Looks like you have'],

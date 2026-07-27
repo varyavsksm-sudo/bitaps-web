@@ -49,11 +49,11 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="blogo" viewBox="0 0 32 32" fill="none"><g fill="currentColor"> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/> </g> <circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/> <text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family='Space Grotesk,system-ui,sans-serif' fill="currentColor">B</text></symbol></svg>
   <div class="bg"></div>
   <div class="top">
-    <a class="brand" href="/" title="На главную">
+    <a class="brand" href="/" title="На главную" data-en-title="Home">
       <span class="brand-mark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><use href="#blogo"/></svg></span>
     </a>
     <div class="top-actions">
-      <button id="themeToggle" class="theme-btn" type="button" aria-label="Сменить тему">☀️</button>
+      <button id="themeToggle" class="theme-btn" type="button" aria-label="Сменить тему" data-en-aria="Switch theme">☀️</button>
       <a class="top-home" href="/" data-en="← Home">← На главную</a>
     </div>
   </div>
@@ -112,13 +112,13 @@
   const apply = () => {
     const light = isLight();
     if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
-    if (btn) { btn.textContent = light ? '☀️' : '🌙'; btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная'); btn.setAttribute('aria-label', btn.title); }
+    if (btn) { btn.textContent = light ? '☀️' : '🌙'; var __en=false;try{__en=localStorage.getItem('bitaps-lang')==='en'}catch(e){}; btn.title = __en ? ('Theme: ' + (light ? 'light' : 'dark')) : ('Тема: ' + (light ? 'светлая' : 'тёмная')); btn.setAttribute('aria-label', btn.title); }
   };
   if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
   if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
   apply();
 })();
 </script>
-<script>(function(){var KEY='bitaps-lang',html=document.documentElement;function detect(){try{var s=localStorage.getItem(KEY);if(s==='en'||s==='ru')return s;}catch(e){}return 'ru';}var cur=detect();var base="cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);";function apply(l){document.querySelectorAll('[data-en]').forEach(function(e){if(e.__ru==null)e.__ru=e.innerHTML;var v=(l==='en')?e.getAttribute('data-en'):e.__ru;if(e.innerHTML!==v)e.innerHTML=v;});html.lang=l;var b=document.getElementById('langToggle');if(b)b.textContent=l==='en'?'RU':'EN';}function setLang(l){cur=l;try{localStorage.setItem(KEY,l);}catch(e){}apply(l);}function init(){if(!document.getElementById('langToggle')){var b=document.createElement('button');b.id='langToggle';b.type='button';b.textContent=cur==='en'?'RU':'EN';b.setAttribute('aria-label','Сменить язык / Switch language');b.style.cssText=base;b.addEventListener('click',function(){setLang(cur==='en'?'ru':'en');});var theme=document.getElementById('themeToggle');if(theme&&theme.parentNode)theme.parentNode.insertBefore(b,theme);else document.body.appendChild(b);}apply(cur);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
+<script src="/i18n-lite.js?v=1" defer></script>
 </body>
 </html>

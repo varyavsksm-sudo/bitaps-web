@@ -89,22 +89,22 @@ html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,4
 </style>
 <div class="bt-bgrid" aria-hidden="true"></div>
 <header class="bt-top" id="btTop">
-  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную">
+  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную" data-en-aria="bitaps VPN — home">
     <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
     <b>bit<i>aps</i></b>
   </a>
-  <nav class="bt-nav" aria-label="Разделы сайта">
+  <nav class="bt-nav" aria-label="Разделы сайта" data-en-aria="Site sections">
     <a href="/#pricing" class="bt-hidesm" data-en="Pricing">Цены</a>
     <a href="/app.html" class="bt-hidesm" data-en="App">Приложение</a>
     <a href="/account.html" data-en="Dashboard">Кабинет</a>
-    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
+    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему" data-en-aria="Switch theme">☀️</button>
   </nav>
 </header>
 <script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btTop');if(e)e.style.display='none';}}catch(e){}})();</script>
 <script>(function(){if(window.__btThemeBound)return;window.__btThemeBound=1;
 var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('btThemeBtn'),mq=matchMedia('(prefers-color-scheme: light)');
 function isL(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches}
-function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';btn.title='Тема: '+(l?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title)}}
+function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';var en=false;try{en=localStorage.getItem('bitaps-lang')==='en'}catch(e){};btn.title=en?('Theme: '+(l?'light':'dark')):('Тема: '+(l?'светлая':'тёмная'));btn.setAttribute('aria-label',btn.title)}}
 if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key,isL()?'dark':'light')}catch(e){}ap()});
 if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')ap()});
 ap();})();</script>
@@ -183,13 +183,13 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
 <footer class="bt-foot" id="btFoot">
   <div class="btf-in">
     <div>
-      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную">
+      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную" data-en-aria="bitaps VPN — home">
         <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
         <b>bit<i>aps</i></b>
       </a>
       <p class="btf-tag" data-en="Privacy isn't paranoia. It's hygiene.">Приватность — это не паранойя. Это гигиена.</p>
     </div>
-    <nav class="btf-links" aria-label="Карта сайта">
+    <nav class="btf-links" aria-label="Карта сайта" data-en-aria="Sitemap">
       <div>
         <h3 data-en="Product">Продукт</h3>
         <a href="/" data-en="Home">Главная</a>
@@ -320,6 +320,6 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   sha256hex(comp).then(function(h){hashEl.textContent=h.slice(0,16);});
 })();
 </script>
-<script>(function(){var KEY='bitaps-lang',html=document.documentElement;function detect(){try{var s=localStorage.getItem(KEY);if(s==='en'||s==='ru')return s;}catch(e){}return 'ru';}var cur=detect();var base="cursor:pointer;border:1.5px solid #ff7a1a;background:#ff7a1a;color:#0b0e14;border-radius:999px;font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:800;font-size:12.5px;letter-spacing:.5px;line-height:1;height:38px;min-width:46px;padding:0 14px;display:inline-grid;place-items:center;box-shadow:0 4px 14px rgba(255,122,26,.35);";function apply(l){document.querySelectorAll('[data-en]').forEach(function(e){if(e.__ru==null)e.__ru=e.innerHTML;var v=(l==='en')?e.getAttribute('data-en'):e.__ru;if(e.innerHTML!==v)e.innerHTML=v;});html.lang=l;var b=document.getElementById('langToggle');if(b)b.textContent=l==='en'?'RU':'EN';try{localStorage.setItem(KEY,l);}catch(e){}window.dispatchEvent(new Event('storage'));}function setLang(l){cur=l;apply(l);}function init(){if(!document.getElementById('langToggle')){var b=document.createElement('button');b.id='langToggle';b.type='button';b.textContent=cur==='en'?'RU':'EN';b.setAttribute('aria-label','Сменить язык / Switch language');b.style.cssText=base;b.addEventListener('click',function(){setLang(cur==='en'?'ru':'en');});var theme=document.getElementById('btThemeBtn');if(theme&&theme.parentNode)theme.parentNode.insertBefore(b,theme);else document.body.appendChild(b);}apply(cur);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
+<script src="/i18n-lite.js?v=1" defer></script>
 </body>
 </html>

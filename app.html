@@ -74,7 +74,7 @@
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 </style>
-<script src="/i18n.js?v=31" defer></script><meta property="og:type" content="website" />
+<script src="/i18n.js?v=32" defer></script><meta property="og:type" content="website" />
 <meta property="og:title" content="Скачать приложение — bitaps VPN" />
 <meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
 <meta property="og:description" content="Скачать bitaps VPN для Android, iOS, Windows, macOS и Linux. Быстрое подключение по VLESS + Reality на всех устройствах." />
@@ -321,7 +321,7 @@
   const apply = () => {
     const light = isLight();
     if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
-    if (btn) { btn.textContent = light ? '☀️' : '🌙'; btn.title = 'Тема: ' + (light ? 'светлая' : 'тёмная'); btn.setAttribute('aria-label', btn.title); }
+    if (btn) { btn.textContent = light ? '☀️' : '🌙'; var __en=false;try{__en=localStorage.getItem('bitaps-lang')==='en'}catch(e){}; btn.title = __en ? ('Theme: ' + (light ? 'light' : 'dark')) : ('Тема: ' + (light ? 'светлая' : 'тёмная')); btn.setAttribute('aria-label', btn.title); }
   };
   if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
   if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });

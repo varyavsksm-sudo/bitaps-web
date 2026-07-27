@@ -73,22 +73,22 @@ html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,4
 </style>
 <div class="bt-bgrid" aria-hidden="true"></div>
 <header class="bt-top" id="btTop">
-  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную">
+  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную" data-en-aria="bitaps VPN — home">
     <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
     <b>bit<i>aps</i></b>
   </a>
-  <nav class="bt-nav" aria-label="Разделы сайта">
+  <nav class="bt-nav" aria-label="Разделы сайта" data-en-aria="Site sections">
     <a href="/#pricing" class="bt-hidesm" data-en="Pricing">Цены</a>
     <a href="/app.html" class="bt-hidesm" data-en="App">Приложение</a>
     <a href="/account.html" data-en="Dashboard">Кабинет</a>
-    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
+    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему" data-en-aria="Switch theme">☀️</button>
   </nav>
 </header>
 <script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btTop');if(e)e.style.display='none';}}catch(e){}})();</script>
 <script>(function(){if(window.__btThemeBound)return;window.__btThemeBound=1;
 var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('btThemeBtn'),mq=matchMedia('(prefers-color-scheme: light)');
 function isL(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches}
-function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';btn.title='Тема: '+(l?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title)}}
+function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';var en=false;try{en=localStorage.getItem('bitaps-lang')==='en'}catch(e){};btn.title=en?('Theme: '+(l?'light':'dark')):('Тема: '+(l?'светлая':'тёмная'));btn.setAttribute('aria-label',btn.title)}}
 if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key,isL()?'dark':'light')}catch(e){}ap()});
 if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')ap()});
 ap();})();</script>
@@ -126,13 +126,13 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
 <footer class="bt-foot" id="btFoot">
   <div class="btf-in">
     <div>
-      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную">
+      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную" data-en-aria="bitaps VPN — home">
         <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
         <b>bit<i>aps</i></b>
       </a>
       <p class="btf-tag" data-en="Privacy isn't paranoia. It's hygiene.">Приватность — это не паранойя. Это гигиена.</p>
     </div>
-    <nav class="btf-links" aria-label="Карта сайта">
+    <nav class="btf-links" aria-label="Карта сайта" data-en-aria="Sitemap">
       <div>
         <h3 data-en="Product">Продукт</h3>
         <a href="/" data-en="Home">Главная</a>
@@ -164,7 +164,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
 </footer>
 <script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btFoot');if(e)e.style.display='none';}}catch(e){}})();</script>
 <!--#endinclude-->
-<script src="/i18n.js?v=31" defer></script>
+<script src="/i18n.js?v=32" defer></script>
 <script>
 (() => {
   const EN = () => document.documentElement.lang === 'en';
