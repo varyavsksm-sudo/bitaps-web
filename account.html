@@ -383,6 +383,19 @@
           </div>
         </div>
 
+        <!-- Токены: раньше кэшбэк веб-покупателю капал, но увидеть и потратить его на сайте было
+             негде — карточка ведёт на страницу баланса (пополнение, история, оплата подписки). -->
+        <a class="card boxcard" id="tokBtn" href="tokens.html" hidden style="text-decoration:none;color:inherit;display:block">
+          <div class="box-row">
+            <div class="box-ic">🪙</div>
+            <div>
+              <h3 data-en="Tokens">Токены</h3>
+              <p id="tokCardSub" data-en="balance, top-up, history">баланс, пополнение, история</p>
+            </div>
+            <span class="arrowi">→</span>
+          </div>
+        </a>
+
         <div class="card boxcard" id="supBtn">
           <div class="box-row">
             <div class="box-ic">🆘</div>
@@ -406,10 +419,18 @@
           </div>
         </div>
 
+        <!-- История платежей: на сайте её не было вообще (на pay.html стояла статическая заглушка
+             «Пока пусто»), хотя в боте экран истории есть. Данные — web-pay action:"account". -->
+        <div class="card" id="payHistCard" hidden>
+          <div class="ct"><span class="i">📖</span> История платежей</div>
+          <div id="payHist" style="margin-top:10px"></div>
+          <p class="hint" style="margin-top:12px">Оплаты с сайта — картой, СБП и криптой. <a href="tokens.html" style="color:var(--acc)" data-en="Token balance and movements →">Баланс токенов и движения →</a></p>
+        </div>
+
         <div class="card faqcard" id="faqCard">
           <div class="ct"><span class="i">❓</span> Вопросы</div>
           <div class="faq">
-            <details><summary>Сколько устройств можно подключить?</summary><p>По умолчанию 1 устройство. Нужно больше — добавь в боте дополнительные (+50 ₽/мес за каждое).</p></details>
+            <details><summary>Сколько устройств можно подключить?</summary><p>По умолчанию 1 устройство. Нужно больше — выбери их при оплате на <a href="pay.html" style="color:var(--acc)">странице тарифов</a> (+50 ₽/мес за каждое) либо добавь к уже активной подписке за токены на <a href="tokens.html" style="color:var(--acc)">странице баланса</a>. То же самое умеет бот.</p></details>
             <details><summary>Вы ведёте логи?</summary><p>Нет. Мы не храним историю и трафик — приватность по умолчанию.</p></details>
             <details><summary>Как продлить подписку?</summary><p>Кнопка «Продлить» выше → оплата на сайте (карта, СБП или крипта), срок продлится автоматически. Можно оплатить и в Telegram-боте.</p></details>
             <details><summary>VPN не подключается?</summary><p>Проверь, что ключ скопирован полностью, попробуй другой сервер или напиши в поддержку.</p></details>
@@ -534,7 +555,7 @@
         <p class="hint" style="margin:8px 0 0" data-en="Point a phone camera — your referral link opens.">Наведи камеру телефона — откроется твоя реферальная ссылка.</p>
       </div>
       <p class="hint" id="tokRow" style="margin-top:12px;margin-bottom:2px">🪙 <b id="tokBal">0</b> <span data-en="bitaps tokens">токенов bitaps</span></p>
-      <p class="hint" style="margin:0" data-en="They accrue for friends, redeem for subscription days (in the Telegram bot) and will go to the bitaps card.">Капают за друзей, обмениваются на дни подписки (в Telegram-боте) и пойдут на карту bitaps.</p>
+      <p class="hint" style="margin:0" data-en="They accrue for friends and as cashback, pay for a subscription or an extra device — on the site and in the bot — and will go to the bitaps card."><a href="tokens.html" style="color:var(--acc)">Капают</a> за друзей и кэшбэком, оплачивают подписку и доп. устройства — и на сайте, и в боте — и пойдут на карту bitaps.</p>
     </div>
   </div>
 
@@ -810,9 +831,45 @@
   const display = prov === 'telegram' ? (md.user_name ? '@' + md.user_name : 'Telegram') : (user.email || '');
   fillProfile(name, display, avatar);
 
-  // баланс токенов ведётся по telegram_id (RPC token_balance/ledger доступны только service_role,
-  // RLS закрыта для authenticated) → из веб-сессии его не прочитать. Не показываем ложный «🪙 0».
-  { const tr = $('tokRow'); if (tr) tr.hidden = true; }
+  // Баланс токенов живёт в token_ledger, куда authenticated не пускает RLS (денежная таблица), и
+  // раньше кабинет просто прятал строку — веб-покупатель годами копил кэшбэк, которого не видел.
+  // Читаем через web-pay action:"account": она валидирует access_token на GoTrue и ходит в RPC от
+  // service_role. Заодно подбирает висящие пополнения и отдаёт историю платежей.
+  {
+    const PLAN_TITLES = { mo: '1 месяц', q: '3 месяца', h: '6 месяцев', yr: '12 месяцев' };
+    const planTitle = (p) => {
+      p = String(p || '');
+      if (p.indexOf('tok_') === 0) return 'Пакет токенов';
+      const gift = p.indexOf('gift_') === 0, base = gift ? p.slice(5) : p;
+      return (gift ? 'Подарок · ' : '') + (PLAN_TITLES[base] || base);
+    };
+    (async () => {
+      try {
+        const res = await fetchT('https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay', {
+          method: 'POST', headers: { 'content-type': 'application/json', 'apikey': 'sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z' },
+          body: JSON.stringify({ action: 'account', access_token: session.access_token }),
+        });
+        const j = await res.json();
+        if (!j || !j.ok) { const tr = $('tokRow'); if (tr) tr.hidden = true; return; }
+        setTokens(j.balance);
+        const tb = $('tokBtn');
+        if (tb) { tb.hidden = false; $('tokCardSub').textContent = j.balance + ' 🪙 · пополнение, история'; }
+        const pays = j.payments || [];
+        if (pays.length) {
+          $('payHist').innerHTML = pays.map((p) => {
+            const d = new Date(p.paid_at || p.created_at).toLocaleDateString('ru-RU');
+            // значения из своей же БД, но экранируем: в plan/сумму не должен попасть разметочный символ
+            const esc = (s) => String(s).replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]));
+            return `<div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:14px">`
+              + `<span>${esc(planTitle(p.plan))} <span style="color:var(--mut)">${d}</span></span>`
+              + `<b style="white-space:nowrap">${esc(String(p.amount_rub))} ₽</b></div>`;
+          }).join('');
+          $('payHistCard').hidden = false;
+        }
+        if (window.__i18nRefresh) window.__i18nRefresh($('cab'));
+      } catch (_) { const tr = $('tokRow'); if (tr) tr.hidden = true; }
+    })();
+  }
 
   if (md.telegram_id) {
     setupRef(`https://t.me/bitaps_vpn_auth_bot?start=ref${md.telegram_id}`);

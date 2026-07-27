@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="ru"><head>
 <meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Подарить VPN · bitaps</title>
-<link rel="canonical" href="https://bitapsvpn.com/gift.html">
-<meta name="description" content="Подарочная подписка bitaps VPN: оплати тариф на 1, 3, 6 или 12 месяцев — получишь код, который друг активирует на сайте или в Telegram-боте.">
+<title>Активировать подарочный код · bitaps VPN</title>
+<link rel="canonical" href="https://bitapsvpn.com/redeem.html">
+<meta name="description" content="Активация подарочного или VIP-кода bitaps VPN прямо на сайте: впиши код и почту — ключ придёт письмом. Telegram не нужен.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://bjkozsukvifkxriojxrz.supabase.co" crossorigin>
@@ -73,11 +73,11 @@ function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function()
 </style>
 <script src="/i18n.js?v=31" defer></script>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Подарить VPN · bitaps" />
-<meta property="og:description" content="Подарочная подписка bitaps VPN: код на 1, 3, 6 или 12 месяцев — друг активирует его на сайте или в Telegram-боте." />
+<meta property="og:title" content="Активировать подарочный код · bitaps VPN" />
+<meta property="og:description" content="Активация подарочного или VIP-кода bitaps VPN прямо на сайте: впиши код и почту — ключ придёт письмом. Telegram не нужен." />
 <meta property="og:image" content="https://bitapsvpn.com/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:url" content="https://bitapsvpn.com/gift.html" /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
+<meta property="og:url" content="https://bitapsvpn.com/redeem.html" /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
 </head><body>
 
 <!--#include partials/header.html-->
@@ -130,57 +130,52 @@ ap();})();</script>
 <!--#endinclude-->
 
 <div class="wrap" id="page">
-  <span class="kicker">// подарок</span>
-  <h1>Подарить <i>bitaps</i> VPN</h1>
-  <p class="sub">Оплати подписку — получишь подарочный код письмом и прямо на этой странице. Друг активирует код на сайте или в Telegram-боте и сразу получит свой VPN-ключ.</p>
+  <span class="kicker">// активация</span>
+  <h1>Активировать <i>подарок</i></h1>
+  <p class="sub">Тебе подарили подписку bitaps VPN или у тебя карта с VIP-кодом? Впиши код — доступ откроется сразу, а ключ придёт на почту. Telegram для этого не нужен.</p>
 
   <div class="card">
-    <p class="lbl">Тариф подарка</p>
-    <div class="gplans" id="gplans" role="radiogroup" aria-label="Тариф подарка">
-      <!-- цены — копия канона supabase/functions/_shared/plans.ts (PLAN.base); сумму пересчитывает web-pay -->
-      <div class="gplan" data-code="mo" data-rub="399" role="radio" tabindex="0" aria-checked="false"><div class="nm">1 месяц</div><div class="pr">399 <small>₽</small></div></div>
-      <div class="gplan" data-code="q" data-rub="999" role="radio" tabindex="0" aria-checked="false"><div class="nm">3 месяца</div><div class="pr">999 <small>₽</small></div></div>
-      <div class="gplan sel" data-code="h" data-rub="1790" role="radio" tabindex="0" aria-checked="true"><div class="nm">6 месяцев</div><div class="pr">1 790 <small>₽</small></div></div>
-      <div class="gplan" data-code="yr" data-rub="2990" role="radio" tabindex="0" aria-checked="false"><div class="fl">★ на целый год</div><div class="nm">12 месяцев</div><div class="pr">2 990 <small>₽</small></div></div>
-    </div>
-    <p class="note">Подарок — подписка на 1 устройство. Цены — те же, что и в обычных тарифах.</p>
-    <p class="lbl" style="margin-top:18px">Почта — куда прислать код</p>
-    <input id="gmail" type="email" inputmode="email" placeholder="you@example.com" autocomplete="email" aria-label="Почта — куда прислать код">
-    <p class="note" style="margin-top:8px">Твоя почта — или сразу почта получателя, если хочешь отправить сюрприз напрямую.</p>
-    <p class="lbl" style="margin-top:18px">Способ оплаты</p>
-    <div class="gpays">
-      <button class="gpay" id="gSbp" type="button">🏦 <span>Карта / СБП<span class="d">оплата на сайте, код на почту и сюда</span></span><span class="ar">›</span></button>
-      <button class="gpay" id="gCrypto" type="button">💎 <span>Криптой (USDT/TON)<span class="d">оплата на сайте, код на почту и сюда</span></span><span class="ar">›</span></button>
-    </div>
-    <div class="gerr" id="gerr" role="alert"></div>
-    <p class="pnote">Оплачивая, ты принимаешь <a href="terms.html">оферту</a> и <a href="privacy.html">политику конфиденциальности</a>. Вопросы — <a href="mailto:bitapssupport@gmail.com">bitapssupport@gmail.com</a></p>
+    <p class="lbl">Код</p>
+    <input id="rcode" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="8 символов из письма или VIP-код с карты" aria-label="Подарочный или VIP-код">
+    <p class="note">Подарочный код — 8 символов (буквы и цифры). VIP-код напечатан на обороте металлической карты и начинается с VIP-.</p>
+    <p class="lbl" style="margin-top:18px">Почта — на неё придёт ключ</p>
+    <input id="remail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Почта — на неё придёт ключ">
+    <p class="note" style="margin-top:8px">На эту почту заводится аккаунт: по ней потом восстанавливается «Код входа» в личный кабинет.</p>
+    <button class="gpay" id="rgo" type="button" style="margin-top:16px;justify-content:center;font-weight:700">🎁 <span>Активировать код</span></button>
+    <div class="gerr" id="rerr" role="alert"></div>
+    <p class="pnote">Уже есть подписка? Код добавит дни к текущему сроку — они не сгорят. Вопросы — <a href="mailto:bitapssupport@gmail.com">bitapssupport@gmail.com</a></p>
   </div>
 
   <div class="steps">
-    <div class="step"><span class="n">01</span><b>Выбери и оплати</b><p>Тариф на 1, 3, 6 или 12 месяцев — СБП или криптой прямо на сайте.</p></div>
-    <div class="step"><span class="n">02</span><b>Получи код</b><p>Подарочный код появится здесь после оплаты и придёт на почту.</p></div>
-    <div class="step"><span class="n">03</span><b>Отправь другу</b><p>Друг активирует код на bitapsvpn.com/redeem.html или в Telegram-боте — и дни подписки уже у него.</p></div>
+    <div class="step"><span class="n">01</span><b>Впиши код</b><p>Подарочный — из письма или от друга. VIP — с оборота карты bitaps.</p></div>
+    <div class="step"><span class="n">02</span><b>Получи ключ</b><p>Ключ появится здесь и придёт на почту вместе с «Кодом входа» в кабинет.</p></div>
+    <div class="step"><span class="n">03</span><b>Подключись</b><p>Вставь ключ в приложение bitaps или Happ — и всё, VPN работает.</p></div>
   </div>
 </div>
 
 <div class="wrap done" id="done" role="status" aria-live="polite">
-  <div class="big">🎁</div>
-  <h2 id="doneH">Счёт создан</h2>
-  <p class="sec-p" id="doneTxt">Открываем оплату…</p>
-  <a class="btn btn-solid" id="payAgain" href="#" target="_blank" rel="noopener" style="margin-top:18px">Открыть оплату</a>
-  <p class="sec-p hide" id="waitMsg" style="margin-top:16px">⏳ Ждём подтверждения оплаты… код появится здесь автоматически (можно не закрывать страницу).</p>
-  <div class="hide" id="giftReveal">
-    <div class="gcode" id="giftCode"></div>
-    <p class="sec-p">Код также отправлен на почту. Друг активирует его по ссылке в нашем Telegram-боте:</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px">
-      <button class="btn btn-solid" id="copyLink" type="button">Скопировать ссылку для друга</button>
-      <button class="btn btn-line" id="copyCode" type="button">Скопировать код</button>
+  <div class="big">🎉</div>
+  <h2 id="doneH">Подписка активирована</h2>
+  <p class="sec-p" id="doneTxt"></p>
+  <div class="hide" id="keyReveal" style="max-width:520px;margin:22px auto 0;text-align:left">
+    <h3 style="color:var(--acc);margin:0 0 6px;font-size:19px">🔑 Твой ключ доступа</h3>
+    <p class="sec-p" style="margin:0 0 10px;text-align:left">Скопируй ключ или открой в приложении Happ. Он также ушёл на почту и доступен в личном кабинете.</p>
+    <pre id="keyText" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-solid" id="keyCopy" type="button">Скопировать ключ</button>
+      <a class="btn btn-line" id="keyHapp" href="#">⚙️ Открыть в Happ</a>
     </div>
-    <p class="pnote" id="giftLinkLine" style="margin-top:14px;word-break:break-all"></p>
-    <!-- у друга может не быть Telegram: тогда код гасится на сайте (web-pay action:"redeem") -->
-    <p class="pnote">Без Telegram? Друг активирует код на странице <a href="redeem.html">активации подарка</a> — ключ придёт ему на почту.</p>
+    <div class="hide" id="secretReveal" style="margin:16px 0 0">
+      <h3 style="color:var(--acc);margin:0 0 6px;font-size:19px">🔐 Код входа в кабинет</h3>
+      <p class="sec-p" style="margin:0 0 10px;text-align:left">Твой логин в личный кабинет и приложение. Сохрани — не вводи его в VPN-клиенты и никому не показывай.</p>
+      <pre id="secretText" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
+      <button class="btn btn-line" id="secretCopy" type="button">Скопировать код входа</button>
+    </div>
   </div>
-  <div style="margin-top:22px"><button type="button" id="payBack" class="btn btn-line">← Назад к выбору</button></div>
+  <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+    <a class="btn btn-solid" href="account.html">🌐 Личный кабинет</a>
+    <a class="btn btn-line" href="app.html">📲 Скачать приложение</a>
+  </div>
 </div>
 
 <!--#include partials/footer.html-->
@@ -248,96 +243,82 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
 <!--#endinclude-->
 
 <script>
+  /* Активация подарочного / VIP-кода НА САЙТЕ. Раньше код гасился только в боте (/start gift<код>),
+     и друг без Telegram не мог получить оплаченную за него подписку вообще никак.
+     Всю работу делает web-pay action:"redeem": гашение атомарно внутри RPC redeem_gift/redeem_vip,
+     повторная отправка той же формы не начисляет дни второй раз. */
   var TRACK='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/track';
   var SB_KEY='sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
   function btTrack(name,extra){try{var b=JSON.stringify(Object.assign({name:name,path:location.pathname,ref:document.referrer||''},extra||{}));if(navigator.sendBeacon)navigator.sendBeacon(TRACK,new Blob([b],{type:'text/plain;charset=UTF-8'}));else fetch(TRACK,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:b,keepalive:true}).catch(function(){});}catch(e){}}
   btTrack('pageview');
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay';
-  var STATUS_API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay-status';
-  var BOT_LINK='https://t.me/bitaps_vpn_auth_bot?start=gift';
-  var code='h';
   function isEN(){return document.documentElement.lang==='en';}
-  function fmt(n){return n.toLocaleString('ru-RU')+' ₽';}
-  function escHtml(s){return String(s).replace(/[<>&\"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','\"':'&quot;'}[c];});}
-  function selectPlan(el){if(!el)return;code=el.dataset.code;
-    document.querySelectorAll('.gplan').forEach(function(p){p.classList.toggle('sel',p===el);p.setAttribute('aria-checked',p===el?'true':'false');});}
-  document.getElementById('gplans').addEventListener('click',function(e){selectPlan(e.target.closest('.gplan'));});
-  document.getElementById('gplans').addEventListener('keydown',function(e){var el=e.target.closest('.gplan');if(!el)return;
-    if(e.key===' '||e.key==='Enter'||e.key==='Spacebar'){e.preventDefault();selectPlan(el);}});
-  function showErr(t){var e=document.getElementById('gerr');e.textContent=t;e.style.display='block';}
+  function escHtml(s){return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
+  function showErr(t){var e=document.getElementById('rerr');e.textContent=t;e.style.display='block';if(window.__i18nRefresh)window.__i18nRefresh(e);}
   function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
-  var submitting=false, polling=false, pollGen=0;
-  function showGift(codeStr){
-    var link=BOT_LINK+codeStr;
-    document.getElementById('waitMsg').classList.add('hide');
-    ['doneTxt','payAgain'].forEach(function(id){document.getElementById(id).classList.add('hide');});
-    document.getElementById('doneH').textContent=isEN()?'The gift is ready! 🎉':'Подарок готов! 🎉';
-    document.getElementById('giftCode').textContent=codeStr;
-    document.getElementById('giftLinkLine').textContent=link;
-    document.getElementById('giftReveal').classList.remove('hide');
-    var cl=document.getElementById('copyLink'),cc=document.getElementById('copyCode');
-    cl.onclick=function(){try{navigator.clipboard.writeText(link);cl.textContent=isEN()?'Copied ✓':'Скопировано ✓';}catch(e){}};
-    cc.onclick=function(){try{navigator.clipboard.writeText(codeStr);cc.textContent=isEN()?'Copied ✓':'Скопировано ✓';}catch(e){}};
-  }
-  async function startPoll(id,resume){
-    if(polling||!id)return; polling=true;
-    var myGen=++pollGen;
-    document.getElementById('page').classList.add('hide');
-    if(resume){['doneTxt','payAgain'].forEach(function(i){document.getElementById(i).classList.add('hide');});}
-    document.getElementById('done').style.display='block';
-    document.getElementById('waitMsg').classList.remove('hide');
-    for(var i=0;i<240;i++){
-      if(!polling||myGen!==pollGen)return;
-      try{
-        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
-        var j=await r.json();
-        if(j&&j.paid&&j.gift&&j.gift_code){showGift(j.gift_code);try{localStorage.removeItem('bitaps-pending-gift');}catch(e){}polling=false;return;}
-        if(j&&j.paid&&j.gift&&!j.gift_code){ /* окно on-site выдачи (1ч) прошло — код в письме */
-          document.getElementById('waitMsg').textContent=isEN()?'✅ Paid! The gift code was sent to your email.':'✅ Оплачено! Подарочный код отправлен на почту.';
-          try{localStorage.removeItem('bitaps-pending-gift');}catch(e){}polling=false;return;}
-      }catch(e){}
-      await new Promise(function(res){setTimeout(res,5000);});
-    }
-    polling=false;
-    var wm=document.getElementById('waitMsg');
-    wm.innerHTML=(isEN()?'Payment isn\'t confirmed yet. If you\'ve already paid, the code will still arrive by email — or write to ':'Оплата пока не подтвердилась. Если ты уже оплатил — код всё равно придёт на почту, либо напиши в ')+'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc)">bitapssupport@gmail.com</a>.';
-  }
-  (function(){try{var pid=localStorage.getItem('bitaps-pending-gift');if(pid&&/^[0-9a-f-]{36}$/i.test(pid))startPoll(pid,true);}catch(e){}})();
-  async function buy(method,btn){
-    var email=document.getElementById('gmail').value.trim();
-    if(!email)return showErr(isEN()?'Enter the email for the gift code.':'Впиши почту — на неё придёт подарочный код.');
-    if(!validEmail(email))return showErr(isEN()?'Invalid email format.':'Неправильный формат почты.');
-    if(submitting)return;submitting=true;btn.style.opacity=.6;btn.disabled=true;
-    btTrack('gift_pay_click',{plan:code,method:method});
+  /* Код из ссылки: /redeem.html?code=XXXXXXXX (её кладём в письмо/переписку другу) или из
+     фрагмента #code=XXXXXXXX (фрагмент на сервер не уходит вовсе).
+     Подарочный код — предъявительский документ на подписку до 12 месяцев или на VIP: в строке
+     запроса он оседает в access-логах фронта и CDN, в истории браузера и в её синхронизации.
+     Поэтому сразу после чтения вычищаем адрес через replaceState. */
+  (function(){try{
+    var q=new URLSearchParams(location.search).get('code');
+    var h=(location.hash||'').replace(/^#/,'');
+    var f=new URLSearchParams(h).get('code');
+    var c=q||f;
+    if(c){document.getElementById('rcode').value=String(c).trim().toUpperCase().slice(0,64);
+      history.replaceState(null,'',location.pathname);}
+  }catch(e){}})();
+  /* код всегда в верхнем регистре: и подарочный алфавит, и VIP-код хранятся заглавными */
+  document.getElementById('rcode').addEventListener('input',function(){
+    var p=this.selectionStart;this.value=this.value.toUpperCase();try{this.setSelectionRange(p,p);}catch(e){}});
+
+  var busy=false;
+  function copyBtn(btn,text){btn.onclick=function(){try{navigator.clipboard.writeText(text);btn.textContent=isEN()?'Copied ✓':'Скопировано ✓';}catch(e){btn.textContent=isEN()?'Select and copy manually':'Выдели и скопируй вручную';}};}
+  document.getElementById('rgo').addEventListener('click',async function(){
+    var code=(document.getElementById('rcode').value||'').trim().toUpperCase();
+    var email=(document.getElementById('remail').value||'').trim();
+    if(code.length<8)return showErr(isEN()?'Enter the code from the email or the card.':'Впиши код из письма или с карты.');
+    if(!validEmail(email))return showErr(isEN()?'Enter a valid email — the key goes there.':'Впиши корректную почту — на неё придёт ключ.');
+    if(busy)return;busy=true;var btn=this;btn.disabled=true;btn.style.opacity=.6;
+    document.getElementById('rerr').style.display='none';
+    btTrack('redeem_click');
     try{
-      var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'gift_'+code,email:email,method:method,lang:(isEN()?'en':'ru')})});
+      var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'redeem',code:code,email:email,lang:(isEN()?'en':'ru')})});
       var j=await r.json();
-      if(j&&j.ok&&/^https:\/\//i.test(j.pay_url||''))btTrack('gift_invoice_created',{plan:code});
-      if(!j.ok){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(j.error||(isEN()?'Failed to create the invoice, try later.':'Не удалось создать счёт, попробуй позже.'));}
-      if(!/^https:\/\//i.test(j.pay_url||'')){btn.style.opacity=1;btn.disabled=false;submitting=false;return showErr(isEN()?'Failed to open the payment.':'Не удалось открыть оплату.');}
+      if(!j||!j.ok){btn.disabled=false;btn.style.opacity=1;busy=false;return showErr((j&&j.error)||(isEN()?'Could not activate the code, try later.':'Не удалось активировать код, попробуй позже.'));}
+      btTrack('redeem_ok',{vip:!!j.vip});
       document.getElementById('page').classList.add('hide');
-      ['doneTxt','payAgain'].forEach(function(id){document.getElementById(id).classList.remove('hide');});
-      document.getElementById('doneTxt').innerHTML=(isEN()
-        ?('Pay <b>'+fmt(j.amount_rub)+'</b>'+(method==='crypto'?' in CryptoBot':' via SBP')+'. After payment the gift code will appear here and arrive at <b>'+escHtml(email)+'</b>.')
-        :('Оплати <b>'+fmt(j.amount_rub)+'</b>'+(method==='crypto'?' в CryptoBot':' по СБП')+'. После оплаты подарочный код появится здесь и придёт на <b>'+escHtml(email)+'</b>.'));
-      document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').style.display='block';
-      document.getElementById('waitMsg').classList.remove('hide');
-      try{localStorage.setItem('bitaps-pending-gift',j.id||'');}catch(_){}
-      try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
-      if(j.id)startPoll(j.id);
-    }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr(isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
-  }
-  document.getElementById('gSbp').addEventListener('click',function(){buy('sbp',this);});
-  document.getElementById('gCrypto').addEventListener('click',function(){buy('crypto',this);});
-  document.getElementById('payBack').addEventListener('click',function(){
-    polling=false;try{localStorage.removeItem('bitaps-pending-gift');}catch(e){}
-    document.getElementById('done').style.display='none';
-    document.getElementById('page').classList.remove('hide');
-    document.getElementById('gerr').style.display='none';
-    submitting=false;
-    ['gSbp','gCrypto'].forEach(function(id){var b=document.getElementById(id);b.disabled=false;b.style.opacity=1;});
-    window.scrollTo(0,0);
+      if(j.result==='already')document.getElementById('doneH').textContent=isEN()?'This code is already active on your account':'Код уже активирован на твоём аккаунте';
+      var till=j.expires_at?new Date(j.expires_at).toLocaleDateString(isEN()?'en-GB':'ru-RU'):'';
+      document.getElementById('doneTxt').innerHTML=
+        (j.vip?(isEN()?'🖤 VIP activated. ':'🖤 VIP активирован. '):'')
+        +(till?(isEN()?'Subscription is active until <b>':'Подписка активна до <b>')+till+'</b>. ':'')
+        +(isEN()?'Devices: <b>':'Устройств: <b>')+j.devices+'</b>. '
+        +(isEN()?'The key was sent to <b>':'Ключ отправлен на <b>')+escHtml(email)+'</b>.';
+      if(j.vpn_key){
+        document.getElementById('keyText').textContent=j.vpn_key;
+        document.getElementById('keyReveal').classList.remove('hide');
+        /* happ://add/<адрес подписки как есть> — без base64, иначе Happ ругается «ссылка не валидна» */
+        try{document.getElementById('keyHapp').setAttribute('href','happ://add/'+j.vpn_key);}catch(e){document.getElementById('keyHapp').setAttribute('href',j.vpn_key);}
+        copyBtn(document.getElementById('keyCopy'),j.vpn_key);
+        if(j.login_secret){
+          document.getElementById('secretText').textContent=j.login_secret;
+          document.getElementById('secretReveal').classList.remove('hide');
+          copyBtn(document.getElementById('secretCopy'),j.login_secret);
+        }
+      } else if(j.by_email){
+        /* Ключ и «Код входа» на странице показываем ТОЛЬКО тому, кто вошёл. Форму с чужой почтой
+           может заполнить кто угодно, а бесплатные подарочные коды есть у каждого — раздавай мы
+           доступ «новому аккаунту» на странице, чужую почту забирали бы себе навсегда. Письмо —
+           единственный канал, который доходит именно до владельца почты. */
+        document.getElementById('doneTxt').innerHTML+=' '+(isEN()
+          ?'The key and the login code go to that email — check your inbox (and the spam folder).'
+          :'Ключ и «Код входа» ушли на эту почту — проверь входящие (и папку «Спам»).');
+      }
+      if(window.__i18nRefresh)window.__i18nRefresh(document.getElementById('done'));
+    }catch(_){btn.disabled=false;btn.style.opacity=1;busy=false;showErr(isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
   });
 </script>
 </body></html>

@@ -38,6 +38,8 @@
   <url><loc>https://bitapsvpn.com/blocked/notion.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://bitapsvpn.com/blocked/medium.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://bitapsvpn.com/blocked/patreon.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://bitapsvpn.com/tokens.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bitapsvpn.com/redeem.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://bitapsvpn.com/blocked/soundcloud.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://bitapsvpn.com/blocked/spotify.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://bitapsvpn.com/blocked/youtube.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>

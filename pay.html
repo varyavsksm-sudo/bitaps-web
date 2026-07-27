@@ -110,7 +110,15 @@
     <div class="pays">
       <button class="paybtn primary" id="paySbp" type="button"><span class="ic">🏦</span><span>Карта / СБП<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
       <button class="paybtn" id="payCrypto" type="button"><span class="ic">💎</span><span>Криптой (USDT/TON)<span class="d">оплата на сайте, ключ на почту</span></span><span class="ar">›</span></button>
+      <button class="paybtn" id="payTokens" type="button"><span class="ic">🪙</span><span>Токенами bitaps<span class="d">списание с баланса, 1 токен = 1 ₽</span></span><span class="ar">›</span></button>
       <a class="paybtn" id="payStars" href="https://t.me/bitaps_vpn_auth_bot?start=subscribe" target="_blank" rel="noopener"><span class="ic">⭐️</span><span>Telegram Stars<span class="d">оплата звёздами в боте</span></span><span class="ar">›</span></a>
+    </div>
+    <!-- оплата токенами: списание с внутреннего баланса, поэтому владельца аккаунта подтверждаем ДО операции -->
+    <div id="tokBox" class="hide" style="margin-top:14px;padding:15px;border:1px dashed var(--line);border-radius:13px">
+      <div class="lbl" style="margin-top:0">Код входа — подтверди аккаунт</div>
+      <div class="sform"><input id="tokSecret" type="text" inputmode="text" placeholder="код входа из письма об оплате или из бота" autocomplete="off" aria-label="Код входа"></div>
+      <p class="pnote" id="tokInfo" style="text-align:left;margin-top:9px">Токены капают за приведённых друзей, кэшбэком с оплат и в игре. Их можно и купить — <a href="tokens.html" style="color:var(--acc)">пополнить баланс</a>.</p>
+      <button class="btn btn-solid" id="tokGo" type="button" style="margin-top:4px;width:100%;justify-content:center">Оплатить токенами</button>
     </div>
     <div id="perr" class="perr hide"></div>
     <p class="pnote" style="margin-top:14px">🎁 Хочешь подарить подписку другу? <a href="gift.html" style="color:var(--acc)">Подарочный код — здесь</a></p>
@@ -124,9 +132,15 @@
     <div class="pgrid">
       <div class="pcard">
         <h4>📖 История платежей</h4>
-        <p class="desc">Здесь появятся твои оплаты после первой подписки — с датами и суммами.</p>
-        <div class="hist-empty">Пока пусто</div>
+        <p class="desc">Все оплаты — с датами и суммами — лежат в личном кабинете, вместе с балансом токенов.</p>
+        <div class="hist-empty">Видна после входа по «Коду входа»</div>
         <a href="account.html" class="pcard-link">Открыть личный кабинет →</a>
+      </div>
+      <div class="pcard">
+        <h4>🎁 Подарочный или VIP-код</h4>
+        <p class="desc">Тебе подарили подписку? Активируй код прямо на сайте — Telegram не нужен, ключ придёт на почту.</p>
+        <div class="hist-empty">Код из письма или с оборота карты</div>
+        <a href="redeem.html" class="pcard-link">Активировать код →</a>
       </div>
     </div>
   </section>
@@ -135,6 +149,8 @@
   <div class="big">📧</div>
   <h2>Счёт создан</h2>
   <p class="sec-p" id="doneTxt" style="margin:0 auto">Открываем оплату…</p>
+  <!-- итог оплаты токенами: кассы нет, счёт не выставляется — сразу списание и новый срок -->
+  <p class="sec-p hide" id="tokDone" style="margin:10px auto 0"></p>
   <a class="btn btn-solid btn-lg" id="payAgain" href="#" target="_blank" rel="noopener" style="margin-top:18px;display:inline-flex">Открыть оплату</a>
   <p class="sec-p" id="payHint" style="margin-top:10px;font-size:13px;opacity:.85">Если окно оплаты не открылось автоматически — нажми «Открыть оплату» 👆</p>
   <p class="sec-p hide" id="waitMsg" style="margin-top:16px">⏳ Ждём подтверждения оплаты… ключ появится здесь автоматически (можно не закрывать страницу).</p>
@@ -165,7 +181,12 @@
   function btTrack(name,extra){try{var b=JSON.stringify(Object.assign({name:name,path:location.pathname,ref:document.referrer||''},extra||{}));if(navigator.sendBeacon)navigator.sendBeacon(TRACK,new Blob([b],{type:'text/plain;charset=UTF-8'}));else fetch(TRACK,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:b,keepalive:true}).catch(function(){});}catch(e){}}
   btTrack('pageview');
   var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay';
+  /* ЦЕНЫ — КАНОН в бэкенде: supabase/functions/_shared/plans.ts (PLAN.base и EXTRA_PER_MONTH).
+     Здесь и в data-base карточек выше — их копия для мгновенной отрисовки без запроса; итоговую
+     сумму всегда пересчитывает web-pay по канону, поэтому расхождение видно сразу на счёте.
+     Правишь тариф — правь ОБА места (третье — витрина index.html #pricing). */
   var EXTRA=50, code='h', dev=1;
+  var BOT_START='https://t.me/bitaps_vpn_auth_bot?start=';
   (function(){var p=new URLSearchParams(location.search);
     var pl=p.get('plan'); if(pl && /^[a-z0-9]+$/i.test(pl) && document.querySelector('.plan[data-code="'+pl+'"]')) code=pl;
     var d=parseInt(p.get('dev'),10); if(d>=1&&d<=10) dev=d;})();
@@ -186,6 +207,13 @@
     var base=+sel.dataset.base, mo=+sel.dataset.mo;
     document.getElementById('total').textContent=fmt(base+(dev-1)*EXTRA*mo);
     document.getElementById('devCount').textContent=dev;
+    /* Stars — единственный рельс, которого на сайте физически нет (XTR выставляется только в чате
+       бота), поэтому уводим в бота ВМЕСТЕ с выбором: бот парсит subscribe_<план>_<устройства>
+       и открывает уже нужный тариф, а не пустой экран «выбери заново». */
+    var st=document.getElementById('payStars');
+    if(st) st.setAttribute('href', BOT_START+'subscribe_'+code+'_'+dev);
+    var tg=document.getElementById('tokGo');
+    if(tg) tg.textContent=(isEN()?'Pay ':'Оплатить ')+nf(base+(dev-1)*EXTRA*mo)+' 🪙';
     renderDisc(); /* превью скидки пересчитывается при смене тарифа/устройств (hoisted-функция ниже) */
   }
   function selectPlan(el){if(!el)return;code=el.dataset.code;paint();el.focus();btTrack('plan_select',{plan:code});}
@@ -354,6 +382,62 @@
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
   });
+  /* ── ОПЛАТА ТОКЕНАМИ (рельс без кассы: 1 🪙 = 1 ₽, полная цена тарифа — как в боте).
+     Списание идёт с внутреннего баланса, поэтому владельца аккаунта подтверждаем «Кодом входа»
+     ДО операции: по одной лишь почте здесь нельзя — это чужой кошелёк. Двойной клик гасит сервер
+     (дебаунс + дедуп внутри RPC), но кнопку всё равно блокируем. */
+  var tokOpen=false, tokBusy=false, tokT=null, tokProbed='';
+  function tokSec(){return (document.getElementById('tokSecret').value||'').trim();}
+  function tokNote(html){var el=document.getElementById('tokInfo');el.innerHTML=html;if(window.__i18nRefresh)window.__i18nRefresh(el);}
+  document.getElementById('payTokens').addEventListener('click',function(){
+    tokOpen=!tokOpen;
+    document.getElementById('tokBox').classList.toggle('hide',!tokOpen);
+    if(tokOpen){btTrack('pay_tokens_open',{plan:code});try{document.getElementById('tokSecret').focus();}catch(e){}}
+  });
+  function tokBalance(){
+    var s=tokSec(); if(s.length<12||s===tokProbed)return; tokProbed=s;
+    fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'account',secret:s})},8000)
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(!j||!j.ok){tokNote(isEN()?'Login code not recognised — check it in the payment email or in the bot.':'Код входа не распознан — проверь его в письме об оплате или в боте.');return;}
+        var need=baseTotal();
+        tokNote((isEN()?'Balance: ':'Баланс: ')+'<b>'+nf(j.balance)+' 🪙</b>'
+          +(j.balance<need
+            ?(isEN()?' — not enough. <a href="tokens.html" style="color:var(--acc)">Top up the balance</a>':' — не хватает. <a href="tokens.html" style="color:var(--acc)">Пополнить баланс</a>')
+            :(isEN()?' — enough for this plan ✓':' — хватает на этот тариф ✓')));
+      }).catch(function(){});
+  }
+  document.getElementById('tokSecret').addEventListener('input',function(){clearTimeout(tokT);tokT=setTimeout(tokBalance,700);});
+  document.getElementById('tokSecret').addEventListener('blur',tokBalance);
+  document.getElementById('tokGo').addEventListener('click',async function(){
+    var s=tokSec();
+    if(s.length<12)return showErr(isEN()?'Enter your login code — it is in the payment email.':'Впиши «Код входа» — он в письме об оплате.');
+    if(tokBusy)return;tokBusy=true;var btn=this;btn.disabled=true;btn.style.opacity=.6;
+    document.getElementById('perr').classList.add('hide');
+    btTrack('pay_tokens_click',{plan:code});
+    try{
+      var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:code,device_limit:dev,method:'tokens',secret:s,lang:(isEN()?'en':'ru')})});
+      var j=await r.json();
+      if(!j||!j.ok){btn.disabled=false;btn.style.opacity=1;tokBusy=false;return showErr((j&&j.error)||(isEN()?'Payment failed, try later.':'Не удалось оплатить, попробуй позже.'));}
+      btTrack('paid_tokens',{plan:code});
+      polling=false; /* касса не участвует — ждать подтверждения нечего */
+      document.getElementById('page').classList.add('hide');
+      document.getElementById('done').classList.remove('hide');
+      document.querySelector('#done .big').textContent='🪙';
+      document.querySelector('#done h2').textContent=isEN()?'Paid with tokens':'Оплачено токенами';
+      var td=document.getElementById('tokDone');
+      var till=j.expires_at?new Date(j.expires_at).toLocaleDateString(isEN()?'en-GB':'ru-RU'):'';
+      td.innerHTML=(isEN()?'Spent <b>':'Списано <b>')+nf(j.spent)+' 🪙</b>'
+        +(isEN()?', left <b>':', остаток <b>')+nf(j.balance)+' 🪙</b>'
+        +(till?(isEN()?'. Subscription is active until <b>':'. Подписка активна до <b>')+till+'</b>':'')
+        +(j.bonus_days>0?(isEN()?' (+'+j.bonus_days+' bonus days 🔥)':' (+'+j.bonus_days+' бонусных дней 🔥)'):'');
+      td.classList.remove('hide');
+      var pb=document.getElementById('payBack');if(pb)pb.parentNode.classList.add('hide');
+      /* ключ у продлевающего уже есть — блок показываем только если сервер его вернул */
+      if(j.vpn_key)showKey(j.vpn_key,null);else document.getElementById('waitMsg').classList.add('hide');
+      if(window.__i18nRefresh)window.__i18nRefresh(document.getElementById('done'));
+    }catch(_){btn.disabled=false;btn.style.opacity=1;tokBusy=false;showErr(isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
+  });
   /* возврат к выбору способа оплаты со страницы ожидания */
   document.getElementById('payBack').addEventListener('click',function(){
     polling=false; /* остановит поллинг на следующей итерации */
@@ -361,8 +445,8 @@
     document.getElementById('done').classList.add('hide');
     document.getElementById('page').classList.remove('hide');
     document.getElementById('perr').classList.add('hide');
-    submitting=false;
-    ['payCrypto','paySbp'].forEach(function(id){var b=document.getElementById(id);if(b){b.disabled=false;b.style.opacity=1;}});
+    submitting=false;tokBusy=false;
+    ['payCrypto','paySbp','payTokens','tokGo'].forEach(function(id){var b=document.getElementById(id);if(b){b.disabled=false;b.style.opacity=1;}});
     window.scrollTo(0,0);
   });
   (() => {

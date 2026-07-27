@@ -581,7 +581,86 @@
     "В меню бота 🤖": "To the bot menu 🤖",
     // ── прочее ──
     "Перейти к содержимому": "Skip to content",
-    "₿ Цены в:": "₿ Prices in:", "₽ рубли": "₽ rubles", "переключить в сатоши": "switch to satoshi"
+    "₿ Цены в:": "₿ Prices in:", "₽ рубли": "₽ rubles", "переключить в сатоши": "switch to satoshi",
+    // ── ПАРИТЕТ С БОТОМ: оплата токенами, пополнение баланса, погашение кода ──
+    // redeem.html — активация подарочного / VIP-кода на сайте
+    "Активировать подарочный код · bitaps VPN": "Redeem a gift code · bitaps VPN",
+    "// активация": "// redeem", "Активировать": "Redeem", "подарок": "gift",
+    "Тебе подарили подписку bitaps VPN или у тебя карта с VIP-кодом? Впиши код — доступ откроется сразу, а ключ придёт на почту. Telegram для этого не нужен.":
+      "Someone gifted you a bitaps VPN subscription, or you have a card with a VIP code? Enter the code — access opens right away and the key arrives by email. No Telegram needed.",
+    "Код": "Code", "Активировать код": "Redeem the code", "Активировать код →": "Redeem the code →",
+    "Подарочный код — 8 символов (буквы и цифры). VIP-код напечатан на обороте металлической карты и начинается с VIP-.":
+      "A gift code is 8 characters (letters and digits). A VIP code is printed on the back of the metal card and starts with VIP-.",
+    "8 символов из письма или VIP-код с карты": "8 characters from the email, or a VIP code from the card",
+    "Подарочный или VIP-код": "Gift or VIP code",
+    "На эту почту заводится аккаунт: по ней потом восстанавливается «Код входа» в личный кабинет.":
+      "The account is created for this email: it is also how you later recover your «Login code» for the dashboard.",
+    "Уже есть подписка? Код добавит дни к текущему сроку — они не сгорят. Вопросы —":
+      "Already subscribed? The code adds days on top of your current term — nothing is lost. Questions —",
+    "Впиши код": "Enter the code", "Подарочный — из письма или от друга. VIP — с оборота карты bitaps.":
+      "A gift code from the email or from a friend. A VIP code from the back of your bitaps card.",
+    "Получи ключ": "Get the key",
+    "Ключ появится здесь и придёт на почту вместе с «Кодом входа» в кабинет.":
+      "The key appears here and arrives by email together with the «Login code» for the dashboard.",
+    "Подключись": "Connect", "Вставь ключ в приложение bitaps или Happ — и всё, VPN работает.":
+      "Paste the key into the bitaps app or Happ — that's it, the VPN works.",
+    "Подписка активирована": "Subscription activated", "🔑 Твой ключ доступа": "🔑 Your access key",
+    "Скопируй ключ или открой в приложении Happ. Он также ушёл на почту и доступен в личном кабинете.":
+      "Copy the key or open it in the Happ app. It was also emailed to you and is available in your dashboard.",
+    "Твой логин в личный кабинет и приложение. Сохрани — не вводи его в VPN-клиенты и никому не показывай.":
+      "Your login for the dashboard and the app. Save it — never paste it into VPN clients and don't show it to anyone.",
+    "🌐 Личный кабинет": "🌐 Dashboard",
+    // tokens.html — баланс токенов, пополнение, история
+    "Токены bitaps · баланс и пополнение": "bitaps tokens · balance and top-up",
+    "// баланс": "// balance", "Токены": "Tokens", "Токены bitaps": "bitaps tokens",
+    "Внутренние баллы: 1 токен = 1 ₽. Капают за приведённых друзей, кэшбэком 5 % с каждой оплаты и в игре — а ещё их можно просто купить. Тратятся на подписку и на дополнительные устройства.":
+      "Internal points: 1 token = 1 ₽. They accrue for referred friends, as 5% cashback on every payment and in the game — and you can simply buy them. Spend them on a subscription and on extra devices.",
+    "Он приходит в письме об оплате, лежит в личном кабинете и в боте («Мой ключ»). Забыл —":
+      "It comes in the payment email and lives in your dashboard and in the bot («My key»). Forgot it —",
+    "восстанови по почте": "recover it by email", "Показать баланс": "Show balance",
+    "Ещё нет аккаунта? Пакет токенов можно купить и без входа — просто":
+      "No account yet? A token pack can be bought without signing in — just",
+    "выбери пакет ниже": "pick a pack below", ", аккаунт заведётся на указанную почту.": ", the account is created for the email you enter.",
+    "Твой баланс": "Your balance", "🪙 Оплатить подписку токенами": "🪙 Pay for a subscription with tokens",
+    "Движения": "Movements", "История платежей": "Payment history", "Пополнить баланс": "Top up the balance",
+    "+5 % бонусом": "+5% bonus", "+9 % бонусом": "+9% bonus", "+11 % бонусом": "+11% bonus", "+12 % бонусом": "+12% bonus",
+    "Бонус — единственная скидка на этом рельсе: оплата токенами идёт по полной цене тарифа и кэшбэк с неё не капает.":
+      "The bonus is the only discount on this rail: paying with tokens is always at the full plan price and earns no cashback.",
+    "Пакет токенов": "Token pack", "Почта аккаунта": "Account email",
+    "Токены зачисляются на аккаунт этой почты — укажи ту же, что и при покупке подписки.":
+      "Tokens are credited to the account of this email — use the same one as for your subscription.",
+    "оплата на сайте, токены зачислятся сразу": "pay on the site, tokens are credited right away",
+    ". Звёздами Telegram пакет покупается": ". Telegram Stars packs are bought", "в боте": "in the bot",
+    "⏳ Ждём подтверждения оплаты… токены появятся здесь автоматически (можно не закрывать страницу).":
+      "⏳ Waiting for payment confirmation… the tokens will appear here automatically (you can keep the page open).",
+    "Им ты входишь в личный кабинет и приложение. Сохрани — не вводи его в VPN-клиенты и никому не показывай.":
+      "This is how you sign in to the dashboard and the app. Save it — never paste it into VPN clients and don't show it to anyone.",
+    "← Назад к балансу": "← Back to balance",
+    "код входа из письма об оплате или из бота": "login code from the payment email or from the bot",
+    // pay.html — рельс токенов и карточки под чекаутом
+    "Токенами bitaps": "With bitaps tokens", "списание с баланса, 1 токен = 1 ₽": "charged to your balance, 1 token = 1 ₽",
+    "Код входа — подтверди аккаунт": "Login code — confirm your account", "Оплатить токенами": "Pay with tokens",
+    "Токены капают за приведённых друзей, кэшбэком с оплат и в игре. Их можно и купить —":
+      "Tokens accrue for referred friends, as cashback on payments and in the game. You can also buy them —",
+    "пополнить баланс": "top up the balance",
+    "Все оплаты — с датами и суммами — лежат в личном кабинете, вместе с балансом токенов.":
+      "Every payment — with dates and amounts — lives in your dashboard, next to the token balance.",
+    "Видна после входа по «Коду входа»": "Visible after signing in with your «Login code»",
+    "🎁 Подарочный или VIP-код": "🎁 Gift or VIP code",
+    "Тебе подарили подписку? Активируй код прямо на сайте — Telegram не нужен, ключ придёт на почту.":
+      "Got a subscription as a gift? Redeem the code right on the site — no Telegram needed, the key arrives by email.",
+    "Код из письма или с оборота карты": "The code from the email or the back of the card",
+    // gift.html / account.html — тексты, изменённые вместе с новыми рельсами
+    "Тариф на 1, 3, 6 или 12 месяцев — СБП или криптой прямо на сайте.":
+      "A 1, 3, 6 or 12-month plan — pay by SBP or crypto right on the site.",
+    "Друг активирует код на bitapsvpn.com/redeem.html или в Telegram-боте — и дни подписки уже у него.":
+      "Your friend redeems the code at bitapsvpn.com/redeem.html or in our Telegram bot — and the days are theirs.",
+    "Без Telegram? Друг активирует код на странице": "No Telegram? Your friend redeems the code on the",
+    "активации подарка": "gift redemption page", "— ключ придёт ему на почту.": "— the key arrives at their email.",
+    "Активировать подарок": "Redeem a gift code",
+    "Оплаты с сайта — картой, СБП и криптой.": "Payments made on the site — by card, SBP and crypto.",
+    "Капают": "They accrue", ". То же самое умеет бот.": ". The bot does the same.",
+    "странице тарифов": "pricing page", "странице баланса": "balance page"
   };
 
   function detect() {

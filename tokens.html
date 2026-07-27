@@ -1,0 +1,497 @@
+<!DOCTYPE html><html lang="ru"><head>
+<meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Токены bitaps · баланс и пополнение</title>
+<link rel="canonical" href="https://bitapsvpn.com/tokens.html">
+<meta name="description" content="Баланс токенов bitaps VPN: пополнение картой, СБП или криптой, история движений и оплата подписки токенами.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://bjkozsukvifkxriojxrz.supabase.co" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/space-grotesk.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono.woff2" crossorigin>
+<link rel="stylesheet" href="/fonts.css">
+<script>try{var t=localStorage.getItem('bitaps-theme');if(t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light');}catch(e){}
+function fetchT(u,o,ms){var ac=new AbortController();var t=setTimeout(function(){ac.abort();},ms||12000);return fetch(u,Object.assign({},o,{signal:ac.signal})).finally(function(){clearTimeout(t);});}</script>
+<style>
+  *{margin:0;box-sizing:border-box}
+  :root{--bg:#0b1220;--txt:#fff;--mut:#aab3c5;--acc:#ff7a1a;--acc2:#ffae3d;--blue:#2d8bff;--line:rgba(255,255,255,.12);--card:rgba(255,255,255,.04);--inp:rgba(255,255,255,.05)}
+  html[data-theme="light"]{--bg:#f3f6fc;--txt:#0f1828;--mut:#5a6781;--line:rgba(16,26,48,.12);--card:#fff;--inp:#fff}
+  body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
+    background:radial-gradient(900px 520px at 16% -10%,rgba(255,122,26,.16),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(45,139,255,.12),transparent 60%),var(--bg)}
+  .wrap{max-width:760px;margin:0 auto;padding:44px 20px 40px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--acc);text-transform:uppercase}
+  h1{font-size:clamp(30px,5vw,44px);line-height:1.07;letter-spacing:-1px;margin:10px 0 12px;font-weight:800}
+  h1 i{color:var(--acc);font-style:normal}
+  .sub{color:var(--mut);font-size:15.5px;line-height:1.55;max-width:560px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:26px}
+  html[data-theme="light"] .card{box-shadow:0 10px 34px rgba(16,26,48,.07)}
+  .lbl{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;margin:0 0 10px}
+  /* тарифы */
+  .gplans{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:760px){.gplans{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:400px){.gplans{grid-template-columns:1fr}}
+  .gplan{position:relative;border:1px solid var(--line);border-radius:14px;padding:16px 14px;background:var(--inp);cursor:pointer;text-align:center;transition:.18s}
+  .gplan:hover{border-color:rgba(255,122,26,.5)}
+  .gplan.sel{border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.15)}
+  .gplan .nm{font-weight:700;font-size:15px}
+  .gplan .pr{font-size:22px;font-weight:800;margin-top:6px}
+  .gplan .pr small{font-size:12px;color:var(--mut);font-weight:400}
+  .gplan .fl{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:99px;white-space:nowrap}
+  .note{color:var(--mut);font-size:13px;margin-top:12px;line-height:1.5}
+  input{width:100%;background:var(--inp);border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--txt);font:inherit;font-size:14px}
+  input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.12)}
+  /* способы оплаты */
+  .gpays{display:grid;gap:10px;margin-top:6px}
+  .gpay{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:13px;padding:14px 16px;background:var(--inp);color:var(--txt);font:inherit;font-size:15px;font-weight:600;cursor:pointer;text-align:left;transition:.18s}
+  .gpay:hover{border-color:var(--acc)}
+  .gpay .d{display:block;font-size:12.5px;color:var(--mut);font-weight:400;margin-top:2px}
+  .gpay .ar{margin-left:auto;color:var(--mut)}
+  .gerr{color:#ff6b6b;font-size:13.5px;margin-top:10px;display:none}
+  .pnote{color:var(--mut);font-size:12.5px;line-height:1.55;margin-top:14px}
+  .pnote a{color:var(--acc)}
+  /* шаги */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+  @media(max-width:620px){.steps{grid-template-columns:1fr}}
+  .step{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--card)}
+  .step .n{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:800;background:linear-gradient(110deg,var(--acc),var(--acc2),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .step b{display:block;margin:8px 0 5px;font-size:14.5px}
+  .step p{color:var(--mut);font-size:13px;line-height:1.5}
+  /* экран «счёт создан» / выдача кода */
+  .done{display:none;text-align:center;padding:40px 10px 10px}
+  .done .big{font-size:52px;margin-bottom:8px}
+  .done h2{font-size:26px;margin-bottom:8px}
+  .done .sec-p{color:var(--mut);font-size:14.5px;line-height:1.55;max-width:480px;margin:0 auto}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:13px 22px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:.18s;border:1px solid var(--line)}
+  .btn-solid{background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;border:none}
+  .btn-solid:hover{filter:brightness(1.08)}
+  .btn-line{background:transparent;color:var(--txt)}
+  .btn-line:hover{border-color:var(--acc);color:var(--acc)}
+  .gcode{font-family:'JetBrains Mono',monospace;font-size:clamp(22px,6vw,34px);letter-spacing:6px;font-weight:800;background:var(--card);border:1px dashed var(--acc);border-radius:14px;padding:18px 10px;margin:18px auto 12px;max-width:440px;word-break:break-all}
+  .hide{display:none!important}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+  @media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+<style>
+  /* tokens.html — только специфичное для страницы баланса; общая база — та же, что у gift.html */
+  .tpacks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:760px){.tpacks{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:420px){.tpacks{grid-template-columns:1fr}}
+  .tpack{position:relative;border:1px solid var(--line);border-radius:14px;padding:16px 14px;background:var(--inp);cursor:pointer;text-align:center;transition:.18s}
+  .tpack:hover{border-color:rgba(255,122,26,.5)}
+  .tpack.sel{border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,122,26,.15)}
+  .tpack .nm{font-weight:800;font-size:19px}
+  .tpack .pr{color:var(--mut);font-size:13.5px;margin-top:5px}
+  .tpack .fl{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(110deg,var(--acc),var(--blue));color:#03110e;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:99px;white-space:nowrap}
+  .balbox{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .balbox .v{font-size:38px;font-weight:800;line-height:1}
+  .tlog{margin-top:14px;border-top:1px solid var(--line)}
+  .tlog .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .tlog .row b{white-space:nowrap}
+  .tlog .plus{color:#4ade80}.tlog .minus{color:var(--mut)}
+  .tmuted{color:var(--mut);font-size:13.5px}
+</style>
+<script src="/i18n.js?v=31" defer></script>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Токены bitaps · баланс и пополнение" />
+<meta property="og:description" content="Баланс токенов bitaps VPN: пополнение картой, СБП или криптой, история движений и оплата подписки токенами." />
+<meta property="og:image" content="https://bitapsvpn.com/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:url" content="https://bitapsvpn.com/tokens.html" /><meta property="og:locale" content="ru_RU" /><meta property="og:locale:alternate" content="en_US" />
+</head><body>
+
+<!--#include partials/header.html-->
+<!-- общая шапка сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточна: свои стили (префикс bt-), свой биндер темы (#btThemeBtn, гард __btThemeBound),
+     фоновая сетка .bt-bgrid; в Telegram Mini App прячет себя сама. -->
+<style>
+.bt-top{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);--bt-bg:rgba(7,10,16,.72);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 22px;position:sticky;top:0;z-index:40;
+  border-bottom:1px solid var(--bt-line);background:var(--bt-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:'Space Grotesk',system-ui,sans-serif}
+html[data-theme="light"] .bt-top{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);--bt-bg:rgba(255,255,255,.82)}
+.bt-top a{text-decoration:none;color:var(--bt-txt)}
+.bt-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.2px}
+.bt-brand svg{width:28px;height:28px;color:var(--bt-acc);transition:.4s}
+.bt-brand:hover svg{transform:rotate(120deg)}
+.bt-brand i{font-style:normal;color:var(--bt-acc)}
+.bt-nav{display:flex;align-items:center;gap:2px}
+.bt-nav a{color:var(--bt-mut);font-size:13.5px;padding:8px 10px;border-radius:9px;transition:.18s;white-space:nowrap}
+.bt-nav a:hover{color:var(--bt-acc)}
+.bt-theme{width:38px;height:38px;margin-left:6px;border:1px solid var(--bt-line);border-radius:10px;background:transparent;color:var(--bt-txt);font-size:15px;line-height:1;cursor:pointer;transition:.2s;flex-shrink:0}
+.bt-theme:hover{border-color:var(--bt-acc);transform:translateY(-1px)}
+@media(max-width:600px){.bt-hidesm{display:none}}
+.bt-bgrid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%);mask-image:radial-gradient(circle at 50% 18%,#000,transparent 80%)}
+html[data-theme="light"] .bt-bgrid{background-image:linear-gradient(rgba(16,26,48,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,26,48,.05) 1px,transparent 1px)}
+</style>
+<div class="bt-bgrid" aria-hidden="true"></div>
+<header class="bt-top" id="btTop">
+  <a class="bt-brand" href="/" aria-label="bitaps VPN — на главную">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+    <b>bit<i>aps</i></b>
+  </a>
+  <nav class="bt-nav" aria-label="Разделы сайта">
+    <a href="/#pricing" class="bt-hidesm" data-en="Pricing">Цены</a>
+    <a href="/app.html" class="bt-hidesm" data-en="App">Приложение</a>
+    <a href="/account.html" data-en="Dashboard">Кабинет</a>
+    <button class="bt-theme" id="btThemeBtn" type="button" aria-label="Сменить тему">☀️</button>
+  </nav>
+</header>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btTop');if(e)e.style.display='none';}}catch(e){}})();</script>
+<script>(function(){if(window.__btThemeBound)return;window.__btThemeBound=1;
+var html=document.documentElement,key='bitaps-theme',btn=document.getElementById('btThemeBtn'),mq=matchMedia('(prefers-color-scheme: light)');
+function isL(){var s;try{s=localStorage.getItem(key)}catch(e){}return (s==='light'||s==='dark')?s==='light':mq.matches}
+function ap(){var l=isL();if(l)html.setAttribute('data-theme','light');else html.removeAttribute('data-theme');if(btn){btn.textContent=l?'☀️':'🌙';btn.title='Тема: '+(l?'светлая':'тёмная');btn.setAttribute('aria-label',btn.title)}}
+if(btn)btn.addEventListener('click',function(){try{localStorage.setItem(key,isL()?'dark':'light')}catch(e){}ap()});
+if(mq.addEventListener)mq.addEventListener('change',function(){var s;try{s=localStorage.getItem(key)}catch(e){}if(s!=='light'&&s!=='dark')ap()});
+ap();})();</script>
+<!--#endinclude-->
+
+<div class="wrap" id="page">
+  <span class="kicker">// баланс</span>
+  <h1>Токены <i>bitaps</i></h1>
+  <p class="sub">Внутренние баллы: 1 токен = 1 ₽. Капают за приведённых друзей, кэшбэком 5 % с каждой оплаты и в игре — а ещё их можно просто купить. Тратятся на подписку и на дополнительные устройства.</p>
+
+  <!-- вход: баланс живёт на аккаунте, поэтому владельца подтверждаем «Кодом входа» -->
+  <div class="card" id="loginCard">
+    <p class="lbl">Код входа</p>
+    <input id="tsecret" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="код входа из письма об оплате или из бота" aria-label="Код входа">
+    <p class="note" style="margin-top:8px">Он приходит в письме об оплате, лежит в личном кабинете и в боте («Мой ключ»). Забыл — <a href="/#recover" style="color:var(--acc)">восстанови по почте</a>.</p>
+    <button class="gpay" id="tlogin" type="button" style="margin-top:14px;justify-content:center;font-weight:700">🔐 <span>Показать баланс</span></button>
+    <div class="gerr" id="lerr" role="alert"></div>
+    <p class="pnote">Ещё нет аккаунта? Пакет токенов можно купить и без входа — просто <a href="#buy">выбери пакет ниже</a>, аккаунт заведётся на указанную почту.</p>
+  </div>
+
+  <!-- баланс + движения -->
+  <div class="card hide" id="balCard">
+    <p class="lbl">Твой баланс</p>
+    <div class="balbox"><span class="v" id="balV">0</span><span>🪙</span><span class="tmuted" id="balSub"></span></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+      <a class="btn btn-solid" href="pay.html">🪙 Оплатить подписку токенами</a>
+      <button class="btn btn-line hide" id="addDev" type="button">➕ Доп. устройство</button>
+    </div>
+    <p class="pnote" id="addDevNote"></p>
+    <p class="lbl" style="margin-top:20px">Движения</p>
+    <div class="tlog" id="tlog"></div>
+  </div>
+
+  <!-- история платежей: на сайте её не было вообще (была статическая заглушка на pay.html) -->
+  <div class="card hide" id="payCard">
+    <p class="lbl">История платежей</p>
+    <div class="tlog" id="paylog"></div>
+  </div>
+
+  <div class="card" id="buy">
+    <p class="lbl">Пополнить баланс</p>
+    <div class="tpacks" id="tpacks" role="radiogroup" aria-label="Пакет токенов">
+      <!-- номиналы — копия канона supabase/functions/_shared/plans.ts (TOKEN_PACKS); сумму пересчитывает web-pay -->
+      <div class="tpack" data-code="t500" data-tok="500" data-rub="500" role="radio" tabindex="0" aria-checked="false"><div class="nm">500 🪙</div><div class="pr">500 ₽</div></div>
+      <div class="tpack" data-code="t1000" data-tok="1000" data-rub="950" role="radio" tabindex="0" aria-checked="false"><div class="fl">+5 % бонусом</div><div class="nm">1 000 🪙</div><div class="pr">950 ₽</div></div>
+      <div class="tpack sel" data-code="t2000" data-tok="2000" data-rub="1840" role="radio" tabindex="0" aria-checked="true"><div class="fl">+9 % бонусом</div><div class="nm">2 000 🪙</div><div class="pr">1 840 ₽</div></div>
+      <div class="tpack" data-code="t3500" data-tok="3500" data-rub="3150" role="radio" tabindex="0" aria-checked="false"><div class="fl">+11 % бонусом</div><div class="nm">3 500 🪙</div><div class="pr">3 150 ₽</div></div>
+      <div class="tpack" data-code="t6000" data-tok="6000" data-rub="5350" role="radio" tabindex="0" aria-checked="false"><div class="fl">+12 % бонусом</div><div class="nm">6 000 🪙</div><div class="pr">5 350 ₽</div></div>
+    </div>
+    <p class="note">Бонус — единственная скидка на этом рельсе: оплата токенами идёт по полной цене тарифа и кэшбэк с неё не капает.</p>
+    <p class="lbl" style="margin-top:18px">Почта аккаунта</p>
+    <input id="temail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" aria-label="Почта аккаунта">
+    <p class="note" style="margin-top:8px">Токены зачисляются на аккаунт этой почты — укажи ту же, что и при покупке подписки.</p>
+    <p class="lbl" style="margin-top:18px">Способ оплаты</p>
+    <div class="gpays">
+      <button class="gpay" id="tSbp" type="button">🏦 <span>Карта / СБП<span class="d">оплата на сайте, токены зачислятся сразу</span></span><span class="ar">›</span></button>
+      <button class="gpay" id="tCrypto" type="button">💎 <span>Криптой (USDT/TON)<span class="d">оплата на сайте, токены зачислятся сразу</span></span><span class="ar">›</span></button>
+    </div>
+    <div class="gerr" id="berr" role="alert"></div>
+    <p class="pnote">Оплачивая, ты принимаешь <a href="terms.html">оферту</a> и <a href="privacy.html">политику конфиденциальности</a>. Звёздами Telegram пакет покупается <a href="https://t.me/bitaps_vpn_auth_bot?start=topup" target="_blank" rel="noopener">в боте</a>.</p>
+  </div>
+</div>
+
+<div class="wrap done" id="done" role="status" aria-live="polite">
+  <div class="big">🪙</div>
+  <h2 id="doneH">Счёт создан</h2>
+  <p class="sec-p" id="doneTxt">Открываем оплату…</p>
+  <a class="btn btn-solid" id="payAgain" href="#" target="_blank" rel="noopener" style="margin-top:18px">Открыть оплату</a>
+  <p class="sec-p hide" id="waitMsg" style="margin-top:16px">⏳ Ждём подтверждения оплаты… токены появятся здесь автоматически (можно не закрывать страницу).</p>
+  <div class="hide" id="okBox" style="max-width:520px;margin:20px auto 0">
+    <div class="gcode" id="okTokens"></div>
+    <p class="sec-p" id="okTxt"></p>
+    <div class="hide" id="secretReveal" style="margin:18px 0 0;text-align:left">
+      <h3 style="color:var(--acc);margin:0 0 6px;font-size:19px">🔐 Код входа в кабинет</h3>
+      <p class="sec-p" style="margin:0 0 10px;text-align:left">Им ты входишь в личный кабинет и приложение. Сохрани — не вводи его в VPN-клиенты и никому не показывай.</p>
+      <pre id="secretText" style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;word-break:break-all;font-size:12px;color:var(--txt);margin:0 0 12px"></pre>
+      <button class="btn btn-line" id="secretCopy" type="button">Скопировать код входа</button>
+    </div>
+  </div>
+  <div style="margin-top:22px"><button type="button" id="payBack" class="btn btn-line">← Назад к балансу</button></div>
+</div>
+
+<!--#include partials/footer.html-->
+<!-- общий футер сабстраниц (вшивается deploy.sh между include-маркерами, см. deploy.sh).
+     Самодостаточный: свои стили (префикс btf-); в Telegram Mini App прячет себя сам. -->
+<style>
+.bt-foot{--bt-acc:#ff7a1a;--bt-txt:#e9eff5;--bt-mut:#8b97a6;--bt-line:rgba(255,255,255,.12);
+  margin-top:64px;border-top:1px solid var(--bt-line);background:rgba(0,0,0,.28);padding:48px 22px 26px;
+  font-family:'Space Grotesk',system-ui,sans-serif;color:var(--bt-txt)}
+html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rgba(16,26,48,.12);background:rgba(16,26,48,.035)}
+.btf-in{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.2fr 2fr;gap:34px}
+@media(max-width:860px){.btf-in{grid-template-columns:1fr}}
+.bt-foot a{text-decoration:none;color:var(--bt-mut);transition:.2s}
+.bt-foot a:hover{color:var(--bt-acc)}
+.btf-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;color:var(--bt-txt)}
+.btf-brand svg{width:28px;height:28px;color:var(--bt-acc)}
+.btf-brand i{font-style:normal;color:var(--bt-acc)}
+.btf-tag{color:var(--bt-mut);font-size:14px;margin-top:12px;max-width:260px;line-height:1.5}
+.btf-links{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:560px){.btf-links{grid-template-columns:1fr 1fr}}
+.btf-links h3{font-size:13.5px;margin:0 0 12px;font-weight:700;color:var(--bt-txt)}
+.btf-links a{display:block;font-size:13.5px;padding:4px 0}
+.btf-bottom{max-width:1080px;margin:26px auto 0;border-top:1px solid var(--bt-line);padding-top:20px;color:var(--bt-mut);font-size:12.5px}
+</style>
+<footer class="bt-foot" id="btFoot">
+  <div class="btf-in">
+    <div>
+      <a class="btf-brand" href="/" aria-label="bitaps VPN — на главную">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(32 32)" stroke="currentColor" stroke-width="3.4" fill="none"><circle r="14"/><g stroke-linecap="round"><line x1="0" y1="-20" x2="0" y2="-15.5"/><line x1="0" y1="15.5" x2="0" y2="20"/><line x1="-20" y1="0" x2="-15.5" y2="0"/><line x1="15.5" y1="0" x2="20" y2="0"/><line x1="-14.1" y1="-14.1" x2="-11" y2="-11"/><line x1="11" y1="11" x2="14.1" y2="14.1"/><line x1="14.1" y1="-14.1" x2="11" y2="-11"/><line x1="-11" y1="11" x2="-14.1" y2="14.1"/></g></g><text x="32" y="33" dominant-baseline="central" text-anchor="middle" font-size="22" font-weight="800" font-family="Space Grotesk,system-ui" fill="currentColor">B</text></svg>
+        <b>bit<i>aps</i></b>
+      </a>
+      <p class="btf-tag" data-en="Privacy isn't paranoia. It's hygiene.">Приватность — это не паранойя. Это гигиена.</p>
+    </div>
+    <nav class="btf-links" aria-label="Карта сайта">
+      <div>
+        <h3 data-en="Product">Продукт</h3>
+        <a href="/" data-en="Home">Главная</a>
+        <a href="/#pricing" data-en="Pricing">Цены</a>
+        <a href="/app.html" data-en="App">Приложение</a>
+        <a href="/box.html">B-box</a>
+      </div>
+      <div>
+        <h3 data-en="Account">Аккаунт</h3>
+        <a href="/account.html" data-en="Dashboard">Личный кабинет</a>
+        <a href="/pay.html" data-en="Pay for subscription">Оплатить подписку</a>
+        <a href="/gift.html" data-en="Gift VPN">Подарить VPN</a>
+        <a href="/tokens.html" data-en="bitaps tokens">Токены bitaps</a>
+        <a href="/redeem.html" data-en="Redeem a gift code">Активировать подарок</a>
+        <a href="/game.html" data-en="Koi fishing game">Игра «Ловля карпов»</a>
+      </div>
+      <div>
+        <h3 data-en="Help">Помощь</h3>
+        <a href="/support.html" data-en="Support">Поддержка</a>
+        <a href="/tools/" data-en="Tools">Инструменты</a>
+        <a href="/blocked/" data-en="Blocked sites">Заблокированные сайты</a>
+        <a href="/status.html" data-en="Service status">Статус сервиса</a>
+        <a href="/terms.html" data-en="Terms">Оферта</a>
+        <a href="/privacy.html" data-en="Privacy">Политика</a>
+      </div>
+    </nav>
+  </div>
+  <div class="btf-bottom" data-en="© 2026 bitaps VPN. Made for those with something to hide — that is, everyone.">© 2026 bitaps VPN. Сделано для тех, кому есть что прятать — то есть для всех.</div>
+</footer>
+<script>(function(){try{var t=window.Telegram&&window.Telegram.WebApp;if(t&&t.initData&&t.initData.length>0){var e=document.getElementById('btFoot');if(e)e.style.display='none';}}catch(e){}})();</script>
+<!--#endinclude-->
+
+<script>
+  /* Пополнение баланса токенами С САЙТА (раньше пакеты продавались только в боте) и просмотр
+     баланса/истории. Заказ — обычный web_payments с SKU tok_<пакет>; вебхуки про него не знают
+     (см. _shared/webtopup.ts), поэтому зачисление доводит опрос web-pay-status — тот же приём,
+     которым бот закрывает свои token_orders. Зачисление идемпотентно по id платежа у провайдера,
+     сколько бы вкладок ни опрашивало. */
+  var TRACK='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/track';
+  var SB_KEY='sb_publishable_X2CJWgjqeZtbNelAri9ofw_trbfWF9Z';
+  function btTrack(name,extra){try{var b=JSON.stringify(Object.assign({name:name,path:location.pathname,ref:document.referrer||''},extra||{}));if(navigator.sendBeacon)navigator.sendBeacon(TRACK,new Blob([b],{type:'text/plain;charset=UTF-8'}));else fetch(TRACK,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:b,keepalive:true}).catch(function(){});}catch(e){}}
+  btTrack('pageview');
+  var API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay';
+  var STATUS_API='https://bjkozsukvifkxriojxrz.supabase.co/functions/v1/web-pay-status';
+  var pack='t2000', secret='', busy=false, polling=false, pollGen=0;
+  function isEN(){return document.documentElement.lang==='en';}
+  function nf(n){return Number(n||0).toLocaleString(isEN()?'en-US':'ru-RU');}
+  function fmtRub(n){return nf(n)+' ₽';}
+  function escHtml(s){return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});}
+  function validEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+  function err(id,t){var e=document.getElementById(id);e.textContent=t;e.style.display='block';if(window.__i18nRefresh)window.__i18nRefresh(e);}
+  function dt(s){try{return new Date(s).toLocaleDateString(isEN()?'en-GB':'ru-RU');}catch(e){return '';}}
+
+  /* Секрет держим в sessionStorage, а не в localStorage: вкладку закрыли — кредо больше нет на
+     диске. Нужен на всю сессию, потому что после возврата с кассы страница перезагружается. */
+  try{secret=sessionStorage.getItem('bitaps-tok-secret')||'';}catch(e){}
+
+  var REASONS={referral:['за друга','friend referral'],cashback:['кэшбэк с оплаты','payment cashback'],
+    topup:['пополнение','top-up'],buy_sub:['оплата подписки','subscription payment'],
+    redeem_days:['обмен на дни','swapped for days'],add_device:['доп. устройство','extra device'],
+    daily:['ежедневная добыча','daily mining'],streak:['стрик добычи','mining streak'],
+    game:['приз в игре','game prize'],credit:['начисление','credit']};
+  function reasonText(r){var x=REASONS[r];return x?(isEN()?x[1]:x[0]):r;}
+  var PLANS={mo:['1 месяц','1 month'],q:['3 месяца','3 months'],h:['6 месяцев','6 months'],yr:['12 месяцев','12 months']};
+  function planText(p){
+    p=String(p||'');
+    if(p.indexOf('tok_')===0)return isEN()?'token pack':'пакет токенов';
+    var g=p.indexOf('gift_')===0; var base=g?p.slice(5):p; var x=PLANS[base];
+    var t=x?(isEN()?x[1]:x[0]):base;
+    return g?((isEN()?'gift · ':'подарок · ')+t):t;
+  }
+
+  function renderAccount(j){
+    document.getElementById('loginCard').classList.add('hide');
+    document.getElementById('balCard').classList.remove('hide');
+    document.getElementById('balV').textContent=nf(j.balance);
+    var sub=j.sub;
+    document.getElementById('balSub').textContent=sub&&sub.expires_at
+      ?(isEN()?'subscription until ':'подписка до ')+dt(sub.expires_at)
+      :(isEN()?'no active subscription':'подписка не активна');
+    /* доп. устройство: цена pro-rata за остаток срока, считает сервер (та же формула, что в боте) */
+    var ad=j.add_device||{}, btn=document.getElementById('addDev'), note=document.getElementById('addDevNote');
+    if(ad.allowed){
+      btn.classList.remove('hide');
+      btn.textContent=(isEN()?'➕ Extra device — ':'➕ Доп. устройство — ')+nf(ad.cost)+' 🪙';
+      note.textContent=isEN()?'Price is pro-rata for the days left on your plan; the limit rises immediately, the expiry date does not change.'
+                             :'Цена — за остаток срока подписки; лимит поднимается сразу, дата окончания не меняется.';
+    } else { btn.classList.add('hide'); note.textContent=''; }
+    var log=document.getElementById('tlog');
+    log.innerHTML=(j.ledger&&j.ledger.length)
+      ? j.ledger.map(function(r){
+          var plus=Number(r.delta)>0;
+          return '<div class="row"><span>'+escHtml(reasonText(r.reason))+' <span class="tmuted">'+dt(r.created_at)+'</span></span>'
+            +'<b class="'+(plus?'plus':'minus')+'">'+(plus?'+':'')+nf(r.delta)+' 🪙</b></div>';
+        }).join('')
+      : '<p class="tmuted" style="padding:12px 0">'+(isEN()?'No movements yet.':'Пока пусто.')+'</p>';
+    var pays=j.payments||[];
+    document.getElementById('payCard').classList.remove('hide');
+    document.getElementById('paylog').innerHTML=pays.length
+      ? pays.map(function(p){
+          return '<div class="row"><span>'+escHtml(planText(p.plan))+' <span class="tmuted">'+dt(p.paid_at||p.created_at)+'</span></span>'
+            +'<b>'+fmtRub(p.amount_rub)+'</b></div>';
+        }).join('')
+      : '<p class="tmuted" style="padding:12px 0">'+(isEN()?'No payments on the site yet.':'Оплат на сайте пока не было.')+'</p>';
+    if(j.email){var em=document.getElementById('temail');if(!em.value)em.value=j.email;
+      /* Telegram-аккаунт: заказ пополнения адресуется почтой, его id из неё не выводится */
+      if(j.web===false)document.getElementById('buy').classList.add('hide');}
+    if(window.__i18nRefresh)window.__i18nRefresh(document.getElementById('page'));
+  }
+
+  async function loadAccount(silent){
+    if(!secret)return;
+    try{
+      var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'account',secret:secret})});
+      var j=await r.json();
+      if(!j||!j.ok){ if(!silent)err('lerr',(j&&j.error)||(isEN()?'Login code not recognised.':'Код входа не распознан.'));
+        secret='';try{sessionStorage.removeItem('bitaps-tok-secret');}catch(e){} return; }
+      renderAccount(j);
+    }catch(_){ if(!silent)err('lerr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.'); }
+  }
+  document.getElementById('tlogin').addEventListener('click',async function(){
+    var v=(document.getElementById('tsecret').value||'').trim();
+    if(v.length<12)return err('lerr',isEN()?'Paste your login code.':'Вставь «Код входа».');
+    document.getElementById('lerr').style.display='none';
+    secret=v;try{sessionStorage.setItem('bitaps-tok-secret',v);}catch(e){}
+    await loadAccount(false);
+  });
+  document.getElementById('addDev').addEventListener('click',async function(){
+    if(busy)return;busy=true;var b=this;b.disabled=true;b.style.opacity=.6;
+    try{
+      var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'adddev',secret:secret})});
+      var j=await r.json();
+      if(!j||!j.ok){err('lerr',(j&&j.error)||(isEN()?'Could not add a device.':'Не удалось добавить устройство.'));}
+      else{btTrack('adddev_ok');await loadAccount(true);}
+    }catch(_){err('lerr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
+    busy=false;b.disabled=false;b.style.opacity=1;
+  });
+
+  function selectPack(el){if(!el)return;pack=el.dataset.code;
+    document.querySelectorAll('.tpack').forEach(function(p){p.classList.toggle('sel',p===el);p.setAttribute('aria-checked',p===el?'true':'false');});}
+  document.getElementById('tpacks').addEventListener('click',function(e){selectPack(e.target.closest('.tpack'));});
+  document.getElementById('tpacks').addEventListener('keydown',function(e){var el=e.target.closest('.tpack');if(!el)return;
+    if(e.key===' '||e.key==='Enter'||e.key==='Spacebar'){e.preventDefault();selectPack(el);}});
+
+  function showCredited(tokens,balance,loginSecret){
+    document.getElementById('waitMsg').classList.add('hide');
+    ['doneTxt','payAgain'].forEach(function(id){document.getElementById(id).classList.add('hide');});
+    document.getElementById('doneH').textContent=isEN()?'Tokens credited 🎉':'Токены зачислены 🎉';
+    document.getElementById('okTokens').textContent=(tokens>0?'+'+nf(tokens):nf(balance))+' 🪙';
+    document.getElementById('okTxt').textContent=(isEN()?'Balance now: ':'Баланс теперь: ')+nf(balance)+' 🪙';
+    document.getElementById('okBox').classList.remove('hide');
+    if(loginSecret){
+      document.getElementById('secretText').textContent=loginSecret;
+      document.getElementById('secretReveal').classList.remove('hide');
+      var sc=document.getElementById('secretCopy');
+      sc.onclick=function(){try{navigator.clipboard.writeText(loginSecret);sc.textContent=isEN()?'Copied ✓':'Скопировано ✓';}catch(e){}};
+      /* новому аккаунту сразу открываем баланс — код входа у него теперь есть */
+      secret=loginSecret;try{sessionStorage.setItem('bitaps-tok-secret',loginSecret);}catch(e){}
+    }
+    if(window.__i18nRefresh)window.__i18nRefresh(document.getElementById('done'));
+    loadAccount(true);
+  }
+  async function startPoll(id,resume){
+    if(polling||!id)return;polling=true;
+    var myGen=++pollGen;
+    document.getElementById('page').classList.add('hide');
+    if(resume){['doneTxt','payAgain'].forEach(function(i){document.getElementById(i).classList.add('hide');});}
+    document.getElementById('done').style.display='block';
+    document.getElementById('waitMsg').classList.remove('hide');
+    for(var i=0;i<240;i++){
+      if(!polling||myGen!==pollGen)return;
+      try{
+        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
+        var j=await r.json();
+        if(j&&j.paid&&j.topup){showCredited(Number(j.tokens)||0,Number(j.balance)||0,j.login_secret||null);
+          try{localStorage.removeItem('bitaps-pending-topup');}catch(e){}polling=false;return;}
+      }catch(e){}
+      await new Promise(function(res){setTimeout(res,5000);});
+    }
+    polling=false;
+    var wm=document.getElementById('waitMsg');
+    wm.innerHTML=(isEN()?'Payment isn\'t confirmed yet. If you\'ve already paid, the tokens will still be credited — open this page again or write to '
+                        :'Оплата пока не подтвердилась. Если ты уже оплатил — токены всё равно зачислятся, открой страницу заново или напиши в ')
+      +'<a href="mailto:bitapssupport@gmail.com" style="color:var(--acc)">bitapssupport@gmail.com</a>.';
+    wm.classList.remove('hide');
+  }
+  /* Возобновление: вернулся с кассы на страницу с незакрытым заказом → опрашиваем дальше.
+     Сперва wid из адреса (его подставляет касса при возврате — работает даже там, где
+     localStorage пуст: другой браузер, инкогнито, очищённое хранилище), потом — своё хранилище.
+     Адрес чистим сразу: id заказа не должен оседать в истории браузера и в логах. */
+  (function(){
+    var pid='';
+    try{
+      var q=new URLSearchParams(location.search).get('wid')||'';
+      if(/^[0-9a-f-]{36}$/i.test(q)){pid=q;history.replaceState(null,'',location.pathname);}
+    }catch(e){}
+    try{if(!pid)pid=localStorage.getItem('bitaps-pending-topup')||'';}catch(e){}
+    if(pid&&/^[0-9a-f-]{36}$/i.test(pid)){try{localStorage.setItem('bitaps-pending-topup',pid);}catch(e){}startPoll(pid,true);}
+  })();
+
+  async function buy(method,btn){
+    var email=(document.getElementById('temail').value||'').trim();
+    if(!validEmail(email))return err('berr',isEN()?'Enter the email of the account to credit.':'Впиши почту аккаунта, на который зачислить токены.');
+    if(busy)return;busy=true;btn.disabled=true;btn.style.opacity=.6;
+    document.getElementById('berr').style.display='none';
+    btTrack('topup_click',{pack:pack,method:method});
+    try{
+      var r=await fetchT(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:'tok_'+pack,email:email,method:method,lang:(isEN()?'en':'ru'),secret:secret||undefined})});
+      var j=await r.json();
+      if(!j||!j.ok){btn.disabled=false;btn.style.opacity=1;busy=false;return err('berr',(j&&j.error)||(isEN()?'Failed to create the invoice, try later.':'Не удалось создать счёт, попробуй позже.'));}
+      if(!/^https:\/\//i.test(j.pay_url||'')){btn.disabled=false;btn.style.opacity=1;busy=false;return err('berr',isEN()?'Failed to open the payment.':'Не удалось открыть оплату.');}
+      btTrack('topup_invoice',{pack:pack});
+      document.getElementById('page').classList.add('hide');
+      ['doneTxt','payAgain'].forEach(function(id){document.getElementById(id).classList.remove('hide');});
+      document.getElementById('doneTxt').innerHTML=(isEN()
+        ?('Pay <b>'+fmtRub(j.amount_rub)+'</b>'+(method==='crypto'?' in CryptoBot':' via SBP')+'. After payment <b>'+nf(j.tokens)+' 🪙</b> are credited to <b>'+escHtml(email)+'</b>.')
+        :('Оплати <b>'+fmtRub(j.amount_rub)+'</b>'+(method==='crypto'?' в CryptoBot':' по СБП')+'. После оплаты <b>'+nf(j.tokens)+' 🪙</b> зачислятся на аккаунт <b>'+escHtml(email)+'</b>.'));
+      document.getElementById('payAgain').setAttribute('href',j.pay_url);
+      document.getElementById('done').style.display='block';
+      document.getElementById('waitMsg').classList.remove('hide');
+      try{localStorage.setItem('bitaps-pending-topup',j.id||'');}catch(_){}
+      try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
+      if(j.id)startPoll(j.id);
+    }catch(_){btn.disabled=false;btn.style.opacity=1;busy=false;err('berr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}
+  }
+  document.getElementById('tSbp').addEventListener('click',function(){buy('sbp',this);});
+  document.getElementById('tCrypto').addEventListener('click',function(){buy('crypto',this);});
+  document.getElementById('payBack').addEventListener('click',function(){
+    polling=false;try{localStorage.removeItem('bitaps-pending-topup');}catch(e){}
+    document.getElementById('done').style.display='none';
+    document.getElementById('page').classList.remove('hide');
+    busy=false;
+    ['tSbp','tCrypto'].forEach(function(id){var b=document.getElementById(id);b.disabled=false;b.style.opacity=1;});
+    window.scrollTo(0,0);
+  });
+  loadAccount(true); /* уже входили в этой вкладке — сразу показываем баланс */
+</script>
+</body></html>
