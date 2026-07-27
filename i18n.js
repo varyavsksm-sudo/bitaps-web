@@ -7,6 +7,13 @@
   var KEY = 'bitaps-lang';
   // ── словарь: русский (схлопнутые пробелы) → english ──
   var DICT = {
+    // Лендинг обещал «10 устройств сразу», хотя в подписке ОДНО, а остальные докупаются.
+    // Человек покупал, упирался в лимит и шёл в поддержку — правим текст, а не ожидания.
+    "Сколько нужно устройств": "As many devices as you need",
+    "Телефон, ноут, телевизор, планшет, роутер. В подписке одно устройство, каждое следующее — +50 ₽/мес, до десяти. Платишь ровно за то, чем пользуешься.":
+      "Phone, laptop, TV, tablet, router. One device comes with the subscription, each extra is +50 ₽/mo, up to ten. You pay for exactly what you use.",
+    "В подписку входит одно устройство. Дополнительные докупаются по +50 ₽/мес за каждое, максимум десять — телефон, ноутбук, планшет, телевизор и даже роутер. Добавить их можно и при оплате, и потом в кабинете или в боте.":
+      "One device comes with the subscription. Extra ones cost +50 ₽/mo each, ten at most — phone, laptop, tablet, TV, even a router. You can add them at checkout, or later in your dashboard or in the bot.",
     // строки, которые страницы рисуют скриптом (их ловит наблюдатель за DOM)
     "Ссылка недействительна": "This link is not valid",
     "Возможно, почта уже подтверждена или ссылка устарела. Попробуйте войти на сайте.":
