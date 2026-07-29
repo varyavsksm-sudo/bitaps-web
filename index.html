@@ -2025,7 +2025,7 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
       ? 'guest — behind bitaps your ISP sees only encrypted traffic. Your real IP stays yours.'
       : 'guest — за bitaps провайдер видит только шифр. Твой реальный IP остаётся твоим.');
     else if (c === 'prices') out('<span class="sh-ok">' + (EN()
-      ? '1 mo — 399 ₽ · 3 mo — 999 ₽ · 6 mo — 1790 ₽ · 12 mo — 2990 ₽\nup to 10 devices · +50 ₽/mo each extra · 3 days free'
+      ? '1 mo — 399 ₽ · 3 mo — 999 ₽ · 6 mo — 1790 ₽ · 12 mo — 2990 ₽\n1 device included · +50 ₽/mo per extra (up to 10) · 3 days free'
       : '1 мес — 399 ₽ · 3 мес — 999 ₽ · 6 мес — 1790 ₽ · 12 мес — 2990 ₽\n1 устройство в подписке · +50 ₽/мес за доп. (до 10) · 3 дня бесплатно') + '</span>');
     else if (c === 'fortune') { const F = fortunes(); out('🥠 ' + F[Math.floor(Math.random() * F.length)]); }
     else if (c === 'share' || c === 'card') {
@@ -2033,13 +2033,41 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
       shareCard();
     }
     else if (c === 'ping') {
-      const host = parts[1] || 'bitapsvpn.com';
-      out('PING ' + host.replace(/</g, '&lt;') + ' ...');
-      let i = 0; const t = setInterval(() => {
-        const ms = (12 + Math.random() * 18).toFixed(1);
-        out('<span class="sh-dim">64 bytes from ' + host.replace(/</g, '&lt;') + ': icmp_seq=' + (i + 1) + ' time=' + ms + ' ms</span>');
-        if (++i >= 3) { clearInterval(t); out('<span class="sh-ok">— ' + (EN() ? 'the network is awake' : 'сеть на связи') + ' —</span>'); }
-      }, 260);
+      /* Здесь рисовались ВЫДУМАННЫЕ числа: Math.random()*18+12 и строки «64 bytes … icmp_seq=…»,
+         без единого сетевого запроса. Консоль шуточная, но цифры выглядели как замер, стояли на
+         главной коммерческого VPN и врали — ровно то же, что мы убрали из блока скорости.
+         Меряем по-настоящему: три HTTP-запроса и их реальное время. ICMP браузеру недоступен,
+         поэтому и подписано честно «HTTP», а не «64 bytes from». */
+      const host = (parts[1] || 'origin.bit-core.online').replace(/[^a-zA-Z0-9.:-]/g, '');
+      const url = host === 'origin.bit-core.online'
+        ? 'https://origin.bit-core.online/gen204'
+        : 'https://' + host + '/favicon.ico';
+      out('HTTP ping ' + host.replace(/</g, '&lt;') + ' …');
+      (async () => {
+        const times = [];
+        for (let i = 0; i < 3; i++) {
+          const t0 = performance.now();
+          try {
+            /* no-cors: ответ непрозрачный, но ВРЕМЯ настоящее — этого и достаточно.
+               cache:'no-store', чтобы второй запрос не отвечал из кэша мгновенно. */
+            await fetch(url + (url.indexOf('?') < 0 ? '?' : '&') + 'p=' + Date.now() + '-' + i,
+              { mode: 'no-cors', cache: 'no-store' });
+            const ms = Math.round(performance.now() - t0);
+            times.push(ms);
+            out('<span class="sh-dim">' + host.replace(/</g, '&lt;') + ' · seq=' + (i + 1) + ' · ' + ms + ' ms</span>');
+          } catch (e) {
+            out('<span class="sh-err">' + host.replace(/</g, '&lt;') + ' · seq=' + (i + 1) + ' · ' +
+              (EN() ? 'no reply' : 'нет ответа') + '</span>');
+          }
+        }
+        if (!times.length) {
+          out('<span class="sh-err">— ' + (EN() ? 'host is unreachable from here' : 'хост отсюда недоступен') + ' —</span>');
+          return;
+        }
+        const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length);
+        out('<span class="sh-ok">— ' + (EN() ? 'average ' : 'в среднем ') + avg + ' ms · ' +
+          (EN() ? 'HTTP, not ICMP — a browser cannot do ICMP' : 'это HTTP, а не ICMP: браузер ICMP не умеет') + ' —</span>');
+      })();
     }
     else if (c === 'theme' && (arg === 'phosphor' || arg === 'green')) {
       const fresh = unlockPhosphor();
