@@ -25,11 +25,15 @@ if [ -d partials ]; then
   done < <(find . -name '*.html' -not -path './.git/*' -not -path './partials/*')
 fi
 
-git add -A
+# Только отслеживаемые файлы: `git add -A` тащил в коммит всё подряд, включая
+# случайный мусор/секреты. Новый файл сайта добавляем явно: git add <файл>.
+git add -u
 if git diff --cached --quiet; then echo "нечего коммитить"; exit 0; fi
 git -c user.name="varyavsksm-sudo" -c user.email="varya.vsk.sm@gmail.com" \
   commit -qm "$MSG
 
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
-git push -q "https://varyavsksm-sudo:${TOK}@github.com/varyavsksm-sudo/bitaps-web.git" main
+# Токен — в HTTP-заголовке, а не в URL: URL светился в ps и в ошибках git.
+git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$TOK" | base64)" \
+  push -q "https://github.com/varyavsksm-sudo/bitaps-web.git" main
 echo "✓ запушено. Pages пересоберётся за ~1–2 мин → https://bitapsvpn.com"

@@ -196,11 +196,18 @@
   function nf(n){return n.toLocaleString('ru-RU');}
   function escHtml(s){return String(s).replace(/[<>&\"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','\"':'&quot;'}[c];});}
   function paint(){
+    var monthly1=399+(dev-1)*EXTRA; /* базовая помесячная цена при N устройствах — как в index.html */
     document.querySelectorAll('.plan').forEach(function(el){
       var base=+el.dataset.base, mo=+el.dataset.mo;
       var total=base+(dev-1)*EXTRA*mo, pm=Math.round(total/mo);
       el.querySelector('.pm').textContent=nf(pm);
       el.querySelector('.tot').textContent=fmt(total);
+      var save=el.querySelector('.plan-save');
+      if(save){
+        var disc=Math.round((1-pm/monthly1)*100);
+        if(disc>=1){save.textContent='−'+disc+'%';save.classList.add('on');}
+        else{save.classList.remove('on');}
+      }
       el.classList.toggle('sel', el.dataset.code===code && !el.classList.contains('plan-best'));
       if(el.classList.contains('plan-best')) el.style.outline = el.dataset.code===code ? '2px solid var(--acc)' : '';
       el.setAttribute('aria-checked', el.dataset.code===code ? 'true' : 'false');
@@ -349,13 +356,20 @@
   function savePending(id){try{if(!id){dropPending();return;} /* новый заказ без id — старую метку не оставляем */
     localStorage.setItem('bitaps-pending-pay',id);localStorage.setItem('bitaps-pending-pay-at',String(Date.now()));}catch(_){}}
   function dropPending(){try{localStorage.removeItem('bitaps-pending-pay');localStorage.removeItem('bitaps-pending-pay-at');}catch(e){}}
-  (function(){try{
-    var pid=localStorage.getItem('bitaps-pending-pay')||'';
-    if(!/^[0-9a-f-]{36}$/i.test(pid))return;
-    var at=parseInt(localStorage.getItem('bitaps-pending-pay-at')||'0',10);
-    if(!(at>0)||Date.now()-at>72e5){dropPending();return;}
-    startPoll(pid,true);
-  }catch(e){}})();
+  (function(){
+    try{
+      /* возврат по ссылке из письма/бота: ?wid=<id заказа> — сразу возобновляем опрос (как в gift.html) */
+      var q=new URLSearchParams(location.search).get('wid')||'';
+      if(/^[0-9a-f-]{36}$/i.test(q)){history.replaceState(null,'',location.pathname);savePending(q);startPoll(q,true);return;}
+    }catch(e){}
+    try{
+      var pid=localStorage.getItem('bitaps-pending-pay')||'';
+      if(!/^[0-9a-f-]{36}$/i.test(pid))return;
+      var at=parseInt(localStorage.getItem('bitaps-pending-pay-at')||'0',10);
+      if(!(at>0)||Date.now()-at>72e5){dropPending();return;}
+      startPoll(pid,true);
+    }catch(e){}
+  })();
   document.getElementById('payCrypto').addEventListener('click',async function(){
     var email=document.getElementById('email').value.trim();
     if(!email)return showErr('Впиши почту — на неё придёт ключ.');

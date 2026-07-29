@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
+<meta charset="UTF-8" /><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://origin.bit-core.online; frame-src https://oauth.telegram.org https://telegram.org; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 <title>bitaps VPN — приватность без компромиссов</title>
@@ -247,7 +247,7 @@
   <div class="sec-head reveal">
     <span class="kicker">// глобальная сеть</span>
     <h2>Серверы, которые <span class="grad">никогда не спят</span></h2>
-    <p class="sec-p">Наведи на точку — увидишь пинг до узла в реальном времени.</p>
+    <p class="sec-p">Наведи на точку — увидишь базовый пинг до узла из России.</p>
   </div>
   <div class="map-wrap reveal">
     <div class="world" id="world">
@@ -256,12 +256,12 @@
       <div class="map-tip" id="mapTip"></div>
     </div>
     <div class="map-side">
-      <div class="ms-row"><span class="ms-k">Активных узлов</span><span class="ms-v" id="msNodes">5 412</span></div>
+      <div class="ms-row"><span class="ms-k">Инфраструктура</span><span class="ms-v" id="msNodes">7 узлов · 6 CDN-рельсов</span></div>
       <div class="ms-bar"><i style="width:92%"></i></div>
       <div class="ms-row"><span class="ms-k">Загрузка сети</span><span class="ms-v">31%</span></div>
       <div class="ms-bar"><i style="width:31%"></i></div>
-      <div class="ms-row"><span class="ms-k">Средний пинг</span><span class="ms-v" id="msPing">18 ms</span></div>
-      <div class="ms-bar"><i style="width:18%"></i></div>
+      <div class="ms-row"><span class="ms-k">Средний пинг</span><span class="ms-v" id="msPing">57 ms</span></div>
+      <div class="ms-bar"><i style="width:57%"></i></div>
       <a href="https://t.me/bitaps_vpn_auth_bot?start=subscribe" target="_blank" rel="noopener" class="btn btn-solid" style="margin-top:18px;width:100%;justify-content:center">Подключиться к ближайшему</a>
     </div>
   </div>
@@ -301,12 +301,12 @@
 <!-- ░░ 6.5 · СТАТУС СЕРВЕРОВ ░░ -->
 <section class="section section-status tucked" id="status">
   <div class="sec-head reveal">
-    <span class="kicker">// инфраструктура в реальном времени</span>
+    <span class="kicker">// инфраструктура</span>
     <h2>Серверы, <span class="grad">которые на связи</span></h2>
-    <p class="sec-p">Топ-5 серверов по пингу прямо сейчас и средний пинг сети за последнюю неделю.</p>
+    <p class="sec-p">Базовый пинг из России до каждого из 7 узлов сети и среднее по флоту.</p>
   </div>
   <div class="status-card chart-card reveal">
-    <div class="status-h"><span>📈 Средний пинг сети · 7 дней</span><b id="sgAvg">— ms</b></div>
+    <div class="status-h"><span>📈 Базовый пинг по узлам · из России</span><b id="sgAvg">— ms</b></div>
     <svg class="ping-chart" id="pingChart" viewBox="0 0 600 240" aria-hidden="true"></svg>
   </div>
   <div class="status-card term-card reveal" style="max-width:1080px;margin:0 auto">
@@ -885,7 +885,7 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
     return en ? [
       ['$ bitaps connect --best', ''],
       ['→ finding nearest node…', 'w'],
-      ['✓ node: Moscow #7 · 6 ms', 'ok'],
+      ['✓ node: Helsinki · 19 ms', 'ok'],
       ['→ Reality handshake…', 'c'],
       ['✓ keys exchanged · AES-256-GCM', 'ok'],
       ['✓ kill switch active', 'ok'],
@@ -893,7 +893,7 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
     ] : [
       ['$ bitaps connect --best', ''],
       ['→ поиск ближайшего узла…', 'w'],
-      ['✓ узел: Москва #7 · 6 ms', 'ok'],
+      ['✓ узел: Хельсинки · 19 ms', 'ok'],
       ['→ рукопожатие Reality…', 'c'],
       ['✓ ключи обменяны · AES-256-GCM', 'ok'],
       ['✓ kill switch активен', 'ok'],
@@ -931,27 +931,25 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   if (!wrap) return;
   // координаты в % по полной карте мира world-map.svg (equirectangular, viewBox 0 0 1000 500, широта +90..−90)
   // x% = (lon+180)/360*100 ; y% = (90-lat)/180*100
+  // реальный флот — 7 узлов; последнее число — базовый пинг из России (статический замер, не «живой»)
   const cities = [
-    ['Москва', 60.4, 19.0, '', 'Moscow'], ['Санкт-Петербург', 58.4, 16.7, 'b2', 'St. Petersburg'],
-    ['Амстердам', 51.4, 20.9, '', 'Amsterdam'], ['Франкфурт', 52.4, 22.2, 'b2', 'Frankfurt'], ['Хельсинки', 56.9, 16.6, '', 'Helsinki'],
-    ['Стамбул', 58.0, 27.2, 'b3', 'Istanbul'], ['Дубай', 65.4, 36.0, '', 'Dubai'], ['Сингапур', 78.8, 49.3, 'b3', 'Singapore'],
+    ['Хельсинки', 56.9, 16.6, '', 'Helsinki', 19], ['Амстердам', 51.4, 20.9, 'b2', 'Amsterdam', 50],
+    ['Париж', 50.7, 22.9, '', 'Paris', 58], ['Варшава', 55.8, 21.0, 'b2', 'Warsaw', 62],
+    ['Гонконг', 81.7, 37.6, 'b3', 'Hong Kong', 58], ['Бухарест', 57.3, 25.3, 'b2', 'Bucharest', 74],
+    ['Рейкьявик', 43.9, 14.4, 'b3', 'Reykjavik', 77],
   ];
-  cities.forEach(([name, x, y, cls, nameEn]) => {
+  cities.forEach(([name, x, y, cls, nameEn, ping]) => {
     const n = document.createElement('div');
     n.className = 'node ' + cls;
     n.style.left = x + '%'; n.style.top = y + '%';
     n.style.animationDelay = (Math.random() * 2) + 's';
     n.addEventListener('mouseenter', () => {
-      const ping = 6 + Math.floor(Math.random() * 40);
-      tip.textContent = `${window.__L(name, nameEn)} · ${ping} ${window.__L('мс', 'ms')}`;
+      tip.textContent = `${window.__L(name, nameEn)} · ~${ping} ${window.__L('мс', 'ms')}`;
       tip.style.left = x + '%'; tip.style.top = y + '%'; tip.style.opacity = 1;
     });
     n.addEventListener('mouseleave', () => tip.style.opacity = 0);
     wrap.appendChild(n);
   });
-  // живой средний пинг
-  const msPing = document.getElementById('msPing');
-  setInterval(() => { if (msPing) msPing.textContent = (14 + Math.floor(Math.random() * 9)) + ' ms'; }, 2200);
 })();
 
 /* ---------- 7. спидометр — НАСТОЯЩИЙ замер скорости устройства ---------- */
@@ -1494,19 +1492,19 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   });
 })();
 
-/* ---------- 14. статус серверов: график-герой + терминал лидеров + Bitcoin (bitaps.com) ---------- */
+/* ---------- 14. статус серверов: график пинга по узлам + терминал лидеров ---------- */
 (() => {
   const list = document.getElementById('statusList');
   if (!list) return;
-  const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  // реальный флот: 7 узлов, базовый пинг из России — статические замеры, без имитации «живых» чисел
   const servers = [
-    ['Москва', 6], ['Санкт-Петербург', 9], ['Казань', 12],
-    ['Екатеринбург', 15], ['Новосибирск', 18], ['Амстердам', 24],
+    ['Хельсинки', 19], ['Амстердам', 50], ['Париж', 58],
+    ['Варшава', 62], ['Гонконг', 58], ['Бухарест', 74], ['Рейкьявик', 77],
   ];
 
   // ── терминал-лидеры по пингу ──
   function render() {
-    const rows = servers.map(([c, b]) => ({ c, ms: b + rnd(0, 9) })).sort((a, b) => a.ms - b.ms).slice(0, 5);
+    const rows = servers.map(([c, b]) => ({ c, ms: b })).sort((a, b) => a.ms - b.ms).slice(0, 5);
     const max = Math.max(...rows.map(r => r.ms));
     list.innerHTML = '<div class="term-head">$ bitaps ping --top 5</div>' + rows.map((r, i) => {
       const fill = Math.max(1, Math.round((1 - r.ms / max) * 8) + 2);
@@ -1515,11 +1513,11 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
         '</span><span class="bars">' + bars + '</span><span class="ms">' + r.ms + ' ms</span></div>';
     }).join('');
   }
-  render(); setInterval(render, 2600);
+  render();
 
-  // ── график среднего пинга за неделю (с осями и сеткой) ──
-  const data = [22, 19, 24, 18, 21, 16, 20];
-  const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  // ── график базового пинга по узлам флота (с осями и сеткой) ──
+  const data = servers.map(([, b]) => b);
+  const labels = servers.map(([c]) => c);
   const avg = Math.round(data.reduce((a, b) => a + b, 0) / data.length);
   const sg = document.getElementById('sgAvg'); if (sg) sg.textContent = avg + ' ms';
   const svg = document.getElementById('pingChart');
@@ -1533,20 +1531,20 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
     const valC  = lightT ? '#1a2334' : '#eaf0fb';
     const W = 600, H = 240, padL = 40, padR = 12, padT = 16, padB = 28;
     const cw = W - padL - padR, ch = H - padT - padB;
-    const mn = 8, mx = 30; // шкала пинга, ms
+    const mn = 0, mx = 80; // шкала пинга, ms
     const x = (i) => padL + i * (cw / (data.length - 1));
     const y = (v) => padT + ch - ((v - mn) / (mx - mn)) * ch;
     let g = '';
     // горизонтальные линии координат + подписи ms
-    for (let v = mn; v <= mx; v += 5) {
+    for (let v = mn; v <= mx; v += 20) {
       const yy = y(v).toFixed(1);
       g += '<line x1="' + padL + '" y1="' + yy + '" x2="' + (W - padR) + '" y2="' + yy + '" stroke="' + gridH + '" stroke-width="1"/>';
       g += '<text x="' + (padL - 8) + '" y="' + (y(v) + 4).toFixed(1) + '" fill="' + axisC + '" font-size="11" text-anchor="end" font-family="JetBrains Mono,monospace">' + v + '</text>';
     }
-    // вертикальные линии + подписи дней
+    // вертикальные линии + подписи узлов
     data.forEach((_, i) => {
       g += '<line x1="' + x(i).toFixed(1) + '" y1="' + padT + '" x2="' + x(i).toFixed(1) + '" y2="' + (padT + ch) + '" stroke="' + gridV + '" stroke-width="1"/>';
-      g += '<text x="' + x(i).toFixed(1) + '" y="' + (H - 8) + '" fill="' + axisC + '" font-size="11" text-anchor="middle">' + days[i] + '</text>';
+      g += '<text x="' + x(i).toFixed(1) + '" y="' + (H - 8) + '" fill="' + axisC + '" font-size="11" text-anchor="middle">' + labels[i] + '</text>';
     });
     const pts = data.map((v, i) => [x(i), y(v)]);
     const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');

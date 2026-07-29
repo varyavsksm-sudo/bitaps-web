@@ -292,6 +292,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     var s=(raw||'').trim().toLowerCase();
     s=s.replace(/^https?:\/\//,'').replace(/^www\./,'');
     s=s.split('/')[0].split('?')[0].split('#')[0].split(':')[0];
+    s=s.replace(/\.+$/,''); // trailing FQDN-точка: «domain.com.» — тот же домен
     try{s=toAscii(s);}catch(e){}
     return s;
   }
@@ -307,8 +308,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   function showErr(msg){res.className='result show err';res.innerHTML='<div class="rverdict"><span class="dot">⚠️</span>'+esc(msg)+'</div>';}
 
   function check(domain){
+    if((domain||'').indexOf('@')>=0){showErr(T('Похоже на адрес с логином (user@host). Введите только домен, например instagram.com','Looks like user@host userinfo. Enter just the domain, e.g. instagram.com'));return;}
     var dom=normalize(domain);
-    if(!dom||dom.indexOf('.')<0){showErr(T('Введите домен, например instagram.com','Enter a domain, e.g. instagram.com'));return;}
+    // пустые сегменты («a..b», «.a.com») — невалидный домен, а не «не найден в реестре»
+    if(!dom||dom.indexOf('.')<0||dom.split('.').some(function(l){return !l;})){showErr(T('Введите домен, например instagram.com','Enter a domain, e.g. instagram.com'));return;}
     btn.disabled=true;
     res.className='result show';res.innerHTML='<div class="rverdict"><span class="dot">⏳</span>'+esc(T('Проверяю…','Checking…'))+'</div>';
     var shard=md5(dom).slice(0,2);

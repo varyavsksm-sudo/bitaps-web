@@ -13,15 +13,6 @@
   html[data-theme="light"]{--acc-ink:#b34700;/* акцент для текста: фирменный оранжевый на белом даёт 2.4:1 при норме 4.5:1 */--bg:#eef3fb;--bg2:#fff;--panel:#fff;--line:rgba(16,26,48,.12);--txt:#0f1828;--mut:#5a6781;--water:#cfe3f7;--water2:#bcd8f3}
   body{min-height:100vh;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--txt);
     background:radial-gradient(900px 520px at 14% -10%,rgba(255,122,26,.14),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(45,139,255,.12),transparent 60%),var(--bg)}
-  .top{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;position:sticky;top:0;z-index:20;
-    backdrop-filter:blur(12px);border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 72%,transparent)}
-  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--txt)}
-  .brand .mk{width:34px;height:34px;color:var(--acc-ink,var(--acc));filter:drop-shadow(0 0 10px rgba(255,122,26,.4))}
-  .brand b{font-weight:800;font-size:19px;letter-spacing:-.3px}.brand b i{color:var(--acc-ink,var(--acc));font-style:normal}.brand b s{color:var(--mut);text-decoration:none;font-weight:600;font-size:12px;vertical-align:super}
-  .top-r{display:flex;align-items:center;gap:12px}
-  .home{color:var(--mut);text-decoration:none;font-size:14px}.home:hover{color:var(--acc-ink,var(--acc))}
-  .tbtn{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--txt);font-size:16px;cursor:pointer;display:grid;place-items:center}
-  .tbtn:hover{border-color:var(--acc-ink,var(--acc))}
   .wrap{max-width:1000px;margin:0 auto;padding:28px 18px 70px}
   .head{text-align:center;margin-bottom:22px}
   .kick{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--acc-ink,var(--acc));text-transform:uppercase}
@@ -675,22 +666,6 @@ $('submitScore').onclick=async function(){
   await loadBoard(score,name);
   this.disabled=false; this.textContent='В топ';
 };
-
-// тема
-(() => {
-  const html = document.documentElement, key = 'bitaps-theme';
-  const btn = document.getElementById('themeToggle');
-  const mq = matchMedia('(prefers-color-scheme: light)');
-  const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
-  const apply = () => {
-    const light = isLight();
-    if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
-    if (btn) { btn.textContent = light ? '☀️' : '🌙'; var __en=false;try{__en=localStorage.getItem('bitaps-lang')==='en'}catch(e){}; btn.title = __en ? ('Theme: ' + (light ? 'light' : 'dark')) : ('Тема: ' + (light ? 'светлая' : 'тёмная')); btn.setAttribute('aria-label', btn.title); }
-  };
-  if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
-  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
-  apply();
-})();
 
 resize(); loadBoard(null);
 </script>

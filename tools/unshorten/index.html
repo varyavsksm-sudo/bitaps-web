@@ -288,7 +288,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     }
     var chain=d.chain||[];
     if(chain.length){
-      html+='<div class="chain"><h3>'+T('цепочка редиректов','redirect chain')+' ('+d.hops+')</h3>';
+      html+='<div class="chain"><h3>'+T('цепочка редиректов','redirect chain')+' ('+Number(d.hops||0)+')</h3>';
       chain.forEach(function(h,i){
         html+='<div class="hop"><span class="n">'+(i+1)+'</span><span class="hu">'+esc(h.url)+(h.punycode?' <span class="puny">'+T('[punycode]','[punycode]')+'</span>':'')+'</span><span class="hs">'+(h.status?esc(h.status):'')+'</span></div>';
       });

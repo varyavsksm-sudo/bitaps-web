@@ -712,7 +712,7 @@
       if (!em) { emEl.setCustomValidity('Впиши почту для ответа'); emEl.reportValidity(); return; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { emEl.setCustomValidity('Неправильный формат почты'); emEl.reportValidity(); return; }
       emEl.setCustomValidity('');
-      const payload = { name: $('sName').value.trim(), email: em, message: $('sMsg').value.trim(), _subject: 'Заявка из личного кабинета bitaps', _template: 'table' };
+      const payload = { name: $('sName').value.trim(), email: em, message: $('sMsg').value.trim() };
       // formsubmit убран (приватность): заявка идёт только в свой бэкенд ниже
       supSending = true;
       if (supBtn) { supBtn.disabled = true; supBtn.style.opacity = '.6'; supBtn.style.cursor = 'default'; }

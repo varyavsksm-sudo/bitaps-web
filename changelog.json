@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "build": 118,
+      "date": "2026-07-29",
+      "ru": [
+        "Исправления аудита: движок xray, стабильность подключения, мелкие баги"
+      ],
+      "en": [
+        "Audit fixes: xray engine, connection stability, minor bugs"
+      ]
+    },
+    {
       "build": 92,
       "date": "2026-07-13",
       "ru": [

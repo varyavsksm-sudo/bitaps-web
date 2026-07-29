@@ -114,7 +114,7 @@ ap();})();</script>
     <nav class="crumbs"><a href="/tools/" data-en="Tools">Инструменты</a> / <span data-en="WebRTC leak">Утечка WebRTC</span></nav>
     <div class="kick" data-en="// webrtc & dns leak">// утечка webrtc и dns</div>
     <h1 data-en="Is your browser leaking your IP?">Браузер выдаёт ваш IP?</h1>
-    <p class="lead" data-en="Even with a VPN on, WebRTC can quietly reveal your real IP address to any site. This test runs in your browser and compares what WebRTC exposes with your public IP.">Даже с включённым VPN технология WebRTC может втихую раскрыть ваш реальный IP любому сайту. Тест идёт в браузере и сравнивает, что показывает WebRTC, с вашим публичным адресом.</p>
+    <p class="lead" data-en="Even with a VPN on, WebRTC can quietly reveal your real IP address to any site. This test runs in your browser and compares what WebRTC exposes with your public IP. To do that, your browser talks once to Google's public STUN server (stun.l.google.com) and to our whoami endpoint, which returns your public IP.">Даже с включённым VPN технология WebRTC может втихую раскрыть ваш реальный IP любому сайту. Тест идёт в браузере и сравнивает, что показывает WebRTC, с вашим публичным адресом. Для этого браузер один раз обращается к публичному STUN-серверу Google (stun.l.google.com) и к нашему методу whoami, который возвращает ваш публичный IP.</p>
 
     <div class="verdict" id="verdict">
       <h2 id="vh"><span data-en="Running the test…">Идёт проверка…</span></h2>

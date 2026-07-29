@@ -290,11 +290,18 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       res.innerHTML='<h2>'+T('Не удалось проверить','Could not check')+'</h2><p>'+T('Причина: ','Reason: ')+reasonText(d.reason)+'. '+T('Проверьте, правильно ли введён адрес.','Check that the address is correct.')+'</p>';
       return;
     }
-    res.className='result show up';
-    res.innerHTML='<h2>'+T('✓ Сайт доступен','✓ Site is up')+'</h2><p>'+
-      T('<b>'+esc(d.host)+'</b> открывается из зарубежного облака. Если у вас он не грузится — проблема, скорее всего, локальная: провайдер, блокировка или ваша сеть.',
-        '<b>'+esc(d.host)+'</b> opens from a foreign cloud. If it won\'t load for you, the issue is likely local: provider, block or your network.')+'</p>'+
-      '<div class="meta"><span>HTTP '+esc(d.status)+'</span><span>'+esc(d.latency_ms)+' ms</span>'+(d.redirected_to?'<span>→ '+esc(d.redirected_to)+'</span>':'')+'</div>';
+    // Успех — только из полного ответа: edge-fn может вернуть 200 без ожидаемых полей,
+    // и раньше это рисовалось как «HTTP undefined · undefined ms» под заголовком «доступен».
+    if(d.up===true&&d.status!=null&&d.latency_ms!=null){
+      res.className='result show up';
+      res.innerHTML='<h2>'+T('✓ Сайт доступен','✓ Site is up')+'</h2><p>'+
+        T('<b>'+esc(d.host)+'</b> открывается из зарубежного облака. Если у вас он не грузится — проблема, скорее всего, локальная: провайдер, блокировка или ваша сеть.',
+          '<b>'+esc(d.host)+'</b> opens from a foreign cloud. If it won\'t load for you, the issue is likely local: provider, block or your network.')+'</p>'+
+        '<div class="meta"><span>HTTP '+esc(d.status)+'</span><span>'+esc(d.latency_ms)+' ms</span>'+(d.redirected_to?'<span>→ '+esc(d.redirected_to)+'</span>':'')+'</div>';
+      return;
+    }
+    res.className='result show err';
+    res.innerHTML='<h2>'+T('Не удалось проверить','Could not check')+'</h2><p>'+T('Причина: ','Reason: ')+reasonText(d.reason)+'. '+T('Проверьте, правильно ли введён адрес.','Check that the address is correct.')+'</p>';
   }
 
   async function run(){

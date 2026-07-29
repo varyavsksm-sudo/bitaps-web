@@ -273,7 +273,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     osubEl.textContent=overall==='unknown'?T('Замеров за последние 90 дней нет','No measurements in the last 90 days')
       :T('Аптайм за 90 дней: ','90-day uptime: ')+(d.uptime_90d!=null?d.uptime_90d+'%':'—');
 
-    var cur=d.current||{}, up90=d.component_uptime_90d||{}, days=d.days||[];
+    var cur=d.current||{}, up90=d.component_uptime_90d||{}, days=d.days||[], daysByC=d.days_by_component||{};
     var html='';
     ORDER.forEach(function(k){
       if(!cur[k] && up90[k]==null)return;
@@ -289,7 +289,8 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
           +'</div>'
           +'<div class="comp-state '+(ok?'st-ok':'st-bad')+'"><span class="dot"></span><span data-en="'+(ok?'operational':'down')+'">'+(ok?T('работает','operational'):T('недоступен','down'))+'</span></div>'
         +'</div>'
-        +'<div class="bars">'+barsHtml(days)+'</div>'
+        // своя серия по компоненту, если бэкенд её отдал; иначе — общая, как раньше
+        +'<div class="bars">'+barsHtml(daysByC[k]||days)+'</div>'
         +'<div class="bars-legend"><span data-en="90 days ago">90 дней назад</span><span>'+(u!=null?'<span class="comp-up">'+esc(T('аптайм ','uptime '))+'<b>'+u+'%</b></span>':'')+'</span><span data-en="today">сегодня</span></div>'
       +'</div>';
     });

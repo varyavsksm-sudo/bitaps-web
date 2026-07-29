@@ -368,20 +368,5 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     }
   });
 })();
-
-(() => {
-  const html = document.documentElement, key = 'bitaps-theme';
-  const btn = document.getElementById('themeToggle');
-  const mq = matchMedia('(prefers-color-scheme: light)');
-  const isLight = () => { let s; try { s = localStorage.getItem(key); } catch (e) {} return (s === 'light' || s === 'dark') ? s === 'light' : mq.matches; };
-  const apply = () => {
-    const light = isLight();
-    if (light) html.setAttribute('data-theme', 'light'); else html.removeAttribute('data-theme');
-    if (btn) { btn.textContent = light ? '☀️' : '🌙'; var __en=false;try{__en=localStorage.getItem('bitaps-lang')==='en'}catch(e){}; btn.title = __en ? ('Theme: ' + (light ? 'light' : 'dark')) : ('Тема: ' + (light ? 'светлая' : 'тёмная')); btn.setAttribute('aria-label', btn.title); }
-  };
-  if (btn) btn.addEventListener('click', () => { try { localStorage.setItem(key, isLight() ? 'dark' : 'light'); } catch (e) {} apply(); });
-  if (mq.addEventListener) mq.addEventListener('change', () => { let s; try { s = localStorage.getItem(key); } catch (e) {} if (s !== 'light' && s !== 'dark') apply(); });
-  apply();
-})();
 </script>
 </body></html>
