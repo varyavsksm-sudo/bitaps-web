@@ -438,6 +438,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   async function startPoll(id,resume){
     if(polling||!id)return;polling=true;
     var myGen=++pollGen;
+    /* reveal_token — второй фактор on-site выдачи «Кода входа» новому аккаунту (провайдер его не
+       видит): лежит в хранилище строго в паре с id заказа. Нет токена (старый заказ/другой браузер) —
+       зачисление всё равно доедет, а «Код входа» придёт письмом: крутить вечно не будем. */
+    var rt='';try{rt=localStorage.getItem('bitaps-pending-topup-rt')||'';}catch(e){}
     document.getElementById('page').classList.add('hide');
     if(resume){['doneTxt','payAgain'].forEach(function(i){document.getElementById(i).classList.add('hide');});}
     document.getElementById('done').style.display='block';
@@ -445,7 +449,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     for(var i=0;i<240;i++){
       if(!polling||myGen!==pollGen)return;
       try{
-        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
+        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id,reveal_token:rt})});
         var j=await r.json();
         if(j&&j.paid&&j.topup){showCredited(Number(j.tokens)||0,Number(j.balance)||0,j.login_secret||null);
           dropPending();polling=false;return;}
@@ -468,9 +472,15 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
      проваливался в экран «ждём подтверждения оплаты» по счёту, которого уже нет (invoice живёт
      час). Из адреса (wid) резюмируем всегда — касса только что вернула человека, заказ свежий
      по построению; из хранилища — только если заказу меньше 2 ч. */
-  function savePending(id){try{if(!id){dropPending();return;}
-    localStorage.setItem('bitaps-pending-topup',id);localStorage.setItem('bitaps-pending-topup-at',String(Date.now()));}catch(_){}}
-  function dropPending(){try{localStorage.removeItem('bitaps-pending-topup');localStorage.removeItem('bitaps-pending-topup-at');}catch(e){}}
+  function savePending(id,rt){try{if(!id){dropPending();return;}
+    /* reveal_token строго в паре с id: без нового токена старый оставляем, только если это ТОТ ЖЕ
+       заказ (возврат с кассы приходит на ?wid=<тот же id> в новой вкладке — токен уже в хранилище);
+       чужой/протухший токен под новый id не подставляем. */
+    var prev=localStorage.getItem('bitaps-pending-topup');
+    localStorage.setItem('bitaps-pending-topup',id);localStorage.setItem('bitaps-pending-topup-at',String(Date.now()));
+    if(rt)localStorage.setItem('bitaps-pending-topup-rt',rt);
+    else if(prev!==id)localStorage.removeItem('bitaps-pending-topup-rt');}catch(_){}}
+  function dropPending(){try{localStorage.removeItem('bitaps-pending-topup');localStorage.removeItem('bitaps-pending-topup-at');localStorage.removeItem('bitaps-pending-topup-rt');}catch(e){}}
   (function(){
     try{
       var q=new URLSearchParams(location.search).get('wid')||'';
@@ -505,7 +515,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').style.display='block';
       document.getElementById('waitMsg').classList.remove('hide');
-      savePending(j.id);
+      savePending(j.id,j.reveal_token);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id)startPoll(j.id);
     }catch(_){btn.disabled=false;btn.style.opacity=1;busy=false;err('berr',isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}

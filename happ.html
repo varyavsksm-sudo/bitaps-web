@@ -26,8 +26,6 @@
   .step b{color:var(--txt);font-weight:600}
   .n{flex:0 0 22px;height:22px;border-radius:50%;background:rgba(255,122,26,.15);color:var(--acc-ink,var(--acc));font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
   .hide{display:none}
-  .spin{width:34px;height:34px;margin:6px auto 0;border:3px solid rgba(255,255,255,.12);border-top-color:var(--acc-ink,var(--acc));border-radius:50%;animation:sp .8s linear infinite}
-  @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 <script src="/i18n.js?v=32" defer></script>
 </head>
@@ -35,13 +33,16 @@
 <div class="bg"></div>
 
 <div class="card">
-  <!-- ЭТАП 1: пробуем открыть Happ -->
+  <!-- ЭТАП 1: ждём ЯВНОГО тапа — сами ничего не копируем и никуда не редиректим (см. скрипт ниже):
+       авто-редирект happ://add/ по чужой ссылке с нашего доверенного домена подсовывал бы в приложение
+       чужую подписку, а авто-копирование затирало бы буфер обмена без ведома человека -->
   <div id="tryS">
     <div class="kicker">₿ITAPS VPN</div>
     <div class="ic">⚡</div>
-    <h1>Настраиваем Happ…</h1>
-    <p class="sub">Открываем приложение и передаём твой ключ.</p>
-    <div class="spin"></div>
+    <h1>Передать ключ в Happ</h1>
+    <p class="sub">По кнопке скопируем ключ и откроем приложение. Сама страница ничего не делает — это твоя подписка, решаешь ты.</p>
+    <div class="keybox" id="keyBoxTop"></div>
+    <button class="btn" id="goBtn" type="button">⚡ Открыть Happ и передать ключ</button>
     <div class="ok" id="copied"></div>
   </div>
 
@@ -112,6 +113,7 @@
     $('tryS').classList.add('hide'); $('noKey').classList.remove('hide'); return;
   }
   $('keyBox').textContent = key;
+  $('keyBoxTop').textContent = key; // ключ виден на экране сразу — до всякого тапа
 
   // копируем ключ в буфер: Happ умеет подхватывать конфиг из буфера обмена — это наш надёжный путь,
   // даже если deep-link-схема не сработает
@@ -150,12 +152,17 @@
     $('failS').classList.remove('hide');
   }
 
-  // основной сценарий: копируем ключ → пробуем открыть Happ → если через 2с мы всё ещё здесь,
-  // значит Happ не установлен → предлагаем СВОЁ приложение
-  copyKey(function(ok){
-    $('copied').textContent = ok ? '🔑 ключ скопирован' : '';
-    $('copied2').textContent = ok ? '🔑 ключ скопирован в буфер' : '';
-    setTimeout(tryOpenHapp, 250);
+  // Копирование ключа и deep-link — ТОЛЬКО по явному тапу (раньше и то, и другое делалось автоматом
+  // при открытии страницы — фишинговый вектор, см. комментарий у ЭТАПА 1). Тап — настоящий жест,
+  // поэтому iOS заодно не режет ни clipboard, ни навигацию по схеме. Если через 2с мы всё ещё здесь,
+  // значит Happ не установлен → fallback с нашим приложением; открывшееся приложение гасит fallback
+  // через markOpened.
+  $('goBtn').addEventListener('click', function(){
+    copyKey(function(ok){
+      $('copied').textContent = ok ? '🔑 ключ скопирован' : '';
+      $('copied2').textContent = ok ? '🔑 ключ скопирован в буфер' : '';
+    });
+    tryOpenHapp();
     setTimeout(showFail, 2200);
   });
 

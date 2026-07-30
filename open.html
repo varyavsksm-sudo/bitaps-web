@@ -90,6 +90,7 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
         </button>
       </div>
       <p class="op-note" data-en="The key stays in your browser: it travels in the link fragment and is never sent to the server.">Ключ остаётся в браузере: он передаётся во фрагменте ссылки и не уходит на сервер.</p>
+      <div class="op-key" id="keyBoxPick"></div>
     </div>
 
     <!-- ЭКРАН 2: пробуем открыть приложение -->
@@ -188,6 +189,8 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
 
   if (!key || !KEY_OK.test(key)) { show('nokey'); return; }
   $('keyBox').textContent = key;
+  // ключ показываем и на экране выбора: человек обязан видеть, ЧТО импортирует, до тапа
+  if ($('keyBoxPick')) $('keyBoxPick').textContent = key;
 
   // ── детект «приложение перехватило ссылку» ───────────────────────────────
   // Если схема зарегистрирована, ОС уводит браузер в фон — вкладка прячется/теряет фокус.
@@ -253,8 +256,11 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
     } catch (e) { done(false); }
   });
 
-  // &app=… в ссылке — пропускаем выбор и сразу пробуем открыть
-  if (APPS[want]) tryOpen(want); else show('pick');
+  // Переход в приложение — ТОЛЬКО по явному тапу (аудит): раньше &app=… в ссылке открывал
+  // deep-link автоматически при загрузке, и чужая ссылка на доверенном домене молча
+  // предлагала импортировать подписку атакующего. Параметр &app= больше не обходит выбор:
+  // человек видит ключ и сам жмёт на приложение.
+  show('pick');
 })();
 </script>
 <script>

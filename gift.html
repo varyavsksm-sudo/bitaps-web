@@ -284,6 +284,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
   async function startPoll(id,resume){
     if(polling||!id)return; polling=true;
     var myGen=++pollGen;
+    /* reveal_token — второй фактор выдачи кода (провайдер его не видит): лежит в хранилище строго
+       в паре с id заказа. Нет токена (старый заказ/другой браузер) — сервер вернёт ответ без
+       gift_code, и ниже честно покажем «код отправлен на почту», а не будем крутить вечно. */
+    var rt='';try{rt=localStorage.getItem('bitaps-pending-gift-rt')||'';}catch(e){}
     document.getElementById('page').classList.add('hide');
     if(resume){['doneTxt','payAgain'].forEach(function(i){document.getElementById(i).classList.add('hide');});}
     document.getElementById('done').style.display='block';
@@ -291,10 +295,10 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
     for(var i=0;i<240;i++){
       if(!polling||myGen!==pollGen)return;
       try{
-        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
+        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id,reveal_token:rt})});
         var j=await r.json();
         if(j&&j.paid&&j.gift&&j.gift_code){showGift(j.gift_code);dropPending();polling=false;return;}
-        if(j&&j.paid&&j.gift&&!j.gift_code){ /* окно on-site выдачи (1ч) прошло — код в письме */
+        if(j&&j.paid&&j.gift&&!j.gift_code){ /* окно 1ч прошло или нет reveal_token (старый заказ/другой браузер) — код в письме */
           document.getElementById('waitMsg').textContent=isEN()?'✅ Paid! The gift code was sent to your email.':'✅ Оплачено! Подарочный код отправлен на почту.';
           dropPending();polling=false;return;}
       }catch(e){}
@@ -308,14 +312,20 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
      1) wid из адреса: СБП-возврат приходит на /gift.html?wid=<заказ> (returnUrl в web-pay), а
         страница его вообще не читала — если оплата открылась в другом браузере/инкогнито или
         хранилище пусто, покупатель возвращался на пустую витрину и подарочный код на странице
-        не получал (оставалось только письмо). Адрес чистим сразу: id заказа — капабилити на код,
-        ему не место в истории браузера и в логах.
+        не получал (оставалось только письмо). Адрес чистим сразу: голый id заказа код не открывает
+        (нужен ещё reveal_token из localStorage этого браузера), но и ему не место в истории и в логах.
      2) из хранилища — только свежий заказ. Раньше id брошенного счёта лежал там ВЕЧНО, и человек,
         передумавший платить, при каждом заходе вместо выбора тарифа сразу попадал в «ждём
         подтверждения оплаты» по счёту, которого уже нет (invoice живёт час). */
-  function savePending(id){try{if(!id){dropPending();return;}
-    localStorage.setItem('bitaps-pending-gift',id);localStorage.setItem('bitaps-pending-gift-at',String(Date.now()));}catch(_){}}
-  function dropPending(){try{localStorage.removeItem('bitaps-pending-gift');localStorage.removeItem('bitaps-pending-gift-at');}catch(e){}}
+  function savePending(id,rt){try{if(!id){dropPending();return;}
+    /* reveal_token строго в паре с id: без нового токена старый оставляем, только если это ТОТ ЖЕ
+       заказ (возврат с кассы приходит на ?wid=<тот же id> в новой вкладке — токен уже в хранилище);
+       чужой/протухший токен под новый id не подставляем. */
+    var prev=localStorage.getItem('bitaps-pending-gift');
+    localStorage.setItem('bitaps-pending-gift',id);localStorage.setItem('bitaps-pending-gift-at',String(Date.now()));
+    if(rt)localStorage.setItem('bitaps-pending-gift-rt',rt);
+    else if(prev!==id)localStorage.removeItem('bitaps-pending-gift-rt');}catch(_){}}
+  function dropPending(){try{localStorage.removeItem('bitaps-pending-gift');localStorage.removeItem('bitaps-pending-gift-at');localStorage.removeItem('bitaps-pending-gift-rt');}catch(e){}}
   (function(){
     try{
       var q=new URLSearchParams(location.search).get('wid')||'';
@@ -349,7 +359,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').style.display='block';
       document.getElementById('waitMsg').classList.remove('hide');
-      savePending(j.id);
+      savePending(j.id,j.reveal_token);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id)startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr(isEN()?'Network unavailable, try again.':'Сеть недоступна, попробуй ещё раз.');}

@@ -315,6 +315,10 @@
   async function startPoll(id, resume){
     if(polling||!id)return; polling=true;
     var myGen=++pollGen; /* фиксируем поколение этого цикла */
+    /* reveal_token — второй фактор выдачи (провайдер его не видит): лежит в хранилище строго в паре
+       с id заказа. Нет токена (старый заказ/другой браузер) — сервер вернёт by_email, и ниже честно
+       покажем «ключ придёт на почту», а не будем крутить вечно. */
+    var rt='';try{rt=localStorage.getItem('bitaps-pending-pay-rt')||'';}catch(e){}
     document.getElementById('page').classList.add('hide');
     if(resume){
       /* возобновление незакрытого заказа: invoice URL у нас нет — не показываем
@@ -326,10 +330,10 @@
     for(var i=0;i<240;i++){
       if(!polling||myGen!==pollGen)return; /* прервали кнопкой «назад» или стартовал новый заказ */
       try{
-        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id})});
+        var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id,reveal_token:rt})});
         var j=await r.json();
         if(j&&j.paid&&j.vpn_key){ showKey(j.vpn_key, j.login_secret); dropPending(); polling=false; return; }
-        if(j&&j.paid&&j.by_email){ /* повторная покупка под существующим email: ключ не раскрываем тут */
+        if(j&&j.paid&&j.by_email){ /* ключ тут не раскрываем: повторная покупка под существующим email, истекло окно 1ч или нет reveal_token (старый заказ/другой браузер) — ключ уже на почте/в кабинете */
           document.getElementById('waitMsg').textContent='✅ Оплачено! Ключ отправлен на почту и доступен в Личном кабинете (вход по ключу).';
           dropPending(); polling=false; return; }
       }catch(e){}
@@ -353,9 +357,15 @@
      сразу проваливался в экран «ждём подтверждения оплаты» по счёту, который уже не существует
      (invoice живёт час), — витрина становилась недоступна, покупка не совершалась.
      Резюмируем только свежий заказ (2 ч с запасом на возврат из кассы), протухший забываем. */
-  function savePending(id){try{if(!id){dropPending();return;} /* новый заказ без id — старую метку не оставляем */
-    localStorage.setItem('bitaps-pending-pay',id);localStorage.setItem('bitaps-pending-pay-at',String(Date.now()));}catch(_){}}
-  function dropPending(){try{localStorage.removeItem('bitaps-pending-pay');localStorage.removeItem('bitaps-pending-pay-at');}catch(e){}}
+  function savePending(id,rt){try{if(!id){dropPending();return;} /* новый заказ без id — старую метку не оставляем */
+    /* reveal_token строго в паре с id: без нового токена старый оставляем, только если это ТОТ ЖЕ
+       заказ (возврат с кассы приходит на ?wid=<тот же id> в новой вкладке — токен уже в хранилище);
+       чужой/протухший токен под новый id не подставляем. */
+    var prev=localStorage.getItem('bitaps-pending-pay');
+    localStorage.setItem('bitaps-pending-pay',id);localStorage.setItem('bitaps-pending-pay-at',String(Date.now()));
+    if(rt)localStorage.setItem('bitaps-pending-pay-rt',rt);
+    else if(prev!==id)localStorage.removeItem('bitaps-pending-pay-rt');}catch(_){}}
+  function dropPending(){try{localStorage.removeItem('bitaps-pending-pay');localStorage.removeItem('bitaps-pending-pay-at');localStorage.removeItem('bitaps-pending-pay-rt');}catch(e){}}
   (function(){
     try{
       /* возврат по ссылке из письма/бота: ?wid=<id заказа> — сразу возобновляем опрос (как в gift.html) */
@@ -388,7 +398,7 @@
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       document.getElementById('waitMsg').classList.remove('hide');
-      savePending(j.id);
+      savePending(j.id,j.reveal_token);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
@@ -411,7 +421,7 @@
       document.getElementById('payAgain').setAttribute('href',j.pay_url);
       document.getElementById('done').classList.remove('hide');
       document.getElementById('waitMsg').classList.remove('hide');
-      savePending(j.id);
+      savePending(j.id,j.reveal_token);
       try{window.open(j.pay_url,'_blank','noopener');}catch(_){}
       if(j.id) startPoll(j.id);
     }catch(_){btn.style.opacity=1;btn.disabled=false;submitting=false;showErr('Сеть недоступна, попробуй ещё раз.');}
