@@ -175,7 +175,20 @@
       ids: batch.map((b) => b.id), gaps: batch.map((b) => b.gap), moves: st.moves,
     }).then((r) => {
       st.sending = false;
-      if (!r || typeof r.got !== 'number') return; // сеть моргнула — точки уже потрачены, но это шутка
+      // Сеть моргнула / 429 / битый ответ — пачку НЕ теряем: возвращаем в буфер и повторим,
+      // иначе дюжина точек пропадала навсегда и сотня не сходилась (жалоба «не могу набрать 100»).
+      if (!r || typeof r.got !== 'number') { st.buf.unshift(...batch); schedule(4000); return; }
+      // Сервер отклонил слишком быстрые сборы (пауза <90 мс — анти-бот). Клиентские точки при
+      // касании уже убраны с экрана — возвращаем отвергнутые номера обратно в раздачу: соберёшь
+      // их спокойно, в человеческом темпе. Засчитанные (accepted) сервер дедупит сам.
+      if (Array.isArray(r.accepted)) {
+        const ok = new Set(r.accepted.map(Number));
+        let back = 0;
+        for (const b of batch) {
+          if (!ok.has(b.id) && !st.left.has(b.id)) { st.left.add(b.id); st.free.unshift(b.id); back++; }
+        }
+        if (back) st.count = r.got; // серверная истина всегда переписывает оптимистичный счётчик
+      }
       st.count = r.got;
       drawHud();
       if (r.done) {
@@ -184,7 +197,7 @@
         return;
       }
       if (st.buf.length) schedule(0);
-    }, () => { st.sending = false; });
+    }, () => { st.sending = false; st.buf.unshift(...batch); schedule(4000); });
   }
   function schedule(ms) {
     clearTimeout(st.flushT);
