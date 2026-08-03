@@ -98,11 +98,11 @@
   <div class="wrap">
     <span class="kicker">// приложение</span>
     <h1>Подключи <span class="grad">bitaps VPN</span></h1>
-    <p class="sub">Наше приложение готово — скачай для своей системы и подключись за минуту. На iPhone пока через Happ.</p>
+    <p class="sub">Наше приложение готово — скачай для своей системы и подключись за минуту. На iPhone — через Happ, Streisand, V2Box или INCY.</p>
 
     <div class="notice">
       <span style="font-size:18px">✅</span>
-      <div>Приложение <b>bitaps VPN готово</b> для Windows, macOS, Linux и Android — скачай кнопкой ниже и вставь ключ из <a href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener" style="color:var(--acc2)">Telegram-бота</a> или из письма после оплаты. На iPhone/iPad пока подключайся через <b>Happ</b>.</div>
+      <div>Приложение <b>bitaps VPN готово</b> для Windows, macOS, Linux и Android — скачай кнопкой ниже и вставь ключ из <a href="https://t.me/bitaps_vpn_auth_bot" target="_blank" rel="noopener" style="color:var(--acc2)">Telegram-бота</a> или из письма после оплаты. На iPhone/iPad подключайся через <b>Happ, Streisand, V2Box или INCY</b> — ключ улетает в приложение сам со страницы автонастройки.</div>
     </div>
 
     <div class="hero-dl" id="heroDl">
@@ -123,6 +123,16 @@
     <div class="steps">
       <h3 id="howTitle">Как подключиться</h3>
       <ol id="howSteps"></ol>
+    </div>
+
+    <!-- Сторонние клиенты для iPhone: автонастройка (ключ сам улетает в приложение одним тапом
+         через open.html) + прямые ссылки App Store. Состав сверен с реальными схемами
+         (happ://add, streisand://install-config, v2box://install-config, incy://crypt1) 04.08. -->
+    <div class="steps" id="iosClients">
+      <h3 id="iosClientsTitle">Клиенты для iPhone</h3>
+      <p class="gtxt" id="iosClientsSub"></p>
+      <div class="plats" id="iosClientsList"></div>
+      <p class="gtxt" id="iosClientsNote" style="margin-top:10px"></p>
     </div>
 
     <!-- Linux: сборка из исходников — ДОПОЛНИТЕЛЬНЫЙ путь рядом с готовым tar.gz.
@@ -311,6 +321,37 @@
   document.addEventListener('click', function (e) {
     if (e.target.closest && e.target.closest('#langToggle')) setTimeout(function () { location.reload(); }, 80);
   });
+
+  // ── Сторонние клиенты для iPhone (автонастройка через open.html + App Store) ──
+  const IOS_CLIENTS = [
+    { ic: '⚡', name: 'Happ', best: true,
+      d: EN ? 'free, all our protocols incl. LTE-routes' : 'бесплатный, все наши протоколы, включая LTE-маршруты',
+      store: 'https://apps.apple.com/app/happ-proxy-utility/id6504287215' },
+    { ic: '🧭', name: 'Streisand',
+      d: EN ? 'free, no data collection, stable classic' : 'бесплатный, без сбора данных, стабильная классика',
+      store: 'https://apps.apple.com/us/app/streisand/id6450534064' },
+    { ic: '📦', name: 'V2Box',
+      d: EN ? 'free, Reality and all modern transports' : 'бесплатный, Reality и все современные транспорты',
+      store: 'https://apps.apple.com/us/app/v2box-v2ray-client/id6446814690' },
+    { ic: '🛰️', name: 'INCY',
+      d: EN ? 'modern Xray client, encrypted import' : 'современный Xray-клиент, зашифрованный импорт',
+      store: 'https://apps.apple.com/us/app/incy/id6756943388' },
+  ];
+  (function renderIosClients() {
+    const box = document.getElementById('iosClients'); if (!box) return;
+    document.getElementById('iosClientsTitle').textContent = EN ? 'iPhone clients' : 'Клиенты для iPhone';
+    document.getElementById('iosClientsSub').innerHTML = EN
+      ? 'Any of these imports your key <b>in one tap</b> from our auto-setup page — or install from the App Store now:'
+      : 'Любой из них принимает ключ <b>в один тап</b> со страницы автонастройки — или поставь заранее из App Store:';
+    document.getElementById('iosClientsList').innerHTML = IOS_CLIENTS.map((c) =>
+      '<a class="plat" href="' + c.store + '" target="_blank" rel="noopener">' +
+      '<span class="pi">' + c.ic + '</span>' +
+      '<span class="pn">' + c.name + (c.best ? (EN ? ' · 🥇 pick' : ' · 🥇 выбор') : '') + '</span>' +
+      '<span class="pf">' + c.d + '</span><span class="pbadge">App Store</span></a>').join('');
+    document.getElementById('iosClientsNote').innerHTML = EN
+      ? 'The key opens the app by itself from the key page (<b>open</b> button next to your key in the bot or cabinet).'
+      : 'Ключ сам улетает в приложение со страницы ключа (кнопка <b>«Открыть»</b> рядом с ключом в боте или кабинете).';
+  })();
 </script>
 <script>
 (() => {

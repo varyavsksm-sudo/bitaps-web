@@ -30,6 +30,7 @@
 .op-app-logo svg{width:29px;height:29px;color:var(--acc-ink,var(--acc));display:block}
 .op-app b{display:block;font-size:16.5px;font-weight:700}
 .op-app .op-app-d{display:block;font-size:13px;color:var(--mut);margin-top:3px;line-height:1.4}
+.op-app .op-app-best{font-size:11.5px;color:var(--acc);font-weight:700;letter-spacing:.3px;white-space:nowrap}
 .op-app .op-app-ar{margin-left:auto;color:var(--acc-ink,var(--acc));font-size:19px}
 .op-btns{display:flex;flex-direction:column;gap:10px;margin-top:22px}
 .op-btns .btn{justify-content:center}
@@ -46,6 +47,7 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 </style>
 <script src="/i18n.js?v=32" defer></script>
+<script src="/i/incy.js?v=1" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="blogo" viewBox="0 0 32 32" fill="none"><g fill="currentColor"> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(45 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(90 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(135 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(180 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(225 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(270 16 16)"/> <rect x="14.6" y="1" width="2.8" height="4.6" rx="1" transform="rotate(315 16 16)"/> </g> <circle cx="16" cy="16" r="10.3" stroke="currentColor" stroke-width="2.4"/> <text x="16" y="20.6" text-anchor="middle" font-size="13.5" font-weight="800" font-family='Space Grotesk,system-ui,sans-serif' fill="currentColor">B</text></symbol></svg>
@@ -75,8 +77,8 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
         <button class="op-app" type="button" id="pickHapp">
           <span class="op-app-ic">⚡</span>
           <span>
-            <b>Happ</b>
-            <span class="op-app-d" data-en="A popular client for iPhone, Android and desktop">Популярный клиент для iPhone, Android и компьютера</span>
+            <b>Happ <span class="op-app-best" data-en="🥇 Kim's pick">🥇 выбор Ким</span></b>
+            <span class="op-app-d" data-en="Free client for iPhone, Android and desktop — all our protocols incl. LTE-routes">Бесплатный клиент для iPhone, Android и компьютера — все наши протоколы, включая LTE-маршруты</span>
           </span>
           <span class="op-app-ar" aria-hidden="true">→</span>
         </button>
@@ -85,6 +87,30 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
           <span>
             <b data-en="bitaps app">Приложение bitaps</b>
             <span class="op-app-d" data-en="Our own app: the key goes in by itself, nothing to configure">Наше приложение: ключ вставляется сам, настраивать нечего</span>
+          </span>
+          <span class="op-app-ar" aria-hidden="true">→</span>
+        </button>
+        <button class="op-app" type="button" id="pickStreisand" data-ios-only>
+          <span class="op-app-ic">🧭</span>
+          <span>
+            <b>Streisand</b>
+            <span class="op-app-d" data-en="Free, no-data-collection iPhone client — stable classic">Бесплатный клиент для iPhone без сбора данных — стабильная классика</span>
+          </span>
+          <span class="op-app-ar" aria-hidden="true">→</span>
+        </button>
+        <button class="op-app" type="button" id="pickV2box">
+          <span class="op-app-ic">📦</span>
+          <span>
+            <b>V2Box</b>
+            <span class="op-app-d" data-en="Free, supports Reality and all modern transports">Бесплатный, поддерживает Reality и все современные транспорты</span>
+          </span>
+          <span class="op-app-ar" aria-hidden="true">→</span>
+        </button>
+        <button class="op-app" type="button" id="pickIncy">
+          <span class="op-app-ic">🛰️</span>
+          <span>
+            <b>INCY</b>
+            <span class="op-app-d" data-en="Modern Xray client, encrypted one-tap import">Современный Xray-клиент, зашифрованный импорт в один тап</span>
           </span>
           <span class="op-app-ar" aria-hidden="true">→</span>
         </button>
@@ -117,6 +143,9 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
       <div class="op-btns">
         <a class="btn btn-solid btn-lg" id="dlHapp" href="/happ.html" hidden data-en="Install Happ">Установить Happ</a>
         <a class="btn btn-solid btn-lg" id="dlBitaps" href="/app.html" hidden data-en="Download the bitaps app">Скачать приложение bitaps</a>
+        <a class="btn btn-solid btn-lg" id="dlStreisand" href="https://apps.apple.com/us/app/streisand/id6450534064" target="_blank" rel="noopener" hidden data-en="Install Streisand (App Store)">Установить Streisand (App Store)</a>
+        <a class="btn btn-solid btn-lg" id="dlV2box" href="https://apps.apple.com/us/app/v2box-v2ray-client/id6446814690" target="_blank" rel="noopener" hidden data-en="Install V2Box (App Store)">Установить V2Box (App Store)</a>
+        <a class="btn btn-solid btn-lg" id="dlIncy" href="https://apps.apple.com/us/app/incy/id6756943388" target="_blank" rel="noopener" hidden data-en="Install INCY (App Store)">Установить INCY (App Store)</a>
         <button class="btn btn-line" type="button" id="retry" data-en="Try again">Открыть ещё раз</button>
         <button class="btn btn-ghost" type="button" id="back" data-en="Choose another app">Выбрать другое приложение</button>
       </div>
@@ -165,12 +194,20 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
   var P = hashParams();
   var key = (P.key || '').trim();
   var want = (P.app || '').toLowerCase();
+  // Адрес подписки в формате «ссылок» (base64 списка vless://) — его парсят сторонние клиенты
+  // (Streisand/V2Box/FoXray/sing-box). Happ и наше приложение едят родной xray-JSON как есть,
+  // INCY — нативный Xray-клиент, ему тоже родной. Параметр f=links добавил subserver 04.08.
+  var linksKey = /[?&]f=links/.test(key) ? key : key + (key.indexOf('?') >= 0 ? '&f=links' : '?f=links');
 
   // Принимаем только ссылку-подписку известной схемы. Это и защита: произвольный URI
   // (javascript:, data:) из чужой ссылки не должен доехать до location/href.
   var KEY_OK = /^(https?|vless|vmess|trojan|ss):\/\//i;
 
   var APPS = {
+    bitaps: {
+      name: 'bitaps VPN',
+      link: function (k) { return 'bitaps://import?key=' + encodeURIComponent(k); }
+    },
     happ: {
       name: 'Happ',
       // happ://add/<АДРЕС ПОДПИСКИ КАК ЕСТЬ>. Именно так, без base64: Happ читает всё после
@@ -178,9 +215,25 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
       // «ссылка подписки не валидна», потому что видело набор символов вместо URL.
       link: function (k) { return 'happ://add/' + k; }
     },
-    bitaps: {
-      name: 'bitaps VPN',
-      link: function (k) { return 'bitaps://import?key=' + encodeURIComponent(k); }
+    streisand: {
+      name: 'Streisand',
+      iosOnly: true,
+      // install-config ждёт urlencoded-адрес подписки в формате «ссылок» (base64-список vless://)
+      link: function () { return 'streisand://install-config?url=' + encodeURIComponent(linksKey); }
+    },
+    v2box: {
+      name: 'V2Box',
+      link: function () { return 'v2box://install-config?url=' + encodeURIComponent(linksKey); }
+    },
+    incy: {
+      name: 'INCY',
+      // crypt1-пейлоад (AES-256-GCM, порт @incy/link-encoder в /i/incy.js) — асинхронный.
+      // INCY — нативный Xray-клиент, подписку отдаём родную (xray-JSON).
+      link: function (k) {
+        return (window.incyEncryptLink
+          ? window.incyEncryptLink(k, 'bitaps VPN')
+          : Promise.reject(new Error('incy encoder missing')));
+      }
     }
   };
 
@@ -191,6 +244,9 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
   $('keyBox').textContent = key;
   // ключ показываем и на экране выбора: человек обязан видеть, ЧТО импортирует, до тапа
   if ($('keyBoxPick')) $('keyBoxPick').textContent = key;
+  // Streisand — только iOS: на остальных платформах не предлагаем то, чего там нет
+  var isIos = /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+  document.querySelectorAll('[data-ios-only]').forEach(function (el) { el.hidden = !isIos; });
 
   // ── детект «приложение перехватило ссылку» ───────────────────────────────
   // Если схема зарегистрирована, ОС уводит браузер в фон — вкладка прячется/теряет фокус.
@@ -208,28 +264,35 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
     cur = id;
     $('appName').textContent = a.name;
     $('appName2').textContent = a.name;
-    // кнопка скачивания — под выбранное приложение (обе лежат в разметке, показываем нужную)
-    $('dlHapp').hidden = (id !== 'happ');
-    $('dlBitaps').hidden = (id !== 'bitaps');
+    // кнопка скачивания — под выбранное приложение (все лежат в разметке, показываем нужную)
+    ['Happ', 'Bitaps', 'Streisand', 'V2box', 'Incy'].forEach(function (n) {
+      var el = $('dl' + n); if (el) el.hidden = (id !== n.toLowerCase());
+    });
     $('copyMsg').textContent = '';
     gone = false;
     show('trying');
 
     var url;
     try { url = a.link(key); } catch (e) { show('fail'); return; }
-    // навигация по схеме: если приложение есть — ОС перехватит и уведёт нас в фон
-    try { location.href = url; } catch (e) {}
+    // INCY строит crypt1-пейлоад асинхронно (WebCrypto) — Promise резолвим тут же.
+    Promise.resolve(url).then(function (u) {
+      // навигация по схеме: если приложение есть — ОС перехватит и уведёт нас в фон
+      try { location.href = u; } catch (e) {}
+    }, function () { show('fail'); });
 
     if (timer) clearTimeout(timer);
     timer = setTimeout(function () {
       timer = null;
       if (gone || document.hidden) return;   // приложение всё-таки открылось — не мешаем
       show('fail');
-    }, 1500);
+    }, 2500);
   }
 
   $('pickHapp').addEventListener('click', function () { tryOpen('happ'); });
   $('pickBitaps').addEventListener('click', function () { tryOpen('bitaps'); });
+  $('pickStreisand').addEventListener('click', function () { tryOpen('streisand'); });
+  $('pickV2box').addEventListener('click', function () { tryOpen('v2box'); });
+  $('pickIncy').addEventListener('click', function () { tryOpen('incy'); });
   $('retry').addEventListener('click', function () { tryOpen(cur || 'happ'); });
   function toPick() { if (timer) { clearTimeout(timer); timer = null; } show('pick'); }
   $('back').addEventListener('click', toPick);
