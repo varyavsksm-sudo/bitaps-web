@@ -303,7 +303,7 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       document.getElementById('doneTxt').innerHTML=
         (j.vip?(isEN()?'🖤 VIP activated. ':'🖤 VIP активирован. '):'')
         +(till?(isEN()?'Subscription is active until <b>':'Подписка активна до <b>')+till+'</b>. ':'')
-        +(isEN()?'Devices: <b>':'Устройств: <b>')+j.devices+'</b>. '
+        +((j.devices!=null)?(isEN()?'Devices: <b>':'Устройств: <b>')+j.devices+'</b>. ':'')
         +(isEN()?'The key was sent to <b>':'Ключ отправлен на <b>')+escHtml(email)+'</b>.';
       if(j.vpn_key){
         document.getElementById('keyText').textContent=j.vpn_key;
