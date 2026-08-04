@@ -707,7 +707,7 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   const ctx = cv.getContext('2d');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let w, h, pts, mouse = { x: -9999, y: -9999 };
-  const COUNT = () => Math.min(160, Math.floor(window.innerWidth / 11));
+  const COUNT = () => Math.min(200, Math.floor(window.innerWidth / 9)); // плотнее: звёзды должны попадаться легко
 
   // палитра под тему, живой апдейт при переключении ☀️/🌙
   let light = document.documentElement.getAttribute('data-theme') === 'light';
@@ -721,16 +721,11 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   function resize() {
     w = cv.width = window.innerWidth;
     h = cv.height = window.innerHeight;
-    // eid — номер собираемой точки из пасхалки (egg.js). null = обычная фоновая частица.
-    // Частиц на экране столько, сколько влезает по ширине, а собираемых точек фиксированное
-    // число: id раздаются частицам по мере игры, поэтому цель не зависит от размера окна.
+    // Все точки обычные: собираемых «особых» больше нет (пасхалка v2), eid-поля не существует.
     pts = Array.from({ length: COUNT() }, () => ({
       x: Math.random() * w, y: Math.random() * h,
-      vx: (Math.random() - .5) * .34, vy: (Math.random() - .5) * .34, eid: null
+      vx: (Math.random() - .5) * .34, vy: (Math.random() - .5) * .34
     }));
-    // Частицы пересозданы — номера пасхалки, которые они несли, исчезли вместе со старым массивом.
-    // Без возврата в раздачу игра после первого же ресайза окна становилась НЕПРОХОДИМОЙ.
-    if (window.__egg) window.__egg.resetLive();
   }
   window.addEventListener('resize', resize);
   window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
@@ -740,9 +735,8 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
   function tick() {
     const p = pal();
     ctx.clearRect(0, 0, w, h);
-    // ✦ пасхалка: раздача собираемых точек и сам сбор. egg.js подгружается отдельно и может
-    // отсутствовать (тачскрин, reduced-motion, сервер молчит) — тогда всё ниже просто не работает,
-    // а фон рисуется как раньше.
+    // ✦ пасхалка: сбор ЛЮБОЙ точки курсором. egg.js подгружается отдельно и может
+    // отсутствовать (тачскрин, reduced-motion, сервер молчит) — тогда это просто фон.
     const egg = window.__egg;
     const eggOn = !!(egg && egg.on);
     // движение + лёгкое притяжение к курсору
@@ -752,15 +746,12 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
       if (pt.y < 0 || pt.y > h) pt.vy *= -1;
       const dx = mouse.x - pt.x, dy = mouse.y - pt.y, d = Math.hypot(dx, dy);
       if (d < 170) { pt.x += dx * .004; pt.y += dy * .004; }
-      if (!eggOn) { pt.eid = null; continue; }
-      if (pt.eid === null) pt.eid = egg.take();       // свободная частица берёт очередной номер
-      if (pt.eid !== null && d < 15) {
-        egg.hit(pt.eid, pt.x, pt.y);
-        pt.eid = null;
-        // Уводим частицу подальше от курсора: иначе следующий номер тут же собрался бы сам,
-        // без единого движения мышью, и «собери сотню» превратилось бы в «постой на месте».
-        // Попыток ровно 12: в узком окне точки дальше 260 px может не быть вовсе, и «пока не
-        // найдём» повесило бы кадр намертво.
+      // коснулся курсором — звезда собрана (радиус 22: чуть легче, чем было 15)
+      if (eggOn && d < 22) {
+        egg.hit(pt.x, pt.y);
+        // Уводим частицу подальше от курсора: иначе следующая собралась бы сама, без движения
+        // мышью, и «собери сотню» превратилось бы в «постой на месте». Попыток ровно 12:
+        // в узком окне точки дальше 260 px может не быть вовсе, и «пока не найдём» повесило бы кадр.
         for (let t = 0; t < 12; t++) {
           pt.x = Math.random() * w; pt.y = Math.random() * h;
           if (Math.hypot(mouse.x - pt.x, mouse.y - pt.y) >= 260) break;
@@ -791,14 +782,7 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
       if (near) { ctx.shadowBlur = 8; ctx.shadowColor = p.glow; } else { ctx.shadowBlur = 0; }
       ctx.fillStyle = `rgba(${p.c},${near ? p.cdot : p.dot})`;
       ctx.beginPath(); ctx.arc(a.x, a.y, near ? 2.6 : 1.9, 0, 7); ctx.fill();
-      // Собираемую точку помечаем тонким кольцом — иначе непонятно, за чем гоняться. Кольцо
-      // появляется только когда игра идёт, чтобы не менять привычный фон всем подряд.
-      if (eggOn && a.eid !== null) {
-        ctx.shadowBlur = 0;
-        ctx.strokeStyle = `rgba(${p.c2},${near ? .85 : .45})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.arc(a.x, a.y, near ? 7 : 5.5, 0, 7); ctx.stroke();
-      }
+      // никаких обводок: все звёзды обычные оранжевые, собирается любая (пасхалка v2)
     }
     ctx.shadowBlur = 0;
     // ✦ цепочка собранного: тянется за курсором, голова — самая свежая точка
