@@ -197,7 +197,11 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
   // Адрес подписки в формате «ссылок» (base64 списка vless://) — его парсят сторонние клиенты
   // (Streisand/V2Box/FoXray/sing-box). Happ и наше приложение едят родной xray-JSON как есть,
   // INCY — нативный Xray-клиент, ему тоже родной. Параметр f=links добавил subserver 04.08.
-  var linksKey = /[?&]f=links/.test(key) ? key : key + (key.indexOf('?') >= 0 ? '&f=links' : '?f=links');
+  // Лепим его ТОЛЬКО адресам подписки (http/https): у одиночного ключа (vless://…) ?f=links
+  // оказывался мусором в query share-ссылки и попадал в имя/параметры узла.
+  var linksKey = !/^https?:\/\//i.test(key) || /[?&]f=links/.test(key)
+    ? key
+    : key + (key.indexOf('?') >= 0 ? '&f=links' : '?f=links');
 
   // Принимаем только ссылку-подписку известной схемы. Это и защита: произвольный URI
   // (javascript:, data:) из чужой ссылки не должен доехать до location/href.
@@ -258,10 +262,12 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
   window.addEventListener('pagehide', markGone);
   window.addEventListener('blur', markGone);
 
-  var cur = null;
+  var cur = null, reqId = 0;
   function tryOpen(id) {
     var a = APPS[id]; if (!a) { show('pick'); return; }
     cur = id;
+    // поколение запроса: поздний resolve INCY после «назад»/нового выбора не должен уводить
+    var req = ++reqId;
     $('appName').textContent = a.name;
     $('appName2').textContent = a.name;
     // кнопка скачивания — под выбранное приложение (все лежат в разметке, показываем нужную)
@@ -275,10 +281,13 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
     var url;
     try { url = a.link(key); } catch (e) { show('fail'); return; }
     // INCY строит crypt1-пейлоад асинхронно (WebCrypto) — Promise резолвим тут же.
+    // Сверяем поколение (req): человек мог уже уйти «назад» или выбрать другое приложение —
+    // поздний resolve не должен уводить в приложение, поздний reject — переключать экран.
     Promise.resolve(url).then(function (u) {
+      if (req !== reqId) return; // запрос устарел: ушли с экрана «открываем…»
       // навигация по схеме: если приложение есть — ОС перехватит и уведёт нас в фон
       try { location.href = u; } catch (e) {}
-    }, function () { show('fail'); });
+    }, function () { if (req !== reqId) return; show('fail'); });
 
     if (timer) clearTimeout(timer);
     timer = setTimeout(function () {
@@ -294,7 +303,7 @@ html[data-theme="light"] .op-key{background:#eef2f9;color:#3a4761}
   $('pickV2box').addEventListener('click', function () { tryOpen('v2box'); });
   $('pickIncy').addEventListener('click', function () { tryOpen('incy'); });
   $('retry').addEventListener('click', function () { tryOpen(cur || 'happ'); });
-  function toPick() { if (timer) { clearTimeout(timer); timer = null; } show('pick'); }
+  function toPick() { reqId++; if (timer) { clearTimeout(timer); timer = null; } show('pick'); }
   $('back').addEventListener('click', toPick);
   $('back2').addEventListener('click', toPick);
 

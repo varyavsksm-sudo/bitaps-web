@@ -451,6 +451,16 @@ html[data-theme="light"] .bt-foot{--bt-txt:#0f1828;--bt-mut:#5a6781;--bt-line:rg
       try{
         var r=await fetchT(STATUS_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({id:id,reveal_token:rt})});
         var j=await r.json();
+        if(j&&j.paid&&j.by_email){ /* reveal_token в этом браузере нет (другой браузер/инкогнито/
+             старый заказ) — сервер, как и в pay.html, не раскрывает ни чисел, ни «Код входа»:
+             они ушли письмом. Раньше эта ветка проваливалась в showCredited(0,0,null) и рисовала
+             «0 🪙 / Баланс: 0 🪙». Честно говорим «зачислено, детали в кабинете и на почте». */
+          document.getElementById('doneH').textContent=isEN()?'Tokens credited 🎉':'Токены зачислены 🎉';
+          ['doneTxt','payAgain'].forEach(function(i){document.getElementById(i).classList.add('hide');});
+          document.getElementById('waitMsg').textContent=isEN()
+            ?'✅ Paid! The tokens are credited — details are in your dashboard and in the email we sent.'
+            :'✅ Оплачено! Токены зачислены — детали в личном кабинете и в письме на почте.';
+          dropPending();polling=false;loadAccount(true);return;}
         if(j&&j.paid&&j.topup){showCredited(Number(j.tokens)||0,Number(j.balance)||0,j.login_secret||null);
           dropPending();polling=false;return;}
       }catch(e){}

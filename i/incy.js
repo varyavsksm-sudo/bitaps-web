@@ -36,6 +36,11 @@
       if (fp !== EXPECTED_FP) throw new Error("incy keymat fingerprint mismatch: " + fp);
       return crypto.subtle.importKey("raw", kBytes, { name: "AES-GCM" }, false, ["encrypt"]);
     })();
+    /* rejection не кэшируем навсегда: разовый сбой (WebCrypto/память/вилка отпечатка) раньше
+       ломал ВСЕ последующие попытки — каждая возвращала тот же отклонённый Promise.
+       Сбрасываем кэш, чтобы следующий вызов вывел ключ заново. Сам rejection при этом
+       по-прежнему долетает до await'ящего вызова (open.html покажет экран «не установлено»). */
+    keyPromise.catch(function () { keyPromise = null; });
     return keyPromise;
   }
 
