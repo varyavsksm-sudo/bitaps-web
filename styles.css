@@ -522,6 +522,23 @@ body>*:not(#net):not(.bg-grid):not(.bg-mesh):not(.cursor-glow):not(.support-fab)
 .status-foot a{color:var(--acc-ink,var(--acc));border-bottom:1px solid transparent;transition:.2s}
 .status-foot a:hover{border-color:var(--acc-ink,var(--acc))}
 
+/* ░░ ДОСТУПНОСТЬ СЕРВЕРОВ (главная, живые замеры) ░░ */
+.avail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.avail-card{border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 14px;background:var(--panel);transition:.3s}
+.avail-card:hover{border-color:rgba(255,122,26,.35);transform:translateY(-3px)}
+.avail-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.avail-name{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avail-dot{width:9px;height:9px;border-radius:50%;flex:none;margin-left:auto}
+.avail-dot.ok{background:#46d39a;box-shadow:0 0 10px rgba(70,211,154,.8)}
+.avail-dot.bad{background:#ff5c5c;box-shadow:0 0 10px rgba(255,92,92,.8);animation:pulseG 1.8s infinite}
+.avail-rtt{font-family:'JetBrains Mono',monospace;line-height:1.1}
+.avail-rtt b{font-size:24px;font-weight:700}
+.avail-rtt small{font-size:12px;color:var(--mut);margin-left:4px}
+.avail-spark{width:100%;height:46px;display:block;margin-top:10px;cursor:crosshair}
+.avail-axis{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--mut);margin-top:6px;letter-spacing:.4px}
+.avail-upd{color:var(--mut);font-size:14px}
+.avail-empty{border:1px dashed var(--line);border-radius:var(--r);padding:26px;text-align:center;color:var(--mut);font-size:15px}
+
 /* ░░ статус v2: график-герой + терминал + блоки ░░ */
 .chart-card{max-width:1080px;margin:0 auto 18px}
 .chart-card .ping-chart{width:100%;height:240px;display:block;margin-top:6px}
@@ -674,6 +691,8 @@ html[data-theme="light"] .card,
 html[data-theme="light"] .speed-wrap,
 html[data-theme="light"] .cform,
 html[data-theme="light"] .status-card,
+html[data-theme="light"] .avail-card,
+html[data-theme="light"] .avail-empty,
 html[data-theme="light"] .plan,
 html[data-theme="light"] .store-badge{
   background:#ffffff;border-color:rgba(16,26,48,.08);

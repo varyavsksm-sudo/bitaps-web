@@ -159,6 +159,17 @@
   <div class="scroll-hint"><span></span></div>
 </section>
 
+<!-- ░░ ДОСТУПНОСТЬ СЕРВЕРОВ · живые замеры из независимой точки (origin.bit-core.online/public/stats) ░░ -->
+<section class="section section-avail" id="availability">
+  <div class="sec-head reveal">
+    <span class="kicker" data-en="// live monitoring">// живой мониторинг</span>
+    <h2><span data-en="Availability">Доступность</span> <span class="grad" data-en="of servers">серверов</span></h2>
+    <p class="sec-p"><span data-en="Measured every 5 minutes from an independent vantage point.">Замер каждые 5 минут из независимой точки.</span> <span class="avail-upd" id="availUpd" hidden>· <span id="availUpdTxt"></span></span></p>
+  </div>
+  <div class="avail-grid reveal" id="availGrid"></div>
+  <p class="avail-empty" id="availEmpty" hidden><span data-en="Availability data is temporarily unavailable — it will reappear on its own once the probe is back.">Данные о доступности временно недоступны — появятся сами, как только замер оживёт.</span></p>
+</section>
+
 <!-- ░░ 2 · TRUST STRIP ░░ -->
 <section class="trust">
   <div class="trust-badges reveal">
@@ -2222,6 +2233,246 @@ function fetchT(u, o, ms) { var ac = new AbortController(); var t = setTimeout(f
       badge.style.display = 'inline-flex';
     })
     .catch(function () { /* фид молчит — бейджа просто нет */ });
+})();
+</script>
+
+<!-- ░░ доступность серверов: живые замеры origin.bit-core.online/public/stats ░░ -->
+<script>
+(function () {
+  var API = 'https://origin.bit-core.online/public/stats';
+  var REFRESH_MS = 5 * 60 * 1000;    // переспрос раз в 5 минут — с той же частотой идёт замер
+  var WINDOW_MS = 48 * 3600 * 1000;  // ось времени спарклайна — последние 48 часов
+  var GAP_MS = 12 * 60 * 1000;       // пауза между точками дольше — честный разрыв, а не линия через пропуск
+
+  var grid = document.getElementById('availGrid'),
+      emptyEl = document.getElementById('availEmpty'),
+      updWrap = document.getElementById('availUpd'),
+      updTxt = document.getElementById('availUpdTxt');
+  if (!grid || !emptyEl || !updWrap || !updTxt || typeof fetchT !== 'function') return;
+
+  var EN = function () { return document.documentElement.lang === 'en'; };
+  // тот же приём, что в бейдже аптайма выше: текст + data-en, а __ru на текст-узле —
+  // тогда переключатель языка (i18n.js) видит перевод и не теряет русский оригинал
+  function bi(el, ru, en) {
+    el.textContent = EN() ? en : ru;
+    if (el.firstChild) el.firstChild.__ru = ru;
+    el.setAttribute('data-en', en);
+  }
+  function plural(n, one, few, many) { // 1 минуту / 2 минуты / 5 минут
+    var m = n % 100, d = n % 10;
+    if (m > 10 && m < 20) return many;
+    if (d > 1 && d < 5) return few;
+    if (d === 1) return one;
+    return many;
+  }
+  function cssVar(name, fb) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name);
+    return (v && v.trim()) || fb;
+  }
+  function rgba(hex, a) { // цвета темы — hex; для заливки под линией нужна альфа
+    var m = /^#([0-9a-f]{6})$/i.exec(hex);
+    if (!m) return hex;
+    var n = parseInt(m[1], 16);
+    return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+  function fmtTime(t) {
+    try {
+      return new Date(t).toLocaleString(EN() ? 'en-GB' : 'ru-RU',
+        { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return new Date(t).toLocaleString(); }
+  }
+
+  var byId = {};        // id ноды → карточка
+  var generatedAt = 0;  // ms, из generated_at фида
+  var lastNodes = null; // последний удачный снимок — пригодится при смене языка
+
+  // «обновлено N мин назад» по generated_at; тикает и между переспросами
+  function tickUpdated() {
+    if (!generatedAt) return;
+    var s = Math.max(0, Math.round((Date.now() - generatedAt) / 1000));
+    var ru, en;
+    if (s < 60) { ru = 'обновлено только что'; en = 'updated just now'; }
+    else if (s < 3600) {
+      var m = Math.round(s / 60);
+      ru = 'обновлено ' + m + ' ' + plural(m, 'минуту', 'минуты', 'минут') + ' назад';
+      en = 'updated ' + m + ' min ago';
+    } else {
+      var h = Math.floor(s / 3600), mm = Math.round((s % 3600) / 60);
+      ru = 'обновлено ' + h + ' ч' + (mm ? ' ' + mm + ' мин' : '') + ' назад';
+      en = 'updated ' + h + ' h ' + mm + ' min ago';
+    }
+    bi(updTxt, ru, en);
+  }
+
+  function drawCard(c) {
+    var cv = c.canvas, w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h || !generatedAt) return;
+    var dpr = window.devicePixelRatio || 1;
+    var W = Math.round(w * dpr), H = Math.round(h * dpr);
+    if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+    var ctx = cv.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    var x1 = generatedAt, x0 = x1 - WINDOW_MS;
+    var pts = [], i;
+    for (i = 0; i < c.pts.length; i++) {
+      var t = Number(c.pts[i][0]) * 1000, v = Number(c.pts[i][1]);
+      if (isFinite(t) && isFinite(v) && t >= x0 - GAP_MS && t <= x1 + GAP_MS) pts.push([t, v]);
+    }
+    if (!pts.length) { // нет точек в окне — честный пунктир вместо выдуманной линии
+      ctx.strokeStyle = cssVar('--mut', '#8a96ab'); ctx.globalAlpha = .35;
+      ctx.setLineDash([4, 5]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(2, h / 2); ctx.lineTo(w - 2, h / 2); ctx.stroke();
+      ctx.setLineDash([]); ctx.globalAlpha = 1;
+      return;
+    }
+    pts.sort(function (a, b) { return a[0] - b[0]; });
+    var min = Infinity, max = -Infinity;
+    for (i = 0; i < pts.length; i++) { if (pts[i][1] < min) min = pts[i][1]; if (pts[i][1] > max) max = pts[i][1]; }
+    var pad = Math.max((max - min) * .18, 4); min -= pad; max += pad;
+    var X = function (t) { return 2 + (w - 4) * (t - x0) / WINDOW_MS; };
+    var Y = function (v) { return h - 3 - (h - 6) * (v - min) / (max - min); };
+    var col = c.ok ? cssVar('--acc', '#ff7a1a') : '#ff5c5c';
+
+    // режем на сегменты по паузам в данных — пропуски остаются разрывами
+    var segs = [], cur = [];
+    for (i = 0; i < pts.length; i++) {
+      if (cur.length && pts[i][0] - cur[cur.length - 1][0] > GAP_MS) { segs.push(cur); cur = []; }
+      cur.push(pts[i]);
+    }
+    if (cur.length) segs.push(cur);
+
+    ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    segs.forEach(function (sg) {
+      var j;
+      if (sg.length === 1) { // одинокая точка — просто маркер
+        ctx.fillStyle = col;
+        ctx.beginPath(); ctx.arc(X(sg[0][0]), Y(sg[0][1]), 2.5, 0, 6.2832); ctx.fill();
+        return;
+      }
+      // мягкая заливка под сегментом
+      ctx.beginPath();
+      ctx.moveTo(X(sg[0][0]), Y(sg[0][1]));
+      for (j = 1; j < sg.length; j++) ctx.lineTo(X(sg[j][0]), Y(sg[j][1]));
+      ctx.lineTo(X(sg[sg.length - 1][0]), h - 1); ctx.lineTo(X(sg[0][0]), h - 1); ctx.closePath();
+      ctx.fillStyle = rgba(col, .14); ctx.fill();
+      // сама линия
+      ctx.beginPath();
+      ctx.moveTo(X(sg[0][0]), Y(sg[0][1]));
+      for (j = 1; j < sg.length; j++) ctx.lineTo(X(sg[j][0]), Y(sg[j][1]));
+      ctx.strokeStyle = col; ctx.stroke();
+      // последняя точка сегмента — маркер
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(X(sg[sg.length - 1][0]), Y(sg[sg.length - 1][1]), 2.5, 0, 6.2832); ctx.fill();
+    });
+  }
+
+  // title-подсказка: время и значение ближайшей к курсору точки замера
+  function bindTip(c) {
+    c.canvas.addEventListener('mousemove', function (e) {
+      if (!generatedAt || !c.pts.length) return;
+      var r = c.canvas.getBoundingClientRect();
+      if (!r.width) return;
+      var t = (generatedAt - WINDOW_MS) + (e.clientX - r.left) / r.width * WINDOW_MS;
+      var best = null, bd = Infinity;
+      for (var i = 0; i < c.pts.length; i++) {
+        var d = Math.abs(Number(c.pts[i][0]) * 1000 - t);
+        if (d < bd) { bd = d; best = c.pts[i]; }
+      }
+      c.canvas.title = best
+        ? fmtTime(Number(best[0]) * 1000) + ' · ' + Math.round(Number(best[1])) + ' ms'
+        : (EN() ? 'last 48 h' : 'последние 48 ч');
+    });
+    c.canvas.addEventListener('mouseleave', function () {
+      c.canvas.title = EN() ? 'last 48 h' : 'последние 48 ч';
+    });
+  }
+
+  function setDot(c) {
+    c.dot.className = 'avail-dot ' + (c.ok ? 'ok' : 'bad');
+    c.dot.title = EN() ? (c.ok ? 'online' : 'unreachable') : (c.ok ? 'онлайн' : 'недоступен');
+  }
+
+  function render(nodes) {
+    nodes.forEach(function (n) {
+      if (!n || n.id == null) return;
+      var c = byId[n.id];
+      if (!c) {
+        var card = document.createElement('article'); card.className = 'avail-card';
+        var top = document.createElement('div'); top.className = 'avail-top';
+        var name = document.createElement('span'); name.className = 'avail-name';
+        var dot = document.createElement('span'); dot.className = 'avail-dot ok';
+        top.appendChild(name); top.appendChild(dot);
+        var rtt = document.createElement('div'); rtt.className = 'avail-rtt';
+        var b = document.createElement('b'), sm = document.createElement('small');
+        sm.textContent = 'ms';
+        rtt.appendChild(b); rtt.appendChild(sm);
+        var cv = document.createElement('canvas'); cv.className = 'avail-spark';
+        cv.title = EN() ? 'last 48 h' : 'последние 48 ч';
+        var axis = document.createElement('div'); axis.className = 'avail-axis';
+        var axisTxt = document.createElement('span');
+        axis.appendChild(axisTxt);
+        card.appendChild(top); card.appendChild(rtt); card.appendChild(cv); card.appendChild(axis);
+        grid.appendChild(card);
+        c = byId[n.id] = { dot: dot, name: name, rttB: b, canvas: cv, axisTxt: axisTxt, pts: [], ok: true };
+        bindTip(c);
+      }
+      c.name.textContent = n.name || String(n.id);
+      c.ok = !!n.ok;
+      setDot(c);
+      var r = Number(n.rtt_now);
+      c.rttB.textContent = (n.rtt_now != null && isFinite(r)) ? String(Math.round(r)) : '—';
+      bi(c.axisTxt, 'последние 48 ч', 'last 48 h');
+      c.pts = Array.isArray(n.series) ? n.series : [];
+      drawCard(c);
+    });
+  }
+
+  function load() {
+    return fetchT(API, {}, 12000)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !Array.isArray(d.nodes)) throw new Error('bad payload');
+        generatedAt = (Number(d.generated_at) || Date.now() / 1000) * 1000;
+        lastNodes = d.nodes;
+        render(d.nodes);
+        emptyEl.hidden = true;
+        updWrap.hidden = false;
+        tickUpdated();
+      })
+      .catch(function () {
+        // сеть молчит: если карточек ещё нет — честно говорим «недоступно»; если уже
+        // рисовали — оставляем старые данные, подпись «обновлено …» сама честно стареет
+        if (!lastNodes) emptyEl.hidden = false;
+      });
+  }
+
+  load();
+  setInterval(load, REFRESH_MS);
+  setInterval(tickUpdated, 30000);
+
+  // перерисовка: ресайс (размер canvas задан CSS), смена темы (цвета из CSS-переменных),
+  // смена языка (подписи точек и тултипы)
+  var rz = null;
+  function redrawAll() { Object.keys(byId).forEach(function (k) { drawCard(byId[k]); }); }
+  window.addEventListener('resize', function () {
+    if (rz) cancelAnimationFrame(rz);
+    rz = requestAnimationFrame(redrawAll);
+  });
+  new MutationObserver(function (ms) {
+    for (var i = 0; i < ms.length; i++) if (ms[i].attributeName === 'data-theme') redrawAll();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  window.addEventListener('bitaps-lang-changed', function () {
+    if (!lastNodes) return;
+    tickUpdated();
+    Object.keys(byId).forEach(function (k) {
+      var c = byId[k];
+      setDot(c);
+      bi(c.axisTxt, 'последние 48 ч', 'last 48 h');
+      c.canvas.title = EN() ? 'last 48 h' : 'последние 48 ч';
+    });
+  });
 })();
 </script>
 </body>
